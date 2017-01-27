@@ -2,16 +2,22 @@
 
 
 Nano图标包是一个简单轻量的图标包模板，支持展示所有图标、过滤已安装图标、新原图标对比等功能。
+
 ![Nano](art/screenshot_nano.png)
+
 您可以基于此进行二次开发，只需要装配图标、修改少量文件即可用于发布。
+
 您还可以参考 [Jahir](https://github.com/jahirfiquitiva) 开发的更完备的图标包模板——[IconShowcase-Dashboard](https://github.com/jahirfiquitiva/IconShowcase-Dashboard)
 
 ### 支持启动器
 
 目前支持活跃的两个启动器：
 - Nova Launcher
+
 ![Nova](art/ic_launcher_nova.png)
+
 - Apex Launcher
+
 ![Apex](art/ic_launcher_apex.png)
 
 
@@ -23,9 +29,12 @@ TODO
 ### 应用
 
 - Anomaly Icon Pack
+
 ![Anomaly](art/ic_launcher_anomaly.png)
 ![Anomaly](art/screenshot_anomaly.png)
+
 - OMFG图标包
+
 ![OMFG](art/ic_launcher_omfg.png)
 ![OMFG](art/screenshot_omfg.png)
 
