@@ -56,6 +56,11 @@ android {
 ![Anomaly](art/screenshot_anomaly_omfg.png)
 
 
+### 参考
+
+- [[GUIDE] Apex Launcher Theme Tutorial](https://forum.xda-developers.com/showthread.php?t=1649891)
+
+
 ### License
 
     Copyright 2017 By_syk

@@ -22,14 +22,12 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.by_syk.nanoiconpack.fragment.ApplyDialog;
 import com.by_syk.nanoiconpack.fragment.CopyrightDialog;
 import com.by_syk.nanoiconpack.fragment.IconsFragment;
-import com.by_syk.nanoiconpack.util.C;
 import com.by_syk.nanoiconpack.util.ExtraUtil;
 
 import java.util.Locale;
@@ -58,6 +56,7 @@ public class MainActivity extends FragmentActivity {
         viewPager.setAdapter(pagerAdapter);
 
         if (ExtraUtil.isFromLauncherPick(getIntent())) {
+            // Switch to All tab
             viewPager.setCurrentItem(1);
         }
     }
