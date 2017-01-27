@@ -1,0 +1,62 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+
+    defaultConfig {
+        applicationId "com.by_syk.nanoiconpack"
+        minSdkVersion 14
+        targetSdkVersion 25
+        versionCode 17012800
+        versionName "1.0.2.nightly"
+    }
+
+    buildTypes {
+        release {
+            shrinkResources false // 不能开启，会导致nodpi图标黑化
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            // 格式化文件名如：com.by_syk.template_v1.0.0(17012500).apk
+            android.applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    def outputFile = output.outputFile
+                    if (outputFile != null) {
+                        def fileName = "NanoIconPack_v${defaultConfig.versionName}(${defaultConfig.versionCode}).apk"
+                        output.outputFile = new File((String) outputFile.parent, fileName)
+                    }
+                }
+            }
+        }
+    }
+
+    lintOptions {
+        disable 'MissingTranslation'
+    }
+}
+
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+//    maven {
+//        url "https://jitpack.io"
+//    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    testCompile 'junit:junit:4.12'
+
+    compile(name: 'aboutmsgrender-1.0.0', ext: 'aar')
+    compile(name: 'globaltoast-1.1.2', ext: 'aar')
+    compile(name: 'iconlineview-1.0.0', ext: 'aar')
+
+    compile 'com.android.support:support-v4:25.1.0'
+    compile 'com.android.support:recyclerview-v7:25.1.0'
+
+    // repositories { maven { url "https://jitpack.io" } }
+//    compile 'com.github.pluscubed:recycler-fast-scroll:0.3.2@aar'
+}

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2017 By_syk
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+
+<resources>
+
+    <string name="app_name">Nano图标包</string>
+
+    <string name="dlg_title_apply">应用到启动器</string>
+    <string name="dlg_bt_ok">确定</string>
+    <string name="dlg_bt_pick">选择</string>
+
+    <string name="menu_apply">应用</string>
+    <string name="menu_copyright">版权</string>
+
+    <string name="toast_not_installed">未安装 %s</string>
+
+    <string name="copyright_desc">"灵魂图匠：[@By_syk](copy:@By_syk)
+Copyright &#169; 2017 By_syk. All rights reserved.
+\nAPP基于[@By_syk](copy:@By_syk)开发并开源的Nano图标包。
+[https://github.com/by-syk/NanoIconPack](https://github.com/by-syk/NanoIconPack)
+Copyright &#169; 2017 By_syk. All rights reserved."</string>
+
+</resources>
