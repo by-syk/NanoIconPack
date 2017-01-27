@@ -1,4 +1,4 @@
-# Nano图标包 / Nano Icon Pack
+# NanoIconPack / Nano图标包
 
 
 Nano图标包是一个简单轻量的图标包模板，支持展示所有图标、过滤已安装图标、新原图标对比等功能。
@@ -48,7 +48,7 @@ android {
 To be continued...
 
 
-### 应用
+### 基于NanoIconPack的APP
 
 | APP | 图标 |
 | :---- | :----: |
