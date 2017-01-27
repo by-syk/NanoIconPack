@@ -43,7 +43,9 @@ android {
 
 - 登记图标
 
-- TODO To be continued...
+- TODO
+
+To be continued...
 
 
 ### 应用
@@ -58,6 +60,7 @@ android {
 
 ### 参考
 
+- [IconShowcase](https://github.com/jahirfiquitiva/IconShowcase)
 - [[GUIDE] Apex Launcher Theme Tutorial](https://forum.xda-developers.com/showthread.php?t=1649891)
 
 
