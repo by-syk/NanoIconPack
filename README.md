@@ -24,7 +24,26 @@ Nano图标包是一个简单轻量的图标包模板，支持展示所有图标�
 
 ### 二次开发
 
-TODO
+- 导入项目
+
+从 GitHub 导入 NanoIconPack 项目到 Android Studio，修改包名（可在原包名`com.by_syk.nanoiconpack`后追加`.[author_of_icons]`）。
+```
+android {
+    defaultConfig {
+        applicationId "com.by_syk.nanoiconpack.[author_of_icons]"
+    }
+}
+```
+
+- 装配图标
+
+图标规则命名后复制到`/res/drawable-nodpi/`文件夹。
+
+Nano图标包约定的命名规则：小写字母+数字+`_`；不能数字打头；重名照`_1`添加后缀。
+
+- 登记图标
+
+- TODO
 
 
 ### 应用
