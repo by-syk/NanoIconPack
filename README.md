@@ -31,9 +31,9 @@ Nano图标包是一个简单轻量的图标包模板，支持展示所有图标�
 ```
 android {
     defaultConfig {
-        applicationId "com.by_syk.nanoiconpack.[author_of_icons]"
+        applicationId "com.by_syk.nanoiconpack.[name_of_your_icon_pack]"
         versionCode [yyMMdd][nn]
-        versionName "[version].[icon_num]"
+        versionName "[version].[num_of_icons]"
     }
 }
 ```
