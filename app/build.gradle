@@ -52,7 +52,7 @@ dependencies {
 
     compile(name: 'aboutmsgrender-1.0.0', ext: 'aar')
     compile(name: 'globaltoast-1.1.2', ext: 'aar')
-    compile(name: 'iconlineview-1.0.0', ext: 'aar')
+    compile(name: 'iconlineview-1.0.1', ext: 'aar')
 
     compile 'com.android.support:support-v4:25.1.0'
     compile 'com.android.support:recyclerview-v7:25.1.0'
