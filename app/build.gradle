@@ -9,7 +9,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 25
         versionCode 17012801
-        versionName "1.0.3.nightly"
+        versionName "1.0.3.1.nightly"
     }
 
     buildTypes {

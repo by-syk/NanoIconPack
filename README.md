@@ -27,11 +27,13 @@ Nano图标包是一个简单轻量的图标包模板，支持展示所有图标�
 
 - 导入配置项目
 
-从 GitHub 导入 NanoIconPack 项目到 Android Studio，修改包名（可在原包名`com.by_syk.nanoiconpack`后追加`.[author_of_icons]`）：
+从 GitHub 导入 NanoIconPack 项目到 Android Studio，修改配置：
 ```
 android {
     defaultConfig {
         applicationId "com.by_syk.nanoiconpack.[author_of_icons]"
+        versionCode [yyMMdd][nn]
+        versionName "[version].[icon_num]"
     }
 }
 ```
