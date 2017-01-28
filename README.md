@@ -94,6 +94,8 @@ Copyright &#169; 2017 By_syk. All rights reserved."</string>
 
 ### 基于NanoIconPack的APP
 
+Sample: [Nano图标包](out/NanoIconPack_v1.0.3.1.apk)
+
 | APP | 图标 |
 | :---- | :----: |
 | Anomaly Icon Pack | ![Anomaly](art/ic_launcher_anomaly.png) |
