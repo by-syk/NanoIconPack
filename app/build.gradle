@@ -8,13 +8,13 @@ android {
         applicationId "com.by_syk.nanoiconpack"
         minSdkVersion 14
         targetSdkVersion 25
-        versionCode 17012801
+        versionCode 17012802
         versionName "1.0.3.1.nightly"
     }
 
     buildTypes {
         release {
-            shrinkResources false // Keep false, or icons in drawable-nodpi will become black.
+            shrinkResources false // Keep false, or icons in /drawable-nodpi will become black.
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
