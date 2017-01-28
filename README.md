@@ -12,12 +12,13 @@ Nano图标包是一个简单轻量的图标包模板，支持展示所有图标�
 
 ### 支持启动器
 
-目前仅支持最活跃的两个启动器：
+目前支持活跃的三个启动器：
 
 | 启动器 | 图标 |
 | :---- | :----: |
 | Nova Launcher | ![Nova](art/ic_launcher_nova.png) |
 | Apex Launcher | ![Apex](art/ic_launcher_apex.png) |
+| Aviate | ![Aviate](art/ic_launcher_aviate.png) |
 
 图标包应用到启动器、从启动器应用图标包均可。
 

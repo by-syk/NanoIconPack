@@ -70,6 +70,9 @@ public class ApplyDialog extends DialogFragment {
             case 1:
                 apply2Apex();
                 break;
+            case 2:
+                apply2Aviate();
+                break;
         }
     }
 
@@ -96,5 +99,13 @@ public class ApplyDialog extends DialogFragment {
         } catch (ActivityNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    private void apply2Aviate() {
+        Intent intent = new Intent("com.tul.aviate.SET_THEME");
+        intent.setPackage("com.tul.aviate");
+        intent.putExtra("THEME_PACKAGE", getActivity().getPackageName());
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getActivity().startActivity(intent);
     }
 }

@@ -20,6 +20,7 @@
     <string-array name="launchers">
         <item>Nova Launcher|com.teslacoilsw.launcher</item>
         <item>Apex Launcher|com.anddoes.launcher</item>
+        <item>Aviate|com.tul.aviate</item>
     </string-array>
 
     <string-array name="tabs">
