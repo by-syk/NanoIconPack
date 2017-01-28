@@ -58,7 +58,7 @@ Copyright &#169; 2017 By_syk. All rights reserved."</string>
 
 - 装配图标
 
-图标规则命名后复制到`/res/drawable-nodpi/`文件夹。
+图标统一缩放（`192*192`最佳）、规则命名后复制到`/res/drawable-nodpi/`文件夹。
 
 参考命名规则：小写字母+数字+`_`；不能数字打头；重名照`_1`添加后缀。
 
