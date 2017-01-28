@@ -34,7 +34,7 @@
                 <action android:name="com.novalauncher.THEME" />
                 <category android:name="com.novalauncher.category.CUSTOM_ICON_PICKER" />
             </intent-filter>
-            <!-- For Apex -->
+            <!-- For Apex, also Aviate -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="com.anddoes.launcher.THEME" />
