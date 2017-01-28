@@ -19,25 +19,16 @@ package com.by_syk.nanoiconpack.util;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 import android.text.TextUtils;
-import android.util.Log;
-import android.util.TypedValue;
 
 import com.by_syk.nanoiconpack.R;
 
 import org.xmlpull.v1.XmlPullParser;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -46,60 +37,60 @@ import java.util.regex.Pattern;
  */
 
 public class ExtraUtil {
-    private static String readFile(InputStream inputStream, boolean keepNewLine) {
-        BufferedReader bufferedReader = null;
-        try {
-            bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-            StringBuilder stringBuilder = new StringBuilder();
-            String buffer;
-            while ((buffer = bufferedReader.readLine()) != null) {
-                stringBuilder.append(buffer);
-                if (keepNewLine) {
-                    stringBuilder.append("\n");
-                }
-            }
-            if (keepNewLine && stringBuilder.length() > 0) {
-                stringBuilder.setLength(stringBuilder.length() - 1);
-            }
-            return stringBuilder.toString();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (bufferedReader != null) {
-                try {
-                    bufferedReader.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return null;
-    }
+//    private static String readFile(InputStream inputStream, boolean keepNewLine) {
+//        BufferedReader bufferedReader = null;
+//        try {
+//            bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+//            StringBuilder stringBuilder = new StringBuilder();
+//            String buffer;
+//            while ((buffer = bufferedReader.readLine()) != null) {
+//                stringBuilder.append(buffer);
+//                if (keepNewLine) {
+//                    stringBuilder.append("\n");
+//                }
+//            }
+//            if (keepNewLine && stringBuilder.length() > 0) {
+//                stringBuilder.setLength(stringBuilder.length() - 1);
+//            }
+//            return stringBuilder.toString();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } finally {
+//            if (bufferedReader != null) {
+//                try {
+//                    bufferedReader.close();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+//        return null;
+//    }
 
-    public static List<String> getAppFilterPkg(InputStream appFilterFileIs, String iconName) {
-        List<String> list = new ArrayList<>();
-        if (TextUtils.isEmpty(iconName)) {
-            return list;
-        }
-        String text = readFile(appFilterFileIs, false);
-        if (text == null) {
-            return list;
-        }
-
-        if (iconName.matches(".+?_\\d+")) {
-            iconName = iconName.substring(0, iconName.lastIndexOf('_'));
-        }
-
-        Pattern pattern = Pattern.compile("<item\\s+component=\"ComponentInfo\\{([^/]+?)/[^\\}]*?\\}\""
-                + "\\s+drawable=\"" + iconName + "(_\\d)?\"\\s*/>");
-        Matcher matcher = pattern.matcher(text);
-        while (matcher.find()) {
-            if (!list.contains(matcher.group(1))) {
-                list.add(matcher.group(1));
-            }
-        }
-        return list;
-    }
+//    public static List<String> getAppFilterPkg(InputStream appFilterFileIs, String iconName) {
+//        List<String> list = new ArrayList<>();
+//        if (TextUtils.isEmpty(iconName)) {
+//            return list;
+//        }
+//        String text = readFile(appFilterFileIs, false);
+//        if (text == null) {
+//            return list;
+//        }
+//
+//        if (iconName.matches(".+?_\\d+")) {
+//            iconName = iconName.substring(0, iconName.lastIndexOf('_'));
+//        }
+//
+//        Pattern pattern = Pattern.compile("<item\\s+component=\"ComponentInfo\\{([^/]+?)/[^\\}]*?\\}\""
+//                + "\\s+drawable=\"" + iconName + "(_\\d)?\"\\s*/>");
+//        Matcher matcher = pattern.matcher(text);
+//        while (matcher.find()) {
+//            if (!list.contains(matcher.group(1))) {
+//                list.add(matcher.group(1));
+//            }
+//        }
+//        return list;
+//    }
 
     public static List<String> getAppFilterPkg(Resources resources, String iconName) {
         List<String> list = new ArrayList<>();
@@ -117,12 +108,12 @@ public class ExtraUtil {
             while (event != XmlPullParser.END_DOCUMENT) {
                 if (event == XmlPullParser.START_TAG) {
                     if ("item".equals(parser.getName())) {
-                        String drawable = parser.getAttributeValue(1);
-                        if (drawable.matches(".+?_\\d+")) {
+                        String drawable = parser.getAttributeValue(null, "drawable");
+                        if (drawable != null && drawable.matches(".+?_\\d+")) {
                             drawable = drawable.substring(0, drawable.lastIndexOf('_'));
                         }
                         if (iconName.equals(drawable)) {
-                            String component = parser.getAttributeValue(0);
+                            String component = parser.getAttributeValue(null, "component");
                             if (component != null) {
                                 Matcher matcher = Pattern.compile("ComponentInfo\\{([^/]+?)/.+?\\}")
                                         .matcher(component);

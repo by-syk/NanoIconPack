@@ -14,11 +14,11 @@ android {
 
     buildTypes {
         release {
-            shrinkResources false // 不能开启，会导致nodpi图标黑化
+            shrinkResources false // Keep false, or icons in drawable-nodpi will become black.
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
-            // 格式化文件名如：com.by_syk.template_v1.0.0(17012500).apk
+            // For formatting apk file name, like com.by_syk.template_v1.0.0(17012500).apk
             android.applicationVariants.all { variant ->
                 variant.outputs.each { output ->
                     def outputFile = output.outputFile
