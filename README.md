@@ -40,6 +40,7 @@ android {
 ```
 <string name="app_name">Nano Icon Pack</string>
 <string name="copyright_desc">"Icon pack author: [@By_syk](copy:@By_syk)
+Donate via Alipay: [By_syk@163.com](copy:By_syk@163.com)
 Copyright &#169; 2017 By_syk. All rights reserved.
 \nApp is based on Nano Icon Pack developed by [@By_syk](copy:@By_syk).
 [https://github.com/by-syk/NanoIconPack](https://github.com/by-syk/NanoIconPack)
