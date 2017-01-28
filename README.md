@@ -27,7 +27,7 @@ Nano图标包是一个简单轻量的图标包模板，支持展示所有图标�
 
 - 导入配置项目
 
-从 GitHub 导入 NanoIconPack 项目到 Android Studio，修改包名（可在原包名`com.by_syk.nanoiconpack`后追加`.[author_of_icons]`）。
+从 GitHub 导入 NanoIconPack 项目到 Android Studio，修改包名（可在原包名`com.by_syk.nanoiconpack`后追加`.[author_of_icons]`）：
 ```
 android {
     defaultConfig {
@@ -59,11 +59,11 @@ Copyright &#169; 2017 By_syk. All rights reserved."</string>
 
 参考命名规则：小写字母+数字+`_`；不能数字打头；重名照`_1`添加后缀。
 
-以“联系人”APP为例，命名`contacts/png`。
+以“联系人”APP为例，命名`contacts.png`。
 
 - 登记图标
 
-`/res/values/icon_pack.xml`：
+`/res/values/icon_pack.xml`中添加：
 ```
 <!-- File name (no suffix) list of all icons in /res/drawable-nodpi/ -->
 <string-array name="icons">
@@ -75,13 +75,13 @@ Copyright &#169; 2017 By_syk. All rights reserved."</string>
 </string-array>
 ```
 
-`/res/xml/drawable.xml`：
+`/res/xml/drawable.xml`中添加：
 ```
 <category title="All" />
 <item drawable="contacts" />
 ```
 
-`/res/xml/appfilter.xml`：
+`/res/xml/appfilter.xml`中添加：
 ```
 <item
    component="ComponentInfo{com.android.contacts/com.android.contacts.activities.PeopleActivity}"
