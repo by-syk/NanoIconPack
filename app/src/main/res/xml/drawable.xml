@@ -21,6 +21,6 @@
     <version>1</version>
 
     <category title="All" />
-    <item drawable="contacts" />
+    <item drawable="calendar" />
 
 </resources>

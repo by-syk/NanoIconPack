@@ -19,12 +19,12 @@
 
     <!-- File name (no suffix) list of all icons in /res/drawable-nodpi/ -->
     <string-array name="icons" translatable="false">
-        <item>contacts</item>
+        <item>calendar</item>
     </string-array>
 
     <!-- Corresponding app name list of all icons in /res/drawable-nodpi/ -->
     <string-array name="icon_labels">
-        <item>Contacts</item>
+        <item>Calendar</item>
     </string-array>
 
 </resources>

@@ -62,7 +62,7 @@ Copyright &#169; 2017 By_syk. All rights reserved."</string>
 
 参考命名规则：小写字母+数字+`_`；不能数字打头；重名照`_1`添加后缀。
 
-以“联系人”APP为例，命名`contacts.png`。
+以“日历”APP为例，命名`calendar.png`。
 
 - 登记图标
 
@@ -70,25 +70,25 @@ Copyright &#169; 2017 By_syk. All rights reserved."</string>
 ```
 <!-- File name (no suffix) list of all icons in /res/drawable-nodpi/ -->
 <string-array name="icons">
-    <item>contacts</item>
+    <item>calendar</item>
 </string-array>
 <!-- Corresponding app name list of all icons in /res/drawable-nodpi/ -->
 <string-array name="icon_labels">
-    <item>Contacts</item>
+    <item>Calendar</item>
 </string-array>
 ```
 
 `/res/xml/drawable.xml`中添加：
 ```
 <category title="All" />
-<item drawable="contacts" />
+<item drawable="calendar" />
 ```
 
 `/res/xml/appfilter.xml`中添加：
 ```
 <item
-   component="ComponentInfo{com.android.contacts/com.android.contacts.activities.PeopleActivity}"
-   drawable="contacts" />
+    component="ComponentInfo{com.google.android.calendar/com.android.calendar.AllInOneActivity}"
+    drawable="calendar" />
 ```
 
 

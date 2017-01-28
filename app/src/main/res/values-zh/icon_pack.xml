@@ -19,7 +19,7 @@
 
     <!-- Corresponding app name list of all icons in /res/drawable-nodpi/ -->
     <string-array name="icon_labels">
-        <item>联系人</item>
+        <item>日历</item>
     </string-array>
 
 </resources>

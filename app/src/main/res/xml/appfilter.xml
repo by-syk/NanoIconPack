@@ -28,9 +28,9 @@
     <!--<item
         component=":CALCULATOR"
         drawable="calculator" />-->
-    <!--<item
+    <item
         component=":CALENDAR"
-        drawable="calendar" />-->
+        drawable="calendar" />
     <!--<item
         component=":CAMERA"
         drawable="camera" />-->
@@ -72,7 +72,25 @@
         component="ComponentInfo{com.oneplus.calendar/com.android.calendar.AllInOneActivity}"
         prefix="calendar_d" />-->
 
-    <!--<item
+    <item
+        component="ComponentInfo{com.google.android.calendar/com.android.calendar.AllInOneActivity}"
+        drawable="calendar" />
+    <item
+        component="ComponentInfo{com.android.calendar/com.android.calendar.AllInOneActivity}"
+        drawable="calendar" />
+    <item
+        component="ComponentInfo{am.sunrise.android.calendar/am.sunrise.android.calendar.ui.HomeActivity}"
+        drawable="calendar" />
+    <item
+        component="ComponentInfo{com.android.calendar/com.meizu.flyme.calendar.AllInOneActivity}"
+        drawable="calendar" />
+    <item
+        component="ComponentInfo{com.android.calendar/com.android.calendar.homepage.AllInOneActivity}"
+        drawable="calendar" />
+    <item
+        component="ComponentInfo{com.oneplus.calendar/com.android.calendar.AllInOneActivity}"
+        drawable="calendar" />
+    <item
         component="ComponentInfo{com.google.android.calendar/com.android.calendar.LaunchActivity}"
         drawable="calendar" />
     <item
@@ -116,58 +134,6 @@
         drawable="calendar" />
     <item
         component="ComponentInfo{cn.nubia.calendar.preset/cn.nubia.calendar.AllInOneActivity}"
-        drawable="calendar" />-->
-
-    <item
-        component="ComponentInfo{com.google.android.contacts/com.android.contacts.activities.PeopleActivity}"
-        drawable="contacts" />
-    <item
-        component="ComponentInfo{com.android.contacts/com.android.contacts.activities.PeopleActivity}"
-        drawable="contacts" />
-    <item
-        component="ComponentInfo{com.android.contacts/com.oneplus.contacts.activities.OPPeopleActivity}"
-        drawable="contacts" />
-    <item
-        component="ComponentInfo{com.android.contacts/com.android.contacts.DialtactsActivityAlias}"
-        drawable="contacts" />
-    <item
-        component="ComponentInfo{com.android.contacts/com.android.contacts.PeopleActivityAlias}"
-        drawable="contacts" />
-    <item
-        component="ComponentInfo{com.android.contacts/com.android.mms.ui.ConversationList}"
-        drawable="contacts" />
-    <item
-        component="ComponentInfo{com.android.contacts/com.android.contacts.DialtactsContactsEntryActivity}"
-        drawable="contacts" />
-    <item
-        component="ComponentInfo{com.yulong.android.contacts/com.yulong.android.contacts.ui.main.ContactMainActivity}"
-        drawable="contacts" />
-    <item
-        component="ComponentInfo{com.yulong.android.contacts/com.yulong.android.contacts.life.YellowPageActivity}"
-        drawable="contacts" />
-    <item
-        component="ComponentInfo{cn.nubia.contacts/cn.nubia.contacts.mainlist.PeopleActivity}"
-        drawable="contacts" />
-    <item
-        component="ComponentInfo{com.lenovo.ideafriend/com.lenovo.ideafriend.alias.MmsActivity}"
-        drawable="contacts" />
-    <item
-        component="ComponentInfo{com.chinamobile.contacts.im/com.chinamobile.contacts.im.LoadingPage}"
-        drawable="contacts" />
-    <item
-        component="ComponentInfo{com.asus.contacts/com.android.contacts.activities.PeopleActivity}"
-        drawable="contacts" />
-    <item
-        component="ComponentInfo{com.zui.contacts/com.android.newcontact.vl.activity.XLaunchActivity}"
-        drawable="contacts" />
-    <item
-        component="ComponentInfo{com.htc.contacts/com.htc.contacts.BrowseLayerCarouselActivity}"
-        drawable="contacts" />
-    <item
-        component="ComponentInfo{com.samsung.android.contacts/com.android.contacts.activities.PeopleActivity}"
-        drawable="contacts" />
-    <item
-        component="ComponentInfo{com.sonyericsson.android.socialphonebook/com.sonyericsson.android.socialphonebook.LaunchActivity}"
-        drawable="contacts" />
+        drawable="calendar" />
 
 </resources>
