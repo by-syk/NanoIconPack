@@ -1,1 +1,1 @@
-include ':app', ':anomaly', ':omfg', ":originalwish"
+include ':app'
