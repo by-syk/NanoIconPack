@@ -27,7 +27,7 @@ Nano图标包是一个简单轻量的图标包模板，支持展示所有图标�
 
 - 导入配置项目
 
-从 GitHub 导入 NanoIconPack 项目到 Android Studio，修改配置：
+从 GitHub 导入 NanoIconPack 项目到 Android Studio，修改配置`build.gradle`：
 ```
 android {
     defaultConfig {
