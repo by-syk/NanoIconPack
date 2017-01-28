@@ -25,7 +25,7 @@ Nano图标包是一个简单轻量的图标包模板，支持展示所有图标�
 
 ### 二次开发
 
-- 导入项目
+- 导入配置项目
 
 从 GitHub 导入 NanoIconPack 项目到 Android Studio，修改包名（可在原包名`com.by_syk.nanoiconpack`后追加`.[author_of_icons]`）。
 ```
@@ -36,17 +36,57 @@ android {
 }
 ```
 
+修改`/res/values/strings.xml`：
+```
+<string name="app_name">Nano Icon Pack</string>
+<string name="copyright_desc">"Icon pack author: [@By_syk](copy:@By_syk)
+Copyright &#169; 2017 By_syk. All rights reserved.
+\nApp is based on Nano Icon Pack developed by [@By_syk](copy:@By_syk).
+[https://github.com/by-syk/NanoIconPack](https://github.com/by-syk/NanoIconPack)
+Copyright &#169; 2017 By_syk. All rights reserved."</string>
+```
+
+修改`/res/values/apex_config.xml`：
+```
+<string name="developer_name">By_syk</string>
+```
+
+修改APP图标`/res/mipmap/ic_launcher.png`。
+
 - 装配图标
 
 图标规则命名后复制到`/res/drawable-nodpi/`文件夹。
 
 参考命名规则：小写字母+数字+`_`；不能数字打头；重名照`_1`添加后缀。
 
+以“联系人”APP为例，命名`contacts/png`。
+
 - 登记图标
 
-- TODO
+`/res/values/icon_pack.xml`：
+```
+<!-- File name (no suffix) list of all icons in /res/drawable-nodpi/ -->
+<string-array name="icons">
+    <item>contacts</item>
+</string-array>
+<!-- Corresponding app name list of all icons in /res/drawable-nodpi/ -->
+<string-array name="icon_labels">
+    <item>Contacts</item>
+</string-array>
+```
 
-To be continued...
+`/res/xml/drawable.xml`：
+```
+<category title="All" />
+<item drawable="contacts" />
+```
+
+`/res/xml/appfilter.xml`：
+```
+<item
+   component="ComponentInfo{com.android.contacts/com.android.contacts.activities.PeopleActivity}"
+   drawable="contacts" />
+```
 
 
 ### 基于NanoIconPack的APP

@@ -19,8 +19,6 @@
 
     <string name="app_name">Nano Icon Pack</string>
 
-    <string name="copyright" translatable="false">Copyright &#169; 2017 By_syk. All rights reserved.</string>
-
     <string name="dlg_title_apply">Apply to launcher</string>
     <string name="dlg_bt_ok">OK</string>
     <string name="dlg_bt_pick">Pick</string>
