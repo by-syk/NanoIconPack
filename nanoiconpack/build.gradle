@@ -19,16 +19,8 @@ android {
     }
 }
 
-repositories {
-//    maven {
-//        url "https://jitpack.io"
-//    }
-}
-
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-
-    testCompile 'junit:junit:4.12'
 
     compile(name: 'aboutmsgrender-1.0.0', ext: 'aar')
     compile(name: 'globaltoast-1.1.2', ext: 'aar')

@@ -93,7 +93,7 @@ Copyright &#169; 2017 By_syk. All rights reserved."</string>
 
 ### 基于 NanoIconPack 的 APP
 
-Sample：[Nano图标包 Sample](https://github.com/by-syk/NanoIconPack/raw/master/out/NanoIconPack_v1.0.4.apk)
+Sample：[NanoIconPack Sample](https://github.com/by-syk/NanoIconPack/raw/master/out/NanoIconPack_v1.0.4.apk)
 
 | APP | 图标 |
 | :---- | :----: |

@@ -28,9 +28,9 @@
     <!--<item
         component=":CALCULATOR"
         drawable="calculator" />-->
-    <item
+    <!--<item
         component=":CALENDAR"
-        drawable="calendar" />
+        drawable="calendar" />-->
     <!--<item
         component=":CAMERA"
         drawable="camera" />-->

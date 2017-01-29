@@ -113,7 +113,7 @@ public class IconsFragment extends Fragment {
 
             String[] names = resources.getStringArray(R.array.icons);
             String[] labels = resources.getStringArray(R.array.icon_labels);
-            if (labels.length == 0) { // No app name list, use icon name list instead.
+            if (labels.length == 0) { // No app name list provided, use icon name list instead.
                 labels = new String[names.length];
                 for (int i = 0, len = names.length; i < len; ++i) {
                     labels[i] = names[i].replaceAll("_", " ");
