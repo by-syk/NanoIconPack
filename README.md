@@ -44,14 +44,13 @@ android {
 修改`/res/values/strings.xml`：
 ```
 <string name="app_name">NanoIconPack Sample</string>
+
+<!-- For Apex -->
+<string name="developer_name">By_syk</string>
+
 <string name="copyright_desc">"Icon pack author: [@By_syk](copy:@By_syk)
 Donate via Alipay: [By_syk@163.com](copy:By_syk@163.com)
 Copyright &#169; 2017 By_syk. All rights reserved."</string>
-```
-
-修改`/res/values/apex_config.xml`：
-```
-<string name="developer_name">By_syk</string>
 ```
 
 修改APP图标`/res/mipmap/ic_launcher.png`。
