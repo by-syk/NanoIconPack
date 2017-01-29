@@ -71,6 +71,9 @@ public class ApplyDialog extends DialogFragment {
                 apply2Apex();
                 break;
             case 2:
+                apply2Adw();
+                break;
+            case 3:
                 apply2Aviate();
                 break;
         }
@@ -99,6 +102,13 @@ public class ApplyDialog extends DialogFragment {
         } catch (ActivityNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    private void apply2Adw() {
+        Intent intent = new Intent("org.adw.launcher.SET_THEME");
+        intent.putExtra("org.adw.launcher.theme.NAME", getActivity().getPackageName());
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getActivity().startActivity(intent);
     }
 
     private void apply2Aviate() {

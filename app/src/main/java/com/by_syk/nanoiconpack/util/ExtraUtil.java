@@ -175,8 +175,8 @@ public class ExtraUtil {
 
         String action = intent.getAction();
         return "com.novalauncher.THEME".equals(action) // Nova
-                /*|| "org.adw.launcher.icons.ACTION_PICK_ICON".equals(action) // ADW
-                || "com.phonemetra.turbo.launcher.icons.ACTION_PICK_ICON".equals(action) // Turbo
+                || "org.adw.launcher.icons.ACTION_PICK_ICON".equals(action) // ADW
+                /*|| "com.phonemetra.turbo.launcher.icons.ACTION_PICK_ICON".equals(action) // Turbo
                 || Intent.ACTION_PICK.equals(action)
                 || Intent.ACTION_GET_CONTENT.equals(action)*/;
     }

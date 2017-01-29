@@ -30,6 +30,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <!-- For Nova -->
+            <!--<intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="com.teslacoilsw.launcher.THEME" />
+            </intent-filter>-->
             <intent-filter>
                 <action android:name="com.novalauncher.THEME" />
                 <category android:name="com.novalauncher.category.CUSTOM_ICON_PICKER" />
@@ -38,6 +42,15 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="com.anddoes.launcher.THEME" />
+            </intent-filter>
+            <!-- For ADW -->
+            <intent-filter>
+                <action android:name="org.adw.launcher.THEMES" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="org.adw.launcher.icons.ACTION_PICK_ICON" />
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 

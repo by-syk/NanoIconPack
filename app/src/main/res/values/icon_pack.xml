@@ -23,6 +23,7 @@
     </string-array>
 
     <!-- Corresponding app name list of all icons in /res/drawable-nodpi/ -->
+    <!-- Just KEEP IT EMPTY BUT DO NOT DELETE IT if you do not want to collect app name list. -->
     <string-array name="icon_labels">
         <item>Calendar</item>
     </string-array>

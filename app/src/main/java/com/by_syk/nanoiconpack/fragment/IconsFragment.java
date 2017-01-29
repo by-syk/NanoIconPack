@@ -113,6 +113,13 @@ public class IconsFragment extends Fragment {
 
             String[] names = resources.getStringArray(R.array.icons);
             String[] labels = resources.getStringArray(R.array.icon_labels);
+            if (labels.length == 0) { // No app name list, use icon name list instead.
+                labels = new String[names.length];
+                for (int i = 0, len = names.length; i < len; ++i) {
+                    labels[i] = names[i].replaceAll("_", " ");
+                }
+            }
+
             for (int i = 0, len = names.length; i < len; ++i) {
                 int id = getResources().getIdentifier(names[i], "drawable",
                         getActivity().getPackageName());
@@ -121,7 +128,7 @@ public class IconsFragment extends Fragment {
             Collections.sort(dataList, new Comparator<IconBean>() {
                 @Override
                 public int compare(IconBean bean1, IconBean bean2) {
-                    return bean1.getName().compareTo(bean2.getName());
+                    return bean1.getLabel().compareTo(bean2.getLabel());
                 }
             });
 

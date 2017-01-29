@@ -8,8 +8,8 @@ android {
         applicationId "com.by_syk.nanoiconpack"
         minSdkVersion 14
         targetSdkVersion 25
-        versionCode 17012803
-        versionName "1.0.3.1"
+        versionCode 17012900
+        versionName "1.0.4.1.nightly"
     }
 
     buildTypes {
