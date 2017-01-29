@@ -32,7 +32,7 @@ PS：NanoIconPack 只支持图标，如果您有更多需求，比如还需要�
 
 ### 二次开发
 
-- 导入项目并配置
+1. 导入项目并配置
 
 从 GitHub 导入 NanoIconPack 项目到 Android Studio，修改配置`build.gradle`：
 ```
@@ -61,28 +61,27 @@ Copyright &#169; 2017 By_syk. All rights reserved."</string>
 
 修改APP图标`/res/mipmap/ic_launcher.png`。
 
-- 装配图标
+2. 装配图标
 
 图标统一缩放`192`尺寸版本、规则命名后复制到`/res/drawable-nodpi/`文件夹。
 
-> 统一缩放？
->
-> `192*192`为最佳尺寸，但非强制性，只是注意别太大，太大会引起一些问题，比如在 Nova Launcher 中手动替换图标异常。
+-- 统一缩放？
 
-<blockquote>
-规则命名？    
+`192*192`为最佳尺寸，但非强制性，只是注意别太大，太大会引起一些问题，比如在 Nova Launcher 中手动替换图标异常。
+
+-- 规则命名？
+
 小写字母+数字+`_`；不能数字打头；重名则照`_1`添加后缀。
-</blockquote>
 
-> \* 支持可选新特性
->
-> 为在APP内展示图标时提供更好的视觉效果，您还可以为所有图标提供一个同名`384`尺寸版本，复制到`/res/mipmap-nodpi/`文件夹。
->
-> 高清版本图标用途也仅限于此，不用于应用到桌面。
+-- \* 支持可选新特性
+
+为在APP内展示图标时提供更好的视觉效果，您还可以为所有图标提供一个同名`384`尺寸版本，复制到`/res/mipmap-nodpi/`文件夹。
+
+高清版本图标用途也仅限于此，不用于应用到桌面。
 
 以“日历”APP为例，命名`calendar.png`，将`192`尺寸版本复制到`/drawable-nodpi/`、`384`版复制到`/mipmap-nodpi/`。
 
-- 登记图标
+3. 登记图标
 
 `/res/values/icon_pack.xml`中添加：
 ```
