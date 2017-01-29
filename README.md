@@ -104,10 +104,10 @@ Copyright &#169; 2017 By_syk. All rights reserved."</string>
 
 | APP | 图标 |
 | :---- | :----: |
-| Anomaly Icon Pack | ![Anomaly](art/ic_launcher_anomaly.png) |
-| OMFG图标包 | ![OMFG](art/ic_launcher_omfg.png) |
+| @Childish / Anomaly Icon Pack | ![Anomaly](art/ic_launcher_anomaly.png) |
+| @sftmi / OMFG图标包 | ![OMFG](art/ic_launcher_omfg.png) |
 
-![Anomaly](art/screenshots_anomaly_and_omfg.png)
+![Anomaly_OMFG](art/screenshots_anomaly_and_omfg.png)
 
 
 ### 参考
