@@ -15,7 +15,7 @@ NanoIconPack 是一个简单轻量的图标包模板，支持
 
 您可以基于此进行二次开发，只需要装配图标、修改少量文件即可用于发布。
 
-PS：NanoIconPack 只支持图标，如果您还有更多需求，比如壁纸、字体等，可以参考 [Jahir](https://github.com/jahirfiquitiva) 开发并开源的图标包模板——[IconShowcase-Dashboard](https://github.com/jahirfiquitiva/IconShowcase-Dashboard)。
+PS：NanoIconPack 只支持图标，如果您还有更多需求，比如还需要支持壁纸、字体，还需要支持更多启动器，还需要更漂亮的UI等，可以参考 [Jahir](https://github.com/jahirfiquitiva) 开发并开源的图标包模板——[IconShowcase-Dashboard](https://github.com/jahirfiquitiva/IconShowcase-Dashboard)。
 
 
 ### 支持启动器
