@@ -8,6 +8,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 25
         versionCode 17012900
+        // Format: [version].[num_of_icons]
         versionName "1.1.0.1.nightly"
     }
 

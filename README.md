@@ -32,9 +32,11 @@ NanoIconPack 是一个简单轻量的图标包模板，支持展示所有图标�
 ```
 android {
     defaultConfig {
-        applicationId "com.by_syk.nanoiconpack.[name_of_your_icon_pack]"
-        versionCode [yyMMdd][nn]
-        versionName "[version].[num_of_icons]"
+        // Package name format: com.by_syk.nanoiconpack.[name_of_your_icon_pack]
+        applicationId "com.by_syk.nanoiconpack.sample"
+        versionCode 17012900
+        // Version name format: [version].[num_of_icons]
+        versionName "1.1.0.1"
     }
 }
 ```
@@ -93,7 +95,7 @@ Copyright &#169; 2017 By_syk. All rights reserved."</string>
 
 ### 基于 NanoIconPack 的 APP
 
-Sample：[NanoIconPack Sample](https://github.com/by-syk/NanoIconPack/raw/master/out/NanoIconPack_v1.0.4.apk)
+Sample：[NanoIconPack Sample](https://github.com/by-syk/NanoIconPack/raw/master/out/com.by_syk.nanoiconpack.sample_v1.1.0.1.nightly(17012901).apk)
 
 | APP | 图标 |
 | :---- | :----: |
