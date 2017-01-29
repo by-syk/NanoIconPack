@@ -99,7 +99,14 @@ public class IconDialog extends DialogFragment {
             iconBean = (IconBean) bundle.getSerializable("bean");
             if (iconBean != null) {
                 builder.setTitle(iconBean.getLabel() != null ? iconBean.getLabel() : iconBean.getName());
-                ivIcon.setImageResource(iconBean.getId());
+//                ivIcon.setImageResource(iconBean.getId());
+                int hdIconId = getResources().getIdentifier(iconBean.getName(), "mipmap",
+                        getActivity().getPackageName());
+                if (hdIconId != 0) {
+                    ivIcon.setImageResource(hdIconId);
+                } else {
+                    ivIcon.setImageResource(iconBean.getId());
+                }
             }
             if (bundle.getBoolean("pick")) {
                 builder.setPositiveButton(R.string.dlg_bt_pick, new DialogInterface.OnClickListener() {

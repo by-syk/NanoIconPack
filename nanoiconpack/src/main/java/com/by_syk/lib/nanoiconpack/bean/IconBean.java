@@ -28,15 +28,17 @@ public class IconBean implements Serializable {
     private int id = 0;
     private @NonNull String name = "";
     private String label;
+    private String labelPinyin;
 
     public IconBean(int id, String name) {
         setId(id);
         setName(name);
     }
 
-    public IconBean(int id, String name, String label) {
+    public IconBean(int id, String name, String label, String labelPinyin) {
         this(id, name);
         setLabel(label);
+        setLabelPinyin(labelPinyin);
     }
 
     public void setId(int id) {
@@ -53,6 +55,10 @@ public class IconBean implements Serializable {
         this.label = label;
     }
 
+    public void setLabelPinyin(String labelPinyin) {
+        this.labelPinyin = labelPinyin;
+    }
+
     public int getId() {
         return id;
     }
@@ -63,5 +69,9 @@ public class IconBean implements Serializable {
 
     public String getLabel() {
         return label;
+    }
+
+    public String getLabelPinyin() {
+        return labelPinyin;
     }
 }

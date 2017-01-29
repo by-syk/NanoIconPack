@@ -8,8 +8,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 25
         versionCode 17012900
-        // Format: [version].[num_of_icons]
-        versionName "1.1.0.1.nightly"
+        versionName "1.1.2.nightly"
     }
 
     buildTypes {
@@ -22,6 +21,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    //compile files('libs/pinyin4j-2.5.0.jar')
 
     compile(name: 'aboutmsgrender-1.0.0', ext: 'aar')
     compile(name: 'globaltoast-1.1.2', ext: 'aar')

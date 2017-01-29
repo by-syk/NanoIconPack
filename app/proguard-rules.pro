@@ -15,3 +15,9 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+# pinyin4
+-dontwarn net.soureceforge.pinyin4j.**
+-dontwarn demo.**
+-keep class net.sourceforge.pinyin4j.** { *;}
+-keep class demo.** { *;}

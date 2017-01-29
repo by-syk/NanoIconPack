@@ -2,7 +2,7 @@
 
 
 NanoIconPack 是一个简单轻量的图标包模板，支持
-- 主页展示所有图标，按目标APP名（或图标名）排序
+- 主页展示所有图标，按目标APP名（或图标名）拼音排序
 - 过滤展示已安装图标
 - 图标详情对话框，显示目标APP名（或图标名）、大图标
 - 图标栅格
@@ -32,7 +32,7 @@ PS：NanoIconPack 只支持图标，如果您有更多需求，比如还需要�
 
 ### 二次开发
 
-- 导入配置项目
+- 导入项目并配置
 
 从 GitHub 导入 NanoIconPack 项目到 Android Studio，修改配置`build.gradle`：
 ```
@@ -63,11 +63,21 @@ Copyright &#169; 2017 By_syk. All rights reserved."</string>
 
 - 装配图标
 
-图标统一缩放（`192*192`最佳）、规则命名后复制到`/res/drawable-nodpi/`文件夹。
+图标统一缩放`192`尺寸版本、规则命名后复制到`/res/drawable-nodpi/`文件夹。
 
-参考命名规则：小写字母+数字+`_`；不能数字打头；重名照`_1`添加后缀。
+统一缩放？
 
-以“日历”APP为例，命名`calendar.png`。
+`192*192`为最佳尺寸，但非强制性，只是注意别太大，太大会引起一些问题，比如在 Nova Launcher 中手动替换图标异常。
+
+规则命名？
+
+小写字母+数字+`_`；不能数字打头；重名则照`_1`添加后缀。
+
+> \* 支持可选新特性
+> 为在APP内展示图标时提供更好的视觉效果，您还可以为所有图标提供一个同名`384`尺寸版本，复制到`/res/mipmap-nodpi/`文件夹。
+> 高清版本图标用途也仅限于此，不用于应用到桌面。
+
+以“日历”APP为例，命名`calendar.png`，将`192`尺寸版本复制到`/drawable-nodpi/`、`384`版复制到`/mipmap-nodpi/`。
 
 - 登记图标
 
@@ -100,7 +110,7 @@ Copyright &#169; 2017 By_syk. All rights reserved."</string>
 
 ### 基于 NanoIconPack 的 APP
 
-下载 Sample APP：[NanoIconPack Sample](https://github.com/by-syk/NanoIconPack/raw/master/out/com.by_syk.nanoiconpack.sample_v1.1.0.1.nightly(17012901).apk)
+下载 Sample APP：[NanoIconPack Sample](https://github.com/by-syk/NanoIconPack/raw/master/out/com.by_syk.nanoiconpack.sample_v1.1.2.1.nightly(17012902).apk)
 
 | APP | ICON |
 | :---- | :----: |

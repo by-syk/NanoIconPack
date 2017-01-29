@@ -21,9 +21,17 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.by_syk.lib.nanoiconpack.R;
+
+import net.sourceforge.pinyin4j.PinyinHelper;
+import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
+import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
+import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
+import net.sourceforge.pinyin4j.format.HanyuPinyinVCharType;
+import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
 
 import org.xmlpull.v1.XmlPullParser;
 
@@ -179,5 +187,85 @@ public class ExtraUtil {
                 /*|| "com.phonemetra.turbo.launcher.icons.ACTION_PICK_ICON".equals(action) // Turbo
                 || Intent.ACTION_PICK.equals(action)
                 || Intent.ACTION_GET_CONTENT.equals(action)*/;
+    }
+
+//    public static @NonNull String getPinyinForSorting(String text) {
+//        if (TextUtils.isEmpty(text)) {
+//            return "";
+//        }
+//
+//        HanyuPinyinOutputFormat format = new HanyuPinyinOutputFormat();
+//        format.setCaseType(HanyuPinyinCaseType.LOWERCASE);
+//        /*
+//         * WITHOUT_TONE：无音标 （zhong）
+//         * WITH_TONE_NUMBER：1-4数字表示英标 （zhong4）
+//         * WITH_TONE_MARK：直接用音标符（必须WITH_U_UNICODE否则异常） （zhòng）
+//         */
+//        format.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
+//        /*
+//         * WITH_V：用v表示ü （nv）
+//         * WITH_U_AND_COLON：用"u:"表示ü （nu:）
+//         * WITH_U_UNICODE：直接用ü （nü）
+//         */
+//        format.setVCharType(HanyuPinyinVCharType.WITH_V);
+//
+//        String result = "";
+//        try {
+//            for (char ch : text.toCharArray()) {
+//                String[] pyArr = PinyinHelper.toHanyuPinyinStringArray(ch, format);
+//                if (pyArr == null) {
+//                    continue;
+//                }
+//                // 仅选取多音字的第一个音
+//                result += pyArr[0];
+//            }
+//        } catch (BadHanyuPinyinOutputFormatCombination e) {
+//            e.printStackTrace();
+//        }
+//
+//        return result;
+//    }
+
+    public static @NonNull String[] getPinyinForSorting(String[] textArr) {
+        if (textArr == null) {
+            return new String[0];
+        }
+
+        HanyuPinyinOutputFormat format = new HanyuPinyinOutputFormat();
+        format.setCaseType(HanyuPinyinCaseType.LOWERCASE);
+        /*
+         * WITHOUT_TONE：无音标 （zhong）
+         * WITH_TONE_NUMBER：1-4数字表示英标 （zhong4）
+         * WITH_TONE_MARK：直接用音标符（必须WITH_U_UNICODE否则异常） （zhòng）
+         */
+        format.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
+        /*
+         * WITH_V：用v表示ü （nv）
+         * WITH_U_AND_COLON：用"u:"表示ü （nu:）
+         * WITH_U_UNICODE：直接用ü （nü）
+         */
+        format.setVCharType(HanyuPinyinVCharType.WITH_V);
+
+        try {
+            String[] resultArr = new String[textArr.length];
+            for (int i = 0, len = textArr.length; i < len; ++i) {
+                String result = "";
+                for (char ch : textArr[i].toLowerCase().toCharArray()) {
+                    String[] pyArr = PinyinHelper.toHanyuPinyinStringArray(ch, format);
+                    if (pyArr != null) {
+                        // 仅选取多音字的第一个音
+                        result += pyArr[0];
+                    } else {
+                        result += ch;
+                    }
+                }
+                resultArr[i] = result;
+            }
+            return resultArr;
+        } catch (BadHanyuPinyinOutputFormatCombination e) {
+            e.printStackTrace();
+        }
+
+        return textArr;
     }
 }

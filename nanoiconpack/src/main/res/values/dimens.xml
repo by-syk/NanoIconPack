@@ -28,7 +28,7 @@
 
     <dimen name="grid_size">80dp</dimen>
     <dimen name="grid_icon_size">72dp</dimen>
-    <dimen name="dlg_icon_size">120dp</dimen>
+    <dimen name="dlg_icon_size">128dp</dimen>
     <dimen name="dlg_small_icon_size">72dp</dimen>
     <dimen name="icon_layout_horz_margin">0dp</dimen>
 

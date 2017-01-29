@@ -23,7 +23,4 @@
     <category title="All" />
     <item drawable="calendar" />
 
-    <!--<category title="System" />
-    <item drawable="contacts" />-->
-
 </resources>
