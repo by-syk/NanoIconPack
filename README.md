@@ -15,14 +15,14 @@ NanoIconPack 是一个简单轻量的图标包模板，支持
 
 您可以基于此进行二次开发，只需要装配图标、修改少量文件即可用于发布。
 
-您还可以参考 [Jahir](https://github.com/jahirfiquitiva) 开发的更完备的图标包模板——[IconShowcase-Dashboard](https://github.com/jahirfiquitiva/IconShowcase-Dashboard)。
+PS：NanoIconPack 只支持图标，如果您还有更多需求，比如壁纸、字体等，可以参考 [Jahir](https://github.com/jahirfiquitiva) 开发并开源的图标包模板——[IconShowcase-Dashboard](https://github.com/jahirfiquitiva/IconShowcase-Dashboard)。
 
 
 ### 支持启动器
 
 目前支持以下4个启动器：
 
-| 启动器 | 图标 |
+| Launcher | ICON |
 | :---- | :----: |
 | Nova Launcher | ![Nova](art/ic_launcher_nova.png) |
 | Apex Launcher | ![Apex](art/ic_launcher_apex.png) |
@@ -102,7 +102,7 @@ Copyright &#169; 2017 By_syk. All rights reserved."</string>
 
 下载 Sample APP：[NanoIconPack Sample](https://github.com/by-syk/NanoIconPack/raw/master/out/com.by_syk.nanoiconpack.sample_v1.1.0.1.nightly(17012901).apk)
 
-| APP | 图标 |
+| APP | ICON |
 | :---- | :----: |
 | @Childish / Anomaly Icon Pack | ![Anomaly](art/ic_launcher_anomaly.png) |
 | @sftmi / OMFG图标包 | ![OMFG](art/ic_launcher_omfg.png) |
