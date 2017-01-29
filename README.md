@@ -1,9 +1,17 @@
 # NanoIconPack 图标包模板
 
 
-NanoIconPack 是一个简单轻量的图标包模板，支持展示所有图标、过滤已安装图标、新原图标对比等功能。
+NanoIconPack 是一个简单轻量的图标包模板，支持
+- 主页展示所有图标，按目标APP名（或图标名）排序
+- 过滤展示已安装图标
+- 图标详情对话框，显示目标APP名（或图标名）、大图标
+- 图标栅格
+- 新原图标对比显示
+- 直接应用到启动器、从支持的启动器设置中应用
 
-![Nano](art/screenshot_nano_3.png)
+相关截图（更多截图去[这里](art/)查看）：
+
+![Nano](art/screenshots_nano.png)
 
 您可以基于此进行二次开发，只需要装配图标、修改少量文件即可用于发布。
 
@@ -20,8 +28,6 @@ NanoIconPack 是一个简单轻量的图标包模板，支持展示所有图标�
 | Apex Launcher | ![Apex](art/ic_launcher_apex.png) |
 | ADW Launcher | ![ADW](art/ic_launcher_adw.png) |
 | Aviate | ![Aviate](art/ic_launcher_aviate.png) |
-
-图标包应用到启动器、从启动器应用图标包均可。
 
 
 ### 二次开发
@@ -101,7 +107,7 @@ Sample：[NanoIconPack Sample](https://github.com/by-syk/NanoIconPack/raw/master
 | Anomaly Icon Pack | ![Anomaly](art/ic_launcher_anomaly.png) |
 | OMFG图标包 | ![OMFG](art/ic_launcher_omfg.png) |
 
-![Anomaly](art/screenshot_anomaly_omfg.png)
+![Anomaly](art/screenshots_anomaly_and_omfg.png)
 
 
 ### 参考
