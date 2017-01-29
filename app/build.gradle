@@ -5,16 +5,16 @@ android {
     buildToolsVersion "25.0.2"
 
     defaultConfig {
-        applicationId "com.by_syk.nanoiconpack"
+        applicationId "com.by_syk.nanoiconpack.sample"
         minSdkVersion 14
         targetSdkVersion 25
         versionCode 17012900
-        versionName "1.0.4.1"
+        versionName "1.1.0.1.nightly"
     }
 
     buildTypes {
         release {
-            shrinkResources false // Keep false, or icons in /drawable-nodpi will become black.
+            shrinkResources false // Keep false, or icons in /drawable-nodpi/ will become black.
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
@@ -23,7 +23,7 @@ android {
                 variant.outputs.each { output ->
                     def outputFile = output.outputFile
                     if (outputFile != null) {
-                        def fileName = "NanoIconPack_v${defaultConfig.versionName}(${defaultConfig.versionCode}).apk"
+                        def fileName = "${defaultConfig.applicationId}_v${defaultConfig.versionName}(${defaultConfig.versionCode}).apk"
                         output.outputFile = new File((String) outputFile.parent, fileName)
                     }
                 }
@@ -36,27 +36,16 @@ android {
     }
 }
 
-repositories {
+/*repositories {
     flatDir {
         dirs 'libs'
     }
-//    maven {
-//        url "https://jitpack.io"
-//    }
-}
+}*/
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
     testCompile 'junit:junit:4.12'
 
-    compile(name: 'aboutmsgrender-1.0.0', ext: 'aar')
-    compile(name: 'globaltoast-1.1.2', ext: 'aar')
-    compile(name: 'iconlineview-1.0.1', ext: 'aar')
-
-    compile 'com.android.support:support-v4:25.1.0'
-    compile 'com.android.support:recyclerview-v7:25.1.0'
-
-    // repositories { maven { url "https://jitpack.io" } }
-//    compile 'com.github.pluscubed:recycler-fast-scroll:0.3.2@aar'
+    compile project(':nanoiconpack')
 }

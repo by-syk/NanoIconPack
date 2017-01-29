@@ -18,25 +18,6 @@
 <!-- For Apex -->
 <resources>
 
-    <!-- Basic theme information -->
-    <string name="theme_title">@string/app_name</string>
     <string name="developer_name">By_syk</string>
-    <!-- This (optional) link will appear at the end of the theme description -->
-    <!--<string name="developer_link">http://by-syk.com</string>-->
-    <!--<string name="theme_description">This is a sample theme.\n\nTheme developers may put anything here.\n\nEmail: By_syk@163.com</string>-->
-
-    <!-- Theme settings -->
-    <bool name="config_iconpack">true</bool>
-    <bool name="config_apexskin">false</bool>
-
-    <!-- The feature graphic will appear above the theme description -->
-    <!--<string name="theme_feature">feature</string>-->
-
-    <!-- Each theme may have up to 5 preview images -->
-    <!--<string name="theme_preview1">preview1</string>-->
-    <!--<string name="theme_preview2">preview2</string>-->
-
-    <!-- Important. For recognizing all icons automatically when pick -->
-    <string-array name="icon_pack" translatable="false" />
 
 </resources>

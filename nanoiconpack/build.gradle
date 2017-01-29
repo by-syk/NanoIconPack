@@ -1,0 +1,42 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 25
+        versionCode 17012900
+        versionName "1.1.0.1.nightly"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+repositories {
+//    maven {
+//        url "https://jitpack.io"
+//    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    testCompile 'junit:junit:4.12'
+
+    compile(name: 'aboutmsgrender-1.0.0', ext: 'aar')
+    compile(name: 'globaltoast-1.1.2', ext: 'aar')
+    compile(name: 'iconlineview-1.0.1', ext: 'aar')
+
+    compile 'com.android.support:support-v4:25.1.0'
+    compile 'com.android.support:recyclerview-v7:25.1.0'
+
+    // repositories { maven { url "https://jitpack.io" } }
+//    compile 'com.github.pluscubed:recycler-fast-scroll:0.3.2@aar'
+}

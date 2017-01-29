@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.by_syk.nanoiconpack.fragment;
+package com.by_syk.lib.nanoiconpack.fragment;
 
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
@@ -30,11 +30,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.by_syk.nanoiconpack.R;
-import com.by_syk.nanoiconpack.bean.IconBean;
-import com.by_syk.nanoiconpack.util.C;
-import com.by_syk.nanoiconpack.util.ExtraUtil;
-import com.by_syk.nanoiconpack.util.adapter.IconAdapter;
+import com.by_syk.lib.nanoiconpack.R;
+import com.by_syk.lib.nanoiconpack.bean.IconBean;
+import com.by_syk.lib.nanoiconpack.util.C;
+import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
+import com.by_syk.lib.nanoiconpack.util.adapter.IconAdapter;
 
 import org.xmlpull.v1.XmlPullParser;
 

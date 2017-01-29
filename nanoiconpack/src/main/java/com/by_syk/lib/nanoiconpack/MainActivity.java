@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.by_syk.nanoiconpack;
+package com.by_syk.lib.nanoiconpack;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -25,10 +25,10 @@ import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.by_syk.nanoiconpack.fragment.ApplyDialog;
-import com.by_syk.nanoiconpack.fragment.CopyrightDialog;
-import com.by_syk.nanoiconpack.fragment.IconsFragment;
-import com.by_syk.nanoiconpack.util.ExtraUtil;
+import com.by_syk.lib.nanoiconpack.fragment.ApplyDialog;
+import com.by_syk.lib.nanoiconpack.fragment.CopyrightDialog;
+import com.by_syk.lib.nanoiconpack.fragment.IconsFragment;
+import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
 
 import java.util.Locale;
 
@@ -70,13 +70,13 @@ public class MainActivity extends FragmentActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_apply:
-                (new ApplyDialog()).show(getFragmentManager(), "applyDialog");
-                return true;
-            case R.id.menu_copyright:
-                (new CopyrightDialog()).show(getFragmentManager(), "copyrightDialog");
-                return true;
+        int id = item.getItemId();
+        if (id == R.id.menu_apply) {
+            (new ApplyDialog()).show(getFragmentManager(), "applyDialog");
+            return true;
+        } else if (id == R.id.menu_copyright) {
+            (new CopyrightDialog()).show(getFragmentManager(), "copyrightDialog");
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }

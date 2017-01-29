@@ -1,7 +1,7 @@
-# NanoIconPack / Nano图标包
+# NanoIconPack 图标包模板
 
 
-Nano图标包是一个简单轻量的图标包模板，支持展示所有图标、过滤已安装图标、新原图标对比等功能。
+NanoIconPack 是一个简单轻量的图标包模板，支持展示所有图标、过滤已安装图标、新原图标对比等功能。
 
 ![Nano](art/screenshot_nano_3.png)
 
@@ -41,7 +41,7 @@ android {
 
 修改`/res/values/strings.xml`：
 ```
-<string name="app_name">Nano Icon Pack</string>
+<string name="app_name">NanoIconPack Sample</string>
 <string name="copyright_desc">"Icon pack author: [@By_syk](copy:@By_syk)
 Donate via Alipay: [By_syk@163.com](copy:By_syk@163.com)
 Copyright &#169; 2017 By_syk. All rights reserved."</string>
@@ -91,9 +91,9 @@ Copyright &#169; 2017 By_syk. All rights reserved."</string>
 ```
 
 
-### 基于NanoIconPack的APP
+### 基于 NanoIconPack 的 APP
 
-Sample：[Nano图标包](https://github.com/by-syk/NanoIconPack/raw/master/out/NanoIconPack_v1.0.4.apk)
+Sample：[Nano图标包 Sample](https://github.com/by-syk/NanoIconPack/raw/master/out/NanoIconPack_v1.0.4.apk)
 
 | APP | 图标 |
 | :---- | :----: |

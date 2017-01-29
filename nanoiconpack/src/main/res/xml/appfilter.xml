@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright 2017 By_syk
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+
+<!-- For Nova, Apex, ADW, Aviate -->
+<resources>
+
+    <!-- NOVA LAUNCHER STUFF -->
+    <!--<item
+        component=":LAUNCHER_ACTION_APP_DRAWER"
+        drawable="drawer" />-->
+    <!--<item
+        component=":BROWSER"
+        drawable="browser" />-->
+    <!--<item
+        component=":CALCULATOR"
+        drawable="calculator" />-->
+    <item
+        component=":CALENDAR"
+        drawable="calendar" />
+    <!--<item
+        component=":CAMERA"
+        drawable="camera" />-->
+    <!--<item
+        component=":CLOCK"
+        drawable="clock" />-->
+    <!--<item
+        component=":CONTACTS"
+        drawable="contacts" />-->
+    <!--<item
+        component=":EMAIL"
+        drawable="email" />-->
+    <!--<item
+        component=":GALLERY"
+        drawable="gallery" />-->
+    <!--<item
+        component=":PHONE"
+        drawable="phone" />-->
+    <!--<item
+        component=":SMS"
+        drawable="sms" />-->
+
+    <!--<calendar
+        component="ComponentInfo{com.google.android.calendar/com.android.calendar.AllInOneActivity}"
+        prefix="calendar_d" />
+    <calendar
+        component="ComponentInfo{com.android.calendar/com.android.calendar.AllInOneActivity}"
+        prefix="calendar_d" />
+    <calendar
+        component="ComponentInfo{am.sunrise.android.calendar/am.sunrise.android.calendar.ui.HomeActivity}"
+        prefix="calendar_d" />
+    <calendar
+        component="ComponentInfo{com.android.calendar/com.meizu.flyme.calendar.AllInOneActivity}"
+        prefix="calendar_d" />
+    <calendar
+        component="ComponentInfo{com.android.calendar/com.android.calendar.homepage.AllInOneActivity}"
+        prefix="calendar_d" />
+    <calendar
+        component="ComponentInfo{com.oneplus.calendar/com.android.calendar.AllInOneActivity}"
+        prefix="calendar_d" />-->
+
+    <!--<item
+        component="ComponentInfo{com.google.android.calendar/com.android.calendar.AllInOneActivity}"
+        drawable="calendar" />
+    <item
+        component="ComponentInfo{com.android.calendar/com.android.calendar.AllInOneActivity}"
+        drawable="calendar" />
+    <item
+        component="ComponentInfo{am.sunrise.android.calendar/am.sunrise.android.calendar.ui.HomeActivity}"
+        drawable="calendar" />
+    <item
+        component="ComponentInfo{com.android.calendar/com.meizu.flyme.calendar.AllInOneActivity}"
+        drawable="calendar" />
+    <item
+        component="ComponentInfo{com.android.calendar/com.android.calendar.homepage.AllInOneActivity}"
+        drawable="calendar" />
+    <item
+        component="ComponentInfo{com.oneplus.calendar/com.android.calendar.AllInOneActivity}"
+        drawable="calendar" />
+    <item
+        component="ComponentInfo{com.google.android.calendar/com.android.calendar.LaunchActivity}"
+        drawable="calendar" />
+    <item
+        component="ComponentInfo{com.google.android.calendar/com.android.calendar.HtcCalendarProvider}"
+        drawable="calendar" />
+    <item
+        component="ComponentInfo{com.android.calendar/com.android.calendar.CalendarTabActivity}"
+        drawable="calendar" />
+    <item
+        component="ComponentInfo{com.android.calendar/com.android.calendar.MonthActivity}"
+        drawable="calendar" />
+    <item
+        component="ComponentInfo{com.android.calendar/com.android.calendar.LaunchActivity}"
+        drawable="calendar" />
+    <item
+        component="ComponentInfo{com.android.calendar/com.android.calendar.AgendaActivity}"
+        drawable="calendar" />
+    <item
+        component="ComponentInfo{com.android.calendar/com.android.calendar.EventInfoActivity}"
+        drawable="calendar" />
+    <item
+        component="ComponentInfo{com.android.calendar/com.android.calendar.EditEventActivity}"
+        drawable="calendar" />
+    <item
+        component="ComponentInfo{com.android.calendar/com.android.calendar.timeline.EventListWithStartTime}"
+        drawable="calendar" />
+    <item
+        component="ComponentInfo{com.android.calendar/com.android.calendar.ChooserActivity}"
+        drawable="calendar" />
+    <item
+        component="ComponentInfo{com.android.calendar/com.android.calendar.LaunchTasksActivity}"
+        drawable="calendar" />
+    <item
+        component="ComponentInfo{com.htc.calendar/com.htc.calendar.CalendarActivityMain}"
+        drawable="calendar" />
+    <item
+        component="ComponentInfo{com.lenovo.android.calendar/com.lenovo.android.calendar.SplashActivity}"
+        drawable="calendar" />
+    <item
+        component="ComponentInfo{com.sonymobile.calendar/com.sonymobile.calendar.LaunchActivity}"
+        drawable="calendar" />
+    <item
+        component="ComponentInfo{cn.nubia.calendar.preset/cn.nubia.calendar.AllInOneActivity}"
+        drawable="calendar" />-->
+
+</resources>

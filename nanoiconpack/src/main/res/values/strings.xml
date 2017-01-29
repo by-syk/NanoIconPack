@@ -17,10 +17,22 @@
 
 <resources>
 
-    <string name="app_name">NanoIconPack Sample</string>
+    <string name="app_name">NanoIconPack</string>
+
+    <string name="dlg_title_apply">Apply to launcher</string>
+    <string name="dlg_bt_ok">OK</string>
+    <string name="dlg_bt_pick">Pick</string>
+
+    <string name="menu_apply">Apply</string>
+    <string name="menu_copyright">Copyright</string>
+
+    <string name="toast_not_installed">%s is not installed.</string>
 
     <string name="copyright_desc">"Icon pack author: [@By_syk](copy:@By_syk)
 Donate via Alipay: [By_syk@163.com](copy:By_syk@163.com)
+Copyright &#169; 2017 By_syk. All rights reserved."</string>
+    <string name="copyright_base_desc">"App is based on Nano Icon Pack developed by [@By_syk](copy:@By_syk).
+[https://github.com/by-syk/NanoIconPack](https://github.com/by-syk/NanoIconPack)
 Copyright &#169; 2017 By_syk. All rights reserved."</string>
 
 </resources>

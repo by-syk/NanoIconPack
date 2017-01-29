@@ -15,12 +15,15 @@
   limitations under the License.
   -->
 
+<!-- For Nova -->
 <resources>
 
-    <string name="app_name">NanoIconPack Sample</string>
+    <version>1</version>
 
-    <string name="copyright_desc">"灵魂图匠：[@By_syk](copy:@By_syk)
-如果喜欢它们，请我吃串串儿吧。支付宝：[By_syk@163.com](copy:By_syk@163.com)
-Copyright &#169; 2017 By_syk. All rights reserved."</string>
+    <category title="All" />
+    <!--<item drawable="calendar" />-->
+
+    <!--<category title="System" />
+    <item drawable="contacts" />-->
 
 </resources>

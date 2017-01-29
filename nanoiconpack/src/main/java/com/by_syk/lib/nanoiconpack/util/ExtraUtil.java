@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.by_syk.nanoiconpack.util;
+package com.by_syk.lib.nanoiconpack.util;
 
 import android.content.Context;
 import android.content.Intent;
@@ -23,7 +23,7 @@ import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 import android.text.TextUtils;
 
-import com.by_syk.nanoiconpack.R;
+import com.by_syk.lib.nanoiconpack.R;
 
 import org.xmlpull.v1.XmlPullParser;
 

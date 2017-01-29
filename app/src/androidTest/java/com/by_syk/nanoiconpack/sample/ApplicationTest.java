@@ -1,4 +1,4 @@
-package com.by_syk.nanoiconpack;
+package com.by_syk.nanoiconpack.sample;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

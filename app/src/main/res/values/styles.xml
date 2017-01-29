@@ -19,8 +19,4 @@
 
     <style name="AppTheme" parent="@android:style/Theme.Holo.Light.DarkActionBar" />
 
-    <style name="Tap">
-        <item name="android:background">?android:attr/selectableItemBackground</item>
-    </style>
-
 </resources>

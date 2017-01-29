@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.by_syk.nanoiconpack.fragment;
+package com.by_syk.lib.nanoiconpack.fragment;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -25,7 +25,7 @@ import android.text.method.LinkMovementMethod;
 import android.widget.TextView;
 
 import com.by_syk.lib.text.AboutMsgRender;
-import com.by_syk.nanoiconpack.R;
+import com.by_syk.lib.nanoiconpack.R;
 
 /**
  * Created by By_syk on 2017-01-27.

@@ -15,12 +15,9 @@
   limitations under the License.
   -->
 
-<resources>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.by_syk.lib.nanoiconpack">
 
-    <string name="app_name">NanoIconPack Sample</string>
+    <application android:label="@string/app_name" />
 
-    <string name="copyright_desc">"灵魂图匠：[@By_syk](copy:@By_syk)
-如果喜欢它们，请我吃串串儿吧。支付宝：[By_syk@163.com](copy:By_syk@163.com)
-Copyright &#169; 2017 By_syk. All rights reserved."</string>
-
-</resources>
+</manifest>

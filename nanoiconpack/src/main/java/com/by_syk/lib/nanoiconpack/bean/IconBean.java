@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.by_syk.nanoiconpack.bean;
+package com.by_syk.lib.nanoiconpack.bean;
 
 import android.support.annotation.NonNull;
 

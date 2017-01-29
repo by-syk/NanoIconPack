@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.by_syk.nanoiconpack.fragment;
+package com.by_syk.lib.nanoiconpack.fragment;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -25,8 +25,8 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.by_syk.lib.toast.GlobalToast;
-import com.by_syk.nanoiconpack.R;
-import com.by_syk.nanoiconpack.util.ExtraUtil;
+import com.by_syk.lib.nanoiconpack.R;
+import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
 
 /**
  * Created by By_syk on 2017-01-27.

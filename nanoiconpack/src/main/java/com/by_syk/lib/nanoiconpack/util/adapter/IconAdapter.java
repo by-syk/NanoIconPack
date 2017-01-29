@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.by_syk.nanoiconpack.util.adapter;
+package com.by_syk.lib.nanoiconpack.util.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -23,8 +23,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.by_syk.nanoiconpack.R;
-import com.by_syk.nanoiconpack.bean.IconBean;
+import com.by_syk.lib.nanoiconpack.R;
+import com.by_syk.lib.nanoiconpack.bean.IconBean;
 
 import java.util.ArrayList;
 import java.util.List;

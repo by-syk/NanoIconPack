@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.by_syk.nanoiconpack.fragment;
+package com.by_syk.lib.nanoiconpack.fragment;
 
 import android.animation.LayoutTransition;
 import android.app.Activity;
@@ -37,9 +37,9 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.by_syk.nanoiconpack.R;
-import com.by_syk.nanoiconpack.bean.IconBean;
-import com.by_syk.nanoiconpack.util.ExtraUtil;
+import com.by_syk.lib.nanoiconpack.R;
+import com.by_syk.lib.nanoiconpack.bean.IconBean;
+import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
 
 import java.util.List;
 

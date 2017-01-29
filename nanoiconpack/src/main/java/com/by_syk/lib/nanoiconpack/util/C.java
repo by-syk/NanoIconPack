@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.by_syk.nanoiconpack.util;
+package com.by_syk.lib.nanoiconpack.util;
 
 import android.os.Build;
 

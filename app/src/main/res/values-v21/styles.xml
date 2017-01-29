@@ -24,14 +24,4 @@
         <!--<item name="android:navigationBarColor">@color/color_primary_dark</item>-->
     </style>
 
-    <!--<style name="Dialog" parent="@android:style/Theme.Material.Dialog.Alert">
-        <item name="android:colorPrimary">@color/color_primary</item>
-        <item name="android:colorPrimaryDark">@color/color_primary_dark</item>
-        <item name="android:colorAccent">@color/color_accent</item>
-    </style>-->
-
-    <style name="Tap">
-        <item name="android:background">?android:attr/selectableItemBackgroundBorderless</item>
-    </style>
-
 </resources>
