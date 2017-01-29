@@ -15,18 +15,10 @@
   limitations under the License.
   -->
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<resources>
 
-    <item
-        android:id="@+id/menu_apply"
-        android:title="@string/menu_apply"
-        android:icon="@drawable/ic_action_apply"
-        android:showAsAction="ifRoom" />
+    <!-- Menu icons -->
+    <drawable name="ic_action_apply">@drawable/ic_action_apply_dark</drawable>
+    <drawable name="ic_action_copyright">@drawable/ic_action_copyright_dark</drawable>
 
-    <item
-        android:id="@+id/menu_copyright"
-        android:title="@string/menu_copyright"
-        android:icon="@drawable/ic_action_copyright"
-        android:showAsAction="ifRoom" />
-
-</menu>
+</resources>
