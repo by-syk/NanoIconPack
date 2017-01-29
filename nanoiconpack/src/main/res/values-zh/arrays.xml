@@ -25,7 +25,7 @@
     </string-array>
 
     <string-array name="tabs">
-        <item>已安装</item>
+        <item>已适配</item>
         <item>全部 (%d)</item>
     </string-array>
 

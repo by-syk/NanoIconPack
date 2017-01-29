@@ -16,6 +16,7 @@
 
 package com.by_syk.lib.nanoiconpack;
 
+import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -41,6 +42,8 @@ public class MainActivity extends FragmentActivity {
 
     private IconsPagerAdapter pagerAdapter;
 
+    private boolean isFromLauncherPick = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +58,12 @@ public class MainActivity extends FragmentActivity {
         pagerAdapter = new IconsPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
 
-        if (ExtraUtil.isFromLauncherPick(getIntent())) {
+        isFromLauncherPick = ExtraUtil.isFromLauncherPick(getIntent());
+        if (isFromLauncherPick) {
+            ActionBar actionBar = getActionBar();
+            if (actionBar != null) {
+                actionBar.setDisplayHomeAsUpEnabled(true);
+            }
             // Switch to All tab
             viewPager.setCurrentItem(1);
         }
@@ -65,13 +73,20 @@ public class MainActivity extends FragmentActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
+        if (isFromLauncherPick) {
+            menu.getItem(0).setVisible(false);
+        }
+
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.menu_apply) {
+        if (id == android.R.id.home) {
+            finish();
+            return true;
+        } else if (id == R.id.menu_apply) {
             (new ApplyDialog()).show(getFragmentManager(), "applyDialog");
             return true;
         } else if (id == R.id.menu_copyright) {

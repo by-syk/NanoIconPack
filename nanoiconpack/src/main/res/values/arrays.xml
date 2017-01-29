@@ -25,7 +25,7 @@
     </string-array>
 
     <string-array name="tabs">
-        <item>Installed</item>
+        <item>Matched</item>
         <item>All (%d)</item>
     </string-array>
 
