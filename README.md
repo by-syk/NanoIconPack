@@ -12,12 +12,13 @@ Nano图标包是一个简单轻量的图标包模板，支持展示所有图标�
 
 ### 支持启动器
 
-目前支持活跃的三个启动器：
+目前支持以下4个启动器：
 
 | 启动器 | 图标 |
 | :---- | :----: |
 | Nova Launcher | ![Nova](art/ic_launcher_nova.png) |
 | Apex Launcher | ![Apex](art/ic_launcher_apex.png) |
+| ADW Launcher | ![ADW](art/ic_launcher_adw.png) |
 | Aviate | ![Aviate](art/ic_launcher_aviate.png) |
 
 图标包应用到启动器、从启动器应用图标包均可。
@@ -43,9 +44,6 @@ android {
 <string name="app_name">Nano Icon Pack</string>
 <string name="copyright_desc">"Icon pack author: [@By_syk](copy:@By_syk)
 Donate via Alipay: [By_syk@163.com](copy:By_syk@163.com)
-Copyright &#169; 2017 By_syk. All rights reserved.
-\nApp is based on Nano Icon Pack developed by [@By_syk](copy:@By_syk).
-[https://github.com/by-syk/NanoIconPack](https://github.com/by-syk/NanoIconPack)
 Copyright &#169; 2017 By_syk. All rights reserved."</string>
 ```
 
@@ -73,6 +71,7 @@ Copyright &#169; 2017 By_syk. All rights reserved."</string>
     <item>calendar</item>
 </string-array>
 <!-- Corresponding app name list of all icons in /res/drawable-nodpi/ -->
+<!-- Just KEEP IT EMPTY BUT DO NOT DELETE IT if you do not want to collect app name list. -->
 <string-array name="icon_labels">
     <item>Calendar</item>
 </string-array>
@@ -94,7 +93,7 @@ Copyright &#169; 2017 By_syk. All rights reserved."</string>
 
 ### 基于NanoIconPack的APP
 
-Sample: [Nano图标包](https://github.com/by-syk/NanoIconPack/raw/master/out/NanoIconPack_v1.0.3.1.apk)
+Sample：[Nano图标包](https://github.com/by-syk/NanoIconPack/raw/master/out/NanoIconPack_v1.0.4.apk)
 
 | APP | 图标 |
 | :---- | :----: |
