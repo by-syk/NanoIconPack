@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,6 +62,8 @@ public class AppsFragment extends Fragment {
 
     private AppAdapter appAdapter;
 
+    private String appCodeSelected = "";
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -74,6 +77,13 @@ public class AppsFragment extends Fragment {
         return contentView;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        appCodeSelected = "";
+    }
+
     private void init() {
         sp = new SP(getActivity(), false);
 
@@ -85,7 +95,7 @@ public class AppsFragment extends Fragment {
                     (new AppTapHintDialog()).show(getActivity().getFragmentManager(), "hintDialog");
                     return;
                 }
-                copyAppCode(appAdapter.getItem(i));
+                copyOrShareAppCode(appAdapter.getItem(i), true);
             }
         });
         lvApps.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -95,7 +105,7 @@ public class AppsFragment extends Fragment {
                     (new AppTapHintDialog()).show(getActivity().getFragmentManager(), "hintDialog");
                     return true;
                 }
-                shareAppCode(appAdapter.getItem(i));
+                copyOrShareAppCode(appAdapter.getItem(i), false);
                 return true;
             }
         });
@@ -113,7 +123,7 @@ public class AppsFragment extends Fragment {
         quickscroll.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 48);
     }
 
-    private void copyAppCode(AppBean bean) {
+    private void copyOrShareAppCode(AppBean bean, boolean toCopyOrShare) {
         if (bean == null) {
             return;
         }
@@ -123,26 +133,20 @@ public class AppsFragment extends Fragment {
         String code = getString(R.string.app_component, label, labelEn,
                 bean.getPkgName(), bean.getLauncherActivity(),
                 ExtraUtil.appName2drawbleName(label, labelEn));
-
-        ExtraUtil.copy2Clipboard(getActivity(), code);
-        GlobalToast.showToast(getActivity(), getString(R.string.toast_code_copied));
-    }
-
-    private void shareAppCode(AppBean bean) {
-        if (bean == null) {
-            return;
+        if (!appCodeSelected.contains(code)) {
+            appCodeSelected += (appCodeSelected.length() > 0 ? "\n" : "") + code;
         }
 
-        String label = bean.getLabel();
-        String labelEn = ExtraUtil.getAppLabelEn(getActivity(), bean);
-        String code = getString(R.string.app_component, label, labelEn,
-                bean.getPkgName(), bean.getLauncherActivity(),
-                ExtraUtil.appName2drawbleName(label, labelEn));
-
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("text/plain");
-        intent.putExtra(Intent.EXTRA_TEXT, code);
-        startActivity(Intent.createChooser(intent, getString(R.string.send_code)));
+        if (toCopyOrShare) {
+            ExtraUtil.copy2Clipboard(getActivity(), appCodeSelected);
+            GlobalToast.showToast(getActivity(), getString(R.string.toast_code_copied,
+                    appCodeSelected.split("\n").length / code.split("\n").length));
+        } else {
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_TEXT, appCodeSelected);
+            startActivity(Intent.createChooser(intent, getString(R.string.send_code)));
+        }
     }
 
     private class LoadAppsTask extends AsyncTask<String, Integer, List<AppBean>> {

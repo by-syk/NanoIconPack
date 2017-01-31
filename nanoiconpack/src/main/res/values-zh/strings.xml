@@ -26,7 +26,7 @@
     <string name="menu_copyright">版权</string>
 
     <string name="toast_not_installed">未安装 %s</string>
-    <string name="toast_code_copied">APP代码已复制</string>
+    <string name="toast_code_copied">已复制%d个APP代码</string>
 
     <string name="send_code">分享APP代码&#8230;</string>
     <string name="app_tap_desc">短按以复制该APP代码，长按则直接分享。</string>

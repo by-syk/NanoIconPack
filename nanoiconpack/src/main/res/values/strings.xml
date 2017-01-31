@@ -28,7 +28,7 @@
     <string name="menu_copyright">Copyright</string>
 
     <string name="toast_not_installed">%s is not installed.</string>
-    <string name="toast_code_copied">App code copied</string>
+    <string name="toast_code_copied">%d app(s)\'s codes copied</string>
 
     <string name="app_component" translatable="false">"&lt;!-- %1$s / %2$s -->\n&lt;item component=\"ComponentInfo{%3$s/%4$s}\" drawable=\"%5$s\" />"</string>
     <string name="send_code">Share app code&#8230;</string>
