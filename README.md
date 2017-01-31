@@ -106,6 +106,7 @@ Copyright &#169; 2017 By_syk. All rights reserved."</string>
 
 `/res/xml/appfilter.xml`中添加：
 ```
+<!-- <item component="ComponentInfo{[package_name]/[launcher_activity_name]}" drawable="[icon_file_name]" /> -->
 <item
     component="ComponentInfo{com.google.android.calendar/com.android.calendar.AllInOneActivity}"
     drawable="calendar" />
