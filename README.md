@@ -5,7 +5,7 @@ NanoIconPack 是一个简单轻量的图标包模板，支持
 + 主页展示所有图标，按目标APP名（或图标名）拼音排序
 + 过滤展示已适配图标
 + 列出未适配APP，快速获取APP代码
-+ 图标详情对话框，显示目标APP名（或图标名）、大图标
++ 图标详情对话框，显示目标APP名（或图标名）、高清图标
 + 图标栅格
 + 新原图标对比显示
 + 直接应用到启动器、从支持的启动器设置中应用
@@ -29,7 +29,7 @@ PS：NanoIconPack 只支持图标，如果您有更多需求，比如还需要�
 | Apex Launcher | ![Apex](art/ic_launcher_apex.png) |
 | ADW Launcher | ![ADW](art/ic_launcher_adw.png) |
 | Aviate | ![Aviate](art/ic_launcher_aviate.png) |
-| Action 3 | ![Action_3](art/ic_launcher_action_3.png) |
+| Action 3 | ![Action3](art/ic_launcher_action_3.png) |
 
 
 ### 二次开发
@@ -42,9 +42,9 @@ android {
     defaultConfig {
         // Package name format: com.by_syk.nanoiconpack.[name_of_your_icon_pack]
         applicationId "com.by_syk.nanoiconpack.sample"
-        versionCode 17012900
+        versionCode 17013100
         // Version name format: [version].[num_of_icons]
-        versionName "1.1.0.1"
+        versionName "1.2.0.1"
     }
 }
 ```
