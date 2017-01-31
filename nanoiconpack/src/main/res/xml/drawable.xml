@@ -20,10 +20,20 @@
 
     <version>1</version>
 
-    <category title="All" />
+    <category title="Base" /><!-- Base icons here -->
+    <!--<item drawable="browser" />-->
+    <!--<item drawable="calculator" />-->
     <!--<item drawable="calendar" />-->
+    <!--<item drawable="camera" />-->
+    <!--<item drawable="clock" />-->
+    <!--<item drawable="contacts" />-->
+    <!--<item drawable="email" />-->
+    <!--<item drawable="gallery" />-->
+    <!--<item drawable="music" />-->
+    <!--<item drawable="phone" />-->
+    <!--<item drawable="settings" />-->
+    <!--<item drawable="sms" />-->
 
-    <!--<category title="System" />
-    <item drawable="contacts" />-->
+    <category title="Other" /><!-- Other icons here -->
 
 </resources>

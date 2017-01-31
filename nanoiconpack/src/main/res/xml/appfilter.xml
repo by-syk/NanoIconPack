@@ -53,24 +53,25 @@
         component=":SMS"
         drawable="sms" />-->
 
+    <!-- The whole 31 icons are required, or it doesn't work. -->
     <!--<calendar
-        component="ComponentInfo{com.google.android.calendar/com.android.calendar.AllInOneActivity}"
-        prefix="calendar_d" />
-    <calendar
-        component="ComponentInfo{com.android.calendar/com.android.calendar.AllInOneActivity}"
-        prefix="calendar_d" />
-    <calendar
-        component="ComponentInfo{am.sunrise.android.calendar/am.sunrise.android.calendar.ui.HomeActivity}"
-        prefix="calendar_d" />
-    <calendar
-        component="ComponentInfo{com.android.calendar/com.meizu.flyme.calendar.AllInOneActivity}"
-        prefix="calendar_d" />
-    <calendar
-        component="ComponentInfo{com.android.calendar/com.android.calendar.homepage.AllInOneActivity}"
-        prefix="calendar_d" />
-    <calendar
-        component="ComponentInfo{com.oneplus.calendar/com.android.calendar.AllInOneActivity}"
-        prefix="calendar_d" />-->
+            component="ComponentInfo{com.google.android.calendar/com.android.calendar.AllInOneActivity}"
+            prefix="calendar_d" />
+        <calendar
+            component="ComponentInfo{com.android.calendar/com.android.calendar.AllInOneActivity}"
+            prefix="calendar_d" />
+        <calendar
+            component="ComponentInfo{am.sunrise.android.calendar/am.sunrise.android.calendar.ui.HomeActivity}"
+            prefix="calendar_d" />
+        <calendar
+            component="ComponentInfo{com.android.calendar/com.meizu.flyme.calendar.AllInOneActivity}"
+            prefix="calendar_d" />
+        <calendar
+            component="ComponentInfo{com.android.calendar/com.android.calendar.homepage.AllInOneActivity}"
+            prefix="calendar_d" />
+        <calendar
+            component="ComponentInfo{com.oneplus.calendar/com.android.calendar.AllInOneActivity}"
+            prefix="calendar_d" />-->
 
     <!--<item
         component="ComponentInfo{com.google.android.calendar/com.android.calendar.AllInOneActivity}"
