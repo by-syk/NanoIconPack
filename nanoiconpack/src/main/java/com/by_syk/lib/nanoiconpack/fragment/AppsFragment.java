@@ -106,9 +106,11 @@ public class AppsFragment extends Fragment {
             return;
         }
 
-        String code = getString(R.string.app_component,
-                bean.getLabel(), ExtraUtil.getAppLabelEn(getActivity(), bean),
-                bean.getPkgName(), bean.getLauncherActivity());
+        String label = bean.getLabel();
+        String labelEn = ExtraUtil.getAppLabelEn(getActivity(), bean);
+        String code = getString(R.string.app_component, label, labelEn,
+                bean.getPkgName(), bean.getLauncherActivity(),
+                ExtraUtil.appName2drawbleName(label, labelEn));
 
         ExtraUtil.copy2Clipboard(getActivity(), code);
         GlobalToast.showToast(getActivity(), getString(R.string.toast_code_copied));
@@ -119,9 +121,11 @@ public class AppsFragment extends Fragment {
             return;
         }
 
-        String code = getString(R.string.app_component,
-                bean.getLabel(), ExtraUtil.getAppLabelEn(getActivity(), bean),
-                bean.getPkgName(), bean.getLauncherActivity());
+        String label = bean.getLabel();
+        String labelEn = ExtraUtil.getAppLabelEn(getActivity(), bean);
+        String code = getString(R.string.app_component, label, labelEn,
+                bean.getPkgName(), bean.getLauncherActivity(),
+                ExtraUtil.appName2drawbleName(label, labelEn));
 
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("text/plain");

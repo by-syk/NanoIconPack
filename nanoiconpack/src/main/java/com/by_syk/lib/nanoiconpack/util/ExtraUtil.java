@@ -422,4 +422,22 @@ public class ExtraUtil {
 
         return result;
     }
+
+    @NonNull
+    public static String appName2drawbleName(String label, String labelEn) {
+        if (!TextUtils.isEmpty(labelEn) && labelEn.matches("[A-Za-z\\d ]+")) {
+            Matcher matcher = Pattern.compile("([a-z])([A-Z])").matcher(labelEn);
+            if (matcher.find()) {
+                labelEn = matcher.replaceAll(matcher.group(1) + " " + matcher.group(2));
+            }
+            return labelEn.replaceAll(" ", "_").toLowerCase();
+        } else if (!TextUtils.isEmpty(label) && label.matches("[A-Za-z\\d ]+")) {
+            Matcher matcher = Pattern.compile("([a-z])([A-Z])").matcher(label);
+            if (matcher.find()) {
+                label = matcher.replaceAll(matcher.group(1) + " " + matcher.group(2));
+            }
+            return label.replaceAll(" ", "_").toLowerCase();
+        }
+        return "";
+    }
 }
