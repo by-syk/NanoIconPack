@@ -64,7 +64,8 @@ public class IconsFragment extends Fragment {
             contentView = inflater.inflate(R.layout.fragment_icons, container, false);
             init();
 
-            (new LoadIconsTask()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "task" + pageId);
+            (new LoadIconsTask()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,
+                    "loadIconsTask" + pageId);
         }
 
         return contentView;

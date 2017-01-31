@@ -55,7 +55,7 @@ public class IconDialog extends DialogFragment {
 
     private IconBean iconBean;
 
-    private boolean isInstalled = true;
+    private boolean isAppInstalled = true;
 
     private boolean isExecuted = false;
 
@@ -77,11 +77,12 @@ public class IconDialog extends DialogFragment {
                 } else {
                     iconLineView.setVisibility(View.VISIBLE);
                 }
-                if (!isInstalled) {
+                if (!isAppInstalled) {
                     return;
                 }
                 if (ivIconSmall == null) {
-                    (new ExtractRawIconTask()).execute();
+                    (new ExtractRawIconTask()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,
+                            "extractRawIconTask");
                 } else {
                     if (viewContent.getChildCount() == 2) {
                         viewContent.removeView(ivIconSmall);
@@ -187,7 +188,7 @@ public class IconDialog extends DialogFragment {
             }
 
             if (drawable == null) {
-                isInstalled = false;
+                isAppInstalled = false;
                 return;
             }
 

@@ -155,6 +155,10 @@ public class AppsFragment extends Fragment {
                 e.printStackTrace();
             }
 
+            if (!isAdded() || dataList.isEmpty()) {
+                return dataList;
+            }
+
             removeMatched(dataList);
 
             Collections.sort(dataList, new Comparator<AppBean>() {
@@ -178,10 +182,8 @@ public class AppsFragment extends Fragment {
         }
 
         private void removeMatched(@NonNull List<AppBean> appList) {
-            long start = System.currentTimeMillis();
-
-            XmlResourceParser parser = getResources().getXml(R.xml.appfilter);
             try {
+                XmlResourceParser parser = getResources().getXml(R.xml.appfilter);
                 int event = parser.getEventType();
                 while (event != XmlPullParser.END_DOCUMENT) {
                     if (event == XmlPullParser.START_TAG) {
@@ -206,8 +208,6 @@ public class AppsFragment extends Fragment {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
-            Log.d(C.LOG_TAG, "Cost(removeMatched): " + (System.currentTimeMillis() - start) + "ms");
         }
     }
 
