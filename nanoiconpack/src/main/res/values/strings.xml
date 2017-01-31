@@ -22,6 +22,7 @@
     <string name="dlg_title_apply">Apply to launcher</string>
     <string name="dlg_bt_ok">OK</string>
     <string name="dlg_bt_pick">Pick</string>
+    <string name="dlg_bt_got_it">Got it</string>
 
     <string name="menu_apply">Apply</string>
     <string name="menu_copyright">Copyright</string>
@@ -31,6 +32,7 @@
 
     <string name="app_component" translatable="false">"&lt;!-- %1$s / %2$s -->\n&lt;item component=\"ComponentInfo{%3$s/%4$s}\" drawable=\"%5$s\" />"</string>
     <string name="send_code">Share app code&#8230;</string>
+    <string name="app_tap_desc">TAP one to copy its code, and LONG PRESS to share it.</string>
     <string name="copyright_desc">"Icon pack author: [@By_syk](copy:@By_syk)
 Donate via Alipay: [By_syk@163.com](copy:By_syk@163.com)
 Copyright &#169; 2017 By_syk. All rights reserved."</string>

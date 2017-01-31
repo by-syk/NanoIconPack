@@ -40,6 +40,7 @@ import com.by_syk.lib.nanoiconpack.util.adapter.IconAdapter;
 import org.xmlpull.v1.XmlPullParser;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -123,7 +124,15 @@ public class IconsFragment extends Fragment {
                 for (int i = 0, len = names.length; i < len; ++i) {
                     labels[i] = names[i].replaceAll("_", " ");
                 }
-                labelPinyins = labels;
+                labelPinyins = Arrays.copyOf(labels, labels.length);
+            }
+
+            Pattern pattern = Pattern.compile("(?<=\\D|^)\\d(?=\\D|$)");
+            for (int i = 0, len = labelPinyins.length; i < len; ++i) { // 优化100以内数值逻辑排序
+                Matcher matcher = pattern.matcher(labelPinyins[i]);
+                if (matcher.find()) {
+                    labelPinyins[i] = matcher.replaceAll("0" + matcher.group(0));
+                }
             }
 
             for (int i = 0, len = names.length; i < len; ++i) {
@@ -157,8 +166,6 @@ public class IconsFragment extends Fragment {
         }
 
         private List<IconBean> filterMatched(@NonNull List<IconBean> dataList) {
-            long start = System.currentTimeMillis();
-
             List<String> installedIconList = new ArrayList<>();
 //            List<String> installedPkgList = ExtraUtil.getInstalledPkgs(getActivity());
             List<String> installedPkgList = ExtraUtil.getInstalledPkgsWithLauncherActivity(getActivity());
@@ -200,8 +207,6 @@ public class IconsFragment extends Fragment {
                     }
                 }
             }
-
-            Log.d(C.LOG_TAG, "Cost(filterMatched): " + (System.currentTimeMillis() - start) + "ms");
 
             return installedDataList;
         }

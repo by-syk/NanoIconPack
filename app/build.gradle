@@ -5,7 +5,7 @@ android {
     buildToolsVersion "25.0.2"
 
     defaultConfig {
-        // Package name format: com.by_syk.nanoiconpack.[name_of_your_icon_pack]
+        // Package name format: com.[your_name].iconpack.[name_of_your_icon_pack]
         applicationId "com.by_syk.nanoiconpack.sample"
         minSdkVersion 14
         targetSdkVersion 25

@@ -25,7 +25,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,6 +38,7 @@ import com.by_syk.lib.nanoiconpack.bean.AppBean;
 import com.by_syk.lib.nanoiconpack.util.C;
 import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
 import com.by_syk.lib.nanoiconpack.util.adapter.AppAdapter;
+import com.by_syk.lib.storage.SP;
 import com.by_syk.lib.toast.GlobalToast;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -55,6 +55,8 @@ import java.util.regex.Pattern;
  */
 
 public class AppsFragment extends Fragment {
+    private SP sp;
+
     private View contentView;
 
     private AppAdapter appAdapter;
@@ -73,16 +75,26 @@ public class AppsFragment extends Fragment {
     }
 
     private void init() {
+        sp = new SP(getActivity(), false);
+
         ListView lvApps = (ListView) contentView.findViewById(R.id.lv_apps);
         lvApps.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if (!sp.getBoolean("appTapHint")) {
+                    (new AppTapHintDialog()).show(getActivity().getFragmentManager(), "hintDialog");
+                    return;
+                }
                 copyAppCode(appAdapter.getItem(i));
             }
         });
         lvApps.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                if (!sp.getBoolean("appTapHint")) {
+                    (new AppTapHintDialog()).show(getActivity().getFragmentManager(), "hintDialog");
+                    return true;
+                }
                 shareAppCode(appAdapter.getItem(i));
                 return true;
             }

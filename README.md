@@ -40,8 +40,8 @@ PS：NanoIconPack 只支持图标，如果您有更多需求，比如还需要�
 ```
 android {
     defaultConfig {
-        // Package name format: com.by_syk.nanoiconpack.[name_of_your_icon_pack]
-        applicationId "com.by_syk.nanoiconpack.sample"
+        // Package name format: com.[your_name].iconpack.[name_of_your_icon_pack]
+        applicationId "com.by_syk.iconpack.sample"
         versionCode 17013100
         // Version name format: [version].[num_of_icons]
         versionName "1.2.0.1"
@@ -69,7 +69,7 @@ Copyright &#169; 2017 By_syk. All rights reserved."</string>
 
 > + 统一缩放？
 >
->   `192*192`为最佳尺寸，但非强制，只是注意别太大，太大会引起一些问题，比如在 Nova Launcher 中手动替换图标异常。
+>   `192*192`为最佳尺寸，`144*144`、`224*224`也是不错的选择，但非强制，只是注意别太大，太大会引起一些问题，比如在 Nova Launcher 中手动替换图标异常。
 >
 > + 规则命名？
 >

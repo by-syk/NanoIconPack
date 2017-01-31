@@ -20,6 +20,7 @@
     <string name="dlg_title_apply">应用到启动器</string>
     <string name="dlg_bt_ok">确定</string>
     <string name="dlg_bt_pick">选择</string>
+    <string name="dlg_bt_got_it">我知道了</string>
 
     <string name="menu_apply">应用</string>
     <string name="menu_copyright">版权</string>
@@ -28,6 +29,7 @@
     <string name="toast_code_copied">APP代码已复制</string>
 
     <string name="send_code">分享APP代码&#8230;</string>
+    <string name="app_tap_desc">短按以复制该APP代码，长按则直接分享。</string>
     <string name="copyright_desc">"灵魂图匠：[@By_syk](copy:@By_syk)
 如果喜欢它们，请我吃串串儿吧。支付宝：[By_syk@163.com](copy:By_syk@163.com)
 Copyright &#169; 2017 By_syk. All rights reserved."</string>
