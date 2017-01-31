@@ -7,8 +7,8 @@ android {
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 25
-        versionCode 17013000
-        versionName "1.1.3.nightly"
+        versionCode 17013100
+        versionName "1.2.0.nightly"
     }
 
     buildTypes {
@@ -23,9 +23,10 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 //    compile files('libs/pinyin4j-2.5.0.jar')
 
-    compile(name: 'aboutmsgrender-1.0.0', ext: 'aar')
+    compile(name: 'aboutmsgrender-1.0.1', ext: 'aar')
     compile(name: 'globaltoast-1.1.2', ext: 'aar')
     compile(name: 'iconlineview-1.0.1', ext: 'aar')
+    compile(name: 'quickscroll-0.8.1', ext: 'aar')
 
     compile 'com.android.support:support-v4:25.1.0'
     compile 'com.android.support:recyclerview-v7:25.1.0'

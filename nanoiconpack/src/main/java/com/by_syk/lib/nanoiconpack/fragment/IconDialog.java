@@ -31,6 +31,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -196,7 +197,9 @@ public class IconDialog extends DialogFragment {
             ivIconSmall.setLayoutParams(layoutParams);
             ivIconSmall.setScaleType(ImageView.ScaleType.FIT_CENTER);
             ivIconSmall.setImageDrawable(drawable);
-            ivIconSmall.setBackgroundResource(R.drawable.left_lean_icon_frame);
+            TypedValue typedValue = new TypedValue();
+            getActivity().getTheme().resolveAttribute(R.attr.left_lean_icon_frame, typedValue, true);
+            ivIconSmall.setBackgroundResource(typedValue.resourceId);
             ivIconSmall.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

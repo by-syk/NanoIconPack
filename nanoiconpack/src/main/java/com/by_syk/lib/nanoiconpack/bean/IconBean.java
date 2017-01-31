@@ -26,8 +26,12 @@ import java.io.Serializable;
 
 public class IconBean implements Serializable {
     private int id = 0;
-    private @NonNull String name = "";
+
+    @NonNull
+    private String name = "";
+
     private String label;
+
     private String labelPinyin;
 
     public IconBean(int id, String name) {
@@ -63,7 +67,8 @@ public class IconBean implements Serializable {
         return id;
     }
 
-    public @NonNull String getName() {
+    @NonNull
+    public String getName() {
         return name;
     }
 

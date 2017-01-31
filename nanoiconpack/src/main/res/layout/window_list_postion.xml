@@ -15,10 +15,13 @@
   limitations under the License.
   -->
 
-<resources>
-
-    <!-- Menu icons -->
-    <drawable name="ic_action_apply">@drawable/ic_action_apply_dark</drawable>
-    <drawable name="ic_action_copyright">@drawable/ic_action_copyright_dark</drawable>
-
-</resources>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="#BB000000"
+    android:gravity="center"
+    android:maxWidth="70dip"
+    android:minWidth="70dip"
+    android:padding="10dip"
+    android:textColor="#99FFFFFF"
+    android:textSize="50sp" />

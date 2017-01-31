@@ -22,9 +22,11 @@
         <item>Apex Launcher|com.anddoes.launcher</item>
         <item>ADW Launcher|org.adw.launcher</item>
         <item>Aviate|com.tul.aviate</item>
+        <item>Action Launcher 3|com.actionlauncher.playstore</item>
     </string-array>
 
     <string-array name="tabs">
+        <item>Lost</item>
         <item>Matched</item>
         <item>All (%d)</item>
     </string-array>

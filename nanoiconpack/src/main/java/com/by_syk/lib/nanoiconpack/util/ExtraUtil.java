@@ -16,15 +16,24 @@
 
 package com.by_syk.lib.nanoiconpack.util;
 
+import android.annotation.TargetApi;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.by_syk.lib.nanoiconpack.R;
+import com.by_syk.lib.nanoiconpack.bean.AppBean;
 
 import net.sourceforge.pinyin4j.PinyinHelper;
 import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
@@ -36,7 +45,11 @@ import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombi
 import org.xmlpull.v1.XmlPullParser;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -176,6 +189,39 @@ public class ExtraUtil {
         return pkgNameList;
     }
 
+    public static List<String> getInstalledPkgsWithLauncherActivity(Context context) {
+        List<String> pkgNameList = new ArrayList<>();
+        if (context == null) {
+            return pkgNameList;
+        }
+
+        try {
+            Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
+            mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+            List<ResolveInfo> list = context.getPackageManager().queryIntentActivities(mainIntent, 0);
+            for (ResolveInfo resolveInfo : list) {
+                pkgNameList.add(resolveInfo.activityInfo.packageName);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return pkgNameList;
+    }
+
+    public static String getLauncherActivity(Context context, String pkgName) {
+        try {
+            Intent intent = context.getPackageManager().getLaunchIntentForPackage(pkgName);
+            if (intent != null) {
+                return intent.getComponent().getClassName();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
     public static boolean isFromLauncherPick(Intent intent) {
         if (intent == null) {
             return false;
@@ -183,50 +229,87 @@ public class ExtraUtil {
 
         String action = intent.getAction();
         return "com.novalauncher.THEME".equals(action) // Nova
+                // Apex: No such funtion
                 || "org.adw.launcher.icons.ACTION_PICK_ICON".equals(action) // ADW
+                // Aviate: No such funtion
                 /*|| "com.phonemetra.turbo.launcher.icons.ACTION_PICK_ICON".equals(action) // Turbo
                 || Intent.ACTION_PICK.equals(action)
                 || Intent.ACTION_GET_CONTENT.equals(action)*/;
     }
 
-//    public static @NonNull String getPinyinForSorting(String text) {
-//        if (TextUtils.isEmpty(text)) {
-//            return "";
-//        }
-//
-//        HanyuPinyinOutputFormat format = new HanyuPinyinOutputFormat();
-//        format.setCaseType(HanyuPinyinCaseType.LOWERCASE);
-//        /*
-//         * WITHOUT_TONE：无音标 （zhong）
-//         * WITH_TONE_NUMBER：1-4数字表示英标 （zhong4）
-//         * WITH_TONE_MARK：直接用音标符（必须WITH_U_UNICODE否则异常） （zhòng）
-//         */
-//        format.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
-//        /*
-//         * WITH_V：用v表示ü （nv）
-//         * WITH_U_AND_COLON：用"u:"表示ü （nu:）
-//         * WITH_U_UNICODE：直接用ü （nü）
-//         */
-//        format.setVCharType(HanyuPinyinVCharType.WITH_V);
-//
-//        String result = "";
-//        try {
-//            for (char ch : text.toCharArray()) {
-//                String[] pyArr = PinyinHelper.toHanyuPinyinStringArray(ch, format);
-//                if (pyArr == null) {
-//                    continue;
-//                }
-//                // 仅选取多音字的第一个音
-//                result += pyArr[0];
-//            }
-//        } catch (BadHanyuPinyinOutputFormatCombination e) {
-//            e.printStackTrace();
-//        }
-//
-//        return result;
-//    }
+    /**
+     * 汉字串转拼音
+     * 保留非汉字；打头的第一个汉字若是多音字则按取拼音首字母不同的几个，其他只取一个音
+     *
+     * 设置 -> [shezhi]
+     * Google设置 -> [googleshezhi]
+     * 调色板 -> [diaoseban, tiaoseban]
+     * 相机 -> [xiangji]
+     *
+     * @param text
+     * @return
+     */
+    @NonNull
+    public static String[] getPinyinForSorting(String text) {
+        if (TextUtils.isEmpty(text)) {
+            return new String[]{""};
+        }
+        text = text.toLowerCase();
 
-    public static @NonNull String[] getPinyinForSorting(String[] textArr) {
+        HanyuPinyinOutputFormat format = new HanyuPinyinOutputFormat();
+        format.setCaseType(HanyuPinyinCaseType.LOWERCASE);
+        /*
+         * WITHOUT_TONE：无音标 （zhong）
+         * WITH_TONE_NUMBER：1-4数字表示英标 （zhong4）
+         * WITH_TONE_MARK：直接用音标符（必须WITH_U_UNICODE否则异常） （zhòng）
+         */
+        format.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
+        /*
+         * WITH_V：用v表示ü （nv）
+         * WITH_U_AND_COLON：用"u:"表示ü （nu:）
+         * WITH_U_UNICODE：直接用ü （nü）
+         */
+        format.setVCharType(HanyuPinyinVCharType.WITH_V);
+
+        List<String> resultList = new ArrayList<>();
+        try {
+            char[] chArr = text.toCharArray();
+            String[] pyArr = PinyinHelper.toHanyuPinyinStringArray(chArr[0], format);
+            if (pyArr != null) {
+                resultList.addAll(Arrays.asList(pyArr));
+                Collections.sort(resultList);
+                for (int i = 1; i < resultList.size(); ++i) {
+                    if (resultList.get(i).charAt(0) == resultList.get(i - 1).charAt(0)) {
+                        resultList.remove(i);
+                        --i;
+                    }
+                }
+            } else {
+                resultList.add(String.valueOf(chArr[0]));
+            }
+            for (int i = 1, len = chArr.length; i < len; ++i) {
+                pyArr = PinyinHelper.toHanyuPinyinStringArray(chArr[i], format);
+                String append;
+                if (pyArr != null) {
+                    // 仅选取多音字的第一个音
+                    append = pyArr[0];
+                } else {
+                    append = String.valueOf(chArr[i]);
+                }
+                for (int j = 0, len1 = resultList.size(); j < len1; ++j) {
+                    resultList.set(j, resultList.get(j) + append);
+                }
+            }
+            return resultList.toArray(new String[resultList.size()]);
+        } catch (BadHanyuPinyinOutputFormatCombination e) {
+            e.printStackTrace();
+        }
+
+        return new String[]{text};
+    }
+
+    @NonNull
+    public static String[] getPinyinForSorting(String[] textArr) {
         if (textArr == null) {
             return new String[0];
         }
@@ -267,5 +350,76 @@ public class ExtraUtil {
         }
 
         return textArr;
+    }
+
+    /**
+     * 复制文本到剪切板
+     *
+     * @param context
+     * @param text
+     */
+    @TargetApi(11)
+    public static void copy2Clipboard(Context context, String text) {
+        if (context == null || text == null) {
+            return;
+        }
+
+        if (C.SDK >= 11) {
+            ClipboardManager clipboardManager = (ClipboardManager)
+                    context.getSystemService(Context.CLIPBOARD_SERVICE);
+            ClipData clipData = ClipData.newPlainText(null, text);
+            clipboardManager.setPrimaryClip(clipData);
+        } else {
+            android.text.ClipboardManager clipboardManager = (android.text.ClipboardManager)
+                    context.getSystemService(Context.CLIPBOARD_SERVICE);
+            clipboardManager.setText(text);
+        }
+    }
+
+    public static String getAppLabelEn(Context context, AppBean appBean) {
+        if (context == null || appBean == null) {
+            return null;
+        }
+
+        String result = null;
+        try {
+            PackageManager packageManager = context.getPackageManager();
+            ApplicationInfo applicationInfo = packageManager.getPackageInfo(appBean.getPkgName(), 0)
+                    .applicationInfo;
+
+            Configuration configuration = new Configuration();
+            // It's better, I think, to use Locale.ENGLISH
+            // instead of Locale.ROOT (although I want to do).
+            configuration.locale = Locale.ENGLISH;
+            // The result is a value in disorder maybe if using:
+            //     packageManager.getResourcesForApplication(PACKAGE_NAME)
+            Resources resources = packageManager.getResourcesForApplication(applicationInfo);
+            resources.updateConfiguration(configuration,
+                    context.getResources().getDisplayMetrics());
+            final int LABEL_RES = applicationInfo.labelRes;
+            if (LABEL_RES != 0) {
+                // If the localized label is not added, the default is returned.
+                // NOTICE!!!If the default were empty, Resources$NotFoundException would be called.
+                result = resources.getString(LABEL_RES);
+            }
+
+            /*
+             * NOTICE!!!
+             * We have to restore the locale.
+             * On the one hand,
+             * it will influence the label of Activity, etc..
+             * On the other hand,
+             * the got "resources" equals the one "this.getResources()" if the current .apk file
+             * happens to be this APK Checker(com.by_syk.apkchecker).
+             * We need to restore the locale, or the language of APK Checker will change to English.
+             */
+            configuration.locale = Locale.getDefault();
+            resources.updateConfiguration(configuration,
+                    context.getResources().getDisplayMetrics());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
     }
 }

@@ -16,7 +16,6 @@
 
 package com.by_syk.lib.nanoiconpack;
 
-import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -27,9 +26,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.by_syk.lib.nanoiconpack.fragment.ApplyDialog;
+import com.by_syk.lib.nanoiconpack.fragment.AppsFragment;
 import com.by_syk.lib.nanoiconpack.fragment.CopyrightDialog;
 import com.by_syk.lib.nanoiconpack.fragment.IconsFragment;
-import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
 
 import java.util.Locale;
 
@@ -58,15 +57,7 @@ public class MainActivity extends FragmentActivity {
         pagerAdapter = new IconsPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
 
-        isFromLauncherPick = ExtraUtil.isFromLauncherPick(getIntent());
-        if (isFromLauncherPick) {
-            ActionBar actionBar = getActionBar();
-            if (actionBar != null) {
-                actionBar.setDisplayHomeAsUpEnabled(true);
-            }
-            // Switch to All tab
-            viewPager.setCurrentItem(1);
-        }
+        viewPager.setCurrentItem(1);
     }
 
     @Override
@@ -83,10 +74,7 @@ public class MainActivity extends FragmentActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == android.R.id.home) {
-            finish();
-            return true;
-        } else if (id == R.id.menu_apply) {
+        if (id == R.id.menu_apply) {
             (new ApplyDialog()).show(getFragmentManager(), "applyDialog");
             return true;
         } else if (id == R.id.menu_copyright) {
@@ -103,12 +91,15 @@ public class MainActivity extends FragmentActivity {
             super(fm);
 
             titles = getResources().getStringArray(R.array.tabs);
-            titles[1] = String.format(Locale.US, titles[1],
+            titles[2] = String.format(Locale.US, titles[2],
                     getResources().getStringArray(R.array.icons).length);
         }
 
         @Override
         public Fragment getItem(int position) {
+            if (position == 0) {
+                return AppsFragment.newInstance();
+            }
             return IconsFragment.newInstance(position);
         }
 

@@ -17,11 +17,10 @@
 
 <resources>
 
-    <style name="AppTheme" parent="@android:style/Theme.Material.Light.DarkActionBar">
-        <item name="android:colorPrimary">@color/color_primary</item>
-        <item name="android:colorPrimaryDark">@color/color_primary_dark</item>
-        <item name="android:colorAccent">@color/color_accent</item>
-        <!--<item name="android:navigationBarColor">@color/color_primary_dark</item>-->
-    </style>
+    <attr name="ic_action_apply" format="reference" />
+    <attr name="ic_action_copyright" format="reference" />
+    <attr name="app_list_divider" format="reference" />
+    <attr name="left_lean_icon_frame" format="reference" />
+    <attr name="icon_line_color" format="color" />
 
 </resources>

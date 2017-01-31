@@ -15,12 +15,7 @@
   limitations under the License.
   -->
 
-<!-- For Nova, Action 3 -->
-<resources>
-
-    <version>1</version>
-
-    <category title="All" />
-    <item drawable="calendar" />
-
-</resources>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragment_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />

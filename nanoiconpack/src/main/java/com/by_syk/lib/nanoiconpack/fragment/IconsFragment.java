@@ -20,6 +20,7 @@ import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -50,7 +51,7 @@ import java.util.regex.Pattern;
  */
 
 public class IconsFragment extends Fragment {
-    private int pageId;
+    private int pageId = 1;
 
     private View contentView;
 
@@ -63,14 +64,14 @@ public class IconsFragment extends Fragment {
             contentView = inflater.inflate(R.layout.fragment_icons, container, false);
             init();
 
-            (new LoadIconsTask()).execute();
+            (new LoadIconsTask()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "task" + pageId);
         }
 
         return contentView;
     }
 
     private void init() {
-        pageId = getArguments().getInt("pageId", 0);
+        pageId = getArguments().getInt("pageId", 1);
 
         RecyclerView recyclerView = (RecyclerView) contentView.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), getColumns()));
@@ -138,8 +139,8 @@ public class IconsFragment extends Fragment {
                 }
             });
 
-            if (pageId == 0) { // 过滤已安装
-                dataList = filterInstalled(dataList);
+            if (pageId == 1) {
+                dataList = filterMatched(dataList);
             }
 
             return dataList;
@@ -154,11 +155,12 @@ public class IconsFragment extends Fragment {
             iconAdapter.refresh(list);
         }
 
-        private List<IconBean> filterInstalled(List<IconBean> dataList) {
+        private List<IconBean> filterMatched(@NonNull List<IconBean> dataList) {
             long start = System.currentTimeMillis();
 
             List<String> installedIconList = new ArrayList<>();
-            List<String> installedPkgList = ExtraUtil.getInstalledPkgs(getActivity());
+//            List<String> installedPkgList = ExtraUtil.getInstalledPkgs(getActivity());
+            List<String> installedPkgList = ExtraUtil.getInstalledPkgsWithLauncherActivity(getActivity());
             XmlResourceParser parser = getResources().getXml(R.xml.appfilter);
             try {
                 int event = parser.getEventType();
@@ -198,7 +200,7 @@ public class IconsFragment extends Fragment {
                 }
             }
 
-            Log.d(C.LOG_TAG, "Cost(filterInstalled): " + (System.currentTimeMillis() - start) + "ms");
+            Log.d(C.LOG_TAG, "Cost(filterMatched): " + (System.currentTimeMillis() - start) + "ms");
 
             return installedDataList;
         }

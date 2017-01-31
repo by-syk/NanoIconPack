@@ -17,8 +17,8 @@
 
 <resources>
 
-    <!-- Menu icons -->
-    <drawable name="ic_action_apply">@drawable/ic_action_apply_dark</drawable>
-    <drawable name="ic_action_copyright">@drawable/ic_action_copyright_dark</drawable>
+    <color name="color_primary">#607d8b</color>
+    <color name="color_primary_dark">#455a64</color>
+    <color name="color_accent">#ff5252</color>
 
 </resources>

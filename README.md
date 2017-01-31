@@ -3,7 +3,8 @@
 
 NanoIconPack 是一个简单轻量的图标包模板，支持
 + 主页展示所有图标，按目标APP名（或图标名）拼音排序
-+ 过滤展示已安装图标
++ 过滤展示已适配图标
++ 列出未适配APP，快速获取APP代码
 + 图标详情对话框，显示目标APP名（或图标名）、大图标
 + 图标栅格
 + 新原图标对比显示
@@ -20,7 +21,7 @@ PS：NanoIconPack 只支持图标，如果您有更多需求，比如还需要�
 
 ### 支持启动器
 
-目前支持以下4个启动器：
+目前支持以下5个广泛使用的启动器：
 
 | Launcher | ICON |
 | :---- | :----: |
@@ -28,6 +29,7 @@ PS：NanoIconPack 只支持图标，如果您有更多需求，比如还需要�
 | Apex Launcher | ![Apex](art/ic_launcher_apex.png) |
 | ADW Launcher | ![ADW](art/ic_launcher_adw.png) |
 | Aviate | ![Aviate](art/ic_launcher_aviate.png) |
+| Action 3 | ![Action_3](art/ic_launcher_action_3.png) |
 
 
 ### 二次开发
@@ -112,7 +114,7 @@ Copyright &#169; 2017 By_syk. All rights reserved."</string>
 
 ### 基于 NanoIconPack 的 APP
 
-下载 Sample APP：[NanoIconPack Sample](https://github.com/by-syk/NanoIconPack/raw/master/out/com.by_syk.nanoiconpack.sample_v1.1.2.1(17013000).apk)
+下载 Sample APP：[NanoIconPack Sample](https://github.com/by-syk/NanoIconPack/raw/master/out/com.by_syk.nanoiconpack.sample_v1.2.0.1(17013101).apk)
 
 | APP | ICON |
 | :---- | :----: |
@@ -122,10 +124,15 @@ Copyright &#169; 2017 By_syk. All rights reserved."</string>
 ![Anomaly_OMFG](art/screenshots_anomaly_and_omfg.png)
 
 
-### 参考
+### 使用开源项目和参考资料
 
-- [IconShowcase](https://github.com/jahirfiquitiva/IconShowcase)
-- [[GUIDE] Apex Launcher Theme Tutorial](https://forum.xda-developers.com/showthread.php?t=1649891)
+NanoIconPack 使用了如下开源项目：
++ [lemann / pinyin4j](https://sourceforge.net/projects/pinyin4j/) licensed under [GPLv2](https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
++ [andraskindler / quickscroll](https://github.com/andraskindler/quickscroll) licensed under [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0)
+
+参考了如下资料：
++ [IconShowcase](https://github.com/jahirfiquitiva/IconShowcase)
++ [[GUIDE] Apex Launcher Theme Tutorial](https://forum.xda-developers.com/showthread.php?t=1649891)
 
 
 ### License

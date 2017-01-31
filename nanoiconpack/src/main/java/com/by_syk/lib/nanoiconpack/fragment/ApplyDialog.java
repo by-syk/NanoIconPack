@@ -76,6 +76,9 @@ public class ApplyDialog extends DialogFragment {
             case 3:
                 apply2Aviate();
                 break;
+            case 4:
+                apply2Action3();
+                break;
         }
     }
 
@@ -108,7 +111,11 @@ public class ApplyDialog extends DialogFragment {
         Intent intent = new Intent("org.adw.launcher.SET_THEME");
         intent.putExtra("org.adw.launcher.theme.NAME", getActivity().getPackageName());
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        getActivity().startActivity(intent);
+        try {
+            getActivity().startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     private void apply2Aviate() {
@@ -116,6 +123,21 @@ public class ApplyDialog extends DialogFragment {
         intent.setPackage("com.tul.aviate");
         intent.putExtra("THEME_PACKAGE", getActivity().getPackageName());
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        getActivity().startActivity(intent);
+        try {
+            getActivity().startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void apply2Action3() {
+        Intent intent = getActivity().getPackageManager()
+                .getLaunchIntentForPackage("com.actionlauncher.playstore");
+        intent.putExtra("apply_icon_pack", getActivity().getPackageName());
+        try {
+            getActivity().startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }
