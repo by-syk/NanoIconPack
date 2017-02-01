@@ -11,7 +11,7 @@ android {
         targetSdkVersion 25
         versionCode 17020100
         // Version name format: [version].[num_of_icons]
-        versionName "1.2.0.1.nightly"
+        versionName "1.2.0.1"
     }
 
     buildTypes {
