@@ -134,6 +134,12 @@ NanoIconPack 使用了如下开源项目：
 + [[GUIDE] Apex Launcher Theme Tutorial](https://forum.xda-developers.com/showthread.php?t=1649891)
 
 
+### 联系开发者
+
++ E-mail: [By_syk@163.com](mailto:By_syk@163.com "By_syk")
++ 酷安主页：[@By_syk](http://www.coolapk.com/u/463675)
+
+
 ### License
 
     Copyright 2017 By_syk
