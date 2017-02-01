@@ -119,8 +119,8 @@ Copyright &#169; 2017 By_syk. All rights reserved."</string>
 
 | APP | ICON |
 | :---- | :----: |
-| @Childish / Anomaly Icon Pack | ![Anomaly](art/ic_launcher_anomaly.png) |
-| @sftmi / OMFG图标包 | ![OMFG](art/ic_launcher_omfg.png) |
+| [@Childish / CoolDog Icon Pack](http://www.coolapk.com/apk/com.childish.cooldog) | ![CoolDog](art/ic_launcher_cooldog.png) |
+| [@ArchieLiu / 左下图标包](http://www.coolapk.com/apk/com.zuoxia.iconpack) | ![LeftBlow](art/ic_launcher_left_below.png) |
 
 ![Anomaly_OMFG](art/screenshots_anomaly_and_omfg.png)
 
