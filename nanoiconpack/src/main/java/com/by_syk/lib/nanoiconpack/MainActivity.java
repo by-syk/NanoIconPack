@@ -52,6 +52,11 @@ public class MainActivity extends FragmentActivity {
     }
 
     private void init() {
+//        if (C.SDK >= 21) {
+//            ((PagerTabStrip) findViewById(R.id.pager_tab_strip))
+//                    .setTabIndicatorColor(getResources().getColor(R.color.color_primary));
+//        }
+
         viewPager = (ViewPager) findViewById(R.id.view_pager);
 
         pagerAdapter = new IconsPagerAdapter(getSupportFragmentManager());
