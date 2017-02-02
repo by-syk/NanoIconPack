@@ -23,6 +23,7 @@ import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 
 import com.by_syk.lib.toast.GlobalToast;
 import com.by_syk.lib.nanoiconpack.R;
@@ -41,7 +42,7 @@ public class ApplyDialog extends DialogFragment {
         launcherNames = getResources().getStringArray(R.array.launchers);
         launcherPkgs = new String[launcherNames.length];
         for (int i = 0, len = launcherNames.length; i < len; ++i) {
-            String[] paras = launcherNames[i].split("\\|");
+            String[] paras = launcherNames[i].split("\\|", -1);
             launcherNames[i] = paras[0];
             launcherPkgs[i] = paras[1];
         }
@@ -58,8 +59,14 @@ public class ApplyDialog extends DialogFragment {
     }
 
     private void apply(int pos) {
+        if (TextUtils.isEmpty(launcherPkgs[pos])) {
+            GlobalToast.showToast(getActivity(), getString(R.string.toast_launcher_ok,
+                    launcherNames[pos]), true);
+            return;
+        }
         if (!ExtraUtil.isPkgInstalled(getActivity(), launcherPkgs[pos])) {
-            GlobalToast.showToast(getActivity(), getString(R.string.toast_not_installed, launcherNames[pos]));
+            GlobalToast.showToast(getActivity(), getString(R.string.toast_not_installed,
+                    launcherNames[pos]));
             return;
         }
 

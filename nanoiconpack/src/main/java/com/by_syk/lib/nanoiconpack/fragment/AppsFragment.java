@@ -21,11 +21,11 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.XmlResourceParser;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -130,9 +130,11 @@ public class AppsFragment extends Fragment {
 
         String label = bean.getLabel();
         String labelEn = ExtraUtil.getAppLabelEn(getActivity(), bean);
-        String code = getString(R.string.app_component, label, labelEn,
+        boolean isSysApp = ExtraUtil.isSysApp(getActivity(), bean.getPkgName());
+        String code = getString(isSysApp ? R.string.app_component_1 : R.string.app_component,
+                Build.BRAND, Build.MODEL, label, labelEn,
                 bean.getPkgName(), bean.getLauncherActivity(),
-                ExtraUtil.appName2drawbleName(label, labelEn));
+                ExtraUtil.appName2drawableName(label, labelEn));
         if (!appCodeSelected.contains(code)) {
             appCodeSelected += (appCodeSelected.length() > 0 ? "\n" : "") + code;
         }

@@ -423,8 +423,24 @@ public class ExtraUtil {
         return result;
     }
 
+    public static boolean isSysApp(Context context, String pkgName) {
+        if (context == null || TextUtils.isEmpty(pkgName)) {
+            return false;
+        }
+
+        try {
+            PackageManager packageManager = context.getPackageManager();
+            ApplicationInfo applicationInfo = packageManager.getPackageInfo(pkgName, 0).applicationInfo;
+            return (applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == ApplicationInfo.FLAG_SYSTEM;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
     @NonNull
-    public static String appName2drawbleName(String label, String labelEn) {
+    public static String appName2drawableName(String label, String labelEn) {
         if (!TextUtils.isEmpty(labelEn) && labelEn.matches("[A-Za-z\\d ]+")) {
             Matcher matcher = Pattern.compile("([a-z])([A-Z])").matcher(labelEn);
             if (matcher.find()) {

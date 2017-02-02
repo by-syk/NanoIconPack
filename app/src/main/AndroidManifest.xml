@@ -39,9 +39,14 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="com.anddoes.launcher.THEME" />
             </intent-filter>
-            <!-- For ADW, Action 3 -->
+            <!-- For ADW, also Action 3 -->
             <intent-filter>
                 <action android:name="org.adw.launcher.THEMES" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <!-- For Xperia Home -->
+            <intent-filter>
+                <action android:name="com.sonymobile.home.ICON_PACK" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>

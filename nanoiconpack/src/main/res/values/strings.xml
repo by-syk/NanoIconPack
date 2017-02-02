@@ -29,8 +29,10 @@
 
     <string name="toast_not_installed">%s is not installed.</string>
     <string name="toast_code_copied">%d app(s)\'s codes copied</string>
+    <string name="toast_launcher_ok">%1$s is supported, please apply from launcher.</string>
 
-    <string name="app_component" translatable="false">"&lt;!-- %1$s / %2$s -->\n&lt;item component=\"ComponentInfo{%3$s/%4$s}\" drawable=\"%5$s\" />"</string>
+    <string name="app_component" translatable="false">"&lt;!-- %3$s / %4$s -->\n&lt;item component=\"ComponentInfo{%5$s/%6$s}\" drawable=\"%7$s\" />"</string>
+    <string name="app_component_1" translatable="false">"&lt;!-- Build: %1$s / %2$s -->\n&lt;!-- %3$s / %4$s -->\n&lt;item component=\"ComponentInfo{%5$s/%6$s}\" drawable=\"%7$s\" />"</string>
     <string name="send_code">Share app code&#8230;</string>
     <string name="app_tap_desc">TAP one to copy its code, and LONG PRESS to share it.</string>
     <string name="copyright_desc">"Icon pack author: [@By_syk](copy:@By_syk)

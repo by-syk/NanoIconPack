@@ -27,6 +27,7 @@
 
     <string name="toast_not_installed">未安装 %s</string>
     <string name="toast_code_copied">已复制%d个APP代码</string>
+    <string name="toast_launcher_ok">%1$s 已被支持，请从启动器设置应用图标包</string>
 
     <string name="send_code">分享APP代码&#8230;</string>
     <string name="app_tap_desc">短按以复制该APP代码，长按则直接分享。</string>
