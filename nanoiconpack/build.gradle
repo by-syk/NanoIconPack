@@ -8,7 +8,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 25
         versionCode 17020300
-        versionName "1.2.1.nightly"
+        versionName "1.2.2.nightly"
     }
 
     buildTypes {
@@ -34,4 +34,6 @@ dependencies {
 
     // repositories { maven { url "https://jitpack.io" } }
 //    compile 'com.github.pluscubed:recycler-fast-scroll:0.3.2@aar'
+
+//    compile 'com.futuremind.recyclerfastscroll:fastscroll:0.2.5'
 }

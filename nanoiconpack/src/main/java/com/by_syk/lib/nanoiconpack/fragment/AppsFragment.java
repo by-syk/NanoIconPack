@@ -136,13 +136,13 @@ public class AppsFragment extends Fragment {
                 bean.getPkgName(), bean.getLauncherActivity(),
                 ExtraUtil.appName2drawableName(label, labelEn));
         if (!appCodeSelected.contains(code)) {
-            appCodeSelected += (appCodeSelected.length() > 0 ? "\n" : "") + code;
+            appCodeSelected += (appCodeSelected.length() > 0 ? "\n\n" : "") + code;
         }
 
         if (toCopyOrShare) {
             ExtraUtil.copy2Clipboard(getActivity(), appCodeSelected);
             GlobalToast.showToast(getActivity(), getString(R.string.toast_code_copied,
-                    appCodeSelected.split("\n").length / code.split("\n").length));
+                    appCodeSelected.split("\n\n").length));
         } else {
             Intent intent = new Intent(Intent.ACTION_SEND);
             intent.setType("text/plain");

@@ -33,7 +33,8 @@ import java.util.List;
  * Created by By_syk on 2017-01-27.
  */
 
-public class IconAdapter extends RecyclerView.Adapter<IconAdapter.IconViewHolder> {
+public class IconAdapter extends RecyclerView.Adapter<IconAdapter.IconViewHolder>
+        /*implements SectionTitleProvider*/ {
     private LayoutInflater layoutInflater;
 
     private List<IconBean> dataList = new ArrayList<>();
@@ -73,6 +74,11 @@ public class IconAdapter extends RecyclerView.Adapter<IconAdapter.IconViewHolder
     public int getItemCount() {
         return dataList.size();
     }
+
+//    @Override
+//    public String getSectionTitle(int position) {
+//        return dataList.get(position).getLabelPinyin().substring(0, 1).toUpperCase();
+//    }
 
     public void refresh(List<IconBean> dataList) {
         if (dataList != null) {

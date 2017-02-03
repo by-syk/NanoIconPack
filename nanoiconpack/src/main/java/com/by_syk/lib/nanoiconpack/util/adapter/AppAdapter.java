@@ -104,8 +104,7 @@ public class AppAdapter extends BaseAdapter implements Scrollable {
 
     @Override
     public String getIndicatorForPosition(int childPosition, int groupPosition) {
-        return Character.toString(dataList.get(childPosition).getLabelPinyin()
-                .substring(0, 1).toUpperCase().charAt(0));
+        return dataList.get(childPosition).getLabelPinyin().substring(0, 1).toUpperCase();
     }
 
     @Override

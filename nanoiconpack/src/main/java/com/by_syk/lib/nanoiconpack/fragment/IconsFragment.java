@@ -26,14 +26,12 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.bean.IconBean;
-import com.by_syk.lib.nanoiconpack.util.C;
 import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
 import com.by_syk.lib.nanoiconpack.util.adapter.IconAdapter;
 
@@ -91,6 +89,10 @@ public class IconsFragment extends Fragment {
 //        RecyclerFastScroller fastScroller = (RecyclerFastScroller)
 //                contentView.findViewById(R.id.fast_scroller);
 //        fastScroller.attachRecyclerView(recyclerView);
+
+//        FastScroller fastScroller = (FastScroller)
+//                contentView.findViewById(R.id.fast_scroller);
+//        fastScroller.setRecyclerView(recyclerView);
     }
 
     private int getColumns() {

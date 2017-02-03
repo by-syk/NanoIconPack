@@ -31,6 +31,8 @@ PS：NanoIconPack 只支持图标，如果您有更多需求，比如还需要�
 | Aviate | ![Aviate](art/ic_launcher_aviate.png) |
 | Action 3 | ![Action3](art/ic_launcher_action_3.png) |
 
+同时还支持许多未列出的启动器，比如 Holo Launcher、Xperia Home Launcher 等。
+
 
 ### 二次开发
 
