@@ -16,8 +16,6 @@ NanoIconPack 是一个简单轻量的图标包模板，支持
 
 您可以基于此进行二次开发，只需要装配图标、修改少量文件即可用于发布。
 
-PS：NanoIconPack 只支持图标，如果您有更多需求，比如还需要支持壁纸、字体，还需要支持更多启动器，还需要更漂亮的 UI 等，可以参考 [Jahir](https://github.com/jahirfiquitiva) 开发并开源的图标包模板——[IconShowcase-Dashboard](https://github.com/jahirfiquitiva/IconShowcase-Dashboard)、[afollestad](https://github.com/afollestad) 开发并开源的图标包模板——[polar-dashboard](https://github.com/afollestad/polar-dashboard)。
-
 
 ### 支持启动器
 
@@ -135,6 +133,16 @@ NanoIconPack 使用了如下开源项目：
 参考了如下资料：
 + [IconShowcase](https://github.com/jahirfiquitiva/IconShowcase)
 + [[GUIDE] Apex Launcher Theme Tutorial](https://forum.xda-developers.com/showthread.php?t=1649891)
+
+
+### 更好的图标包模板
+
+NanoIconPack 追求简单轻量，只支持图标，如果您有更多需求，比如还需要支持壁纸、字体，还需要支持更多启动器，还需要更漂亮的 UI 等，可以参考以下开源项目：
+
+| Dashboard | ICON |
+| :---- | :----: |
+| [Jahir / IconShowcase-Dashboard](https://github.com/jahirfiquitiva/IconShowcase-Dashboard) | ![IconShowcase](art/ic_launcher_iconshowcase.png) |
+| [afollestad / polar-dashboard](https://github.com/afollestad/polar-dashboard) | ![Polar](art/ic_launcher_polar.png) |
 
 
 ### 联系开发者
