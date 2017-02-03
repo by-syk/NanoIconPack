@@ -5,13 +5,13 @@ android {
     buildToolsVersion "25.0.2"
 
     defaultConfig {
-        // Package name format: com.by_syk.nanoiconpack.[name_of_your_icon_pack]
+        // Package name format: com.[your_name].iconpack.[name_of_your_icon_pack]
         applicationId "com.by_syk.nanoiconpack.sample"
         minSdkVersion 14
         targetSdkVersion 25
-        versionCode 17012902
+        versionCode 17020200
         // Version name format: [version].[num_of_icons]
-        versionName "1.1.2.1.nightly"
+        versionName "1.2.1.1.nightly"
     }
 
     buildTypes {
@@ -39,9 +39,7 @@ android {
 }
 
 /*repositories {
-    flatDir {
-        dirs 'libs'
-    }
+    flatDir { dirs 'libs' }
 }*/
 
 dependencies {

@@ -19,20 +19,32 @@
 
     <string name="app_name">NanoIconPack</string>
 
+    <string name="lib_ver" translatable="false">1.2.2</string>
+
     <string name="dlg_title_apply">Apply to launcher</string>
     <string name="dlg_bt_ok">OK</string>
     <string name="dlg_bt_pick">Pick</string>
+    <string name="dlg_bt_got_it">Got it</string>
 
     <string name="menu_apply">Apply</string>
     <string name="menu_copyright">Copyright</string>
 
     <string name="toast_not_installed">%s is not installed.</string>
+    <string name="toast_code_copied">%d app(s)\'s codes copied</string>
+    <string name="toast_launcher_ok">%1$s is supported, please apply from launcher.</string>
 
+    <string name="app_component" translatable="false">"&lt;!-- %3$s / %4$s -->\n&lt;item component=\"ComponentInfo{%5$s/%6$s}\" drawable=\"%7$s\" />"</string>
+    <string name="app_component_1" translatable="false">"&lt;!-- Build: %1$s / %2$s -->\n&lt;!-- %3$s / %4$s -->\n&lt;item component=\"ComponentInfo{%5$s/%6$s}\" drawable=\"%7$s\" />"</string>
+    <string name="send_code">Share app codes&#8230;</string>
+    <string name="app_tap_desc">TAP one to copy its code, and LONG PRESS to share it.</string>
     <string name="copyright_desc">"Icon pack author: [@By_syk](copy:@By_syk)
 Donate via Alipay: [By_syk@163.com](copy:By_syk@163.com)
+Anything about these icons, please contact: [By_syk@163.com](email:By_syk@163.com)
 Copyright &#169; 2017 By_syk. All rights reserved."</string>
-    <string name="copyright_base_desc">"App is based on NanoIconPack developed by [@By_syk](copy:@By_syk).
+    <!-- Please keep this and do not modify it -->
+    <string name="copyright_base_desc">"App is based on NanoIconPack(v%s) developed by [@By_syk](copy:@By_syk).
 [https://github.com/by-syk/NanoIconPack](https://github.com/by-syk/NanoIconPack)
+Licensed under [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0).
 Copyright &#169; 2017 By_syk. All rights reserved."</string>
 
 </resources>

@@ -22,10 +22,13 @@
         <item>Apex Launcher|com.anddoes.launcher</item>
         <item>ADW Launcher|org.adw.launcher</item>
         <item>Aviate|com.tul.aviate</item>
+        <item>Action Launcher 3|com.actionlauncher.playstore</item>
+        <item>Xperia Home Launcher|</item>
     </string-array>
 
     <string-array name="tabs">
-        <item>Installed</item>
+        <item>Lost</item>
+        <item>Matched</item>
         <item>All (%d)</item>
     </string-array>
 

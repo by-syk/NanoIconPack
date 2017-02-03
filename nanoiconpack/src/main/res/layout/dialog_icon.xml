@@ -36,8 +36,8 @@
         <com.by_syk.lib.view.IconLineView
             android:id="@+id/icon_line"
             android:visibility="invisible"
-            app:color="@color/icon_line"
-            app:style="0"
+            app:color="?attr/icon_line_color"
+            app:style="@integer/icon_line_style"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 

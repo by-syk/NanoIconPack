@@ -22,10 +22,13 @@
         <item>Apex Launcher|com.anddoes.launcher</item>
         <item>ADW Launcher|org.adw.launcher</item>
         <item>Aviate|com.tul.aviate</item>
+        <item>Action 3|com.actionlauncher.playstore</item>
+        <item>Xperia Home Launcher|</item>
     </string-array>
 
     <string-array name="tabs">
-        <item>已安装</item>
+        <item>未适配</item>
+        <item>已适配</item>
         <item>全部 (%d)</item>
     </string-array>
 

@@ -37,7 +37,7 @@ public class CopyrightDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         SpannableString ssMsg = AboutMsgRender.render(getActivity(), getString(R.string.copyright_desc)
-                + "\n\n" + getString(R.string.copyright_base_desc));
+                + "\n\n" + getString(R.string.copyright_base_desc, getString(R.string.lib_ver)));
 
         return new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.app_name)

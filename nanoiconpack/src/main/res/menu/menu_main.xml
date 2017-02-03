@@ -20,13 +20,13 @@
     <item
         android:id="@+id/menu_apply"
         android:title="@string/menu_apply"
-        android:icon="@drawable/ic_menu_set_as"
+        android:icon="?attr/ic_action_apply"
         android:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/menu_copyright"
         android:title="@string/menu_copyright"
-        android:icon="@drawable/ic_menu_info_details"
+        android:icon="?attr/ic_action_copyright"
         android:showAsAction="ifRoom" />
 
 </menu>

@@ -17,8 +17,33 @@
 
 <resources>
 
+    <style name="AppThemeLightWithDark" parent="@android:style/Theme.Holo.Light.DarkActionBar">
+        <item name="ic_action_apply">@drawable/ic_menu_set_as</item>
+        <item name="ic_action_copyright">@drawable/ic_menu_info_details</item>
+        <item name="app_list_divider">@drawable/app_list_divider_light</item>
+        <item name="left_lean_icon_frame">@drawable/left_lean_icon_frame_light</item>
+        <item name="icon_line_color">@color/icon_line_light</item>
+    </style>
+    <style name="AppThemeLight" parent="@style/AppThemeLightWithDark" />
+    <style name="AppThemeDark" parent="@android:style/Theme.Holo">
+        <item name="ic_action_apply">@drawable/ic_menu_set_as</item>
+        <item name="ic_action_copyright">@drawable/ic_menu_info_details</item>
+        <item name="app_list_divider">@drawable/app_list_divider_dark</item>
+        <item name="left_lean_icon_frame">@drawable/left_lean_icon_frame_dark</item>
+        <item name="icon_line_color">@color/icon_line_dark</item>
+    </style>
+
     <style name="Tap">
         <item name="android:background">?android:attr/selectableItemBackground</item>
+    </style>
+
+    <style name="ListItemTitle">
+        <item name="android:textAppearance">?android:attr/textAppearanceListItem</item>
+    </style>
+
+    <style name="ListItemSubtitle">
+        <item name="android:textAppearance">?android:attr/textAppearanceListItemSecondary</item>
+        <item name="android:typeface">monospace</item>
     </style>
 
 </resources>

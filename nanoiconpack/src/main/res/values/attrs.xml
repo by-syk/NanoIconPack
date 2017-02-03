@@ -15,17 +15,12 @@
   limitations under the License.
   -->
 
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+<resources>
 
-    <item android:left="-2px">
-        <shape>
-            <stroke
-                android:width="1px"
-                android:color="@color/icon_line"
-                android:dashWidth="4dp"
-                android:dashGap="4dp" />
-            <solid android:color="@android:color/transparent" />
-        </shape>
-    </item>
+    <attr name="ic_action_apply" format="reference" />
+    <attr name="ic_action_copyright" format="reference" />
+    <attr name="app_list_divider" format="reference" />
+    <attr name="left_lean_icon_frame" format="reference" />
+    <attr name="icon_line_color" format="color" />
 
-</layer-list>
+</resources>

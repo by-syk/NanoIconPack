@@ -17,11 +17,6 @@
 
 <resources>
 
-    <style name="AppTheme" parent="@android:style/Theme.Material.Light.DarkActionBar">
-        <item name="android:colorPrimary">@color/color_primary</item>
-        <item name="android:colorPrimaryDark">@color/color_primary_dark</item>
-        <item name="android:colorAccent">@color/color_accent</item>
-        <!--<item name="android:navigationBarColor">@color/color_primary_dark</item>-->
-    </style>
+    <dimen name="app_list_item_height">60dp</dimen>
 
 </resources>

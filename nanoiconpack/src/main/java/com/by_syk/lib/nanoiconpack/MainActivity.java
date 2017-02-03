@@ -26,9 +26,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.by_syk.lib.nanoiconpack.fragment.ApplyDialog;
+import com.by_syk.lib.nanoiconpack.fragment.AppsFragment;
 import com.by_syk.lib.nanoiconpack.fragment.CopyrightDialog;
 import com.by_syk.lib.nanoiconpack.fragment.IconsFragment;
-import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
 
 import java.util.Locale;
 
@@ -41,6 +41,8 @@ public class MainActivity extends FragmentActivity {
 
     private IconsPagerAdapter pagerAdapter;
 
+    private boolean isFromLauncherPick = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,20 +52,26 @@ public class MainActivity extends FragmentActivity {
     }
 
     private void init() {
+//        if (C.SDK >= 21) {
+//            ((PagerTabStrip) findViewById(R.id.pager_tab_strip))
+//                    .setTabIndicatorColor(getResources().getColor(R.color.color_primary));
+//        }
+
         viewPager = (ViewPager) findViewById(R.id.view_pager);
 
         pagerAdapter = new IconsPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
 
-        if (ExtraUtil.isFromLauncherPick(getIntent())) {
-            // Switch to All tab
-            viewPager.setCurrentItem(1);
-        }
+        viewPager.setCurrentItem(1);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        if (isFromLauncherPick) {
+            menu.getItem(0).setVisible(false);
+        }
 
         return true;
     }
@@ -88,12 +96,15 @@ public class MainActivity extends FragmentActivity {
             super(fm);
 
             titles = getResources().getStringArray(R.array.tabs);
-            titles[1] = String.format(Locale.US, titles[1],
+            titles[2] = String.format(Locale.US, titles[2],
                     getResources().getStringArray(R.array.icons).length);
         }
 
         @Override
         public Fragment getItem(int position) {
+            if (position == 0) {
+                return AppsFragment.newInstance();
+            }
             return IconsFragment.newInstance(position);
         }
 

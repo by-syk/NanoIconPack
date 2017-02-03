@@ -23,6 +23,7 @@ import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 
 import com.by_syk.lib.toast.GlobalToast;
 import com.by_syk.lib.nanoiconpack.R;
@@ -41,7 +42,7 @@ public class ApplyDialog extends DialogFragment {
         launcherNames = getResources().getStringArray(R.array.launchers);
         launcherPkgs = new String[launcherNames.length];
         for (int i = 0, len = launcherNames.length; i < len; ++i) {
-            String[] paras = launcherNames[i].split("\\|");
+            String[] paras = launcherNames[i].split("\\|", -1);
             launcherNames[i] = paras[0];
             launcherPkgs[i] = paras[1];
         }
@@ -58,8 +59,14 @@ public class ApplyDialog extends DialogFragment {
     }
 
     private void apply(int pos) {
+        if (TextUtils.isEmpty(launcherPkgs[pos])) {
+            GlobalToast.showToast(getActivity(), getString(R.string.toast_launcher_ok,
+                    launcherNames[pos]), true);
+            return;
+        }
         if (!ExtraUtil.isPkgInstalled(getActivity(), launcherPkgs[pos])) {
-            GlobalToast.showToast(getActivity(), getString(R.string.toast_not_installed, launcherNames[pos]));
+            GlobalToast.showToast(getActivity(), getString(R.string.toast_not_installed,
+                    launcherNames[pos]));
             return;
         }
 
@@ -75,6 +82,9 @@ public class ApplyDialog extends DialogFragment {
                 break;
             case 3:
                 apply2Aviate();
+                break;
+            case 4:
+                apply2Action3();
                 break;
         }
     }
@@ -108,7 +118,11 @@ public class ApplyDialog extends DialogFragment {
         Intent intent = new Intent("org.adw.launcher.SET_THEME");
         intent.putExtra("org.adw.launcher.theme.NAME", getActivity().getPackageName());
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        getActivity().startActivity(intent);
+        try {
+            getActivity().startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     private void apply2Aviate() {
@@ -116,6 +130,21 @@ public class ApplyDialog extends DialogFragment {
         intent.setPackage("com.tul.aviate");
         intent.putExtra("THEME_PACKAGE", getActivity().getPackageName());
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        getActivity().startActivity(intent);
+        try {
+            getActivity().startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void apply2Action3() {
+        Intent intent = getActivity().getPackageManager()
+                .getLaunchIntentForPackage("com.actionlauncher.playstore");
+        intent.putExtra("apply_icon_pack", getActivity().getPackageName());
+        try {
+            getActivity().startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -15,7 +15,7 @@
   limitations under the License.
   -->
 
-<!-- For Nova, Apex, ADW, Aviate -->
+<!-- For Nova, Apex, ADW, Aviate, Action 3 -->
 <resources>
 
     <!-- NOVA LAUNCHER STUFF -->
@@ -53,6 +53,7 @@
         component=":SMS"
         drawable="sms" />-->
 
+    <!-- The whole 31 icons are required, or it doesn't work. -->
     <!--<calendar
         component="ComponentInfo{com.google.android.calendar/com.android.calendar.AllInOneActivity}"
         prefix="calendar_d" />
@@ -134,6 +135,9 @@
         drawable="calendar" />
     <item
         component="ComponentInfo{cn.nubia.calendar.preset/cn.nubia.calendar.AllInOneActivity}"
+        drawable="calendar" />
+    <item
+        component="ComponentInfo{com.bbk.calendar/com.bbk.calendar.MainActivity}"
         drawable="calendar" />
 
 </resources>

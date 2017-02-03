@@ -17,6 +17,7 @@
 
 <resources>
 
-    <color name="icon_line">#ccff0000</color>
+    <color name="icon_line_light">#ccff0000</color>
+    <color name="icon_line_dark">#ccffffff</color>
 
 </resources>

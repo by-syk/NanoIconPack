@@ -31,5 +31,9 @@
     <dimen name="dlg_icon_size">128dp</dimen>
     <dimen name="dlg_small_icon_size">72dp</dimen>
     <dimen name="icon_layout_horz_margin">0dp</dimen>
+    <dimen name="padding_above_list">8dp</dimen>
+    <dimen name="app_list_item_height">72dp</dimen>
+    <dimen name="padding_before_list_text">72dp</dimen>
+    <dimen name="handle_bar_width">30dp</dimen>
 
 </resources>
