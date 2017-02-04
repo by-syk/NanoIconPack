@@ -87,7 +87,7 @@ Copyright &#169; 2017 By_syk. All rights reserved."</string>
 
 + 登记图标
 
-`/res/values/icon_pack.xml`中添加：
+修改`/res/values/icon_pack.xml`，该文件记录了全部图标的文件名及其目标APP的应用名。添加：
 ```
 <!-- File name (no suffix) list of all icons in /res/drawable-nodpi/ -->
 <string-array name="icons">
@@ -100,13 +100,13 @@ Copyright &#169; 2017 By_syk. All rights reserved."</string>
 </string-array>
 ```
 
-`/res/xml/drawable.xml`中添加：
+修改`/res/xml/drawable.xml`，该文件用于为 Nova 等启动器提供手选图标列表。添加：
 ```
 <category title="All" />
 <item drawable="calendar" />
 ```
 
-`/res/xml/appfilter.xml`中添加：
+修改`/res/xml/appfilter.xml`，该文件定义了图标与目标APP之间的匹配关系，启动器据此自动为所有APP替换图标。添加：
 ```
 <!-- <item component="ComponentInfo{[package_name]/[launcher_activity_name]}" drawable="[icon_file_name]" /> -->
 <item
