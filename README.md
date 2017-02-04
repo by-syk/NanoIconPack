@@ -10,7 +10,7 @@ NanoIconPack 是一个简单轻量的图标包模板，支持
 + 新原图标对比显示
 + 直接应用到启动器、从支持的启动器设置中应用
 
-相关截图（更多截图去[这里](art/)查看）：
+相关截图（更多截图去[这里](art/SCREENSHOTS.md)查看）：
 
 ![Nano](art/screenshots_nano.png)
 
@@ -34,7 +34,7 @@ NanoIconPack 是一个简单轻量的图标包模板，支持
 
 ### 二次开发
 
-去[这里](TUTORIAL.md)查看。
+去[这里](art/TUTORIAL.md)查看教程。
 
 
 ### 基于 NanoIconPack 的 APP
