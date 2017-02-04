@@ -117,7 +117,9 @@ Copyright &#169; 2017 By_syk. All rights reserved."</string>
 ```
 
 > + 如何获取APP的包名和 Launcher Activity 这两个参数？
+> 
 >   Sample APP 已经提供了这个功能，用于快速获取已安装APP的代码。
+>
 >   ![Nano](art/screenshot_nano_page_lost-part.png)
 
 
