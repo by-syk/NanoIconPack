@@ -75,7 +75,7 @@ Copyright &#169; 2017 By_syk. All rights reserved."</string>
 >
 > + 规则命名？
 >
->   小写字母+数字+`_`；不能数字打头；重名则照`_1`添加后缀。
+>   允许小写字母+数字+`_`；不能数字打头；重名则照`_1`添加后缀。非法例：`Calendar.png`、`500px.png`。
 >
 > + \* 支持可选新特性
 >
@@ -117,7 +117,7 @@ Copyright &#169; 2017 By_syk. All rights reserved."</string>
 ```
 
 > + 如何获取APP的包名和 Launcher Activity 这两个参数？
-> 
+>
 >   Sample APP 已经提供了这个功能，用于快速获取已安装APP的代码。
 >
 >   ![Nano](art/screenshot_nano_page_lost-part.png)
