@@ -122,6 +122,8 @@ Copyright &#169; 2017 By_syk. All rights reserved."</string>
 | [@Childish / CoolDog Icon Pack <sub>old version</sub>](http://www.coolapk.com/apk/com.childish.cooldog) | ![CoolDog](art/ic_launcher_cooldog.png) |
 | [@ArchieLiu / 左下图标包](http://www.coolapk.com/apk/com.zuoxia.iconpack) | ![LeftBlow](art/ic_launcher_left_below.png) |
 | [@pandecheng / PDC图标包 <sub>new version</sub>](http://www.coolapk.com/apk/com.pandecheng.iconpack) | ![PDC](art/ic_launcher_pdc.png) |
+| [@sftmi / OMFG图标包](http://www.coolapk.com/apk/com.sftmi.iconpack.omfg) | ![PDC](art/ic_launcher_omfg.png) |
+| [@大神sjk / Smalite图标包](http://www.coolapk.com/apk/com.sjk.smaliteiconpack) | ![PDC](art/ic_launcher_smalite.png) |
 
 
 ### 使用开源项目和参考资料
