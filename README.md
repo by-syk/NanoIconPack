@@ -104,8 +104,8 @@ Copyright &#169; 2017 By_syk. All rights reserved."</string>
 ```
 <category title="Base" /><!-- Base icons here -->
 <item drawable="calendar" />
-Other
-<category title="All" /><!--  icons here -->
+
+<category title="Other" /><!-- Other icons here -->
 ```
 
 修改`/res/xml/appfilter.xml`，该文件定义了图标与目标APP之间的匹配关系，启动器据此自动为所有APP替换图标。添加：
