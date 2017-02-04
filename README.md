@@ -36,7 +36,7 @@ NanoIconPack 是一个简单轻量的图标包模板，支持
 
 + 导入项目并配置
 
-从 GitHub 导入 NanoIconPack 项目到 Android Studio。项目根目录有两个核心子目录：`./nanoiconpack/`为库代码，`./app/`为 Sample APP 代码。一般情况下，只需要改动`app`的代码即可，以下步骤也只会涉及到改动`app`。
+从 GitHub 导入 NanoIconPack 项目到 Android Studio。项目根目录有两个核心子目录：`./nanoiconpack/`为库代码，`./app/`为 Sample APP 代码。一般情况下，只需要改动`app`的代码即可，`nanoiconpack` 不需要修改。以下步骤也只会涉及到改动`app`。
 
 修改配置`build.gradle`：
 ```
@@ -102,8 +102,10 @@ Copyright &#169; 2017 By_syk. All rights reserved."</string>
 
 修改`/res/xml/drawable.xml`，该文件用于为 Nova 等启动器提供手选图标列表。添加：
 ```
-<category title="All" />
+<category title="Base" /><!-- Base icons here -->
 <item drawable="calendar" />
+Other
+<category title="All" /><!--  icons here -->
 ```
 
 修改`/res/xml/appfilter.xml`，该文件定义了图标与目标APP之间的匹配关系，启动器据此自动为所有APP替换图标。添加：
