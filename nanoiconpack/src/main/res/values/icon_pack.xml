@@ -19,65 +19,13 @@
 
     <!-- File name (no suffix) list of all icons in /res/drawable-nodpi/ -->
     <string-array name="icons" translatable="false">
-        <!-- A -->
-        <!-- B -->
-        <!-- C -->
         <!--<item>calendar</item>-->
-        <!-- D -->
-        <!-- E -->
-        <!-- F -->
-        <!-- G -->
-        <!-- H -->
-        <!-- I -->
-        <!-- J -->
-        <!-- K -->
-        <!-- L -->
-        <!-- M -->
-        <!-- N -->
-        <!-- O -->
-        <!-- P -->
-        <!-- Q -->
-        <!-- R -->
-        <!-- S -->
-        <!-- T -->
-        <!-- U -->
-        <!-- V -->
-        <!-- W -->
-        <!-- X -->
-        <!-- Y -->
-        <!-- Z -->
     </string-array>
 
     <!-- Corresponding app name list of all icons in /res/drawable-nodpi/ -->
     <!-- Just KEEP IT EMPTY BUT DO NOT DELETE IT if you do not want to collect app name list. -->
     <string-array name="icon_labels">
-        <!-- A -->
-        <!-- B -->
-        <!-- C -->
         <!--<item>Calendar</item>-->
-        <!-- D -->
-        <!-- E -->
-        <!-- F -->
-        <!-- G -->
-        <!-- H -->
-        <!-- I -->
-        <!-- J -->
-        <!-- K -->
-        <!-- L -->
-        <!-- M -->
-        <!-- N -->
-        <!-- O -->
-        <!-- P -->
-        <!-- Q -->
-        <!-- R -->
-        <!-- S -->
-        <!-- T -->
-        <!-- U -->
-        <!-- V -->
-        <!-- W -->
-        <!-- X -->
-        <!-- Y -->
-        <!-- Z -->
     </string-array>
 
 </resources>

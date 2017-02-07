@@ -40,7 +40,7 @@ NanoIconPack 是一个简单轻量的图标包模板，支持
 
 ### 基于 NanoIconPack 的 APP
 
-下载 Sample APP：[NanoIconPack Sample](https://github.com/by-syk/NanoIconPack/raw/master/out/com.by_syk.nanoiconpack.sample_v1.2.1.1.nightly(17020200).apk)
+下载 Sample APP：[NanoIconPack Sample](https://github.com/by-syk/NanoIconPack/raw/master/out/com.by_syk.nanoiconpack.sample_v1.3.0.1.nightly(17020700).apk)
 
 | APP | ICON |
 | :---- | :----: |

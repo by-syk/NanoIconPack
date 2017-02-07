@@ -20,33 +20,7 @@
     <!-- Corresponding app name list of all icons in /res/drawable-nodpi/ -->
     <!-- Just KEEP IT EMPTY BUT DO NOT DELETE IT if you do not want to collect app name list. -->
     <string-array name="icon_labels">
-        <!-- A -->
-        <!-- B -->
-        <!-- C -->
         <!--<item>日历</item>-->
-        <!-- D -->
-        <!-- E -->
-        <!-- F -->
-        <!-- G -->
-        <!-- H -->
-        <!-- I -->
-        <!-- J -->
-        <!-- K -->
-        <!-- L -->
-        <!-- M -->
-        <!-- N -->
-        <!-- O -->
-        <!-- P -->
-        <!-- Q -->
-        <!-- R -->
-        <!-- S -->
-        <!-- T -->
-        <!-- U -->
-        <!-- V -->
-        <!-- W -->
-        <!-- X -->
-        <!-- Y -->
-        <!-- Z -->
     </string-array>
 
 </resources>
