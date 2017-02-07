@@ -25,8 +25,7 @@
         <item name="ic_action_apply">@drawable/ic_action_apply_dark</item>
         <item name="ic_action_copyright">@drawable/ic_action_copyright_dark</item>
         <item name="app_list_divider">@drawable/app_list_divider_light</item>
-        <item name="left_lean_icon_frame">@drawable/left_lean_icon_frame_light</item>
-        <item name="icon_line_color">@color/icon_line_light</item>
+        <item name="icon_grid_color">@color/icon_grid_light</item>
     </style>
     <style name="AppThemeLight" parent="@android:style/Theme.Material.Light">
         <item name="android:colorPrimary">@color/color_primary</item>
@@ -36,8 +35,7 @@
         <item name="ic_action_apply">@drawable/ic_action_apply_light</item>
         <item name="ic_action_copyright">@drawable/ic_action_copyright_light</item>
         <item name="app_list_divider">@drawable/app_list_divider_light</item>
-        <item name="left_lean_icon_frame">@drawable/left_lean_icon_frame_light</item>
-        <item name="icon_line_color">@color/icon_line_light</item>
+        <item name="icon_grid_color">@color/icon_grid_light</item>
     </style>
     <style name="AppThemeDark" parent="@android:style/Theme.Material">
         <item name="android:colorPrimary">@color/color_primary</item>
@@ -47,8 +45,7 @@
         <item name="ic_action_apply">@drawable/ic_action_apply_dark</item>
         <item name="ic_action_copyright">@drawable/ic_action_copyright_dark</item>
         <item name="app_list_divider">@drawable/app_list_divider_dark</item>
-        <item name="left_lean_icon_frame">@drawable/left_lean_icon_frame_dark</item>
-        <item name="icon_line_color">@color/icon_line_dark</item>
+        <item name="icon_grid_color">@color/icon_grid_dark</item>
     </style>
 
     <!--<style name="Dialog" parent="@android:style/Theme.Material.Dialog.Alert">

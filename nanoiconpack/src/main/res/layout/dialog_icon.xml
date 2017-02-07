@@ -15,9 +15,7 @@
   limitations under the License.
   -->
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root_view"
     android:layout_width="match_parent"
@@ -33,16 +31,35 @@
         android:layout_width="@dimen/dlg_icon_size"
         android:layout_height="@dimen/dlg_icon_size">
 
-        <com.by_syk.lib.view.IconLineView
-            android:id="@+id/icon_line"
+        <com.by_syk.lib.view.IconGridView
+            style="@style/IconGrid"
+            android:id="@+id/icon_grid"
             android:visibility="invisible"
-            app:color="?attr/icon_line_color"
-            app:style="@integer/icon_line_style"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
         <ImageView
             android:id="@+id/iv_icon"
+            android:scaleType="fitCenter"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:ignore="ContentDescription" />
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/small_icon_view"
+        android:layout_width="@dimen/dlg_small_icon_size"
+        android:layout_height="@dimen/dlg_small_icon_size">
+
+        <com.by_syk.lib.view.IconGridView
+            style="@style/IconGridSmall"
+            android:id="@+id/icon_grid_small"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <ImageView
+            android:id="@+id/iv_icon_small"
             android:scaleType="fitCenter"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

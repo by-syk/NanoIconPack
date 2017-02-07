@@ -17,7 +17,17 @@
 
 <resources>
 
-    <!-- Choose the style of icon grid: 0, 1 -->
-    <integer name="icon_line_style">0</integer>
+    <style name="IconGrid">
+        <item name="igColor">?attr/icon_grid_color</item>
+        <item name="igDash">false</item>
+        <!-- frame, cross, unionJack, materialLite, materialFull -->
+        <item name="igStyle">materialFull</item>
+    </style>
+    <style name="IconGridSmall">
+        <item name="igColor">?attr/icon_grid_color</item>
+        <item name="igDash">false</item>
+        <!-- frame, cross, unionJack, materialLite, materialFull -->
+        <item name="igStyle">cross</item>
+    </style>
 
 </resources>

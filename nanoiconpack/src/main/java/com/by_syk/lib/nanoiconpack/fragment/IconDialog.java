@@ -16,7 +16,9 @@
 
 package com.by_syk.lib.nanoiconpack.fragment;
 
+import android.Manifest;
 import android.animation.LayoutTransition;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -31,7 +33,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -40,7 +41,9 @@ import android.widget.LinearLayout;
 
 import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.bean.IconBean;
+import com.by_syk.lib.nanoiconpack.util.C;
 import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
+import com.by_syk.lib.toast.GlobalToast;
 
 import java.util.List;
 
@@ -50,8 +53,8 @@ import java.util.List;
 
 public class IconDialog extends DialogFragment {
     private LinearLayout viewContent;
-    private View iconLineView;
-    private ImageView ivIconSmall;
+    private View iconGridView;
+    private View iconViewSmall;
 
     private IconBean iconBean;
 
@@ -61,35 +64,53 @@ public class IconDialog extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        ViewGroup viewGroup = (ViewGroup) getActivity().getLayoutInflater().inflate(R.layout.dialog_icon, null);
+        ViewGroup viewGroup = (ViewGroup) getActivity().getLayoutInflater()
+                .inflate(R.layout.dialog_icon, null);
+
+        iconViewSmall = viewGroup.findViewById(R.id.small_icon_view);
+        iconViewSmall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                viewContent.removeView(iconViewSmall);
+                iconGridView.setVisibility(View.INVISIBLE);
+            }
+        });
+        viewGroup.removeView(iconViewSmall);
 
         viewContent = (LinearLayout) viewGroup.findViewById(R.id.root_view);
         viewContent.setLayoutTransition(new LayoutTransition());
 
-        iconLineView = viewGroup.findViewById(R.id.icon_line);
+        iconGridView = viewGroup.findViewById(R.id.icon_grid);
 
         ImageView ivIcon = (ImageView) viewGroup.findViewById(R.id.iv_icon);
         ivIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (iconLineView.getVisibility() == View.VISIBLE) {
-                    iconLineView.setVisibility(View.INVISIBLE);
+                if (iconGridView.getVisibility() == View.VISIBLE) {
+                    iconGridView.setVisibility(View.INVISIBLE);
                 } else {
-                    iconLineView.setVisibility(View.VISIBLE);
+                    iconGridView.setVisibility(View.VISIBLE);
                 }
                 if (!isAppInstalled) {
                     return;
                 }
-                if (ivIconSmall == null) {
+                if (iconViewSmall == null) {
                     (new ExtractRawIconTask()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,
                             "extractRawIconTask");
                 } else {
                     if (viewContent.getChildCount() == 2) {
-                        viewContent.removeView(ivIconSmall);
+                        viewContent.removeView(iconViewSmall);
                     } else {
-                        viewContent.addView(ivIconSmall);
+                        viewContent.addView(iconViewSmall);
                     }
                 }
+            }
+        });
+        ivIcon.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                saveIcon();
+                return true;
             }
         });
 
@@ -140,6 +161,19 @@ public class IconDialog extends DialogFragment {
         }
     }
 
+    @TargetApi(23)
+    private void saveIcon() {
+        if (C.SDK >= 23 && getActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+            return;
+        }
+
+        boolean ok = ExtraUtil.saveIcon(getActivity(), iconBean);
+        GlobalToast.showToast(getActivity(), ok ? R.string.toast_icon_saved
+                : R.string.toast_icon_not_saved);
+    }
+
     private void returnPickIcon() {
         Bitmap bitmap = null;
         try {
@@ -164,6 +198,10 @@ public class IconDialog extends DialogFragment {
     class ExtractRawIconTask extends AsyncTask<String, Integer, Drawable> {
         @Override
         protected Drawable doInBackground(String... strings) {
+            if (!isAdded()) {
+                return null;
+            }
+
             List<String> matchedPkgList = ExtraUtil.getAppFilterPkg(getResources(), iconBean.getName());
             for (String pkgName : matchedPkgList) {
                 if (ExtraUtil.isPkgInstalled(getActivity(), pkgName)) {
@@ -192,24 +230,13 @@ public class IconDialog extends DialogFragment {
                 return;
             }
 
-            ivIconSmall = new ImageView(getActivity());
-            int iconSmallSize = getResources().getDimensionPixelSize(R.dimen.dlg_small_icon_size);
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(iconSmallSize, iconSmallSize);
-            ivIconSmall.setLayoutParams(layoutParams);
-            ivIconSmall.setScaleType(ImageView.ScaleType.FIT_CENTER);
-            ivIconSmall.setImageDrawable(drawable);
-            TypedValue typedValue = new TypedValue();
-            getActivity().getTheme().resolveAttribute(R.attr.left_lean_icon_frame, typedValue, true);
-            ivIconSmall.setBackgroundResource(typedValue.resourceId);
-            ivIconSmall.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    viewContent.removeView(ivIconSmall);
-                    iconLineView.setVisibility(View.INVISIBLE);
-                }
-            });
-            viewContent.addView(ivIconSmall);
-            iconLineView.setVisibility(View.VISIBLE);
+            if (viewContent.getChildCount() > 1) {
+                return;
+            }
+
+            ((ImageView) iconViewSmall.findViewById(R.id.iv_icon_small)).setImageDrawable(drawable);
+            viewContent.addView(iconViewSmall);
+            iconGridView.setVisibility(View.VISIBLE);
         }
     }
 

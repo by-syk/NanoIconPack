@@ -92,7 +92,7 @@ public class AppsFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if (!sp.getBoolean("appTapHint")) {
-                    (new AppTapHintDialog()).show(getActivity().getFragmentManager(), "hintDialog");
+                    (new AppTapHintDialog()).show(getActivity().getFragmentManager(), "appTapTintDialog");
                     return;
                 }
                 copyOrShareAppCode(appAdapter.getItem(i), true);

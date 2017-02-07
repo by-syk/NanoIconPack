@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/padding_title_body_dlg"
+    android:paddingLeft="@dimen/padding_content_dlg"
+    android:paddingRight="@dimen/padding_content_dlg"
+    android:paddingBottom="@dimen/padding_content_dlg">
+
+    <ImageView
+        android:id="@+id/iv_qrcode"
+        android:layout_width="@dimen/qrcode_size"
+        android:layout_height="@dimen/qrcode_size"
+        android:layout_gravity="center"
+        android:scaleType="fitXY" />
+
+</FrameLayout>

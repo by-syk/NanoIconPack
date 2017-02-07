@@ -18,9 +18,11 @@
 <resources>
 
     <string name="dlg_title_apply">应用到启动器</string>
+    <string name="dlg_title_donate">捐赠</string>
     <string name="dlg_bt_ok">确定</string>
     <string name="dlg_bt_pick">选择</string>
     <string name="dlg_bt_got_it">我知道了</string>
+    <string name="dlg_bt_donate">捐赠</string>
 
     <string name="menu_apply">应用</string>
     <string name="menu_copyright">版权</string>
@@ -28,9 +30,13 @@
     <string name="toast_not_installed">未安装 %s</string>
     <string name="toast_code_copied">已复制%d个APP代码</string>
     <string name="toast_launcher_ok">%1$s 已被支持，请从启动器设置应用图标包</string>
+    <string name="toast_icon_saved">图标已保存到图库</string>
+    <string name="toast_icon_not_saved">图标保存失败</string>
 
     <string name="send_code">分享APP代码&#8230;</string>
+    <string name="cur_launcher">%s (当前)</string>
     <string name="app_tap_desc">短按以复制该APP代码，长按则直接分享。</string>
+    <string name="icon_tap_desc">短按查看详情，长按保存到图库。</string>
     <string name="copyright_desc">"灵魂图匠：[@By_syk](copy:@By_syk)
 如果喜欢它们，请我吃串串儿吧。支付宝：[By_syk@163.com](copy:By_syk@163.com)
 关于这些图标有任何问题请联系：[By_syk@163.com](email:By_syk@163.com)

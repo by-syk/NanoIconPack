@@ -19,6 +19,7 @@ package com.by_syk.lib.nanoiconpack.fragment;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
@@ -39,11 +40,20 @@ public class CopyrightDialog extends DialogFragment {
         SpannableString ssMsg = AboutMsgRender.render(getActivity(), getString(R.string.copyright_desc)
                 + "\n\n" + getString(R.string.copyright_base_desc, getString(R.string.lib_ver)));
 
-        return new AlertDialog.Builder(getActivity())
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.app_name)
                 .setMessage(ssMsg)
-                .setPositiveButton(R.string.dlg_bt_ok, null)
-                .create();
+                .setPositiveButton(R.string.dlg_bt_ok, null);
+        if (!getString(R.string.donate_qrcode_img).isEmpty()) {
+            builder.setNegativeButton(R.string.dlg_bt_donate, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    (new QrcodeDialog()).show(getFragmentManager(), "qrcodeDialog");
+                }
+            });
+        }
+
+        return builder.create();
     }
 
     @Override

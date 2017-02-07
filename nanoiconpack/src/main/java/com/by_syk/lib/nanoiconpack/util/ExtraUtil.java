@@ -28,12 +28,19 @@ import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.media.MediaScannerConnection;
+import android.net.Uri;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.bean.AppBean;
+import com.by_syk.lib.nanoiconpack.bean.IconBean;
 
 import net.sourceforge.pinyin4j.PinyinHelper;
 import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
@@ -44,6 +51,13 @@ import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombi
 
 import org.xmlpull.v1.XmlPullParser;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -214,6 +228,25 @@ public class ExtraUtil {
             Intent intent = context.getPackageManager().getLaunchIntentForPackage(pkgName);
             if (intent != null) {
                 return intent.getComponent().getClassName();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public static String getCurLauncher(Context context) {
+        if (context == null) {
+            return null;
+        }
+
+        try {
+            Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
+            mainIntent.addCategory(Intent.CATEGORY_HOME);
+            ResolveInfo resolveInfo = context.getPackageManager().resolveActivity(mainIntent, 0);
+            if (resolveInfo != null) {
+                return resolveInfo.activityInfo.packageName;
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -455,5 +488,90 @@ public class ExtraUtil {
             return label.replaceAll(" ", "_").toLowerCase();
         }
         return "";
+    }
+
+    public static boolean saveIcon(Context context, IconBean iconBean) {
+        if (context == null || iconBean == null || iconBean.getId() == 0) {
+            return false;
+        }
+
+        int iconId = context.getResources().getIdentifier(iconBean.getName(), "mipmap",
+                context.getPackageName());
+        if (iconId == 0) {
+            iconId = iconBean.getId();
+        }
+        Bitmap bitmap = ((BitmapDrawable) context.getResources().getDrawable(iconId)).getBitmap();
+        if (bitmap == null) {
+            return false;
+        }
+
+        // Create a path where we will place our picture
+        // in the user's public pictures directory.
+        File picDir = new File(Environment.getExternalStoragePublicDirectory(Environment
+                .DIRECTORY_PICTURES), "Icons");
+        // Make sure the Pictures directory exists.
+        picDir.mkdirs();
+        File targetFile = new File(picDir, "ic_" + iconBean.getName()
+                + "_" + System.currentTimeMillis() + ".png");
+
+        boolean result = false;
+        OutputStream outputStream = null;
+        try {
+            outputStream = new FileOutputStream(targetFile);
+            result = bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (outputStream != null) {
+                try {
+                    outputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        if (!result) {
+            targetFile.delete();
+            return false;
+        }
+
+        record2Gallery(context, targetFile, false);
+        return true;
+    }
+
+    /**
+     * 记录新增图片文件到媒体库，这样可迅速在系统图库看到
+     *
+     * @param context
+     * @param newlyPicFile
+     * @return
+     */
+    private static boolean record2Gallery(Context context, File newlyPicFile, boolean allInDir) {
+        if (context == null || newlyPicFile == null || !newlyPicFile.exists()) {
+            return false;
+        }
+
+        Log.d(C.LOG_TAG, "record2Gallery(): " + newlyPicFile + ", " + allInDir);
+
+        if (C.SDK >= 19) {
+            String[] filePaths;
+            if (allInDir) {
+                filePaths = newlyPicFile.getParentFile().list();
+            } else {
+                filePaths = new String[]{newlyPicFile.getPath()};
+            }
+            MediaScannerConnection.scanFile(context, filePaths, null, null);
+        } else {
+            if (allInDir) {
+                context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED,
+                        Uri.fromFile(newlyPicFile.getParentFile())));
+            } else {
+                context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE,
+                        Uri.fromFile(newlyPicFile)));
+            }
+        }
+
+        return true;
     }
 }

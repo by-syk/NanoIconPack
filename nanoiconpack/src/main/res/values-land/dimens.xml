@@ -18,5 +18,6 @@
 <resources>
 
     <dimen name="app_list_item_height">60dp</dimen>
+    <dimen name="qrcode_size">192dp</dimen>
 
 </resources>

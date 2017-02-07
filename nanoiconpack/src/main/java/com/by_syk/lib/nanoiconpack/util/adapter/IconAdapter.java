@@ -43,6 +43,7 @@ public class IconAdapter extends RecyclerView.Adapter<IconAdapter.IconViewHolder
 
     public interface OnItemClickListener {
         void onClick(int pos, IconBean bean);
+        void onLongClick(int pos, IconBean bean);
     }
 
     public IconAdapter(Context context) {
@@ -65,6 +66,13 @@ public class IconAdapter extends RecyclerView.Adapter<IconAdapter.IconViewHolder
                 @Override
                 public void onClick(View view) {
                     onItemClickListener.onClick(INDEX, dataList.get(INDEX));
+                }
+            });
+            holder.ivIcon.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    onItemClickListener.onLongClick(INDEX, dataList.get(INDEX));
+                    return true;
                 }
             });
         }

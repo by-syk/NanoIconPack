@@ -16,6 +16,10 @@
 
 package com.by_syk.lib.nanoiconpack.fragment;
 
+import android.Manifest;
+import android.annotation.TargetApi;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 import android.os.AsyncTask;
@@ -32,8 +36,11 @@ import android.view.ViewGroup;
 
 import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.bean.IconBean;
+import com.by_syk.lib.nanoiconpack.util.C;
 import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
 import com.by_syk.lib.nanoiconpack.util.adapter.IconAdapter;
+import com.by_syk.lib.storage.SP;
+import com.by_syk.lib.toast.GlobalToast;
 
 import org.xmlpull.v1.XmlPullParser;
 
@@ -51,6 +58,8 @@ import java.util.regex.Pattern;
 
 public class IconsFragment extends Fragment {
     private int pageId = 1;
+
+    private SP sp;
 
     private View contentView;
 
@@ -73,6 +82,8 @@ public class IconsFragment extends Fragment {
     private void init() {
         pageId = getArguments().getInt("pageId", 1);
 
+        sp = new SP(getActivity(), false);
+
         RecyclerView recyclerView = (RecyclerView) contentView.findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), getColumns()));
 
@@ -80,8 +91,21 @@ public class IconsFragment extends Fragment {
         iconAdapter.setOnItemClickListener(new IconAdapter.OnItemClickListener() {
             @Override
             public void onClick(int pos, IconBean bean) {
+                if (!sp.getBoolean("iconTapHint")) {
+                    (new IconTapHintDialog()).show(getActivity().getFragmentManager(), "iconTapHintDialog");
+                    return;
+                }
                 IconDialog.newInstance(bean, ExtraUtil.isFromLauncherPick(getActivity().getIntent()))
                         .show(getActivity().getFragmentManager(), "iconDialog");
+            }
+
+            @Override
+            public void onLongClick(int pos, IconBean bean) {
+                if (!sp.getBoolean("iconTapHint")) {
+                    (new IconTapHintDialog()).show(getActivity().getFragmentManager(), "iconTapHintDialog");
+                    return;
+                }
+                saveIcon(bean);
             }
         });
         recyclerView.setAdapter(iconAdapter);
@@ -104,6 +128,19 @@ public class IconsFragment extends Fragment {
         int gridWidth = getResources().getDimensionPixelSize(R.dimen.grid_size);
 
         return totalWidth / gridWidth;
+    }
+
+    @TargetApi(23)
+    private void saveIcon(IconBean bean) {
+        if (C.SDK >= 23 && getActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+            return;
+        }
+
+        boolean ok = ExtraUtil.saveIcon(getActivity(), bean);
+        GlobalToast.showToast(getActivity(), ok ? R.string.toast_icon_saved
+                : R.string.toast_icon_not_saved);
     }
 
     private class LoadIconsTask extends AsyncTask<String, Integer, List<IconBean>> {

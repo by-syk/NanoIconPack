@@ -22,8 +22,14 @@
     <!-- For Apex -->
     <string name="developer_name">By_syk</string>
 
+    <string name="dlg_title_donate">Donate</string>
+
+    <!-- Put your Alipay, WeChat or QQ QRCode image for donating into /drawable-nodpi
+         and record it here, if you want to provide one. -->
+    <string name="donate_qrcode_img" translatable="false"></string>
+
     <string name="copyright_desc">"Icon pack author: [@By_syk](copy:@By_syk)
-Donate via Alipay: [By_syk@163.com](copy:By_syk@163.com)
+How about paying me a cup of coffee if you like these little guys? My Alipay: [By_syk@163.com](copy:By_syk@163.com)
 Anything about these icons, please contact: [By_syk@163.com](email:By_syk@163.com)
 Copyright &#169; 2017 By_syk. All rights reserved."</string>
 

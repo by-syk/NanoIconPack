@@ -41,10 +41,14 @@ public class ApplyDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         launcherNames = getResources().getStringArray(R.array.launchers);
         launcherPkgs = new String[launcherNames.length];
+        String launcherPkg = ExtraUtil.getCurLauncher(getActivity());
         for (int i = 0, len = launcherNames.length; i < len; ++i) {
             String[] paras = launcherNames[i].split("\\|", -1);
             launcherNames[i] = paras[0];
             launcherPkgs[i] = paras[1];
+            if (paras[1].equals(launcherPkg)) {
+                launcherNames[i] = getString(R.string.cur_launcher, paras[0]);
+            }
         }
 
         return new AlertDialog.Builder(getActivity())
