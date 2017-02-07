@@ -8,6 +8,7 @@ NanoIconPack 是一个简单轻量的图标包模板，支持
 + 图标详情对话框，显示目标APP名（或图标名）、高清图标
 + 图标栅格
 + 新原图标对比显示
++ 快速保存图标
 + 直接应用到启动器、从支持的启动器设置中应用
 
 相关截图（更多截图去[这里](art/SCREENSHOTS.md)查看）：
@@ -48,6 +49,7 @@ NanoIconPack 是一个简单轻量的图标包模板，支持
 | [@pandecheng / PDC图标包 <sub>new version</sub>](http://www.coolapk.com/apk/com.pandecheng.iconpack) | ![PDC](art/ic_launcher_pdc.png) |
 | [@sftmi / OMFG图标包](http://www.coolapk.com/apk/com.sftmi.iconpack.omfg) | ![OMFG](art/ic_launcher_omfg.png) |
 | [@大神sjk / Smalite图标包](http://www.coolapk.com/apk/com.sjk.smaliteiconpack) | ![Smalite](art/ic_launcher_smalite.png) |
+| [@派大鑫 / Party Star](http://www.coolapk.com/apk/com.paidax.iconpack.partystar) | ![Smalite](art/ic_launcher_party_star.png) |
 
 
 ### 使用开源项目和参考资料
