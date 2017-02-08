@@ -37,7 +37,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.bean.IconBean;
@@ -52,7 +51,7 @@ import java.util.List;
  */
 
 public class IconDialog extends DialogFragment {
-    private LinearLayout viewContent;
+    private ViewGroup viewContent;
     private View iconGridView;
     private View iconViewSmall;
 
@@ -64,10 +63,11 @@ public class IconDialog extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        ViewGroup viewGroup = (ViewGroup) getActivity().getLayoutInflater()
+        viewContent = (ViewGroup) getActivity().getLayoutInflater()
                 .inflate(R.layout.dialog_icon, null);
+        viewContent.setLayoutTransition(new LayoutTransition());
 
-        iconViewSmall = viewGroup.findViewById(R.id.small_icon_view);
+        iconViewSmall = viewContent.findViewById(R.id.small_icon_view);
         iconViewSmall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,14 +75,11 @@ public class IconDialog extends DialogFragment {
                 iconGridView.setVisibility(View.INVISIBLE);
             }
         });
-        viewGroup.removeView(iconViewSmall);
+        viewContent.removeView(iconViewSmall);
 
-        viewContent = (LinearLayout) viewGroup.findViewById(R.id.root_view);
-        viewContent.setLayoutTransition(new LayoutTransition());
+        iconGridView = viewContent.findViewById(R.id.icon_grid);
 
-        iconGridView = viewGroup.findViewById(R.id.icon_grid);
-
-        ImageView ivIcon = (ImageView) viewGroup.findViewById(R.id.iv_icon);
+        ImageView ivIcon = (ImageView) viewContent.findViewById(R.id.iv_icon);
         ivIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -95,8 +92,7 @@ public class IconDialog extends DialogFragment {
                     return;
                 }
                 if (iconViewSmall == null) {
-                    (new ExtractRawIconTask()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,
-                            "extractRawIconTask");
+                    (new ExtractRawIconTask()).execute();
                 } else {
                     if (viewContent.getChildCount() == 2) {
                         viewContent.removeView(iconViewSmall);
@@ -115,7 +111,7 @@ public class IconDialog extends DialogFragment {
         });
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
-                .setView(viewGroup);
+                .setView(viewContent);
 
         Bundle bundle = getArguments();
         if (bundle != null) {
@@ -151,7 +147,8 @@ public class IconDialog extends DialogFragment {
         if (!isExecuted) {
             isExecuted = true;
 
-            (new ExtractRawIconTask()).execute();
+            (new ExtractRawIconTask()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,
+                    "extractRawIconTask");
 
             // 浮入浮出动画
             Window window = getDialog().getWindow();
