@@ -51,6 +51,8 @@ NanoIconPack 是一个简单轻量的图标包模板，支持
 | [@大神sjk / Smalite图标包](http://www.coolapk.com/apk/com.sjk.smaliteiconpack) | ![Smalite](art/ic_launcher_smalite.png) |
 | [@派大鑫 / Party Star](http://www.coolapk.com/apk/com.paidax.iconpack.partystar) | ![Smalite](art/ic_launcher_party_star.png) |
 
+如果您基于 NanoIconPack 开发出了自己的图标包作品，请不吝知会我，以便展示在这里。
+
 
 ### 使用开源项目和参考资料
 
