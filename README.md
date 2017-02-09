@@ -57,7 +57,7 @@ NanoIconPack 是一个简单轻量的图标包模板，支持
 ### 使用开源项目和参考资料
 
 NanoIconPack 使用了如下开源项目：
-+ [lemann / pinyin4j](https://sourceforge.net/projects/pinyin4j/) licensed under [GPLv2](https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
++ [Li Min / pinyin4j](https://sourceforge.net/projects/pinyin4j/) licensed under [GPLv2](https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
 + [andraskindler / quickscroll](https://github.com/andraskindler/quickscroll) licensed under [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0)
 
 参考了如下资料：
