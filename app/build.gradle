@@ -9,7 +9,7 @@ android {
         applicationId "com.by_syk.nanoiconpack.sample"
         minSdkVersion 14
         targetSdkVersion 25
-        versionCode 17020700
+        versionCode 17020900
         // Version name format: [version].[num_of_icons]
         versionName "1.3.0.1.nightly"
     }
