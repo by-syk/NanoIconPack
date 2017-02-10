@@ -35,7 +35,7 @@ NanoIconPack 是一个简单轻量的图标包模板，支持
 
 ### 二次开发
 
-去 [Wiki 页面](https://github.com/by-syk/NanoIconPack/wiki/%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91%E6%AD%A5%E9%AA%A4)查看教程。
+去 [Wiki 页面](https://github.com/by-syk/NanoIconPack/wiki/%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91%E6%AD%A5%E9%AA%A4)查看二次开发步骤。
 
 
 ### 基于 NanoIconPack 的 APP
