@@ -87,3 +87,5 @@ Copyright &#169; 2017 By_syk. All rights reserved."</string>
 >   Sample APP 已经提供了这个功能，用于快速获取已安装APP的代码。
 >
 >   ![Nano](screenshot_nano_page_lost-part.png)
+
+\* [试试快速登记图标工具](https://github.com/by-syk/NanoIconPack/tree/master/tools)

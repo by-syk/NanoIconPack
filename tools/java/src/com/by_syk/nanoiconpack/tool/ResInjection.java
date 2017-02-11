@@ -16,13 +16,7 @@
 
 package com.by_syk.nanoiconpack.tool;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -38,12 +32,12 @@ public class ResInjection {
     private static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-        System.out.println("=== ResInjection(v1.0.0) for NanoIconPack(v1.3.0) ===");
+        System.out.println("=== ResInjection(v1.0.4) for NanoIconPack(v1.3.0) ===");
         String projectDir = getProjectDir();
         System.out.println("Config: prjectDir = " + projectDir);
+        String resPath = getResPath(projectDir);
         while (true) {
             System.out.println();
-            String resPath = getResPath(projectDir);
             appendIcon(resPath);
         }
     }
@@ -53,7 +47,7 @@ public class ResInjection {
         File configFile = new File((new File(System.getProperty("java.class.path"))).getParentFile(),
                 "nanoiconpacktool.properties");
         if (configFile.exists()) {
-            String configText = readFile(configFile);
+            String configText = FileUtil.readFile(configFile);
             Matcher matcher = Pattern.compile("^projectDir\\s*=\\s*(.+)").matcher(configText);
             if (matcher.find()) {
                 projectDir = matcher.group(1);
@@ -83,28 +77,44 @@ public class ResInjection {
     }
 
     private static void appendIcon(String resPath) {
+        String iconPath = "";
         String iconName = "";
         String appName = "";
         String appNameEn = "";
-        String componentInfo = "";
+        List<String> componentInfoList = new ArrayList<>();
+
+        System.out.println("IconPath(\".\" to skip):");
+        iconPath = scanner.nextLine();
+        if (iconPath.isEmpty()) {
+            iconPath = scanner.nextLine();
+        }
+        if (iconPath.equals(".")) {
+            iconPath = "";
+        }
+        iconPath = iconPath.replaceAll("\"", "");
 
         System.out.println("One by one or a whole codes?\n0. One by one  1. Whole");
         int which = scanner.nextInt();
         if (which == 0) {
-            System.out.print("IconName(\"\\D[\\da-z_]*\"): ");
+            System.out.println("IconName(\"\\D[\\da-z_]*\"):");
             iconName = scanner.next("\\D[\\da-z_]*");
-            System.out.print("AppName: ");
-            scanner.nextLine();
+            System.out.println("AppName:");
             appName = scanner.nextLine();
-            System.out.print("AppNameEn(\".\" to use AppName): ");
+            if (appName.isEmpty()) {
+                appName = scanner.nextLine();
+            }
+            System.out.println("AppNameEn(\".\" to use AppName):");
             appNameEn = scanner.nextLine();
             if (appNameEn.equals(".")) {
                 appNameEn = appName;
             }
-            System.out.print("ComponentInfo([pkgName]/[launcherActivity], \".\" to skip): ");
-            componentInfo = scanner.nextLine();
-            if (componentInfo.equals(".")) {
-                componentInfo = "";
+            System.out.println("ComponentInfo([pkgName]/[launcherActivity], \".\" to finish):");
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                if (line.equals(".")) {
+                    break;
+                }
+                componentInfoList.add(line);
             }
         } else if (which == 1) {
             System.out.println("Codes(\".\" to finish):");
@@ -130,7 +140,7 @@ public class ResInjection {
                 if (appNameEn.isEmpty() || appNameEn.equals("null")) {
                     appNameEn = appName;
                 }
-                componentInfo = matcher.group(3);
+                componentInfoList.add(matcher.group(3));
             }
         }
         if (iconName.isEmpty() || appName.isEmpty() || appNameEn.isEmpty()) {
@@ -138,7 +148,15 @@ public class ResInjection {
             return;
         }
 
-        boolean ok = appendIcon2IconPackXmlFile(resPath, iconName, appName, appNameEn);
+        boolean ok = true;
+        if (!iconPath.isEmpty()) {
+            ok = copyIconFile(resPath, iconPath, iconName);
+            System.out.println("drawable-nodpi/" + iconName + ".png: " + ok);
+        }
+        if (!ok) {
+            return;
+        }
+        ok = appendIcon2IconPackXmlFile(resPath, iconName, appName, appNameEn);
         System.out.println("values/icon_pack.xml: " + ok);
         if (!ok) {
             return;
@@ -148,16 +166,51 @@ public class ResInjection {
         if (!ok) {
             return;
         }
-        if (!componentInfo.isEmpty()) {
-            ok = appendIcon2AppFilterXmlFile(resPath, componentInfo, iconName);
+        if (!componentInfoList.isEmpty()) {
+            ok = appendIcon2AppFilterXmlFile(resPath, componentInfoList
+                    .toArray(new String[componentInfoList.size()]), iconName);
             System.out.println("xml/appfilter.xml: " + ok);
         }
+    }
+
+    private static boolean copyIconFile(String resPath, String iconPath, String iconName) {
+        File iconFile = new File(new File(resPath), "drawable-nodpi/" + iconName + ".png");
+        if (iconFile.exists()) {
+            return false;
+        }
+        File hdIconFile = new File(new File(resPath), "mipmap-nodpi/" + iconName + ".png");        
+        if (hdIconFile.exists()) {
+            return false;
+        }
+        
+        File srcIconFile = new File(iconPath);
+        if (!srcIconFile.exists()) {
+            return false;
+        }
+        boolean ok = FileUtil.copyFile(srcIconFile, iconFile);
+        if (ok && srcIconFile.getParentFile().getName().equals("192")) {
+            File srcHdIconFile = new File(srcIconFile.getParentFile().getParentFile(),
+                    "384/" + srcIconFile.getName());
+            ok = FileUtil.copyFile(srcHdIconFile, hdIconFile);
+            if (ok) {
+                srcHdIconFile.delete();
+            } else {
+                hdIconFile.delete();
+            }
+        }
+
+        if (ok) {
+            srcIconFile.delete();
+        } else {
+            iconFile.delete();
+        }
+        return ok;
     }
 
     private static boolean appendIcon2IconPackXmlFile(String resPath, String iconName, String appName, String appNameEn) {
         File xmlFile = new File(new File(resPath), "values/icon_pack.xml");
 
-        String text1 = readFile(xmlFile);
+        String text1 = FileUtil.readFile(xmlFile);
         int index = text1.indexOf("<string-array name=\"icons\"");
         String text2 = text1.substring(index);
         text1 = text1.substring(0, index);
@@ -221,7 +274,7 @@ public class ResInjection {
         }
         text3 = text3.substring(0, text3.length() - 1);
 
-        ok = saveFile(text1 + text2 + text3, xmlFile);
+        ok = FileUtil.saveFile(text1 + text2 + text3, xmlFile);
         if (ok) {
             return appendIcon2IconPackXmlFileZh(resPath, appName, insertLineIndex);
         }
@@ -234,7 +287,7 @@ public class ResInjection {
             return true;
         }
 
-        String text1 = readFile(xmlFile);
+        String text1 = FileUtil.readFile(xmlFile);
         int index = text1.indexOf("<string-array name=\"icon_labels\"");
         String text2 = text1.substring(index);
         text1 = text1.substring(0, index);
@@ -248,13 +301,13 @@ public class ResInjection {
         }
         text2 = text2.substring(0, text2.length() - 1);
 
-        return saveFile(text1 + text2, xmlFile);
+        return FileUtil.saveFile(text1 + text2, xmlFile);
     }
 
     private static boolean appendIcon2DrawableXmlFile(String resPath, String iconName) {
         File xmlFile = new File(new File(resPath), "xml/drawable.xml");
 
-        String text1 = readFile(xmlFile);
+        String text1 = FileUtil.readFile(xmlFile);
         int index = text1.indexOf("<category title=\"All");
         String text2 = text1.substring(index);
         text1 = text1.substring(0, index);
@@ -311,16 +364,18 @@ public class ResInjection {
         if (matcher.find()) {
             text2 = matcher.replaceAll("\"All(" + itemNum + ")\"");
         }
-        return saveFile(text1 + text2 + text3, xmlFile);
+        return FileUtil.saveFile(text1 + text2 + text3, xmlFile);
     }
 
-    private static boolean appendIcon2AppFilterXmlFile(String resPath, String componentInfo, String iconName) {
+    private static boolean appendIcon2AppFilterXmlFile(String resPath, String[] componentInfoArr, String iconName) {
         File xmlFile = new File(new File(resPath), "xml/appfilter.xml");
 
-        String text = readFile(xmlFile);
+        String text = FileUtil.readFile(xmlFile);
 
-        if (Pattern.compile("(?!<\\!--)<item\n?\\s+component=\"ComponentInfo\\{" + componentInfo).matcher(text).find()) {
-            return false;
+        for (String componentInfo : componentInfoArr) {
+            if (Pattern.compile("(?!<\\!--)<item\n?\\s+component=\"ComponentInfo\\{" + componentInfo).matcher(text).find()) {
+                return false;
+            }
         }
 
         boolean ok = false;
@@ -332,78 +387,27 @@ public class ResInjection {
                 int index = text.indexOf(matcher.group(0));
                 String tmp = text.substring(index);
                 text = text.substring(0, index);
-                text += "<item\n        component=\"ComponentInfo{" + componentInfo + "}\""
-                        + "\n        drawable=\"" + iconName + "\" />"
-                        + (compValue == 0 ? "\n    " : "\n\n    ");
+                for (String componentInfo : componentInfoArr) {
+                    text += "<item\n        component=\"ComponentInfo{" + componentInfo + "}\""
+                            + "\n        drawable=\"" + iconName + "\" />\n    ";
+                }
+                if (compValue < 0) {
+                    text += "\n    ";
+                }
                 text += tmp;
                 ok = true;
                 break;
             }
         }
         if (!ok) {
-            text = text.replace("</resources>", "    <item"
-                    + "\n        component=\"ComponentInfo{" + componentInfo + "}\""
-                    + "\n        drawable=\"" + iconName + "\" />\n\n</resources>");
-        }
-
-        return saveFile(text, xmlFile);
-    }
-
-    private static String readFile(File file) {
-        if (file == null) {
-            return null;
-        }
-
-        StringBuilder sbData = new StringBuilder();
-        BufferedReader bufferedReader = null;
-        try {
-            bufferedReader = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF-8"));
-            String buffer;
-            while ((buffer = bufferedReader.readLine()) != null) {
-                sbData.append(buffer).append("\n");
+            String tmp = "";
+            for (String componentInfo : componentInfoArr) {
+                tmp += "    <item\n        component=\"ComponentInfo{" + componentInfo + "}\""
+                        + "\n        drawable=\"" + iconName + "\" />\n";
             }
-            if (sbData.length() > 0) {
-                sbData.setLength(sbData.length() - 1);
-            }
-
-            return sbData.toString();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (bufferedReader != null) {
-                try {
-                    bufferedReader.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
+            text = text.replace("</resources>", tmp + "\n</resources>");
         }
 
-        return null;
-    }
-
-    private static boolean saveFile(String text, File saveFile) {
-        if (text == null || saveFile == null) {
-            return false;
-        }
-
-        OutputStream outputStream = null;
-        try {
-            outputStream = new FileOutputStream(saveFile);
-            outputStream.write(text.getBytes("UTF-8"));
-            return true;
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (outputStream != null) {
-                try {
-                    outputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        return false;
+        return FileUtil.saveFile(text, xmlFile);
     }
 }
