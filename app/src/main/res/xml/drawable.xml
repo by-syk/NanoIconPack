@@ -20,7 +20,7 @@
 
     <version>1</version>
 
-    <category title="Base" /><!-- Base icons here -->
+    <category title="Basic" /><!-- Copy basic icons here from All category -->
     <!--<item drawable="browser" />-->
     <!--<item drawable="calculator" />-->
     <item drawable="calendar" />
@@ -34,6 +34,7 @@
     <!--<item drawable="settings" />-->
     <!--<item drawable="sms" />-->
 
-    <category title="Other" /><!-- Other icons here -->
+    <category title="All(1)" /><!-- All icons here -->
+    <item drawable="calendar" />
 
 </resources>
