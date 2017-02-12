@@ -39,7 +39,8 @@
 
     <string name="app_component" translatable="false">"&lt;!-- %3$s / %4$s -->\n&lt;item component=\"ComponentInfo{%5$s/%6$s}\" drawable=\"%7$s\" />"</string>
     <string name="app_component_1" translatable="false">"&lt;!-- Build: %1$s / %2$s -->\n&lt;!-- %3$s / %4$s -->\n&lt;item component=\"ComponentInfo{%5$s/%6$s}\" drawable=\"%7$s\" />"</string>
-    <!-- Put your Alipay, WeChat or QQ QRCode image for donating into /drawable-nodpi
+    <!-- (Optional)
+         Put your Alipay, WeChat or QQ QRCode image for donating into /drawable-nodpi
          and record it here, if you want to provide one. -->
     <string name="donate_qrcode_img" translatable="false"></string>
     <string name="send_code">Share app codes&#8230;</string>
@@ -47,7 +48,7 @@
     <string name="app_tap_desc">TAP one to copy its code, and LONG PRESS to share it.</string>
     <string name="icon_tap_desc">TAP icon to view its detail, and LONG PRESS to save to gallery.</string>
     <string name="copyright_desc">"Icon pack author: [@By_syk](copy:@By_syk)
-How about paying me a cup of coffee if you like these little guys? My Alipay: [By_syk@163.com](copy:By_syk@163.com)
+How about paying me a cup of coffee if you like these little guys? My Alipay: [By_syk@163.com](alipay:aex05154fiiurupx5ai0dd1|By_syk@163.com)
 Anything about these icons, please contact: [By_syk@163.com](email:By_syk@163.com)
 Copyright &#169; 2017 By_syk. All rights reserved."</string>
     <!-- Please keep this and do not modify it -->
