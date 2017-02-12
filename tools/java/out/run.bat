@@ -1,1 +1,0 @@
-java -jar nanoiconpacktool-1.0.5.4.1.3.0.jar

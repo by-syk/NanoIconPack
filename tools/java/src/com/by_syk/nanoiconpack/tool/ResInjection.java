@@ -31,16 +31,37 @@ import java.util.regex.Pattern;
 class ResInjection {
     private static Scanner scanner = new Scanner(System.in);
 
-    public static String getProjectDir() {
-        String projectDir = "E:/Android/CoreProjects/NanoIconPack/";
-        File configFile = new File((new File(System.getProperty("java.class.path"))).getParentFile(),
-                "nanoiconpacktool.properties");
-        if (configFile.exists()) {
-            String configText = FileUtil.readFile(configFile);
-            Matcher matcher = Pattern.compile("^projectDir\\s*=\\s*(.+)").matcher(configText);
-            if (matcher.find()) {
-                projectDir = matcher.group(1);
-            }
+    public static void main(String[] args) {
+        System.out.println("=== ResInjection(v1.0.5) for NanoIconPack(v1.3.0) ===");
+        String projectDir = ResInjection.getProjectDir(args);
+        String resPath = ResInjection.getResPath(projectDir);
+        while (true) {
+            System.out.println();
+            ResInjection.appendIcon(resPath);
+        }
+    }
+    
+    public static String getProjectDir(String[] args) {
+//        String projectDir = "E:/Android/CoreProjects/NanoIconPack/";
+//        File configFile = new File((new File(System.getProperty("java.class.path"))).getParentFile(),
+//                "nanoiconpacktool.properties");
+//        if (configFile.exists()) {
+//            String configText = FileUtil.readFile(configFile);
+//            Matcher matcher = Pattern.compile("^projectDir\\s*=\\s*(.+)").matcher(configText);
+//            if (matcher.find()) {
+//                projectDir = matcher.group(1);
+//            }
+//        }
+//        return projectDir;
+        
+        if (args != null && args.length > 0) {
+            return args[0];
+        }
+        
+        System.out.println("ProjectDir:");
+        String projectDir;
+        if ((projectDir = scanner.nextLine()).isEmpty()) {
+            return scanner.nextLine();
         }
         return projectDir;
     }
@@ -82,7 +103,7 @@ class ResInjection {
         }
         iconPath = iconPath.replaceAll("\"", "");
 
-        System.out.println("One by one or a whole codes?\n0. One by one  1. Whole");
+        System.out.println("Manually or automatically?\n0. Manually  1. Automatically");
         int which = scanner.nextInt();
         if (which == 0) {
             System.out.println("IconName(\"\\D[\\da-z_]*\"):");
