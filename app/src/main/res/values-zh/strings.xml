@@ -19,6 +19,7 @@
 
     <string name="app_name">NanoIconPack Sample</string>
 
+    <!-- (Optional) -->
     <string name="dlg_title_donate">捐赠</string>
 
     <string name="copyright_desc">"灵魂图匠：[@By_syk](copy:@By_syk)

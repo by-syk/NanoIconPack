@@ -22,9 +22,11 @@
     <!-- For Apex -->
     <string name="developer_name">By_syk</string>
 
+    <!-- (Optional) -->
     <string name="dlg_title_donate">Donate</string>
 
-    <!-- Put your Alipay, WeChat or QQ QRCode image for donating into /drawable-nodpi
+    <!-- (Optional)
+         Put your Alipay, WeChat or QQ QRCode image for donating into /drawable-nodpi
          and record it here, if you want to provide one. -->
     <string name="donate_qrcode_img" translatable="false"></string>
 

@@ -59,6 +59,7 @@ Copyright &#169; 2017 By_syk. All rights reserved."</string>
 <string-array name="icons">
     <item>calendar</item>
 </string-array>
+
 <!-- Corresponding app name list of all icons in /res/drawable-nodpi/ -->
 <!-- Just KEEP IT EMPTY BUT DO NOT DELETE IT if you do not want to collect app name list. -->
 <string-array name="icon_labels">
@@ -68,10 +69,10 @@ Copyright &#169; 2017 By_syk. All rights reserved."</string>
 
 修改`/res/xml/drawable.xml`，该文件用于为 Nova 等启动器提供手选图标列表。添加：
 ```
-<category title="Base" /><!-- Base icons here -->
+<category title="Basic" /><!-- Copy basic icons here from All category -->
 <item drawable="calendar" />
 
-<category title="Other" /><!-- Other icons here -->
+<category title="All" /><!-- All icons here -->
 ```
 
 修改`/res/xml/appfilter.xml`，该文件定义了图标与目标APP之间的匹配关系，启动器据此自动为所有APP替换图标。添加：
