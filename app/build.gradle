@@ -1,17 +1,18 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion Integer.parseInt(project.COMPILE_SDK_VERSION)
+    buildToolsVersion project.BUILD_TOOLS_VERSION
 
     defaultConfig {
         // Package name format: com.[your_name].iconpack.[name_of_your_icon_pack]
         applicationId "com.by_syk.nanoiconpack.sample"
-        minSdkVersion 14
-        targetSdkVersion 25
+        minSdkVersion Integer.parseInt(project.MIN_SDK_VERSION)
+        targetSdkVersion Integer.parseInt(project.TARGET_SDK_VERSION)
         versionCode 17021000
         // Version name format: [version].[num_of_icons]
         versionName "1.3.0.1.nightly"
+        resConfigs "en", "zh_cn"
     }
 
     buildTypes {

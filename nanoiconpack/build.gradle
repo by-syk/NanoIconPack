@@ -1,13 +1,13 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion Integer.parseInt(project.COMPILE_SDK_VERSION)
+    buildToolsVersion project.BUILD_TOOLS_VERSION
 
     defaultConfig {
-        minSdkVersion 14
-        targetSdkVersion 25
-        versionCode 17021000
+        minSdkVersion Integer.parseInt(project.MIN_SDK_VERSION)
+        targetSdkVersion Integer.parseInt(project.TARGET_SDK_VERSION)
+        versionCode 17021200
         versionName "1.3.0.nightly"
     }
 
@@ -21,7 +21,7 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-//    compile files('libs/pinyin4j-2.5.0.jar')
+//    compile files('libs/pinyin4j-recompiled-2.5.0.2.jar')
 
     compile(name: 'aboutmsgrender-1.0.1', ext: 'aar')
     compile(name: 'globaltoast-1.1.2', ext: 'aar')
