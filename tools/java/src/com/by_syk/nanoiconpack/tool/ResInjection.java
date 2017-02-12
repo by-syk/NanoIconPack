@@ -28,21 +28,10 @@ import java.util.regex.Pattern;
  * Created by By_syk on 2017-02-11.
  */
 
-public class ResInjection {
+class ResInjection {
     private static Scanner scanner = new Scanner(System.in);
 
-    public static void main(String[] args) {
-        System.out.println("=== ResInjection(v1.0.4) for NanoIconPack(v1.3.0) ===");
-        String projectDir = getProjectDir();
-        System.out.println("Config: prjectDir = " + projectDir);
-        String resPath = getResPath(projectDir);
-        while (true) {
-            System.out.println();
-            appendIcon(resPath);
-        }
-    }
-    
-    private static String getProjectDir() {
+    public static String getProjectDir() {
         String projectDir = "E:/Android/CoreProjects/NanoIconPack/";
         File configFile = new File((new File(System.getProperty("java.class.path"))).getParentFile(),
                 "nanoiconpacktool.properties");
@@ -56,7 +45,7 @@ public class ResInjection {
         return projectDir;
     }
 
-    private static String getResPath(String projectDir) {
+    public static String getResPath(String projectDir) {
         List<String> projectPathList = new ArrayList<>();
         for (File dir : (new File(projectDir)).listFiles()) {
             if ((new File(dir, "build.gradle")).exists()) {
@@ -76,7 +65,7 @@ public class ResInjection {
                 "src/main/res")).getPath();
     }
 
-    private static void appendIcon(String resPath) {
+    public static void appendIcon(String resPath) {
         String iconPath = "";
         String iconName = "";
         String appName = "";
@@ -173,7 +162,7 @@ public class ResInjection {
         }
     }
 
-    private static boolean copyIconFile(String resPath, String iconPath, String iconName) {
+    public static boolean copyIconFile(String resPath, String iconPath, String iconName) {
         File iconFile = new File(new File(resPath), "drawable-nodpi/" + iconName + ".png");
         if (iconFile.exists()) {
             return false;
@@ -191,11 +180,13 @@ public class ResInjection {
         if (ok && srcIconFile.getParentFile().getName().equals("192")) {
             File srcHdIconFile = new File(srcIconFile.getParentFile().getParentFile(),
                     "384/" + srcIconFile.getName());
-            ok = FileUtil.copyFile(srcHdIconFile, hdIconFile);
-            if (ok) {
-                srcHdIconFile.delete();
-            } else {
-                hdIconFile.delete();
+            if (srcHdIconFile.exists()) {
+                ok = FileUtil.copyFile(srcHdIconFile, hdIconFile);
+                if (ok) {
+                    srcHdIconFile.delete();
+                } else {
+                    hdIconFile.delete();
+                }
             }
         }
 
@@ -207,7 +198,7 @@ public class ResInjection {
         return ok;
     }
 
-    private static boolean appendIcon2IconPackXmlFile(String resPath, String iconName, String appName, String appNameEn) {
+    public static boolean appendIcon2IconPackXmlFile(String resPath, String iconName, String appName, String appNameEn) {
         File xmlFile = new File(new File(resPath), "values/icon_pack.xml");
 
         String text1 = FileUtil.readFile(xmlFile);
@@ -304,7 +295,7 @@ public class ResInjection {
         return FileUtil.saveFile(text1 + text2, xmlFile);
     }
 
-    private static boolean appendIcon2DrawableXmlFile(String resPath, String iconName) {
+    public static boolean appendIcon2DrawableXmlFile(String resPath, String iconName) {
         File xmlFile = new File(new File(resPath), "xml/drawable.xml");
 
         String text1 = FileUtil.readFile(xmlFile);
@@ -367,13 +358,13 @@ public class ResInjection {
         return FileUtil.saveFile(text1 + text2 + text3, xmlFile);
     }
 
-    private static boolean appendIcon2AppFilterXmlFile(String resPath, String[] componentInfoArr, String iconName) {
+    public static boolean appendIcon2AppFilterXmlFile(String resPath, String[] componentInfoArr, String iconName) {
         File xmlFile = new File(new File(resPath), "xml/appfilter.xml");
 
         String text = FileUtil.readFile(xmlFile);
 
         for (String componentInfo : componentInfoArr) {
-            if (Pattern.compile("(?!<\\!--)<item\n?\\s+component=\"ComponentInfo\\{" + componentInfo).matcher(text).find()) {
+            if (Pattern.compile("(?!<\\!--)<item\n?\\s+component=\"ComponentInfo\\{" + componentInfo + "\\}").matcher(text).find()) {
                 return false;
             }
         }
