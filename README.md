@@ -38,9 +38,15 @@ NanoIconPack 是一个简单轻量的图标包APP模板，支持
 去 [Wiki 页面](https://github.com/by-syk/NanoIconPack/wiki/%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91%E6%AD%A5%E9%AA%A4)查看二次开发步骤。
 
 
-### 基于 NanoIconPack 的 APP
+### Sample APP
 
 下载 Sample APP：[NanoIconPack Sample](https://github.com/by-syk/NanoIconPack/raw/master/out/com.by_syk.nanoiconpack.sample_v1.3.0.1.nightly(17021300).apk)
+
+> :boom: 启动图标征集中……
+> 我不擅长画图。如果你有想法并且愿意帮忙，欢迎联系我并附带图标成品（如果同时提供源文件则最好了）。在此谢过。
+
+
+### 基于 NanoIconPack 的 APP
 
 | APP | ICON |
 | :---- | :----: |
@@ -74,11 +80,6 @@ NanoIconPack 追求简单轻量，只支持图标，如果您有更多需求，�
 | :---- | :----: |
 | [jahirfiquitiva / IconShowcase-Dashboard](https://github.com/jahirfiquitiva/IconShowcase-Dashboard) | ![IconShowcase](art/ic_launcher_iconshowcase.png) |
 | [afollestad / polar-dashboard](https://github.com/afollestad/polar-dashboard) | ![Polar](art/ic_launcher_polar.png) |
-
-
-### Sample APP 启动图标征集中……
-
-我不擅长画图。如果你有想法并且愿意帮忙，欢迎联系我并附带图标成品（如果同时提供源文件则最好了）。在此谢过。
 
 
 ### 联系开发者
