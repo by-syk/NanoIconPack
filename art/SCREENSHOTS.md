@@ -7,6 +7,6 @@
 
 | 启动器截图 | 启动器截图 |
 | :--: | :--: |
-| ![screenshot_nova_apply](screenshot_nova_apply.png) | ![screenshot_apex_apply](screenshot_apex_apply.png)
-| ![screenshot_adw_apply](screenshot_adw_apply.png) | ![screenshot_aviate_apply](screenshot_aviate_apply.png)
-| ![screenshot_action_3_apply](screenshot_action_3_apply.png) | |
+| ![screenshot_nova_apply](screenshot_nova_apply.png) | ![screenshot_nova_custom_choose](screenshot_nova_custom_choose.png) |
+| ![screenshot_apex_apply](screenshot_apex_apply.png) | ![screenshot_adw_apply](screenshot_adw_apply.png) |
+| ![screenshot_aviate_apply](screenshot_aviate_apply.png) | ![screenshot_action_3_apply](screenshot_action_3_apply.png) |
