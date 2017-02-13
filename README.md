@@ -1,6 +1,6 @@
 # NanoIconPack 图标包APP模板
 
-![Developing](https://img.shields.io/badge/Developing-v1.3.0.nightly-green.svg)
+![Developing](https://img.shields.io/badge/Developing-v1.3.0-green.svg)
 [![Download](https://img.shields.io/badge/Download-Sample%20APP-brightgreen.svg)](https://github.com/by-syk/NanoIconPack/raw/master/out/com.by_syk.nanoiconpack.sample_v1.3.0.5.nightly(17021302).apk)
 [![License](https://img.shields.io/badge/License-Apache%202.0-yellowgreen.svg)](https://opensource.org/licenses/Apache-2.0)
 
