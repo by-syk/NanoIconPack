@@ -128,7 +128,7 @@ public class RelateReSort {
         List<String> labelZhList = new ArrayList<>();
         if (withLetterIndex) {
             for (int i = 'A'; i <= 'Z'; ++i) {
-                String indexComment = "<!-- " + (char) i + "-->";
+                String indexComment = "<!-- " + (char) i + " -->";
                 iconList.add(indexComment);
                 labelList.add(indexComment);
                 labelZhList.add(indexComment);
