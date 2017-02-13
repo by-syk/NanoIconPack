@@ -42,8 +42,9 @@ NanoIconPack 是一个简单轻量的图标包APP模板，支持
 
 下载 Sample APP：[NanoIconPack Sample](https://github.com/by-syk/NanoIconPack/raw/master/out/com.by_syk.nanoiconpack.sample_v1.3.0.1.nightly(17021300).apk)
 
-> :boom: 启动图标征集中……
-> 我不擅长画图。如果你有想法并且愿意帮忙，欢迎联系我并附带图标成品（如果同时提供源文件则最好了）。在此谢过。
+> :fire: 启动图标征集中……
+>
+> 我不擅长画图。如果你有想法并且愿意帮忙，欢迎联系我并附带图标成品（如果同时提供源文件则最好了）。在此谢过。:pray:
 
 
 ### 基于 NanoIconPack 的 APP
