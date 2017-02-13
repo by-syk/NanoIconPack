@@ -140,4 +140,8 @@
         component="ComponentInfo{com.bbk.calendar/com.bbk.calendar.MainActivity}"
         drawable="calendar" />
 
+    <item
+        component="ComponentInfo{com.by_syk.nanoiconpack.sample/com.by_syk.lib.nanoiconpack.MainActivity}"
+        drawable="nano_icon_pack" />
+
 </resources>

@@ -1,5 +1,7 @@
 # NanoIconPack 图标包APP模板
 
+![NanoIconPack](art/ic_launcher_nanoiconpack.png)
+
 
 NanoIconPack 是一个简单轻量的图标包APP模板，支持
 + 主页展示所有图标，按目标APP名（或图标名）拼音排序
@@ -40,11 +42,7 @@ NanoIconPack 是一个简单轻量的图标包APP模板，支持
 
 ### Sample APP
 
-下载 Sample APP：[NanoIconPack Sample](https://github.com/by-syk/NanoIconPack/raw/master/out/com.by_syk.nanoiconpack.sample_v1.3.0.1.nightly(17021300).apk)
-
-> :fire: 征求启动图标……
->
-> 我不擅长画图。如果你有想法并且愿意帮忙，欢迎[联系我](#联系开发者)并附带图标成品（如果同时提供源文件则最好了）。在此谢过。:pray:
+下载 Sample APP：[NanoIconPack Sample](https://github.com/by-syk/NanoIconPack/raw/master/out/com.by_syk.nanoiconpack.sample_v1.3.0.4.nightly(17021301).apk)
 
 
 ### 基于 NanoIconPack 的 APP
