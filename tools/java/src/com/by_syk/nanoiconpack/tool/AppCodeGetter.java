@@ -28,7 +28,7 @@ public class AppCodeGetter {
     private static Scanner scanner = new Scanner(System.in);
     
     public static void main(String[] args) {
-        System.out.println("=== AppCodeGetter(v1.0.0) for NanoIconPack(v1.3.0) ===");
+        System.out.println("=== AppCodeGetter(v1.0.1) for NanoIconPack(v1.3.0) ===");
         
         String apkPath = getApkPath(args);
         System.out.println();
@@ -122,14 +122,14 @@ public class AppCodeGetter {
     private static String appName2drawableName(String label, String labelEn) {
         if (labelEn != null && labelEn.matches("[A-Za-z\\d ]+")) {
             Matcher matcher = Pattern.compile("([a-z])([A-Z])").matcher(labelEn);
-            if (matcher.find()) {
-                labelEn = matcher.replaceAll(matcher.group(1) + " " + matcher.group(2));
+            while (matcher.find()) {
+                labelEn = labelEn.replaceFirst(matcher.group(0), matcher.group(1) + " " + matcher.group(2));
             }
             return labelEn.replaceAll(" ", "_").toLowerCase();
         } else if (label != null && label.matches("[A-Za-z\\d ]+")) {
             Matcher matcher = Pattern.compile("([a-z])([A-Z])").matcher(label);
-            if (matcher.find()) {
-                label = matcher.replaceAll(matcher.group(1) + " " + matcher.group(2));
+            while (matcher.find()) {
+                label = label.replaceFirst(matcher.group(0), matcher.group(1) + " " + matcher.group(2));
             }
             return label.replaceAll(" ", "_").toLowerCase();
         }
