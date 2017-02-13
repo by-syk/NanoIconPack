@@ -13,7 +13,7 @@ NanoIconPack 是一个简单轻量的图标包APP模板，支持
 
 相关截图（更多截图去[这里](art/SCREENSHOTS.md)查看）：
 
-![Nano](art/screenshots_nano.png)
+![Nano](art/screenshots_nano_1.png)
 
 您可以基于此进行二次开发，只需要装配图标、修改少量文件即可用于发布。
 
