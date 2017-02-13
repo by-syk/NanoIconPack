@@ -1,7 +1,7 @@
-# NanoIconPack 图标包模板
+# NanoIconPack 图标包APP模板
 
 
-NanoIconPack 是一个简单轻量的图标包模板，支持
+NanoIconPack 是一个简单轻量的图标包APP模板，支持
 + 主页展示所有图标，按目标APP名（或图标名）拼音排序
 + 过滤展示已适配图标
 + 列出未适配APP，快速获取APP代码
