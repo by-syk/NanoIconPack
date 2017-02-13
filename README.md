@@ -76,6 +76,11 @@ NanoIconPack 追求简单轻量，只支持图标，如果您有更多需求，�
 | [afollestad / polar-dashboard](https://github.com/afollestad/polar-dashboard) | ![Polar](art/ic_launcher_polar.png) |
 
 
+### Sample APP 启动图标征集中……
+
+我不擅长画图。如果你有想法并且愿意帮忙，欢迎联系我并附带图标成品（如果同时提供源文件则最好了）。在此谢过。
+
+
 ### 联系开发者
 
 + E-mail: [By_syk@163.com](mailto:By_syk@163.com "By_syk")
