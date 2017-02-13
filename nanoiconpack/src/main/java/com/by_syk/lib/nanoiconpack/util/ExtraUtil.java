@@ -474,16 +474,16 @@ public class ExtraUtil {
 
     @NonNull
     public static String appName2drawableName(String label, String labelEn) {
-        if (!TextUtils.isEmpty(labelEn) && labelEn.matches("[A-Za-z\\d ]+")) {
+        if (labelEn != null && labelEn.matches("[A-Za-z\\d ]+")) {
             Matcher matcher = Pattern.compile("([a-z])([A-Z])").matcher(labelEn);
-            if (matcher.find()) {
-                labelEn = matcher.replaceAll(matcher.group(1) + " " + matcher.group(2));
+            while (matcher.find()) {
+                labelEn = labelEn.replaceFirst(matcher.group(0), matcher.group(1) + " " + matcher.group(2));
             }
             return labelEn.replaceAll(" ", "_").toLowerCase();
-        } else if (!TextUtils.isEmpty(label) && label.matches("[A-Za-z\\d ]+")) {
+        } else if (label != null && label.matches("[A-Za-z\\d ]+")) {
             Matcher matcher = Pattern.compile("([a-z])([A-Z])").matcher(label);
-            if (matcher.find()) {
-                label = matcher.replaceAll(matcher.group(1) + " " + matcher.group(2));
+            while (matcher.find()) {
+                label = label.replaceFirst(matcher.group(0), matcher.group(1) + " " + matcher.group(2));
             }
             return label.replaceAll(" ", "_").toLowerCase();
         }

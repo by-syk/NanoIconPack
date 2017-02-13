@@ -34,10 +34,11 @@
     <!--<item drawable="settings" />-->
     <!--<item drawable="sms" />-->
 
-    <category title="All(4)" /><!-- All icons here -->
+    <category title="All(5)" /><!-- All icons here -->
     <item drawable="calendar" />
     <item drawable="nano_icon_pack" />
     <item drawable="nano_icon_pack_1" />
     <item drawable="nano_icon_pack_2" />
+    <item drawable="nano_icon_pack_3" />
 
 </resources>
