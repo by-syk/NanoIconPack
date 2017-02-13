@@ -1,5 +1,7 @@
 # NanoIconPack 图标包APP模板
 
+[![License](https://img.shields.io/badge/License-Apache%202.0-yellowgreen.svg)](https://opensource.org/licenses/Apache-2.0)
+
 ![NanoIconPack](art/ic_launcher_nanoiconpack.png)
 
 
@@ -79,6 +81,7 @@ NanoIconPack 追求简单轻量，只支持图标，如果您有更多需求，�
 | :---- | :----: |
 | [jahirfiquitiva / IconShowcase-Dashboard](https://github.com/jahirfiquitiva/IconShowcase-Dashboard) | ![IconShowcase](art/ic_launcher_iconshowcase.png) |
 | [afollestad / polar-dashboard](https://github.com/afollestad/polar-dashboard) | ![Polar](art/ic_launcher_polar.png) |
+| [danimahardhika / candybar-library](https://github.com/danimahardhika/candybar-library) | ![CandyBar](art/ic_launcher_candybar.png) |
 
 
 ### 联系开发者

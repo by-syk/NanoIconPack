@@ -7,7 +7,7 @@ android {
     defaultConfig {
         minSdkVersion Integer.parseInt(project.MIN_SDK_VERSION)
         targetSdkVersion Integer.parseInt(project.TARGET_SDK_VERSION)
-        versionCode 17021200
+        versionCode 17021400
         versionName "1.3.0.nightly"
     }
 
@@ -25,7 +25,7 @@ dependencies {
 
     compile(name: 'aboutmsgrender-1.0.2', ext: 'aar')
     compile(name: 'globaltoast-1.1.2', ext: 'aar')
-    compile(name: 'icongridview-1.0.5', ext: 'aar')
+    compile(name: 'icongridview-1.0.6', ext: 'aar')
     compile(name: 'sp-1.0.2', ext: 'aar')
     compile(name: 'quickscroll-0.8.1', ext: 'aar')
 
