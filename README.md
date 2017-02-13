@@ -1,7 +1,7 @@
 # NanoIconPack 图标包APP模板
 
 ![Developing](https://img.shields.io/badge/Developing-v1.3.0-green.svg)
-[![Download](https://img.shields.io/badge/Download-Sample%20APP-brightgreen.svg)](https://github.com/by-syk/NanoIconPack/raw/master/out/com.by_syk.nanoiconpack.sample_v1.3.0.5.nightly(17021302).apk)
+[![Download](https://img.shields.io/badge/Download-Sample%20APP-brightgreen.svg)](https://github.com/by-syk/NanoIconPack/raw/master/out/com.by_syk.nanoiconpack.sample_v1.3.0.5.nightly(17021400).apk)
 [![License](https://img.shields.io/badge/License-Apache%202.0-yellowgreen.svg)](https://opensource.org/licenses/Apache-2.0)
 
 ![NanoIconPack](art/ic_launcher_nanoiconpack.png)
@@ -19,7 +19,7 @@ NanoIconPack 是一个简单轻量的图标包APP模板，支持
 
 相关截图（更多截图去[这里](art/SCREENSHOTS.md)查看）：
 
-![Nano](art/screenshots_nano_1.png)
+![NanoIconPack](art/screenshots_nano_1.png)
 
 您可以基于此进行二次开发，只需要装配图标、修改少量文件即可用于发布。
 
