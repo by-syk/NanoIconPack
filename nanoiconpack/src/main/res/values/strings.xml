@@ -19,7 +19,7 @@
 
     <string name="app_name">NanoIconPack</string>
 
-    <string name="lib_ver" translatable="false">1.3.0</string>
+    <string name="lib_ver" translatable="false">1.3.1</string>
 
     <string name="dlg_title_apply">Apply to launcher</string>
     <string name="dlg_title_donate">Donate</string>

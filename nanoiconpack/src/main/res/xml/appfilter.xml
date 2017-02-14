@@ -18,6 +18,15 @@
 <!-- For Nova, Apex, ADW, Aviate, Action 3 -->
 <resources>
 
+    <!--<iconback
+        img1="iconback" />
+    <iconmask
+        img1="iconmask" />
+    <iconupon
+        img1="iconupon" />
+    <scale
+        factor="0.6" />-->
+
     <!-- NOVA LAUNCHER STUFF -->
     <!--<item
         component=":LAUNCHER_ACTION_APP_DRAWER"
