@@ -42,12 +42,12 @@ NanoIconPack 是一个简单轻量的图标包APP模板，支持
 + Holo Launcher
 + Arrow桌面
 + Hola桌面
-+ 等
++ 等……
 
 以及一些系统默认启动器，比如
 + Xperia Home Launcher
 + 氢桌面
-+ 等
++ 等……
 
 
 ### 二次开发
