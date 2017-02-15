@@ -36,6 +36,7 @@ import android.widget.ListView;
 import com.andraskindler.quickscroll.QuickScroll;
 import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.bean.AppBean;
+import com.by_syk.lib.nanoiconpack.dialog.AppTapHintDialog;
 import com.by_syk.lib.nanoiconpack.util.C;
 import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
 import com.by_syk.lib.nanoiconpack.util.PkgUtil;

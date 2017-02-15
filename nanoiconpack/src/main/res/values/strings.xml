@@ -33,7 +33,6 @@
 
     <string name="toast_not_installed">%s is not installed or it\'s disabled.</string>
     <string name="toast_code_copied">%d app(s)\'s codes copied</string>
-    <string name="toast_launcher_ok">More launchers are supported, please try applying from launcher.</string>
     <string name="toast_icon_saved">Icon saved.</string>
     <string name="toast_icon_not_saved">Failed to save the icon.</string>
 
@@ -47,6 +46,7 @@
     <string name="cur_launcher">%s (Current)</string>
     <string name="app_tap_desc">TAP one to copy its code, and LONG PRESS to share it.</string>
     <string name="icon_tap_desc">TAP icon to view its detail, and LONG PRESS to save to gallery.</string>
+    <string name="more_launchers_desc">Besides the listed, more launchers are supported, please try applying from launcher.</string>
     <string name="copyright_desc">"Icon pack author: [@By_syk](copy:@By_syk)
 How about paying me a cup of coffee if you like these little guys? My Alipay: [By_syk@163.com](alipay:aex05154fiiurupx5ai0dd1|By_syk@163.com)
 Anything about these icons, please contact: [By_syk@163.com](email:By_syk@163.com)

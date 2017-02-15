@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package com.by_syk.lib.nanoiconpack.fragment;
+package com.by_syk.lib.nanoiconpack.dialog;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.app.DialogFragment;
 
 import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.storage.SP;
@@ -29,15 +29,15 @@ import com.by_syk.lib.storage.SP;
  * Created by By_syk on 2017-01-01.
  */
 
-public class AppTapHintDialog extends DialogFragment {
+public class IconTapHintDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         return new AlertDialog.Builder(getActivity())
-                .setMessage(R.string.app_tap_desc)
+                .setMessage(R.string.icon_tap_desc)
                 .setPositiveButton(R.string.dlg_bt_got_it, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        (new SP(getActivity(), false)).save("appTapHint", true);
+                        (new SP(getActivity(), false)).save("iconTapHint", true);
                     }
                 })
                 .create();

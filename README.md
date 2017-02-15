@@ -38,7 +38,7 @@ NanoIconPack 是一个简单轻量的图标包APP模板，支持
 同时还支持许多未列出的启动器，比如
 + Aviate
 + Action 3
-+ Smart Launcher Pro
++ Smart Launcher
 + Holo Launcher
 + Arrow桌面
 + Hola桌面

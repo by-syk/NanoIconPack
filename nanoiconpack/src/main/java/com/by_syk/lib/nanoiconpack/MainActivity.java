@@ -25,9 +25,9 @@ import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.by_syk.lib.nanoiconpack.fragment.ApplyDialog;
+import com.by_syk.lib.nanoiconpack.dialog.ApplyDialog;
 import com.by_syk.lib.nanoiconpack.fragment.AppsFragment;
-import com.by_syk.lib.nanoiconpack.fragment.CopyrightDialog;
+import com.by_syk.lib.nanoiconpack.dialog.CopyrightDialog;
 import com.by_syk.lib.nanoiconpack.fragment.IconsFragment;
 
 import java.util.Locale;

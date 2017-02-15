@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.by_syk.lib.nanoiconpack.fragment;
+package com.by_syk.lib.nanoiconpack.dialog;
 
 import android.Manifest;
 import android.animation.LayoutTransition;

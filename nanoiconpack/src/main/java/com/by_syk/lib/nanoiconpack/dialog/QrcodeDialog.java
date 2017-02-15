@@ -1,4 +1,4 @@
-package com.by_syk.lib.nanoiconpack.fragment;
+package com.by_syk.lib.nanoiconpack.dialog;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

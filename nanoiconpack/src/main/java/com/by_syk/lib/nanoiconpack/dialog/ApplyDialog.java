@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.by_syk.lib.nanoiconpack.fragment;
+package com.by_syk.lib.nanoiconpack.dialog;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -28,7 +28,6 @@ import android.text.TextUtils;
 import com.by_syk.lib.nanoiconpack.util.PkgUtil;
 import com.by_syk.lib.toast.GlobalToast;
 import com.by_syk.lib.nanoiconpack.R;
-import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
 
 /**
  * Created by By_syk on 2017-01-27.
@@ -66,7 +65,8 @@ public class ApplyDialog extends DialogFragment {
 
     private void apply(int pos) {
         if (TextUtils.isEmpty(launcherPkgs[pos])) {
-            GlobalToast.showToast(getActivity(), R.string.toast_launcher_ok, true);
+            HintDialog.newInstance(null, getString(R.string.more_launchers_desc),
+                    getString(R.string.dlg_bt_got_it)).show(getFragmentManager(), "hintDialog");
             return;
         }
         if (!PkgUtil.isPkgInstalledAndEnabled(getActivity(), launcherPkgs[pos])) {

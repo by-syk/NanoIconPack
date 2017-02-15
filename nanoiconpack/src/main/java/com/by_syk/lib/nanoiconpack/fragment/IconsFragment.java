@@ -18,7 +18,6 @@ package com.by_syk.lib.nanoiconpack.fragment;
 
 import android.Manifest;
 import android.annotation.TargetApi;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
@@ -36,6 +35,8 @@ import android.view.ViewGroup;
 
 import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.bean.IconBean;
+import com.by_syk.lib.nanoiconpack.dialog.IconDialog;
+import com.by_syk.lib.nanoiconpack.dialog.IconTapHintDialog;
 import com.by_syk.lib.nanoiconpack.util.C;
 import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
 import com.by_syk.lib.nanoiconpack.util.PkgUtil;

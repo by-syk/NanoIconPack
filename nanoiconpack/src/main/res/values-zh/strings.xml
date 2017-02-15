@@ -29,7 +29,6 @@
 
     <string name="toast_not_installed">未安装 %s 或其已被停用</string>
     <string name="toast_code_copied">已复制%d个APP代码</string>
-    <string name="toast_launcher_ok">还有许多启动器已被支持，请尝试从启动器设置应用图标包</string>
     <string name="toast_icon_saved">图标已保存到图库</string>
     <string name="toast_icon_not_saved">图标保存失败</string>
 
@@ -37,6 +36,7 @@
     <string name="cur_launcher">%s (当前)</string>
     <string name="app_tap_desc">短按以复制该APP代码，长按则直接分享。</string>
     <string name="icon_tap_desc">短按查看详情，长按保存到图库。</string>
+    <string name="more_launchers_desc">除了列出的启动器，还有许多启动器已被支持，请尝试从启动器设置应用图标包。</string>
     <string name="copyright_desc">"灵魂图匠：[@By_syk](copy:@By_syk)
 如果喜欢它们，请我吃串串儿吧。支付宝：[By_syk@163.com](alipay:aex05154fiiurupx5ai0dd1|By_syk@163.com)
 关于这些图标有任何问题请联系：[By_syk@163.com](email:By_syk@163.com)
