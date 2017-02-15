@@ -37,12 +37,12 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="com.teslacoilsw.launcher.THEME" />
             </intent-filter>
-            <!-- For Apex, also Aviate -->
+            <!-- For Apex -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="com.anddoes.launcher.THEME" />
             </intent-filter>
-            <!-- For ADW, also Action 3 -->
+            <!-- For ADW -->
             <intent-filter>
                 <action android:name="org.adw.launcher.THEMES" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -52,6 +52,10 @@
                 <action android:name="com.sonymobile.home.ICON_PACK" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+            <!-- Other launchers:
+                 Smart recognizes Apex's or ADW's
+                 Action 3 recognizes ADW's
+                 and more... -->
         </activity>
 
         <activity android:name="com.by_syk.lib.nanoiconpack.IconPickActivity">

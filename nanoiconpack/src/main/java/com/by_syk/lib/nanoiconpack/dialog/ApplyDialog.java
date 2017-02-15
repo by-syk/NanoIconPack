@@ -86,7 +86,7 @@ public class ApplyDialog extends DialogFragment {
                 apply2Adw();
                 break;
             case 3:
-                apply2Aviate();
+                apply2Smart();
                 break;
             case 4:
                 apply2Action3();
@@ -130,11 +130,9 @@ public class ApplyDialog extends DialogFragment {
         }
     }
 
-    private void apply2Aviate() {
-        Intent intent = new Intent("com.tul.aviate.SET_THEME");
-        intent.setPackage("com.tul.aviate");
-        intent.putExtra("THEME_PACKAGE", getActivity().getPackageName());
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    private void apply2Smart() {
+        Intent intent = new Intent("ginlemon.smartlauncher.setGSLTHEME");
+        intent.putExtra("package", getActivity().getPackageName());
         try {
             getActivity().startActivity(intent);
         } catch (ActivityNotFoundException e) {
@@ -152,4 +150,16 @@ public class ApplyDialog extends DialogFragment {
             e.printStackTrace();
         }
     }
+
+    /*private void apply2Aviate() {
+        Intent intent = new Intent("com.tul.aviate.SET_THEME");
+        intent.setPackage("com.tul.aviate");
+        intent.putExtra("THEME_PACKAGE", getActivity().getPackageName());
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        try {
+            getActivity().startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            e.printStackTrace();
+        }
+    }*/
 }

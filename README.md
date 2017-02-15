@@ -35,10 +35,12 @@ NanoIconPack 是一个简单轻量的图标包APP模板，支持
 | Apex Launcher | ![Apex](art/ic_launcher_apex.png) |
 | ADW Launcher | ![ADW](art/ic_launcher_adw.png) |
 
-同时还支持许多未列出的启动器，比如
-+ Aviate
-+ Action 3
+这三个应该是启动器界的元老了（未考究），很多后来启动器沿用或支持它们的图标包规范。
+
+NanoIconPack 同时还支持许多未列出的启动器，比如
 + Smart Launcher
++ Action 3
++ Aviate
 + Holo Launcher
 + Arrow桌面
 + Hola桌面
