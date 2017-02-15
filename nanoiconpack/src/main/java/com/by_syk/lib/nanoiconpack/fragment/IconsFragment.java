@@ -38,6 +38,7 @@ import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.bean.IconBean;
 import com.by_syk.lib.nanoiconpack.util.C;
 import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
+import com.by_syk.lib.nanoiconpack.util.PkgUtil;
 import com.by_syk.lib.nanoiconpack.util.adapter.IconAdapter;
 import com.by_syk.lib.storage.SP;
 import com.by_syk.lib.toast.GlobalToast;
@@ -206,8 +207,8 @@ public class IconsFragment extends Fragment {
 
         private List<IconBean> filterMatched(@NonNull List<IconBean> dataList) {
             List<String> installedIconList = new ArrayList<>();
-//            List<String> installedPkgList = ExtraUtil.getInstalledPkgs(getActivity());
-            List<String> installedPkgList = ExtraUtil.getInstalledPkgsWithLauncherActivity(getActivity());
+//            List<String> installedPkgList = PkgUtil.getInstalledPkgs(getActivity());
+            List<String> installedPkgList = PkgUtil.getInstalledPkgsWithLauncherActivity(getActivity());
             XmlResourceParser parser = getResources().getXml(R.xml.appfilter);
             try {
                 int event = parser.getEventType();

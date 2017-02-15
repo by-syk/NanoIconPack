@@ -37,7 +37,7 @@ NanoIconPack 是一个简单轻量的图标包APP模板，支持
 | Aviate | ![Aviate](art/ic_launcher_aviate.png) |
 | Action 3 | ![Action3](art/ic_launcher_action_3.png) |
 
-同时还支持许多未列出的启动器，比如 Holo Launcher、Xperia Home Launcher 等。
+同时还支持许多未列出的启动器，比如 Smart Launcher Pro、Holo Launcher、Arrow桌面、Hola桌面 等，以及一些系统默认启动器，比如 Xperia Home Launcher、氢桌面 等。
 
 
 ### 二次开发

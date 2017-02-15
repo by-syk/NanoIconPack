@@ -38,6 +38,7 @@ import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.bean.AppBean;
 import com.by_syk.lib.nanoiconpack.util.C;
 import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
+import com.by_syk.lib.nanoiconpack.util.PkgUtil;
 import com.by_syk.lib.nanoiconpack.util.adapter.AppAdapter;
 import com.by_syk.lib.storage.SP;
 import com.by_syk.lib.toast.GlobalToast;
@@ -129,8 +130,8 @@ public class AppsFragment extends Fragment {
         }
 
         String label = bean.getLabel();
-        String labelEn = ExtraUtil.getAppLabelEn(getActivity(), bean);
-        boolean isSysApp = ExtraUtil.isSysApp(getActivity(), bean.getPkgName());
+        String labelEn = PkgUtil.getAppLabelEn(getActivity(), bean);
+        boolean isSysApp = PkgUtil.isSysApp(getActivity(), bean.getPkgName());
         String code = getString(isSysApp ? R.string.app_component_1 : R.string.app_component,
                 Build.BRAND, Build.MODEL, label, labelEn,
                 bean.getPkgName(), bean.getLauncherActivity(),

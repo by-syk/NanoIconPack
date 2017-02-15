@@ -27,9 +27,9 @@
     <string name="menu_apply">应用</string>
     <string name="menu_copyright">版权</string>
 
-    <string name="toast_not_installed">未安装 %s</string>
+    <string name="toast_not_installed">未安装 %s 或其已被停用</string>
     <string name="toast_code_copied">已复制%d个APP代码</string>
-    <string name="toast_launcher_ok">%1$s 已被支持，请从启动器设置应用图标包</string>
+    <string name="toast_launcher_ok">还有许多启动器已被支持，请尝试从启动器设置应用图标包</string>
     <string name="toast_icon_saved">图标已保存到图库</string>
     <string name="toast_icon_not_saved">图标保存失败</string>
 
@@ -42,7 +42,7 @@
 关于这些图标有任何问题请联系：[By_syk@163.com](email:By_syk@163.com)
 Copyright &#169; 2017 By_syk. All rights reserved."</string>
     <!-- Please keep this and do not modify -->
-    <string name="copyright_base_desc">"APP基于[@By_syk](copy:@By_syk)开发并开源的NanoIconPack图标包模板(v%s)。
+    <string name="copyright_base_desc">"APP基于[@By_syk](copy:@By_syk)开发并开源的图标包APP模板——NanoIconPack(v%s)。
 [https://github.com/by-syk/NanoIconPack](https://github.com/by-syk/NanoIconPack)
 Licensed under [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0).
 Copyright &#169; 2017 By_syk. All rights reserved."</string>

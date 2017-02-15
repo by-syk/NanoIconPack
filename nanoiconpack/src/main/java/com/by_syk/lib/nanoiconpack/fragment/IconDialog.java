@@ -42,6 +42,7 @@ import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.bean.IconBean;
 import com.by_syk.lib.nanoiconpack.util.C;
 import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
+import com.by_syk.lib.nanoiconpack.util.PkgUtil;
 import com.by_syk.lib.toast.GlobalToast;
 
 import java.util.List;
@@ -201,7 +202,7 @@ public class IconDialog extends DialogFragment {
 
             List<String> matchedPkgList = ExtraUtil.getAppFilterPkg(getResources(), iconBean.getName());
             for (String pkgName : matchedPkgList) {
-                if (ExtraUtil.isPkgInstalled(getActivity(), pkgName)) {
+                if (PkgUtil.isPkgInstalled(getActivity(), pkgName)) {
                     PackageManager packageManager = getActivity().getPackageManager();
                     try {
                         PackageInfo packageInfo = packageManager.getPackageInfo(pkgName, 0);

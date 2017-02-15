@@ -25,6 +25,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 
+import com.by_syk.lib.nanoiconpack.util.PkgUtil;
 import com.by_syk.lib.toast.GlobalToast;
 import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
@@ -41,7 +42,8 @@ public class ApplyDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         launcherNames = getResources().getStringArray(R.array.launchers);
         launcherPkgs = new String[launcherNames.length];
-        String launcherPkg = ExtraUtil.getCurLauncher(getActivity());
+
+        String launcherPkg = PkgUtil.getCurLauncher(getActivity());
         for (int i = 0, len = launcherNames.length; i < len; ++i) {
             String[] paras = launcherNames[i].split("\\|", -1);
             launcherNames[i] = paras[0];
@@ -64,11 +66,10 @@ public class ApplyDialog extends DialogFragment {
 
     private void apply(int pos) {
         if (TextUtils.isEmpty(launcherPkgs[pos])) {
-            GlobalToast.showToast(getActivity(), getString(R.string.toast_launcher_ok,
-                    launcherNames[pos]), true);
+            GlobalToast.showToast(getActivity(), R.string.toast_launcher_ok, true);
             return;
         }
-        if (!ExtraUtil.isPkgInstalled(getActivity(), launcherPkgs[pos])) {
+        if (!PkgUtil.isPkgInstalledAndEnabled(getActivity(), launcherPkgs[pos])) {
             GlobalToast.showToast(getActivity(), getString(R.string.toast_not_installed,
                     launcherNames[pos]));
             return;
