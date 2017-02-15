@@ -1,8 +1,8 @@
 # NanoIconPack 图标包APP模板
 
-![Developing](https://img.shields.io/badge/Developing-v1.3.1-green.svg)
+![Developing](https://img.shields.io/badge/Developing-v1.3.2-green.svg)
 [![Release](https://img.shields.io/badge/Release-v1.3.0-brightgreen.svg)](https://github.com/by-syk/NanoIconPack/releases/tag/1.3.0)
-[![Download](https://img.shields.io/badge/Download-Sample%20APP-brightgreen.svg)](https://github.com/by-syk/NanoIconPack/raw/master/out/com.by_syk.nanoiconpack.sample_v1.3.0.5(17021401).apk)
+[![Download](https://img.shields.io/badge/Download-Sample%20APP-brightgreen.svg)](https://github.com/by-syk/NanoIconPack/raw/master/out/com.by_syk.nanoiconpack.sample_v1.3.2.6.nightly(17021500).apk)
 [![License](https://img.shields.io/badge/License-Apache%202.0-yellowgreen.svg)](https://github.com/by-syk/NanoIconPack/blob/master/LICENSE)
 
 ![NanoIconPack](art/ic_launcher_nanoiconpack.png)
@@ -38,7 +38,7 @@ NanoIconPack 是一个简单轻量的图标包APP模板，支持
 这三个应该是启动器界的元老了（未考究），很多后来启动器沿用或支持它们的图标包规范。
 
 NanoIconPack 同时还支持许多未列出的启动器，比如
-+ Smart Launcher
++ Smart Launcher Pro
 + Action 3
 + Aviate
 + Holo Launcher
