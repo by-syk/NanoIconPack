@@ -35,7 +35,19 @@ NanoIconPack 是一个简单轻量的图标包APP模板，支持
 | Apex Launcher | ![Apex](art/ic_launcher_apex.png) |
 | ADW Launcher | ![ADW](art/ic_launcher_adw.png) |
 
-同时还支持许多未列出的启动器，比如 **Aviate**、**Action 3**、**Smart Launcher Pro**、**Holo Launcher**、**Arrow桌面**、**Hola桌面**等，以及一些系统默认启动器，比如 **Xperia Home Launcher**、**氢桌面**等。
+同时还支持许多未列出的启动器，比如
++ Aviate
++ Action 3
++ Smart Launcher Pro
++ Holo Launcher
++ Arrow桌面
++ Hola桌面
++ 等
+
+以及一些系统默认启动器，比如
++ Xperia Home Launcher
++ 氢桌面
++ 等
 
 
 ### 二次开发
