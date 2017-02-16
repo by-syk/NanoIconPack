@@ -17,6 +17,7 @@
 package com.by_syk.lib.nanoiconpack.bean;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import java.io.Serializable;
 
@@ -30,6 +31,7 @@ public class IconBean implements Serializable {
     @NonNull
     private String name = "";
 
+    @Nullable
     private String label;
 
     private String labelPinyin;
@@ -72,6 +74,7 @@ public class IconBean implements Serializable {
         return name;
     }
 
+    @Nullable
     public String getLabel() {
         return label;
     }
