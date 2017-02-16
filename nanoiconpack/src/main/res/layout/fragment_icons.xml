@@ -26,29 +26,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <android.support.v7.widget.RecyclerView
+    <com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
+        style="@style/FastScroller"
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:scrollbars="vertical"
-        android:scrollbarStyle="outsideOverlay"
-        android:paddingLeft="@dimen/icon_layout_horz_margin"
-        android:paddingRight="@dimen/icon_layout_horz_margin"
-        android:paddingTop="@dimen/padding_above_list" />
-
-    <!--<com.pluscubed.recyclerfastscroll.RecyclerFastScroller
-        android:id="@+id/fast_scroller"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="end" />-->
-
-    <!--<com.futuremind.recyclerviewfastscroll.FastScroller
-        style="@style/FastScroller"
-        android:id="@+id/fast_scroller"
-        android:orientation="vertical"
-        android:layout_gravity="end"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent" />-->
+        android:layout_height="match_parent" />
 
 </FrameLayout>
