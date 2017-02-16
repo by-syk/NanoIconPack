@@ -27,7 +27,6 @@ dependencies {
     compile(name: 'globaltoast-1.1.2', ext: 'aar')
     compile(name: 'icongridview-1.0.6', ext: 'aar')
     compile(name: 'sp-1.0.2', ext: 'aar')
-    compile(name: 'quickscroll-0.8.1', ext: 'aar')
 
     compile 'com.android.support:support-v4:25.1.0'
     compile 'com.android.support:recyclerview-v7:25.1.0'
