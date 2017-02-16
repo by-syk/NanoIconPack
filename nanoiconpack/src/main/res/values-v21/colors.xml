@@ -21,4 +21,6 @@
     <color name="color_primary_dark">#455a64</color>
     <color name="color_accent">#ff5252</color>
 
+    <color name="tag">@color/color_accent</color>
+
 </resources>

@@ -26,18 +26,17 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.TypedValue;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
 
-import com.andraskindler.quickscroll.QuickScroll;
 import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.bean.AppBean;
 import com.by_syk.lib.nanoiconpack.dialog.AppTapHintDialog;
-import com.by_syk.lib.nanoiconpack.util.C;
+import com.by_syk.lib.nanoiconpack.widget.DividerItemDecoration;
 import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
 import com.by_syk.lib.nanoiconpack.util.PkgUtil;
 import com.by_syk.lib.nanoiconpack.util.adapter.AppAdapter;
@@ -64,6 +63,8 @@ public class AppsFragment extends Fragment {
 
     private AppAdapter appAdapter;
 
+    private SwipeRefreshLayout swipeRefreshLayout;
+
     private String appCodeSelected = "";
 
     @Nullable
@@ -84,45 +85,54 @@ public class AppsFragment extends Fragment {
         super.onStart();
 
         appCodeSelected = "";
+
+        appAdapter.clearTags();
     }
 
     private void init() {
         sp = new SP(getActivity(), false);
 
-        ListView lvApps = (ListView) contentView.findViewById(R.id.lv_apps);
-        lvApps.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        appAdapter = new AppAdapter(getActivity());
+        appAdapter.setOnItemClickListener(new AppAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onClick(int pos, AppBean bean) {
                 if (!sp.getBoolean("appTapHint")) {
                     (new AppTapHintDialog()).show(getActivity().getFragmentManager(), "appTapTintDialog");
                     return;
                 }
-                copyOrShareAppCode(appAdapter.getItem(i), true);
+                copyOrShareAppCode(bean, true);
+
+                appAdapter.tag(pos);
             }
-        });
-        lvApps.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
             @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onLongClick(int pos, AppBean bean) {
                 if (!sp.getBoolean("appTapHint")) {
                     (new AppTapHintDialog()).show(getActivity().getFragmentManager(), "hintDialog");
-                    return true;
+                    return;
                 }
-                copyOrShareAppCode(appAdapter.getItem(i), false);
-                return true;
+                copyOrShareAppCode(bean, false);
+
+                appAdapter.tag(pos);
             }
         });
 
-        appAdapter = new AppAdapter(getActivity());
-        lvApps.setAdapter(appAdapter);
+        RecyclerView recyclerView = (RecyclerView) contentView.findViewById(R.id.recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),
+                DividerItemDecoration.VERTICAL));
+        recyclerView.setAdapter(appAdapter);
+//        ScaleInAnimationAdapter animationAdapter = new ScaleInAnimationAdapter(appAdapter);
+//        animationAdapter.setFirstOnly(false);
+//        recyclerView.setAdapter(animationAdapter);
 
-        QuickScroll quickscroll = (QuickScroll) contentView.findViewById(R.id.quick_scroll);
-        quickscroll.init(QuickScroll.TYPE_INDICATOR_WITH_HANDLE, lvApps, appAdapter, QuickScroll.STYLE_HOLO);
-        quickscroll.setFixedSize(1);
-        if (C.SDK >= 21) {
-            int accentColor = getResources().getColor(R.color.color_accent);
-            quickscroll.setHandlebarColor(accentColor, accentColor, 0x80000000 + ((accentColor << 8) >>> 8));
-        }
-        quickscroll.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 48);
+        swipeRefreshLayout = (SwipeRefreshLayout) contentView.findViewById(R.id.swipe_refresh_layout);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                (new LoadAppsTask()).execute();
+            }
+        });
     }
 
     private void copyOrShareAppCode(AppBean bean, boolean toCopyOrShare) {
@@ -199,6 +209,10 @@ public class AppsFragment extends Fragment {
             contentView.findViewById(R.id.pb_loading).setVisibility(View.GONE);
 
             appAdapter.refresh(list);
+
+            swipeRefreshLayout.setRefreshing(false);
+
+            appCodeSelected = "";
         }
 
         private void removeMatched(@NonNull List<AppBean> appList) {

@@ -25,5 +25,7 @@
     <dimen name="padding_content_dlg">24dp</dimen>
 
     <dimen name="icon_layout_horz_margin">8dp</dimen>
+    <dimen name="tag_width">6dp</dimen>
+    <dimen name="half_tag_width">3dp</dimen>
 
 </resources>

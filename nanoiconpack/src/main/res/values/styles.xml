@@ -48,4 +48,12 @@
         <item name="igStyle">cross</item>
     </style>
 
+    <style name="FastScroller">
+        <item name="fastScrollPopupBgColor">@android:color/holo_blue_light</item>
+        <item name="fastScrollPopupTextColor">@android:color/primary_text_dark</item>
+        <item name="fastScrollThumbColor">@android:color/holo_blue_light</item>
+        <item name="fastScrollPopupBackgroundSize">72dp</item>
+        <item name="fastScrollPopupTextSize">44dp</item>
+    </style>
+
 </resources>

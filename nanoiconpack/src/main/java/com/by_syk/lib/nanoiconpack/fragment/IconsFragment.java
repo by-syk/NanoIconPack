@@ -87,9 +87,11 @@ public class IconsFragment extends Fragment {
         sp = new SP(getActivity(), false);
 
         RecyclerView recyclerView = (RecyclerView) contentView.findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), getColumns()));
 
-        iconAdapter = new IconAdapter(getActivity());
+        int[] gridNumAndWidth = calculateGridNumAndWidth();
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), gridNumAndWidth[0]));
+
+        iconAdapter = new IconAdapter(getActivity(), gridNumAndWidth[1]);
         iconAdapter.setOnItemClickListener(new IconAdapter.OnItemClickListener() {
             @Override
             public void onClick(int pos, IconBean bean) {
@@ -111,25 +113,30 @@ public class IconsFragment extends Fragment {
             }
         });
         recyclerView.setAdapter(iconAdapter);
-
-//        RecyclerFastScroller fastScroller = (RecyclerFastScroller)
-//                contentView.findViewById(R.id.fast_scroller);
-//        fastScroller.attachRecyclerView(recyclerView);
-
-//        FastScroller fastScroller = (FastScroller)
-//                contentView.findViewById(R.id.fast_scroller);
-//        fastScroller.setRecyclerView(recyclerView);
+//        ScaleInAnimationAdapter animationAdapter = new ScaleInAnimationAdapter(iconAdapter);
+//        animationAdapter.setFirstOnly(false);
+//        recyclerView.setAdapter(animationAdapter);
     }
 
-    private int getColumns() {
+//    private int getColumns() {
+//        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+//        int totalWidth = displayMetrics.widthPixels;
+//        totalWidth = totalWidth - 2 * getResources()
+//                .getDimensionPixelSize(R.dimen.icon_layout_horz_margin);
+//
+//        int gridWidth = getResources().getDimensionPixelSize(R.dimen.grid_size);
+//
+//        return totalWidth / gridWidth;
+//    }
+
+    private int[] calculateGridNumAndWidth() {
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         int totalWidth = displayMetrics.widthPixels;
-        totalWidth = totalWidth - 2 * getResources()
-                .getDimensionPixelSize(R.dimen.icon_layout_horz_margin);
 
-        int gridWidth = getResources().getDimensionPixelSize(R.dimen.grid_size);
+        int minGridSize = getResources().getDimensionPixelSize(R.dimen.grid_size);
+        int num = totalWidth / minGridSize;
 
-        return totalWidth / gridWidth;
+        return new int[]{num, totalWidth / num};
     }
 
     @TargetApi(23)

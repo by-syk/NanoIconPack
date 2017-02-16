@@ -17,16 +17,17 @@
 package com.by_syk.lib.nanoiconpack.util.adapter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.andraskindler.quickscroll.Scrollable;
 import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.bean.AppBean;
+import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,58 +36,32 @@ import java.util.List;
  * Created by By_syk on 2017-01-27.
  */
 
-public class AppAdapter extends BaseAdapter implements Scrollable {
+public class AppAdapter extends RecyclerView.Adapter<AppAdapter.IconViewHolder>
+    implements FastScrollRecyclerView.SectionedAdapter {
     private LayoutInflater layoutInflater;
 
     private List<AppBean> dataList = new ArrayList<>();
+    private boolean[] tags = new boolean[0];
+
+    private OnItemClickListener onItemClickListener;
+
+    public interface OnItemClickListener {
+        void onClick(int pos, AppBean bean);
+        void onLongClick(int pos, AppBean bean);
+    }
 
     public AppAdapter(Context context) {
         layoutInflater = LayoutInflater.from(context);
     }
 
     @Override
-    public int getCount() {
-        return dataList.size();
+    public IconViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View contentView = layoutInflater.inflate(R.layout.item_app, parent, false);
+        return new IconViewHolder(contentView);
     }
 
     @Override
-    public AppBean getItem(int i) {
-        return dataList.get(i);
-    }
-
-    @Override
-    public long getItemId(int i) {
-        return i;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        /*
-         * 使用ViewHolder模式来避免没有必要的调用findViewById()：因为太多的findViewById也会影响性能
-         * ViewHolder模式通过getView()方法返回的视图的标签(Tag)中存储一个数据结构，
-         * 这个数据结构包含了指向我们要绑定数据的视图的引用，从而避免每次调用getView()的时候调用findViewById()
-         */
-        ViewHolder viewHolder;
-
-        // 重用缓存convertView传递给getView()方法来避免填充不必要的视图
-        if (convertView == null) {
-            /* 避免这样使用：
-             *     layoutInflater.inflate(R.layout.list_item, null);
-             * 查看
-             *     https://possiblemobile.com/2013/05/layout-inflation-as-intended/
-             */
-            convertView = layoutInflater.inflate(R.layout.item_app, parent, false);
-
-            viewHolder = new ViewHolder();
-            viewHolder.ivIcon = (ImageView) convertView.findViewById(R.id.iv_icon);
-            viewHolder.tvApp = (TextView) convertView.findViewById(R.id.tv_app);
-            viewHolder.tvComponent = (TextView) convertView.findViewById(R.id.tv_component);
-
-            convertView.setTag(viewHolder);
-        } else {
-            viewHolder = (ViewHolder) convertView.getTag();
-        }
-
+    public void onBindViewHolder(IconViewHolder holder, int position) {
         AppBean bean = dataList.get(position);
         String component = bean.getPkgName() + "/";
         if (bean.getLauncherActivity().startsWith(bean.getPkgName())) {
@@ -95,35 +70,85 @@ public class AppAdapter extends BaseAdapter implements Scrollable {
             component += bean.getLauncherActivity();
         }
 
-        viewHolder.ivIcon.setImageDrawable(bean.getIcon());
-        viewHolder.tvApp.setText(bean.getLabel());
-        viewHolder.tvComponent.setText(component);
+        holder.viewTag.setVisibility(tags[position] ? View.VISIBLE : View.GONE);
+        holder.ivIcon.setImageDrawable(bean.getIcon());
+        holder.tvApp.setText(bean.getLabel());
+        holder.tvComponent.setText(component);
 
-        return convertView;
+        if (onItemClickListener != null) {
+            final int INDEX = position;
+            holder.viewRoot.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onItemClickListener.onClick(INDEX, dataList.get(INDEX));
+                }
+            });
+            holder.viewRoot.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    onItemClickListener.onLongClick(INDEX, dataList.get(INDEX));
+                    return true;
+                }
+            });
+        }
     }
 
     @Override
-    public String getIndicatorForPosition(int childPosition, int groupPosition) {
-        return dataList.get(childPosition).getLabelPinyin().substring(0, 1).toUpperCase();
+    public int getItemCount() {
+        return dataList.size();
     }
 
+    @NonNull
     @Override
-    public int getScrollPosition(int childPosition, int groupPosition) {
-        return childPosition;
+    public String getSectionName(int position) {
+        return dataList.get(position).getLabelPinyin().substring(0, 1).toUpperCase();
     }
 
     public void refresh(List<AppBean> dataList) {
         if (dataList != null) {
             this.dataList.clear();
             this.dataList.addAll(dataList);
+            tags = new boolean[dataList.size()];
 
             notifyDataSetChanged();
         }
     }
 
-    private static class ViewHolder {
+    public void tag(int pos) {
+        if (!tags[pos]) {
+            tags[pos] = true;
+            notifyItemChanged(pos);
+        }
+    }
+
+    public void clearTags() {
+        for (int i = 0, len = tags.length; i < len; ++i) {
+            if (tags[i]) {
+                tags[i] = false;
+                notifyItemChanged(i);
+            }
+        }
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
+    static class IconViewHolder extends RecyclerView.ViewHolder {
+        View viewRoot;
+        View viewTag;
         ImageView ivIcon;
         TextView tvApp;
         TextView tvComponent;
+
+        IconViewHolder(View itemView) {
+            super(itemView);
+
+            viewRoot = itemView;
+            viewTag = itemView.findViewById(R.id.view_tag);
+            ivIcon = (ImageView) itemView.findViewById(R.id.iv_icon);
+            tvApp = (TextView) itemView.findViewById(R.id.tv_app);
+            tvComponent = (TextView) itemView.findViewById(R.id.tv_component);
+        }
     }
 }

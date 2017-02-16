@@ -17,6 +17,7 @@
 package com.by_syk.lib.nanoiconpack.util.adapter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,7 @@ import android.widget.ImageView;
 
 import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.bean.IconBean;
+import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,8 +36,10 @@ import java.util.List;
  */
 
 public class IconAdapter extends RecyclerView.Adapter<IconAdapter.IconViewHolder>
-        /*implements SectionTitleProvider*/ {
+        implements FastScrollRecyclerView.SectionedAdapter {
     private LayoutInflater layoutInflater;
+
+    private int gridSIze = -1;
 
     private List<IconBean> dataList = new ArrayList<>();
 
@@ -50,9 +54,22 @@ public class IconAdapter extends RecyclerView.Adapter<IconAdapter.IconViewHolder
         layoutInflater = LayoutInflater.from(context);
     }
 
+    public IconAdapter(Context context, int gridSIze) {
+        layoutInflater = LayoutInflater.from(context);
+
+        this.gridSIze = gridSIze;
+    }
+
     @Override
     public IconViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View contentView = layoutInflater.inflate(R.layout.item_icon, parent, false);
+
+        if (gridSIze > 0) {
+            ViewGroup.LayoutParams layoutParams = contentView.getLayoutParams();
+            layoutParams.width = gridSIze;
+            layoutParams.height = gridSIze;
+        }
+
         return new IconViewHolder(contentView);
     }
 
@@ -83,10 +100,11 @@ public class IconAdapter extends RecyclerView.Adapter<IconAdapter.IconViewHolder
         return dataList.size();
     }
 
-//    @Override
-//    public String getSectionTitle(int position) {
-//        return dataList.get(position).getLabelPinyin().substring(0, 1).toUpperCase();
-//    }
+    @NonNull
+    @Override
+    public String getSectionName(int position) {
+        return dataList.get(position).getLabelPinyin().substring(0, 1).toUpperCase();
+    }
 
     public void refresh(List<IconBean> dataList) {
         if (dataList != null) {

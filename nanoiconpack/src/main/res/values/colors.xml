@@ -18,6 +18,8 @@
 <resources>
 
     <color name="icon_grid_dark">#66808080</color>
-    <color name="icon_grid_light">#66808080</color>
+    <color name="icon_grid_light">#77808080</color>
+
+    <color name="tag">@android:color/holo_blue_light</color>
 
 </resources>

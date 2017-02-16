@@ -58,4 +58,12 @@
         <item name="android:background">?android:attr/selectableItemBackgroundBorderless</item>
     </style>
 
+    <style name="FastScroller">
+        <item name="fastScrollPopupBgColor">@color/color_accent</item>
+        <item name="fastScrollPopupTextColor">@android:color/primary_text_dark</item>
+        <item name="fastScrollThumbColor">@color/color_accent</item>
+        <item name="fastScrollPopupBackgroundSize">72dp</item>
+        <item name="fastScrollPopupTextSize">44dp</item>
+    </style>
+
 </resources>

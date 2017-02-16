@@ -7,8 +7,8 @@ android {
     defaultConfig {
         minSdkVersion Integer.parseInt(project.MIN_SDK_VERSION)
         targetSdkVersion Integer.parseInt(project.TARGET_SDK_VERSION)
-        versionCode 17021500
-        versionName "1.3.2.nightly"
+        versionCode 17021600
+        versionName "1.4.0.nightly"
     }
 
     buildTypes {
@@ -32,8 +32,5 @@ dependencies {
     compile 'com.android.support:support-v4:25.1.0'
     compile 'com.android.support:recyclerview-v7:25.1.0'
 
-    // repositories { maven { url "https://jitpack.io" } }
-//    compile 'com.github.pluscubed:recycler-fast-scroll:0.3.2@aar'
-
-//    compile 'com.futuremind.recyclerfastscroll:fastscroll:0.2.5'
+    compile 'com.simplecityapps:recyclerview-fastscroll:1.0.11'
 }

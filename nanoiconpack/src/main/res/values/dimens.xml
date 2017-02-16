@@ -25,17 +25,21 @@
     <dimen name="padding_content_dlg">8dp</dimen>
 
     <dimen name="unit_padding">8dp</dimen>
+    <dimen name="half_unit_padding">8dp</dimen>
     <dimen name="double_unit_padding">16dp</dimen>
 
     <dimen name="grid_size">80dp</dimen>
     <dimen name="grid_icon_size">72dp</dimen>
+    <dimen name="list_icon_size">48dp</dimen>
     <dimen name="dlg_icon_size">128dp</dimen>
     <dimen name="dlg_small_icon_size">72dp</dimen>
     <dimen name="icon_layout_horz_margin">0dp</dimen>
     <dimen name="padding_above_list">8dp</dimen>
     <dimen name="app_list_item_height">72dp</dimen>
     <dimen name="padding_before_list_text">72dp</dimen>
-    <dimen name="handle_bar_width">30dp</dimen>
+    <dimen name="handle_bar_width">12dp</dimen>
     <dimen name="qrcode_size">224dp</dimen>
+    <dimen name="tag_width">4dp</dimen>
+    <dimen name="half_tag_width">2dp</dimen>
 
 </resources>
