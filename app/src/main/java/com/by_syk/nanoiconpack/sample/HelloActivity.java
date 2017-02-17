@@ -20,6 +20,8 @@ import android.app.Activity;
 import android.os.Bundle;
 
 /**
+ * Useless, just for testing.
+ *
  * Created by By_syk on 2017-01-29.
  */
 
@@ -27,5 +29,7 @@ public class HelloActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Do nothing.
     }
 }

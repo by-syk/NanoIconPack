@@ -21,6 +21,7 @@
     <!-- For saving icons -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
+    <!-- Available themes: AppThemeDark, AppThemeLight, AppThemeLightWithDark -->
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -70,6 +71,10 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name="com.by_syk.lib.nanoiconpack.AboutActivity"
+            android:label="@string/activity_about" />
 
     </application>
 

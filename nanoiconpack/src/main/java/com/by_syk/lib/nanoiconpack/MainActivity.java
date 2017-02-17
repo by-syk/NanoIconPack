@@ -16,6 +16,7 @@
 
 package com.by_syk.lib.nanoiconpack;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -27,7 +28,6 @@ import android.view.MenuItem;
 
 import com.by_syk.lib.nanoiconpack.dialog.ApplyDialog;
 import com.by_syk.lib.nanoiconpack.fragment.AppsFragment;
-import com.by_syk.lib.nanoiconpack.dialog.CopyrightDialog;
 import com.by_syk.lib.nanoiconpack.fragment.IconsFragment;
 
 import java.util.Locale;
@@ -82,9 +82,9 @@ public class MainActivity extends FragmentActivity {
         if (id == R.id.menu_apply) {
             (new ApplyDialog()).show(getFragmentManager(), "applyDialog");
             return true;
-        } else if (id == R.id.menu_copyright) {
-            (new CopyrightDialog()).show(getFragmentManager(), "copyrightDialog");
-            return true;
+        } else if (id == R.id.menu_about) {
+            item.setIntent(new Intent(this, AboutActivity.class));
+            return super.onOptionsItemSelected(item);
         }
         return super.onOptionsItemSelected(item);
     }

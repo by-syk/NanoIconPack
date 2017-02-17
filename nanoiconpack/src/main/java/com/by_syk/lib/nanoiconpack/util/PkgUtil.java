@@ -194,4 +194,16 @@ public class PkgUtil {
 
         return false;
     }
+
+    public static String getAppVer(Context context) {
+        try {
+            PackageInfo packageInfo = context.getPackageManager()
+                    .getPackageInfo(context.getPackageName(), 0);
+            return "v" + packageInfo.versionName + " (" + packageInfo.versionCode + ")";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
 }

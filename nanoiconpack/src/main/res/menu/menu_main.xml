@@ -24,8 +24,8 @@
         android:showAsAction="ifRoom" />
 
     <item
-        android:id="@+id/menu_copyright"
-        android:title="@string/menu_copyright"
+        android:id="@+id/menu_about"
+        android:title="@string/menu_about"
         android:icon="?attr/ic_action_copyright"
         android:showAsAction="ifRoom" />
 

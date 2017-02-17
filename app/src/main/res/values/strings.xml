@@ -17,22 +17,34 @@
 
 <resources>
 
+    <!-- App name -->
     <string name="app_name">NanoIconPack Sample</string>
 
-    <!-- For Apex -->
+    <!-- For Apex Launcher, means icon pack author -->
     <string name="developer_name">By_syk</string>
 
-    <!-- (Optional) -->
-    <string name="dlg_title_donate">Donate</string>
-
-    <!-- (Optional)
-         Put your Alipay, WeChat or QQ QRCode image for donating into /drawable-nodpi
-         and record it here, if you want to provide one. -->
-    <string name="donate_qrcode_img" translatable="false"></string>
-
-    <string name="copyright_desc">"Icon pack author: [@By_syk](copy:@By_syk)
-How about paying me a cup of coffee if you like these little guys? My Alipay: [By_syk@163.com](alipay:aex05154fiiurupx5ai0dd1|By_syk@163.com)
-Anything about these icons, please contact: [By_syk@163.com](email:By_syk@163.com)
-Copyright &#169; 2017 By_syk. All rights reserved."</string>
+    <!-- About information -->
+    <!-- Keep its summary EMPTY (NOT DELETE IT) if you don't want to show certain line. -->
+    <!-- For summary text, you could try to use such codes:
+         xxx
+         [xxx](copy:xxx)
+         [xxx](email:xxx)
+         [xxx](alipay:xxx|xxx)
+         [xxx](qrcode:xxx)
+         [xxx](xxx)
+         -->
+    <string name="preference_icons_summary_note"></string>
+    <string name="preference_icons_title_author">Icon pack author</string>
+    <string name="preference_icons_summary_author">[@By_syk](copy:@By_syk)</string>
+    <string name="preference_icons_title_contact">Contact author</string>
+    <string name="preference_icons_summary_contact">[By_syk@163.com](email:By_syk@163.com)</string>
+    <string name="preference_icons_title_donate">Donate via Alipay</string>
+    <string name="preference_icons_summary_donate">[By_syk@163.com](alipay:https://qr.alipay.com/aex05154fiiurupx5ai0dd1|By_syk@163.com)</string>
+    <string name="preference_icons_title_todo_1"></string>
+    <string name="preference_icons_summary_todo_1"></string>
+    <string name="preference_icons_title_copyright">Copyright</string>
+    <string name="preference_icons_summary_copyright">Copyright &#169; 2017 By_syk. All rights reserved.</string>
+    <string name="preference_app_title_todo_1"></string>
+    <string name="preference_app_summary_todo_1"></string>
 
 </resources>

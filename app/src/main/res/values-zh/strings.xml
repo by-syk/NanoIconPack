@@ -17,14 +17,31 @@
 
 <resources>
 
+    <!-- App name -->
     <string name="app_name">NanoIconPack Sample</string>
 
-    <!-- (Optional) -->
-    <string name="dlg_title_donate">捐赠</string>
-
-    <string name="copyright_desc">"灵魂图匠：[@By_syk](copy:@By_syk)
-如果喜欢它们，请我吃串串儿吧。支付宝：[By_syk@163.com](alipay:aex05154fiiurupx5ai0dd1|By_syk@163.com)
-关于这些图标有任何问题请联系：[By_syk@163.com](email:By_syk@163.com)
-Copyright &#169; 2017 By_syk. All rights reserved."</string>
+    <!-- About information -->
+    <!-- Keep its summary EMPTY (NOT DELETE IT) if you don't want to show certain line. -->
+    <!-- For summary text, you could try to use such codes:
+         xxx
+         [xxx](copy:xxx)
+         [xxx](email:xxx)
+         [xxx](alipay:xxx|xxx)
+         [xxx](qrcode:xxx)
+         [xxx](xxx)
+         -->
+    <string name="preference_icons_summary_note"></string>
+    <string name="preference_icons_title_author">灵魂图匠</string>
+    <string name="preference_icons_summary_author">[@By_syk](copy:@By_syk)</string>
+    <string name="preference_icons_title_contact">联系作者</string>
+    <string name="preference_icons_summary_contact">[By_syk@163.com](email:By_syk@163.com)</string>
+    <string name="preference_icons_title_donate">通过支付宝捐赠</string>
+    <string name="preference_icons_summary_donate">[By_syk@163.com](alipay:https://qr.alipay.com/aex05154fiiurupx5ai0dd1|By_syk@163.com)</string>
+    <string name="preference_icons_title_todo_1"></string>
+    <string name="preference_icons_summary_todo_1"></string>
+    <string name="preference_icons_title_copyright">版权所有</string>
+    <string name="preference_icons_summary_copyright">Copyright &#169; 2017 By_syk. All rights reserved.</string>
+    <string name="preference_app_title_todo_1"></string>
+    <string name="preference_app_summary_todo_1"></string>
 
 </resources>
