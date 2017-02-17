@@ -36,6 +36,7 @@ import android.view.ViewGroup;
 import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.bean.AppBean;
 import com.by_syk.lib.nanoiconpack.dialog.AppTapHintDialog;
+import com.by_syk.lib.nanoiconpack.util.C;
 import com.by_syk.lib.nanoiconpack.widget.DividerItemDecoration;
 import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
 import com.by_syk.lib.nanoiconpack.util.PkgUtil;
@@ -127,6 +128,11 @@ public class AppsFragment extends Fragment {
 //        recyclerView.setAdapter(animationAdapter);
 
         swipeRefreshLayout = (SwipeRefreshLayout) contentView.findViewById(R.id.swipe_refresh_layout);
+        if (C.SDK >= 21) {
+            swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.color_accent));
+        } else {
+            swipeRefreshLayout.setColorSchemeColors(getResources().getColor(android.R.color.holo_blue_light));
+        }
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
