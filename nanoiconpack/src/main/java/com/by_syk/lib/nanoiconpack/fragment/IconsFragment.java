@@ -113,9 +113,6 @@ public class IconsFragment extends Fragment {
             }
         });
         recyclerView.setAdapter(iconAdapter);
-//        ScaleInAnimationAdapter animationAdapter = new ScaleInAnimationAdapter(iconAdapter);
-//        animationAdapter.setFirstOnly(false);
-//        recyclerView.setAdapter(animationAdapter);
     }
 
     private int[] calculateGridNumAndWidth() {
@@ -206,8 +203,8 @@ public class IconsFragment extends Fragment {
             List<String> installedIconList = new ArrayList<>();
 //            List<String> installedPkgList = PkgUtil.getInstalledPkgs(getActivity());
             List<String> installedPkgList = PkgUtil.getInstalledPkgsWithLauncherActivity(getActivity());
-            XmlResourceParser parser = getResources().getXml(R.xml.appfilter);
             try {
+                XmlResourceParser parser = getResources().getXml(R.xml.appfilter);
                 int event = parser.getEventType();
                 while (event != XmlPullParser.END_DOCUMENT) {
                     if (event == XmlPullParser.START_TAG) {

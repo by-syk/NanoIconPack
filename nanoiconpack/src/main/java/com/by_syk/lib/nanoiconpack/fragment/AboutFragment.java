@@ -74,7 +74,7 @@ public class AboutFragment extends PreferenceFragment implements Preference.OnPr
         preIconsDonate.setOnPreferenceClickListener(this);
         preIconsTodo1.setOnPreferenceClickListener(this);
         preIconsCopyright.setOnPreferenceClickListener(this);
-//        preAppApp.setOnPreferenceClickListener(this);
+        preAppApp.setOnPreferenceClickListener(this);
         preAppTodo1.setOnPreferenceClickListener(this);
         preAppDashboard.setOnPreferenceClickListener(this);
 
@@ -101,7 +101,7 @@ public class AboutFragment extends PreferenceFragment implements Preference.OnPr
         if (!TextUtils.isEmpty(summary)) {
             preIconsCopyright.setSummary(summary);
         }
-        summary = PkgUtil.getAppVer(getActivity());
+        summary = PkgUtil.getAppVer(getActivity(), getString(R.string.preference_app_summary_app));
         if (!TextUtils.isEmpty(summary)) {
             preAppApp.setSummary(summary);
         }
@@ -118,7 +118,7 @@ public class AboutFragment extends PreferenceFragment implements Preference.OnPr
             preCatIcons.removePreference(preIconsNote);
         }
         if (preIconsAuthor.getSummary() == null || preIconsAuthor.getSummary().length() == 0) {
-            preCatIcons.removePreference(preCatIcons);
+            preCatIcons.removePreference(preIconsAuthor);
         }
         if (preIconsContact.getSummary() == null || preIconsContact.getSummary().length() == 0) {
             preCatIcons.removePreference(preIconsContact);

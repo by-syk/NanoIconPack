@@ -123,9 +123,6 @@ public class AppsFragment extends Fragment {
         recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),
                 DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(appAdapter);
-//        ScaleInAnimationAdapter animationAdapter = new ScaleInAnimationAdapter(appAdapter);
-//        animationAdapter.setFirstOnly(false);
-//        recyclerView.setAdapter(animationAdapter);
 
         swipeRefreshLayout = (SwipeRefreshLayout) contentView.findViewById(R.id.swipe_refresh_layout);
         if (C.SDK >= 21) {
@@ -173,6 +170,9 @@ public class AppsFragment extends Fragment {
         @Override
         protected List<AppBean> doInBackground(String... strings) {
             List<AppBean> dataList = new ArrayList<>();
+            if (getActivity() == null) {
+                return dataList;
+            }
 
             PackageManager packageManager = getActivity().getPackageManager();
             try {

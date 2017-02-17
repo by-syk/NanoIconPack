@@ -16,6 +16,7 @@
 
 package com.by_syk.lib.nanoiconpack.util;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -132,6 +133,7 @@ public class PkgUtil {
         return null;
     }
 
+    @TargetApi(17)
     public static String getAppLabelEn(Context context, AppBean appBean) {
         if (context == null || appBean == null) {
             return null;
@@ -146,7 +148,11 @@ public class PkgUtil {
             Configuration configuration = new Configuration();
             // It's better, I think, to use Locale.ENGLISH
             // instead of Locale.ROOT (although I want to do).
-            configuration.locale = Locale.ENGLISH;
+            if (C.SDK >= 17) {
+                configuration.setLocale(Locale.ENGLISH);
+            } else {
+                configuration.locale = Locale.ENGLISH;
+            }
             // The result is a value in disorder maybe if using:
             //     packageManager.getResourcesForApplication(PACKAGE_NAME)
             Resources resources = packageManager.getResourcesForApplication(applicationInfo);
@@ -169,7 +175,11 @@ public class PkgUtil {
              * happens to be this APK Checker(com.by_syk.apkchecker).
              * We need to restore the locale, or the language of APK Checker will change to English.
              */
-            configuration.locale = Locale.getDefault();
+            if (C.SDK >= 17) {
+                configuration.setLocale(Locale.getDefault());
+            } else {
+                configuration.locale = Locale.getDefault();
+            }
             resources.updateConfiguration(configuration,
                     context.getResources().getDisplayMetrics());
         } catch (Exception e) {
@@ -195,15 +205,19 @@ public class PkgUtil {
         return false;
     }
 
-    public static String getAppVer(Context context) {
+    public static String getAppVer(Context context, String format) {
+        if (context == null || TextUtils.isEmpty(format)) {
+            return "";
+        }
+
         try {
             PackageInfo packageInfo = context.getPackageManager()
                     .getPackageInfo(context.getPackageName(), 0);
-            return "v" + packageInfo.versionName + " (" + packageInfo.versionCode + ")";
+            return String.format(Locale.US, format, packageInfo.versionName, packageInfo.versionCode);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return null;
+        return "";
     }
 }
