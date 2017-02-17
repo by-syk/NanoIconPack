@@ -118,17 +118,6 @@ public class IconsFragment extends Fragment {
 //        recyclerView.setAdapter(animationAdapter);
     }
 
-//    private int getColumns() {
-//        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
-//        int totalWidth = displayMetrics.widthPixels;
-//        totalWidth = totalWidth - 2 * getResources()
-//                .getDimensionPixelSize(R.dimen.icon_layout_horz_margin);
-//
-//        int gridWidth = getResources().getDimensionPixelSize(R.dimen.grid_size);
-//
-//        return totalWidth / gridWidth;
-//    }
-
     private int[] calculateGridNumAndWidth() {
         DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
         int totalWidth = displayMetrics.widthPixels;

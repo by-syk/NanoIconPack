@@ -21,16 +21,10 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
-import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Environment;
@@ -39,7 +33,6 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.by_syk.lib.nanoiconpack.R;
-import com.by_syk.lib.nanoiconpack.bean.AppBean;
 import com.by_syk.lib.nanoiconpack.bean.IconBean;
 
 import net.sourceforge.pinyin4j.PinyinHelper;
@@ -52,18 +45,13 @@ import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombi
 import org.xmlpull.v1.XmlPullParser;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -177,7 +165,6 @@ public class ExtraUtil {
         return "com.novalauncher.THEME".equals(action) // Nova
                 // Apex: No such funtion
                 || "org.adw.launcher.icons.ACTION_PICK_ICON".equals(action) // ADW
-                // Aviate: No such funtion
                 /*|| "com.phonemetra.turbo.launcher.icons.ACTION_PICK_ICON".equals(action) // Turbo
                 || Intent.ACTION_PICK.equals(action)
                 || Intent.ACTION_GET_CONTENT.equals(action)*/;

@@ -37,12 +37,6 @@ import java.util.Locale;
  */
 
 public class MainActivity extends FragmentActivity {
-    private ViewPager viewPager;
-
-    private IconsPagerAdapter pagerAdapter;
-
-    private boolean isFromLauncherPick = false;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,9 +51,9 @@ public class MainActivity extends FragmentActivity {
 //                    .setTabIndicatorColor(getResources().getColor(R.color.color_primary));
 //        }
 
-        viewPager = (ViewPager) findViewById(R.id.view_pager);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
 
-        pagerAdapter = new IconsPagerAdapter(getSupportFragmentManager());
+        IconsPagerAdapter pagerAdapter = new IconsPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
 
         viewPager.setCurrentItem(1);
@@ -68,10 +62,6 @@ public class MainActivity extends FragmentActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-
-        if (isFromLauncherPick) {
-            menu.getItem(0).setVisible(false);
-        }
 
         return true;
     }
