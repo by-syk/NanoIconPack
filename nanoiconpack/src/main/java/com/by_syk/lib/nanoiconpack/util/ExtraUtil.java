@@ -17,6 +17,7 @@
 package com.by_syk.lib.nanoiconpack.util;
 
 import android.annotation.TargetApi;
+import android.content.ActivityNotFoundException;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -410,5 +411,24 @@ public class ExtraUtil {
         }
 
         return true;
+    }
+
+    public static void shareText(Context context, String content, String hint) {
+        if (context == null || TextUtils.isEmpty(content)) {
+            return;
+        }
+
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TEXT, content);
+        try {
+            if (TextUtils.isEmpty(hint)) {
+                context.startActivity(intent);
+            } else {
+                context.startActivity(Intent.createChooser(intent, hint));
+            }
+        } catch (ActivityNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }

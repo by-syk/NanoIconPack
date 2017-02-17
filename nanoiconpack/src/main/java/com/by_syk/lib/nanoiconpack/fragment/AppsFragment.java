@@ -159,10 +159,7 @@ public class AppsFragment extends Fragment {
             GlobalToast.showToast(getActivity(), getString(R.string.toast_code_copied,
                     appCodeSelected.split("\n\n").length));
         } else {
-            Intent intent = new Intent(Intent.ACTION_SEND);
-            intent.setType("text/plain");
-            intent.putExtra(Intent.EXTRA_TEXT, appCodeSelected);
-            startActivity(Intent.createChooser(intent, getString(R.string.send_code)));
+            ExtraUtil.shareText(getActivity(), appCodeSelected, getString(R.string.send_code));
         }
     }
 
