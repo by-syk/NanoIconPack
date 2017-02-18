@@ -68,6 +68,7 @@ NanoIconPack 同时还支持许多未列出的启动器，比如
 | [@大神sjk / Smalite图标包](http://www.coolapk.com/apk/com.sjk.smaliteiconpack) | ![Smalite](art/ic_launcher_smalite.png) |
 | [@派大鑫 / Party Star](http://www.coolapk.com/apk/com.paidax.iconpack.partystar) | ![Smalite](art/ic_launcher_party_star.png) |
 | [@Markuss / Aeroblast图标包](http://www.coolapk.com/apk/com.markusslugia.iconpack.aeroblast) | ![Aeroblast](art/ic_launcher_aeroblast.png) |
+| [@sftmi / 透明图标包](http://www.coolapk.com/apk/com.sftmi.iconpack.transprent) | ![Transparent](art/ic_launcher_transparent.png) |
 
 如果您基于 NanoIconPack 开发出了自己的图标包作品，请不吝[知会我](#联系开发者)，以便展示在这里。
 
