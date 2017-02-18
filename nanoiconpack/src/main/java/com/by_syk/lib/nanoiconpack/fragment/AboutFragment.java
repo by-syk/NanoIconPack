@@ -21,9 +21,11 @@ import android.preference.Preference;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.text.TextUtils;
+import android.view.View;
 
 import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.dialog.QrcodeDialog;
+import com.by_syk.lib.nanoiconpack.util.C;
 import com.by_syk.lib.nanoiconpack.util.PkgUtil;
 import com.by_syk.lib.text.AboutMsgRender;
 
@@ -48,11 +50,37 @@ public class AboutFragment extends PreferenceFragment implements Preference.OnPr
     private static final String PREFERENCE_APP_DASHBOARD = "appDashboard";
 
     @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        removeUnwantedPadding();
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences_about);
 
         init();
+    }
+
+    /**
+     * Remove unwanted horizontal padding of android.preference.PreferenceScreen
+     * (no necessary for android.support.v7.preference.PreferenceScreen).
+     * Keep it before Android 5.0.
+     */
+    private void removeUnwantedPadding() {
+        if (C.SDK < 21) {
+            return;
+        }
+
+        View view = getView();
+        if (view != null) {
+            View viewList = view.findViewById(android.R.id.list);
+            if (viewList != null) {
+                viewList.setPadding(0, 0, 0, 0);
+            }
+        }
     }
 
     private void init() {
