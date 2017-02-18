@@ -61,14 +61,14 @@ NanoIconPack 同时还支持许多未列出的启动器，比如
 
 | APP | ICON |
 | :---- | :----: |
-| [@Childish / Anormaly <sub>old version</sub>](http://www.coolapk.com/apk/com.childish.cooldog) | ![Anormaly](art/ic_launcher_anormaly.png) |
-| [@ArchieLiu / 左下图标包 <sub>old version</sub>](http://www.coolapk.com/apk/com.zuoxia.iconpack) | ![LeftBlow](art/ic_launcher_left_below.png) |
-| [@pandecheng / PDC图标包 <sub>new version</sub>](http://www.coolapk.com/apk/com.pandecheng.iconpack) | ![PDC](art/ic_launcher_pdc.png) |
-| [@sftmi / OMFG图标包](http://www.coolapk.com/apk/com.sftmi.iconpack.omfg) | ![OMFG](art/ic_launcher_omfg.png) |
-| [@大神sjk / Smalite图标包](http://www.coolapk.com/apk/com.sjk.smaliteiconpack) | ![Smalite](art/ic_launcher_smalite.png) |
-| [@派大鑫 / Party Star](http://www.coolapk.com/apk/com.paidax.iconpack.partystar) | ![Smalite](art/ic_launcher_party_star.png) |
-| [@Markuss / Aeroblast图标包](http://www.coolapk.com/apk/com.markusslugia.iconpack.aeroblast) | ![Aeroblast](art/ic_launcher_aeroblast.png) |
-| [@sftmi / 透明图标包](http://www.coolapk.com/apk/com.sftmi.iconpack.transprent) | ![Transparent](art/ic_launcher_transparent.png) |
+| [@Childish / Anormaly <sub>old version</sub>](http://www.coolapk.com/apk/com.childish.cooldog) | [![Anormaly](art/ic_launcher_anormaly.png)](http://www.coolapk.com/apk/com.childish.cooldog) |
+| [@ArchieLiu / 左下图标包 <sub>old version</sub>](http://www.coolapk.com/apk/com.zuoxia.iconpack) | [![LeftBlow](art/ic_launcher_left_below.png)](http://www.coolapk.com/apk/com.zuoxia.iconpack) |
+| [@pandecheng / PDC图标包 <sub>new version</sub>](http://www.coolapk.com/apk/com.pandecheng.iconpack) | [![PDC](art/ic_launcher_pdc.png)](http://www.coolapk.com/apk/com.pandecheng.iconpack) |
+| [@sftmi / OMFG图标包](http://www.coolapk.com/apk/com.sftmi.iconpack.omfg) | [![OMFG](art/ic_launcher_omfg.png)](http://www.coolapk.com/apk/com.sftmi.iconpack.omfg) |
+| [@大神sjk / Smalite图标包](http://www.coolapk.com/apk/com.sjk.smaliteiconpack) | [![Smalite](art/ic_launcher_smalite.png)](http://www.coolapk.com/apk/com.sjk.smaliteiconpack) |
+| [@派大鑫 / Party Star](http://www.coolapk.com/apk/com.paidax.iconpack.partystar) | [![Smalite](art/ic_launcher_party_star.png)](http://www.coolapk.com/apk/com.paidax.iconpack.partystar) |
+| [@Markuss / Aeroblast图标包](http://www.coolapk.com/apk/com.markusslugia.iconpack.aeroblast) | [![Aeroblast](art/ic_launcher_aeroblast.png)](http://www.coolapk.com/apk/com.markusslugia.iconpack.aeroblast) |
+| [@sftmi / 透明图标包](http://www.coolapk.com/apk/com.sftmi.iconpack.transprent) | [![Transparent](art/ic_launcher_transparent.png)](http://www.coolapk.com/apk/com.sftmi.iconpack.transprent) |
 
 如果您基于 NanoIconPack 开发出了自己的图标包作品，请不吝[知会我](#联系开发者)，以便展示在这里。
 
