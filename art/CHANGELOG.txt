@@ -4,7 +4,7 @@ v1.4.0.nightly
 - APP列表组件从 ListView 调整为 RecyclerView，与图标列表统一
 - APP列表放弃快速滚动组件 quickscroll，并与图标列表统一使用更好的仿 Launcher 3 的 RecyclerView-FastScroll
 - APP列表支持下拉刷新
-- APP列表在复制过的条目行左边缘显示色块标记
+- APP列表在复制过的条目行左侧显示色块标记
 - 重新编写关于板块，以单独的界面呈现
 - 提高屏幕方向旋转场景的稳定性
 - TODO：由于与 RecyclerView-FastScroll 冲突（导致无法显示气泡），暂时放弃计划的 RecyclerView 动画库 recyclerview-animators
