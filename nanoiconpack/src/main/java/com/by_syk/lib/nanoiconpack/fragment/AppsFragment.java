@@ -26,6 +26,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -68,6 +69,8 @@ public class AppsFragment extends Fragment {
 
     private String appCodeSelected = "";
 
+    private RetainedFragment retainedFragment;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -75,7 +78,7 @@ public class AppsFragment extends Fragment {
             contentView = inflater.inflate(R.layout.fragment_apps, container, false);
             init();
 
-            (new LoadAppsTask()).execute();
+            (new LoadAppsTask()).execute(false);
         }
 
         return contentView;
@@ -133,7 +136,7 @@ public class AppsFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                (new LoadAppsTask()).execute();
+                (new LoadAppsTask()).execute(true);
             }
         });
     }
@@ -163,16 +166,30 @@ public class AppsFragment extends Fragment {
         }
     }
 
-    private class LoadAppsTask extends AsyncTask<String, Integer, List<AppBean>> {
+    private class LoadAppsTask extends AsyncTask<Boolean, Integer, List<AppBean>> {
         @Override
-        protected List<AppBean> doInBackground(String... strings) {
-            List<AppBean> dataList = new ArrayList<>();
-            if (getActivity() == null) {
-                return dataList;
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            FragmentManager fragmentManager = getFragmentManager();
+            retainedFragment = (RetainedFragment) fragmentManager.findFragmentByTag("data");
+            if (retainedFragment == null) {
+                retainedFragment = new RetainedFragment();
+                fragmentManager.beginTransaction().add(retainedFragment, "data").commit();
+            }
+        }
+
+        @Override
+        protected List<AppBean> doInBackground(Boolean... booleans) {
+            boolean forceRefresh = booleans.length > 0 && booleans[0];
+            if (!forceRefresh && retainedFragment.isAppListSaved()) {
+                return retainedFragment.getAppList();
             }
 
-            PackageManager packageManager = getActivity().getPackageManager();
+            List<AppBean> dataList = new ArrayList<>();
+
             try {
+                PackageManager packageManager = getActivity().getPackageManager();
                 Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
                 mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
                 List<ResolveInfo> list = packageManager.queryIntentActivities(mainIntent, 0);
@@ -184,15 +201,15 @@ public class AppsFragment extends Fragment {
                                 resolveInfo.activityInfo.packageName, resolveInfo.activityInfo.name));
                     }
                 }
+
+                removeMatched(dataList);
             } catch (Exception e) {
                 e.printStackTrace();
             }
 
-            if (!isAdded() || dataList.isEmpty()) {
+            if (dataList.isEmpty()) {
                 return dataList;
             }
-
-            removeMatched(dataList);
 
             Collections.sort(dataList, new Comparator<AppBean>() {
                 @Override
@@ -209,6 +226,8 @@ public class AppsFragment extends Fragment {
         protected void onPostExecute(List<AppBean> list) {
             super.onPostExecute(list);
 
+            retainedFragment.setAppList(list);
+
             contentView.findViewById(R.id.pb_loading).setVisibility(View.GONE);
 
             appAdapter.refresh(list);
@@ -218,32 +237,32 @@ public class AppsFragment extends Fragment {
             appCodeSelected = "";
         }
 
-        private void removeMatched(@NonNull List<AppBean> appList) {
-            try {
-                XmlResourceParser parser = getResources().getXml(R.xml.appfilter);
-                int event = parser.getEventType();
-                while (event != XmlPullParser.END_DOCUMENT) {
-                    if (event == XmlPullParser.START_TAG) {
-                        if ("item".equals(parser.getName())) {
-                            String component = parser.getAttributeValue(0);
-                            if (component != null) {
-                                Matcher matcher = Pattern.compile("ComponentInfo\\{([^/]+?)/.+?\\}")
-                                        .matcher(component);
-                                if (matcher.matches()) {
-                                    for (AppBean bean : appList) {
-                                        if (bean.getPkgName().equals(matcher.group(1))) {
-                                            appList.remove(bean);
-                                            break;
-                                        }
+        private void removeMatched(@NonNull List<AppBean> appList) throws Exception {
+            if (appList.isEmpty()) {
+                return;
+            }
+
+            XmlResourceParser parser = getResources().getXml(R.xml.appfilter);
+            int event = parser.getEventType();
+            while (event != XmlPullParser.END_DOCUMENT) {
+                if (event == XmlPullParser.START_TAG) {
+                    if ("item".equals(parser.getName())) {
+                        String component = parser.getAttributeValue(0);
+                        if (component != null) {
+                            Matcher matcher = Pattern.compile("ComponentInfo\\{([^/]+?)/.+?\\}")
+                                    .matcher(component);
+                            if (matcher.matches()) {
+                                for (AppBean bean : appList) {
+                                    if (bean.getPkgName().equals(matcher.group(1))) {
+                                        appList.remove(bean);
+                                        break;
                                     }
                                 }
                             }
                         }
                     }
-                    event = parser.next();
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
+                event = parser.next();
             }
         }
     }

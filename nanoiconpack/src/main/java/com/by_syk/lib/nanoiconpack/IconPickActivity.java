@@ -39,9 +39,9 @@ public class IconPickActivity extends FragmentActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.fragment_content, IconsFragment.newInstance(2));
-        fragmentTransaction.commit();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_content, IconsFragment.newInstance(2))
+                .commit();
     }
 
     @Override

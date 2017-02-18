@@ -26,6 +26,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
@@ -66,6 +67,8 @@ public class IconsFragment extends Fragment {
     private View contentView;
 
     private IconAdapter iconAdapter;
+
+    private RetainedFragment retainedFragment;
 
     @Nullable
     @Override
@@ -140,12 +143,26 @@ public class IconsFragment extends Fragment {
 
     private class LoadIconsTask extends AsyncTask<String, Integer, List<IconBean>> {
         @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            FragmentManager fragmentManager = getFragmentManager();
+            retainedFragment = (RetainedFragment) fragmentManager.findFragmentByTag("data");
+            if (retainedFragment == null) {
+                retainedFragment = new RetainedFragment();
+                fragmentManager.beginTransaction().add(retainedFragment, "data").commit();
+            }
+        }
+
+        @Override
         protected List<IconBean> doInBackground(String... strings) {
-            List<IconBean> dataList = new ArrayList<>();
+            if (retainedFragment.isIconListSaved(pageId)) {
+                return retainedFragment.getIconList(pageId);
+            }
 
             Resources resources = getResources();
-            if (resources == null) {
-                return dataList;
+            if (resources == null || !isAdded()) {
+                return new ArrayList<>();
             }
 
             String[] names = resources.getStringArray(R.array.icons);
@@ -169,8 +186,12 @@ public class IconsFragment extends Fragment {
                 }
             }
 
+            List<IconBean> dataList = new ArrayList<>();
             for (int i = 0, len = names.length; i < len; ++i) {
-                int id = getResources().getIdentifier(names[i], "drawable",
+                if (!isAdded()) {
+                    return new ArrayList<>();
+                }
+                int id = resources.getIdentifier(names[i], "drawable",
                         getActivity().getPackageName());
                 dataList.add(new IconBean(id, names[i], labels[i], labelPinyins[i]));
             }
@@ -184,7 +205,11 @@ public class IconsFragment extends Fragment {
             });
 
             if (pageId == 1) {
-                dataList = filterMatched(dataList);
+                try {
+                    dataList = filterMatched(dataList);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
 
             return dataList;
@@ -194,42 +219,40 @@ public class IconsFragment extends Fragment {
         protected void onPostExecute(List<IconBean> list) {
             super.onPostExecute(list);
 
+            retainedFragment.setIconList(pageId, list);
+
             contentView.findViewById(R.id.pb_loading).setVisibility(View.GONE);
 
             iconAdapter.refresh(list);
         }
 
-        private List<IconBean> filterMatched(@NonNull List<IconBean> dataList) {
+        private List<IconBean> filterMatched(@NonNull List<IconBean> dataList) throws Exception {
             List<String> installedIconList = new ArrayList<>();
 //            List<String> installedPkgList = PkgUtil.getInstalledPkgs(getActivity());
             List<String> installedPkgList = PkgUtil.getInstalledPkgsWithLauncherActivity(getActivity());
-            try {
-                XmlResourceParser parser = getResources().getXml(R.xml.appfilter);
-                int event = parser.getEventType();
-                while (event != XmlPullParser.END_DOCUMENT) {
-                    if (event == XmlPullParser.START_TAG) {
-                        if ("item".equals(parser.getName())) {
-                            String component = parser.getAttributeValue(0);
-                            if (component != null) {
-                                Matcher matcher = Pattern.compile("ComponentInfo\\{([^/]+?)/.+?\\}")
-                                        .matcher(component);
-                                if (matcher.matches()) {
-                                    String pkgName = matcher.group(1);
-                                    String drawable = parser.getAttributeValue(1);
-                                    for (String installedPkg : installedPkgList) {
-                                        if (installedPkg.equals(pkgName)) {
-                                            installedIconList.add(drawable);
-                                            break;
-                                        }
+            XmlResourceParser parser = getResources().getXml(R.xml.appfilter);
+            int event = parser.getEventType();
+            while (event != XmlPullParser.END_DOCUMENT) {
+                if (event == XmlPullParser.START_TAG) {
+                    if ("item".equals(parser.getName())) {
+                        String component = parser.getAttributeValue(0);
+                        if (component != null) {
+                            Matcher matcher = Pattern.compile("ComponentInfo\\{([^/]+?)/.+?\\}")
+                                    .matcher(component);
+                            if (matcher.matches()) {
+                                String pkgName = matcher.group(1);
+                                String drawable = parser.getAttributeValue(1);
+                                for (String installedPkg : installedPkgList) {
+                                    if (installedPkg.equals(pkgName)) {
+                                        installedIconList.add(drawable);
+                                        break;
                                     }
                                 }
                             }
                         }
                     }
-                    event = parser.next();
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
+                event = parser.next();
             }
 
             List<IconBean> installedDataList = new ArrayList<>();
