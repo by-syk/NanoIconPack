@@ -7,6 +7,7 @@ v1.4.0.nightly
 - APP列表在复制过的条目行左侧显示色块标记
 - 重新编写关于板块，以单独的界面呈现
 - 提高屏幕方向旋转场景的稳定性
+- 修复未适配APP列表由于多音字导致的未过滤干净问题
 - TODO：由于与 RecyclerView-FastScroll 冲突（导致无法显示气泡），暂时放弃计划的 RecyclerView 动画库 recyclerview-animators
 
 v1.3.0 2017-02-15

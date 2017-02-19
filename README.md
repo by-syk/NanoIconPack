@@ -31,9 +31,9 @@ NanoIconPack 是一个简单轻量的图标包APP模板，支持
 
 | Launcher | ICON |
 | :---- | :----: |
-| Nova Launcher | ![Nova](art/ic_launcher_nova.png) |
-| Apex Launcher | ![Apex](art/ic_launcher_apex.png) |
-| ADW Launcher | ![ADW](art/ic_launcher_adw.png) |
+| Nova Launcher | [![Nova](art/ic_launcher_nova.png)](http://www.coolapk.com/apk/com.teslacoilsw.launcher) |
+| Apex Launcher | [![Apex](art/ic_launcher_apex.png)](http://www.coolapk.com/apk/com.anddoes.launcher) |
+| ADW Launcher | [![ADW](art/ic_launcher_adw.png)](http://www.coolapk.com/apk/org.adw.launcher) |
 
 这三个应该是启动器界的元老了（未考究），很多后来启动器沿用或支持它们的图标包规范。
 
