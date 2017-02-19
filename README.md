@@ -43,13 +43,19 @@ NanoIconPack 同时还支持许多未列出的启动器，比如
 + Aviate
 + Holo Launcher
 + Arrow桌面
++ S桌面
 + Hola桌面
++ Go桌面
 + 等……
 
 以及一些系统默认启动器，比如
 + Xperia Home Launcher
 + 氢桌面
 + 等……
+
+> 已知不支持：
+> + ~~TSF桌面~~
+> + ~~Atom桌面~~
 
 
 ### 二次开发
@@ -82,9 +88,9 @@ NanoIconPack 使用了如下开源项目，致敬开源：
 + [kenglxn / QRGen](https://github.com/kenglxn/QRGen) licensed under [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0)
 
 参考了如下资料：
-+ [IconShowcase](https://github.com/jahirfiquitiva/IconShowcase)
-+ [[GUIDE] Apex Launcher Theme Tutorial](https://forum.xda-developers.com/showthread.php?t=1649891)
 + [teslacoil / Example_NovaTheme](https://github.com/teslacoil/Example_NovaTheme)
++ [[GUIDE] Apex Launcher Theme Tutorial](https://forum.xda-developers.com/showthread.php?t=1649891)
++ [IconShowcase](https://github.com/jahirfiquitiva/IconShowcase)
 
 
 ### 更好的图标包模板
