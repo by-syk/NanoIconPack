@@ -30,6 +30,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +51,7 @@ import org.xmlpull.v1.XmlPullParser;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -252,10 +254,13 @@ public class AppsFragment extends Fragment {
                             Matcher matcher = Pattern.compile("ComponentInfo\\{([^/]+?)/.+?\\}")
                                     .matcher(component);
                             if (matcher.matches()) {
-                                for (AppBean bean : appList) {
+                                Iterator<AppBean> iterator = appList.iterator();
+                                while (iterator.hasNext()) {
+                                    AppBean bean = iterator.next();
                                     if (bean.getPkgName().equals(matcher.group(1))) {
-                                        appList.remove(bean);
-                                        break;
+                                        iterator.remove();
+                                        // To remove all polyphone items, cannot use break
+//                                        break;
                                     }
                                 }
                             }
