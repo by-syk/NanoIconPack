@@ -84,6 +84,7 @@ NanoIconPack 使用了如下开源项目，致敬开源：
 参考了如下资料：
 + [IconShowcase](https://github.com/jahirfiquitiva/IconShowcase)
 + [[GUIDE] Apex Launcher Theme Tutorial](https://forum.xda-developers.com/showthread.php?t=1649891)
++ [teslacoil / Example_NovaTheme](https://github.com/teslacoil/Example_NovaTheme)
 
 
 ### 更好的图标包模板

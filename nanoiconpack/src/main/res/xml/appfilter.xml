@@ -27,10 +27,13 @@
     <scale
         factor="0.6" />-->
 
-    <!-- NOVA LAUNCHER STUFF -->
+    <!-- Just for Nova -->
     <!--<item
         component=":LAUNCHER_ACTION_APP_DRAWER"
         drawable="drawer" />-->
+    <!--<item
+        component=":LAUNCHER_ACTION_APP_DRAWER_NIGHT"
+        drawable="drawer_night" />-->
     <!--<item
         component=":BROWSER"
         drawable="browser" />-->
