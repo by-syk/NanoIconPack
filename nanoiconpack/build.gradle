@@ -7,8 +7,8 @@ android {
     defaultConfig {
         minSdkVersion Integer.parseInt(project.MIN_SDK_VERSION)
         targetSdkVersion Integer.parseInt(project.TARGET_SDK_VERSION)
-        versionCode 17021900
-        versionName "1.4.0"
+        versionCode 17022100
+        versionName "1.4.1.nightly"
     }
 
     buildTypes {
@@ -28,8 +28,8 @@ dependencies {
     compile(name: 'icongridview-1.0.6', ext: 'aar')
     compile(name: 'sp-1.0.2', ext: 'aar')
 
-    compile 'com.android.support:support-v4:25.1.0'
-    compile 'com.android.support:recyclerview-v7:25.1.0'
+    compile 'com.android.support:support-v4:25.1.1'
+    compile 'com.android.support:recyclerview-v7:25.1.1'
 
     compile 'com.simplecityapps:recyclerview-fastscroll:1.0.11'
 
