@@ -18,6 +18,7 @@ package com.by_syk.lib.nanoiconpack.fragment;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
@@ -60,7 +61,7 @@ import java.util.regex.Pattern;
  */
 
 public class IconsFragment extends Fragment {
-    private int pageId = 1;
+    private int pageId = 0;
 
     private SP sp;
 
@@ -70,6 +71,21 @@ public class IconsFragment extends Fragment {
 
     private RetainedFragment retainedFragment;
 
+    private OnLoadDoneListener onLoadDoneListener;
+
+    public interface OnLoadDoneListener {
+        void onLoadDone(int pageId, int sum);
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        if (activity instanceof OnLoadDoneListener) {
+            onLoadDoneListener = (OnLoadDoneListener) activity;
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -77,15 +93,16 @@ public class IconsFragment extends Fragment {
             contentView = inflater.inflate(R.layout.fragment_icons, container, false);
             init();
 
-            (new LoadIconsTask()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,
-                    "loadIconsTask" + pageId);
+//            (new LoadIconsTask()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,
+//                    "loadIconsTask" + pageId);
+            (new LoadIconsTask()).execute();
         }
 
         return contentView;
     }
 
     private void init() {
-        pageId = getArguments().getInt("pageId", 1);
+        pageId = getArguments().getInt("pageId");
 
         sp = new SP(getActivity(), false);
 
@@ -221,9 +238,13 @@ public class IconsFragment extends Fragment {
 
             retainedFragment.setIconList(pageId, list);
 
-            contentView.findViewById(R.id.pb_loading).setVisibility(View.GONE);
+            contentView.findViewById(R.id.tv_loading).setVisibility(View.GONE);
 
             iconAdapter.refresh(list);
+
+            if (onLoadDoneListener != null) {
+                onLoadDoneListener.onLoadDone(pageId, list.size());
+            }
         }
 
         private List<IconBean> filterMatched(@NonNull List<IconBean> dataList) throws Exception {
@@ -267,6 +288,10 @@ public class IconsFragment extends Fragment {
 
             return installedDataList;
         }
+    }
+
+    public void setOnLoadDoneListener(OnLoadDoneListener onLoadDoneListener) {
+        this.onLoadDoneListener = onLoadDoneListener;
     }
 
     public static IconsFragment newInstance(int id) {

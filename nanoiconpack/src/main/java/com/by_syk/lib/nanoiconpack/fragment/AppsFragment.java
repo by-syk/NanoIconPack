@@ -16,6 +16,7 @@
 
 package com.by_syk.lib.nanoiconpack.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -60,6 +61,8 @@ import java.util.regex.Pattern;
  */
 
 public class AppsFragment extends Fragment {
+    private int pageId = 0;
+
     private SP sp;
 
     private View contentView;
@@ -71,6 +74,21 @@ public class AppsFragment extends Fragment {
     private String appCodeSelected = "";
 
     private RetainedFragment retainedFragment;
+
+    private OnLoadDoneListener onLoadDoneListener;
+
+    public interface OnLoadDoneListener {
+        void onLoadDone(int pageId, int sum);
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        if (activity instanceof OnLoadDoneListener) {
+            onLoadDoneListener = (OnLoadDoneListener) activity;
+        }
+    }
 
     @Nullable
     @Override
@@ -95,6 +113,8 @@ public class AppsFragment extends Fragment {
     }
 
     private void init() {
+        pageId = getArguments().getInt("pageId");
+
         sp = new SP(getActivity(), false);
 
         appAdapter = new AppAdapter(getActivity());
@@ -229,13 +249,17 @@ public class AppsFragment extends Fragment {
 
             retainedFragment.setAppList(list);
 
-            contentView.findViewById(R.id.pb_loading).setVisibility(View.GONE);
+            contentView.findViewById(R.id.tv_loading).setVisibility(View.GONE);
 
             appAdapter.refresh(list);
 
             swipeRefreshLayout.setRefreshing(false);
 
             appCodeSelected = "";
+
+            if (onLoadDoneListener != null) {
+                onLoadDoneListener.onLoadDone(pageId, list.size());
+            }
         }
 
         private void removeMatched(@NonNull List<AppBean> appList) throws Exception {
@@ -271,7 +295,13 @@ public class AppsFragment extends Fragment {
         }
     }
 
-    public static AppsFragment newInstance() {
-        return new AppsFragment();
+    public static AppsFragment newInstance(int id) {
+        AppsFragment fragment = new AppsFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putInt("pageId", id);
+        fragment.setArguments(bundle);
+
+        return fragment;
     }
 }

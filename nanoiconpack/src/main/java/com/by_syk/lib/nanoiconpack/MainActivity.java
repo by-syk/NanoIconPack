@@ -36,7 +36,7 @@ import com.by_syk.lib.nanoiconpack.fragment.IconsFragment;
  * Created by By_syk on 2016-07-16.
  */
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements IconsFragment.OnLoadDoneListener, AppsFragment.OnLoadDoneListener {
     private ViewPager viewPager;
 
     private BottomNavigationView bottomNavigationView;
@@ -52,9 +52,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void init() {
-//        ((PagerTabStrip) findViewById(R.id.pager_tab_strip))
-//                .setTabIndicatorColor(getResources().getColor(R.color.color_primary));
-
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         IconsPagerAdapter pagerAdapter = new IconsPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
@@ -116,29 +113,34 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    class IconsPagerAdapter extends FragmentPagerAdapter {
-//        private String[] titles;
+    @Override
+    public void onLoadDone(int pageId, int sum) {
+        MenuItem menuItem = bottomNavigationView.getMenu().getItem(pageId);
+        switch (pageId) {
+            case 0:
+                menuItem.setTitle(getString(R.string.nav_lost) + "(" + sum + ")");
+                break;
+            case 1:
+                menuItem.setTitle(getString(R.string.nav_matched) + "(" + sum + ")");
+                break;
+            case 2:
+                menuItem.setTitle(getString(R.string.nav_all) + "(" + sum + ")");
+                break;
+        }
+    }
 
+    class IconsPagerAdapter extends FragmentPagerAdapter {
         IconsPagerAdapter(FragmentManager fm) {
             super(fm);
-
-//            titles = getResources().getStringArray(R.array.tabs);
-//            titles[2] = String.format(Locale.US, titles[2],
-//                    getResources().getStringArray(R.array.icons).length);
         }
 
         @Override
         public Fragment getItem(int position) {
             if (position == 0) {
-                return AppsFragment.newInstance();
+                return AppsFragment.newInstance(position);
             }
             return IconsFragment.newInstance(position);
         }
-
-//        @Override
-//        public CharSequence getPageTitle(int position) {
-//            return titles[position];
-//        }
 
         @Override
         public int getCount() {

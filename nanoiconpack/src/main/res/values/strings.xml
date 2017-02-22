@@ -30,7 +30,7 @@
 
     <string name="nav_lost">Lost</string>
     <string name="nav_matched">Matched</string>
-    <string name="nav_all">All (%d)</string>
+    <string name="nav_all">All</string>
 
     <string name="toast_not_installed">%s is not installed or it\'s disabled.</string>
     <string name="toast_code_copied">%d app(s)\'s codes copied</string>
@@ -61,6 +61,7 @@
     <string name="app_component_1" translatable="false">"&lt;!-- Build: %1$s / %2$s -->\n&lt;!-- %3$s / %4$s -->\n&lt;item component=\"ComponentInfo{%5$s/%6$s}\" drawable=\"%7$s\" />"</string>
     <string name="send_code">Share app codes&#8230;</string>
     <string name="cur_launcher">%s (Current)</string>
+    <string name="loading">Loading&#8230;</string>
     <string name="app_tap_desc">TAP one to copy its code, and LONG PRESS to share it.</string>
     <string name="icon_tap_desc">TAP icon to view its detail, and LONG PRESS to save to gallery.</string>
     <string name="more_launchers_desc">Besides the listed, more launchers are supported, please try applying from launcher.</string>

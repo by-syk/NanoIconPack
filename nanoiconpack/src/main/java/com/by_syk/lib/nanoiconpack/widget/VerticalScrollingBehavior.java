@@ -8,6 +8,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.WindowInsetsCompat;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.View;
 
 import java.lang.annotation.Retention;
@@ -29,8 +30,15 @@ public abstract class VerticalScrollingBehavior<V extends View> extends Coordina
     @ScrollDirection
     private int mScrollDirection = ScrollDirection.SCROLL_NONE;
 
+    // @By_syk
+    private float dampLen = 16;
+
     public VerticalScrollingBehavior(Context context, AttributeSet attrs) {
         super(context, attrs);
+
+        // @By_syk
+        dampLen = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8,
+                context.getResources().getDisplayMetrics());
     }
 
     public VerticalScrollingBehavior() {
@@ -106,6 +114,11 @@ public abstract class VerticalScrollingBehavior<V extends View> extends Coordina
         }
         mTotalDyUnconsumed += dyUnconsumed;
         onNestedVerticalOverScroll(coordinatorLayout, child, mOverScrollDirection, dyConsumed, mTotalDyUnconsumed);
+        // @By_syk
+//        Log.d(C.LOG_TAG, "onNestedScroll: " + mTotalDyUnconsumed);
+//        if (Math.abs(mTotalDyUnconsumed) > dampLen) {
+//            onNestedVerticalOverScroll(coordinatorLayout, child, mOverScrollDirection, dyConsumed, mTotalDyUnconsumed);
+//        }
     }
 
     @Override
@@ -120,6 +133,11 @@ public abstract class VerticalScrollingBehavior<V extends View> extends Coordina
         }
         mTotalDy += dy;
         onDirectionNestedPreScroll(coordinatorLayout, child, target, dx, dy, consumed, mScrollDirection);
+        // @By_syk
+//        Log.d(C.LOG_TAG, "onNestedPreScroll: " + mTotalDy);
+//        if (Math.abs(mTotalDy) > dampLen) {
+//            onDirectionNestedPreScroll(coordinatorLayout, child, target, dx, dy, consumed, mScrollDirection);
+//        }
     }
 
 
