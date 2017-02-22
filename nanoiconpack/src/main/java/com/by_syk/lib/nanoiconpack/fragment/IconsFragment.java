@@ -178,8 +178,11 @@ public class IconsFragment extends Fragment {
                 return retainedFragment.getIconList(pageId);
             }
 
+            if (!isAdded()) {
+                return new ArrayList<>();
+            }
             Resources resources = getResources();
-            if (resources == null || !isAdded()) {
+            if (resources == null) {
                 return new ArrayList<>();
             }
 

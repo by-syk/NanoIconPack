@@ -37,7 +37,7 @@ public abstract class VerticalScrollingBehavior<V extends View> extends Coordina
         super(context, attrs);
 
         // @By_syk
-        dampLen = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8,
+        dampLen = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 12,
                 context.getResources().getDisplayMetrics());
     }
 
