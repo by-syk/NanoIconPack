@@ -21,6 +21,10 @@
     <!-- For saving icons -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
+    <!-- For requesting icons -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <!-- Available themes: AppThemeDark, AppThemeLight, AppThemeLightWithDark -->
     <application
         android:allowBackup="true"

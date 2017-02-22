@@ -18,11 +18,13 @@ package com.by_syk.lib.nanoiconpack;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -30,13 +32,17 @@ import com.by_syk.lib.nanoiconpack.dialog.ApplyDialog;
 import com.by_syk.lib.nanoiconpack.fragment.AppsFragment;
 import com.by_syk.lib.nanoiconpack.fragment.IconsFragment;
 
-import java.util.Locale;
-
 /**
  * Created by By_syk on 2016-07-16.
  */
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends AppCompatActivity {
+    private ViewPager viewPager;
+
+    private BottomNavigationView bottomNavigationView;
+
+    private int prevPagePos = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,15 +52,46 @@ public class MainActivity extends FragmentActivity {
     }
 
     private void init() {
-//        if (C.SDK >= 21) {
-//            ((PagerTabStrip) findViewById(R.id.pager_tab_strip))
-//                    .setTabIndicatorColor(getResources().getColor(R.color.color_primary));
-//        }
+//        ((PagerTabStrip) findViewById(R.id.pager_tab_strip))
+//                .setTabIndicatorColor(getResources().getColor(R.color.color_primary));
 
-        ViewPager viewPager = (ViewPager) findViewById(R.id.view_pager);
-
+        viewPager = (ViewPager) findViewById(R.id.view_pager);
         IconsPagerAdapter pagerAdapter = new IconsPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(pagerAdapter);
+
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation_view);
+        bottomNavigationView.getMenu().getItem(2).setTitle(getString(R.string.nav_all,
+                getResources().getStringArray(R.array.icons).length));
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+
+            @Override
+            public void onPageSelected(int position) {
+                bottomNavigationView.getMenu().getItem(prevPagePos).setChecked(false);
+                bottomNavigationView.getMenu().getItem(position).setChecked(true);
+                prevPagePos = position;
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {}
+        });
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int id = item.getItemId();
+                if (id == R.id.nav_lost) {
+                    viewPager.setCurrentItem(0);
+                } else if (id == R.id.nav_matched) {
+                    viewPager.setCurrentItem(1);
+                } else if (id == R.id.nav_all) {
+                    viewPager.setCurrentItem(2);
+                }
+                return true;
+            }
+        });
 
         viewPager.setCurrentItem(1);
     }
@@ -70,7 +107,7 @@ public class MainActivity extends FragmentActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.menu_apply) {
-            (new ApplyDialog()).show(getFragmentManager(), "applyDialog");
+            (new ApplyDialog()).show(getSupportFragmentManager(), "applyDialog");
             return true;
         } else if (id == R.id.menu_about) {
             item.setIntent(new Intent(this, AboutActivity.class));
@@ -80,14 +117,14 @@ public class MainActivity extends FragmentActivity {
     }
 
     class IconsPagerAdapter extends FragmentPagerAdapter {
-        private String[] titles;
+//        private String[] titles;
 
         IconsPagerAdapter(FragmentManager fm) {
             super(fm);
 
-            titles = getResources().getStringArray(R.array.tabs);
-            titles[2] = String.format(Locale.US, titles[2],
-                    getResources().getStringArray(R.array.icons).length);
+//            titles = getResources().getStringArray(R.array.tabs);
+//            titles[2] = String.format(Locale.US, titles[2],
+//                    getResources().getStringArray(R.array.icons).length);
         }
 
         @Override
@@ -98,14 +135,14 @@ public class MainActivity extends FragmentActivity {
             return IconsFragment.newInstance(position);
         }
 
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return titles[position];
-        }
+//        @Override
+//        public CharSequence getPageTitle(int position) {
+//            return titles[position];
+//        }
 
         @Override
         public int getCount() {
-            return titles.length;
+            return 3;
         }
     }
 }

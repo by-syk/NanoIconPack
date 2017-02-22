@@ -17,22 +17,48 @@
 
 <resources>
 
-    <style name="AppThemeLightWithDark" parent="@android:style/Theme.Holo.Light.DarkActionBar">
-        <item name="ic_action_apply">@drawable/ic_menu_set_as</item>
-        <item name="ic_action_copyright">@drawable/ic_menu_info_details</item>
+    <style name="AppThemeLightWithDark" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryDark">@color/color_primary_dark</item>
+        <item name="colorAccent">@color/color_accent</item>
+        <!--<item name="android:navigationBarColor">@color/color_primary_dark</item>-->
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
+        <item name="ic_action_apply">@drawable/ic_action_apply_dark</item>
+        <item name="ic_action_copyright">@drawable/ic_action_copyright_dark</item>
         <item name="app_list_divider">@drawable/app_list_divider_light</item>
         <item name="icon_grid_color">@color/icon_grid_light</item>
     </style>
-    <style name="AppThemeLight" parent="@style/AppThemeLightWithDark" />
-    <style name="AppThemeDark" parent="@android:style/Theme.Holo">
-        <item name="ic_action_apply">@drawable/ic_menu_set_as</item>
-        <item name="ic_action_copyright">@drawable/ic_menu_info_details</item>
+    <style name="AppThemeLight" parent="Theme.AppCompat.Light">
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryDark">@color/color_primary_dark</item>
+        <item name="colorAccent">@color/color_accent</item>
+        <!--<item name="android:navigationBarColor">@color/color_primary_dark</item>-->
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
+        <item name="ic_action_apply">@drawable/ic_action_apply_light</item>
+        <item name="ic_action_copyright">@drawable/ic_action_copyright_light</item>
+        <item name="app_list_divider">@drawable/app_list_divider_light</item>
+        <item name="icon_grid_color">@color/icon_grid_light</item>
+    </style>
+    <style name="AppThemeDark" parent="Theme.AppCompat">
+        <item name="colorPrimaryDark">@color/color_primary_dark</item>
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorAccent">@color/color_accent</item>
+        <!--<item name="android:navigationBarColor">@color/color_primary_dark</item>-->
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
+        <item name="ic_action_apply">@drawable/ic_action_apply_dark</item>
+        <item name="ic_action_copyright">@drawable/ic_action_copyright_dark</item>
         <item name="app_list_divider">@drawable/app_list_divider_dark</item>
         <item name="icon_grid_color">@color/icon_grid_dark</item>
     </style>
 
+    <!--<style name="Dialog" parent="@android:style/Theme.Material.Dialog.Alert">
+        <item name="android:colorPrimary">@color/color_primary</item>
+        <item name="android:colorPrimaryDark">@color/color_primary_dark</item>
+        <item name="android:colorAccent">@color/color_accent</item>
+    </style>-->
+
     <style name="Tap">
-        <item name="android:background">?android:attr/selectableItemBackground</item>
+        <item name="android:background">?android:attr/selectableItemBackgroundBorderless</item>
     </style>
 
     <style name="IconGrid">
@@ -49,9 +75,9 @@
     </style>
 
     <style name="FastScroller">
-        <item name="fastScrollPopupBgColor">@android:color/holo_blue_light</item>
+        <item name="fastScrollPopupBgColor">@color/color_accent</item>
         <item name="fastScrollPopupTextColor">@android:color/primary_text_dark</item>
-        <item name="fastScrollThumbColor">@android:color/holo_blue_light</item>
+        <item name="fastScrollThumbColor">@color/color_accent</item>
         <!-- PopupBackgroundSize and PopupTextSize values are referred to Nova Launcher -->
         <item name="fastScrollPopupBackgroundSize">72dp</item>
         <item name="fastScrollPopupTextSize">44sp</item>

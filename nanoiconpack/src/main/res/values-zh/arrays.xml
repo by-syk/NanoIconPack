@@ -26,10 +26,4 @@
         <item>更多……|</item>
     </string-array>
 
-    <string-array name="tabs">
-        <item>未适配</item>
-        <item>已适配</item>
-        <item>全部 (%d)</item>
-    </string-array>
-
 </resources>

@@ -17,9 +17,9 @@
 package com.by_syk.lib.nanoiconpack.fragment;
 
 import android.os.Bundle;
-import android.preference.Preference;
-import android.preference.PreferenceCategory;
-import android.preference.PreferenceFragment;
+import android.support.v7.preference.Preference;
+import android.support.v7.preference.PreferenceCategory;
+import android.support.v7.preference.PreferenceFragmentCompat;
 import android.text.TextUtils;
 import android.view.View;
 
@@ -36,7 +36,7 @@ import java.util.regex.Pattern;
  * Created by By_syk on 2017-02-17.
  */
 
-public class AboutFragment extends PreferenceFragment implements Preference.OnPreferenceClickListener {
+public class AboutFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceClickListener {
     private static final String PREFERENCE_ICONS = "icons";
     private static final String PREFERENCE_ICONS_NOTE = "iconsNote";
     private static final String PREFERENCE_ICONS_AUTHOR = "iconsAuthor";
@@ -50,37 +50,10 @@ public class AboutFragment extends PreferenceFragment implements Preference.OnPr
     private static final String PREFERENCE_APP_DASHBOARD = "appDashboard";
 
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-
-        removeUnwantedPadding();
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         addPreferencesFromResource(R.xml.preferences_about);
 
         init();
-    }
-
-    /**
-     * Remove unwanted horizontal padding of android.preference.PreferenceScreen
-     * (no necessary for android.support.v7.preference.PreferenceScreen).
-     * Keep it before Android 5.0.
-     */
-    private void removeUnwantedPadding() {
-        if (C.SDK < 21) {
-            return;
-        }
-
-        View view = getView();
-        if (view != null) {
-            View viewList = view.findViewById(android.R.id.list);
-            if (viewList != null) {
-                viewList.setPadding(0, 0, 0, 0);
-            }
-        }
     }
 
     private void init() {

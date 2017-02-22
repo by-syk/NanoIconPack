@@ -30,7 +30,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -103,7 +102,7 @@ public class AppsFragment extends Fragment {
             @Override
             public void onClick(int pos, AppBean bean) {
                 if (!sp.getBoolean("appTapHint")) {
-                    (new AppTapHintDialog()).show(getActivity().getFragmentManager(), "appTapTintDialog");
+                    (new AppTapHintDialog()).show(getFragmentManager(), "appTapTintDialog");
                     return;
                 }
                 copyOrShareAppCode(bean, true);
@@ -114,7 +113,7 @@ public class AppsFragment extends Fragment {
             @Override
             public void onLongClick(int pos, AppBean bean) {
                 if (!sp.getBoolean("appTapHint")) {
-                    (new AppTapHintDialog()).show(getActivity().getFragmentManager(), "hintDialog");
+                    (new AppTapHintDialog()).show(getFragmentManager(), "hintDialog");
                     return;
                 }
                 copyOrShareAppCode(bean, false);

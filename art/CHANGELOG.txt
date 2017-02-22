@@ -1,5 +1,6 @@
 v
-
+- minSdkVersion 向上调整到 21(Android 5.0)
+- 放弃 PagerTabStrip，替换为 BottomNavigationView
 
 v1.4.0 2017-02-19
 - 应用到启动器时判断目标启动器是否已被停用（冻结）

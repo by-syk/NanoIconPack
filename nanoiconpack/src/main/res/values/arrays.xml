@@ -26,10 +26,4 @@
         <item>More launchers&#8230;|</item>
     </string-array>
 
-    <string-array name="tabs">
-        <item>Lost</item>
-        <item>Matched</item>
-        <item>All (%d)</item>
-    </string-array>
-
 </resources>

@@ -17,9 +17,13 @@
 
 <resources>
 
+    <color name="color_primary">#607d8b</color>
+    <color name="color_primary_dark">#455a64</color>
+    <color name="color_accent">#ff5252</color>
+
     <color name="icon_grid_dark">#66808080</color>
     <color name="icon_grid_light">#77808080</color>
 
-    <color name="tag">@android:color/holo_blue_light</color>
+    <color name="tag">@color/color_accent</color>
 
 </resources>

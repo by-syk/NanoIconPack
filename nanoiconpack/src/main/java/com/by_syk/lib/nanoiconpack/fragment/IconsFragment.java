@@ -99,17 +99,17 @@ public class IconsFragment extends Fragment {
             @Override
             public void onClick(int pos, IconBean bean) {
                 if (!sp.getBoolean("iconTapHint")) {
-                    (new IconTapHintDialog()).show(getActivity().getFragmentManager(), "iconTapHintDialog");
+                    (new IconTapHintDialog()).show(getFragmentManager(), "iconTapHintDialog");
                     return;
                 }
                 IconDialog.newInstance(bean, ExtraUtil.isFromLauncherPick(getActivity().getIntent()))
-                        .show(getActivity().getFragmentManager(), "iconDialog");
+                        .show(getFragmentManager(), "iconDialog");
             }
 
             @Override
             public void onLongClick(int pos, IconBean bean) {
                 if (!sp.getBoolean("iconTapHint")) {
-                    (new IconTapHintDialog()).show(getActivity().getFragmentManager(), "iconTapHintDialog");
+                    (new IconTapHintDialog()).show(getFragmentManager(), "iconTapHintDialog");
                     return;
                 }
                 saveIcon(bean);

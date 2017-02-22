@@ -18,11 +18,11 @@
 <resources>
 
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horz_margin">8dp</dimen>
-    <dimen name="activity_vertical_margin">8dp</dimen>
+    <dimen name="activity_horz_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
 
-    <dimen name="padding_title_body_dlg">8dp</dimen>
-    <dimen name="padding_content_dlg">8dp</dimen>
+    <dimen name="padding_title_body_dlg">20dp</dimen>
+    <dimen name="padding_content_dlg">24dp</dimen>
 
     <dimen name="unit_padding">8dp</dimen>
     <dimen name="half_unit_padding">8dp</dimen>
@@ -38,7 +38,7 @@
     <dimen name="padding_before_list_text">72dp</dimen>
     <dimen name="handle_bar_width">12dp</dimen>
     <dimen name="qrcode_size">224dp</dimen>
-    <dimen name="tag_width">4dp</dimen>
-    <dimen name="half_tag_width">2dp</dimen>
+    <dimen name="tag_width">6dp</dimen>
+    <dimen name="half_tag_width">3dp</dimen>
 
 </resources>

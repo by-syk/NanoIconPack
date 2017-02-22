@@ -16,13 +16,14 @@
 
 package com.by_syk.lib.nanoiconpack.dialog;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 
 import com.by_syk.lib.nanoiconpack.util.PkgUtil;
@@ -37,6 +38,7 @@ public class ApplyDialog extends DialogFragment {
     private String[] launcherNames;
     private String[] launcherPkgs;
 
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         launcherNames = getResources().getStringArray(R.array.launchers);

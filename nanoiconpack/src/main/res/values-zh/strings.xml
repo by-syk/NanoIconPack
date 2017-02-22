@@ -26,6 +26,10 @@
     <string name="menu_apply">应用</string>
     <string name="menu_about">关于</string>
 
+    <string name="nav_lost">未适配</string>
+    <string name="nav_matched">已适配</string>
+    <string name="nav_all">全部 (%d)</string>
+
     <string name="toast_not_installed">未安装 %s 或其已被停用</string>
     <string name="toast_code_copied">已复制%d个APP代码</string>
     <string name="toast_icon_saved">图标已保存到图库</string>
