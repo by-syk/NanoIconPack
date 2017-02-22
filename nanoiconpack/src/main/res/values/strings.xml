@@ -54,7 +54,7 @@
     <string name="preference_app_summary_app">v%1$s (%2$d)</string>
     <string name="preference_app_title_todo_1"></string>
     <string name="preference_app_summary_todo_1"></string>
-    <string name="preference_app_title_dashboard">Based on NanoIconPack v1.4.0</string>
+    <string name="preference_app_title_dashboard">Based on NanoIconPack v1.5.0</string>
     <string name="preference_app_summary_dashboard" translatable="false">[https://github.com/by-syk/NanoIconPack](https://github.com/by-syk/NanoIconPack)</string>
 
     <string name="app_component" translatable="false">"&lt;!-- %3$s / %4$s -->\n&lt;item component=\"ComponentInfo{%5$s/%6$s}\" drawable=\"%7$s\" />"</string>
