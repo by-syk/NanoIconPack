@@ -21,44 +21,42 @@
         <item name="colorPrimary">@color/color_primary</item>
         <item name="colorPrimaryDark">@color/color_primary_dark</item>
         <item name="colorAccent">@color/color_accent</item>
-        <!--<item name="android:navigationBarColor">@color/color_primary_dark</item>-->
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="ic_action_apply">@drawable/ic_action_apply_dark</item>
         <item name="ic_action_copyright">@drawable/ic_action_copyright_dark</item>
         <item name="app_list_divider">@drawable/app_list_divider_light</item>
+        <item name="top_shadow">@drawable/top_shadow_light</item><!-- for KitKat -->
         <item name="icon_grid_color">@color/icon_grid_light</item>
+        <item name="bottom_bar_color">@color/bottom_bar_color_light</item>
     </style>
     <style name="AppThemeLight" parent="Theme.AppCompat.Light">
         <item name="colorPrimary">@color/color_primary</item>
         <item name="colorPrimaryDark">@color/color_primary_dark</item>
         <item name="colorAccent">@color/color_accent</item>
-        <!--<item name="android:navigationBarColor">@color/color_primary_dark</item>-->
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="ic_action_apply">@drawable/ic_action_apply_light</item>
         <item name="ic_action_copyright">@drawable/ic_action_copyright_light</item>
         <item name="app_list_divider">@drawable/app_list_divider_light</item>
+        <item name="top_shadow">@drawable/top_shadow_light</item><!-- for KitKat -->
         <item name="icon_grid_color">@color/icon_grid_light</item>
+        <item name="bottom_bar_color">@color/bottom_bar_color_light</item>
     </style>
     <style name="AppThemeDark" parent="Theme.AppCompat">
         <item name="colorPrimaryDark">@color/color_primary_dark</item>
         <item name="colorPrimary">@color/color_primary</item>
         <item name="colorAccent">@color/color_accent</item>
-        <!--<item name="android:navigationBarColor">@color/color_primary_dark</item>-->
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="ic_action_apply">@drawable/ic_action_apply_dark</item>
         <item name="ic_action_copyright">@drawable/ic_action_copyright_dark</item>
         <item name="app_list_divider">@drawable/app_list_divider_dark</item>
+        <item name="top_shadow">@drawable/top_shadow_dark</item><!-- for KitKat -->
         <item name="icon_grid_color">@color/icon_grid_dark</item>
+        <item name="bottom_bar_color">@color/bottom_bar_color_dark</item>
     </style>
 
-    <!--<style name="Dialog" parent="@android:style/Theme.Material.Dialog.Alert">
-        <item name="android:colorPrimary">@color/color_primary</item>
-        <item name="android:colorPrimaryDark">@color/color_primary_dark</item>
-        <item name="android:colorAccent">@color/color_accent</item>
-    </style>-->
-
+    <!-- for KitKat -->
     <style name="Tap">
-        <item name="android:background">?android:attr/selectableItemBackgroundBorderless</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
     </style>
 
     <style name="IconGrid">

@@ -26,4 +26,8 @@
 
     <color name="tag">@color/color_accent</color>
 
+    <!-- referred to CardView -->
+    <color name="bottom_bar_color_dark">#ff424242</color>
+    <color name="bottom_bar_color_light">#ffffffff</color>
+
 </resources>

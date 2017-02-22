@@ -9,6 +9,8 @@ android {
         targetSdkVersion Integer.parseInt(project.TARGET_SDK_VERSION)
         versionCode 17022200
         versionName "1.5.0.nightly"
+
+        vectorDrawables.generatedDensities = ['mdpi', 'hdpi', 'xhdpi', 'xxhdpi']
     }
 
     buildTypes {
@@ -32,7 +34,6 @@ dependencies {
 //    compile 'com.android.support:recyclerview-v7:25.1.1'
     compile 'com.android.support:design:25.1.1'
     compile 'com.android.support:preference-v14:25.1.1'
-    compile 'com.android.support:cardview-v7:25.1.1'
 
     compile 'com.simplecityapps:recyclerview-fastscroll:1.0.11'
 
@@ -40,5 +41,6 @@ dependencies {
 
     compile 'com.github.kenglxn.QRGen:android:2.2.0'
 
-    compile 'com.squareup.okhttp3:okhttp:3.6.0'
+    // TODO
+//    compile 'com.squareup.okhttp3:okhttp:3.6.0'
 }

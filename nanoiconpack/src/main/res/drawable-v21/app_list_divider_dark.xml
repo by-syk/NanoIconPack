@@ -15,4 +15,4 @@
 <inset xmlns:android="http://schemas.android.com/apk/res/android"
     android:insetLeft="@dimen/padding_before_list_text"
     android:insetRight="@dimen/handle_bar_width"
-    android:drawable="@android:drawable/divider_horizontal_dark" />
+    android:drawable="?android:attr/dividerHorizontal" />

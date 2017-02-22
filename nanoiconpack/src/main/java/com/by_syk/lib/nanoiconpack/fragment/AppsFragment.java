@@ -149,11 +149,7 @@ public class AppsFragment extends Fragment {
         recyclerView.setAdapter(appAdapter);
 
         swipeRefreshLayout = (SwipeRefreshLayout) contentView.findViewById(R.id.swipe_refresh_layout);
-        if (C.SDK >= 21) {
-            swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.color_accent));
-        } else {
-            swipeRefreshLayout.setColorSchemeColors(getResources().getColor(android.R.color.holo_blue_light));
-        }
+        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.color_accent));
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

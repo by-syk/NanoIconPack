@@ -19,8 +19,6 @@ package com.by_syk.lib.nanoiconpack.util.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +26,6 @@ import android.widget.ImageView;
 
 import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.bean.IconBean;
-import com.by_syk.lib.nanoiconpack.util.C;
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 
 import java.util.ArrayList;
@@ -58,7 +55,7 @@ public class IconAdapter extends RecyclerView.Adapter<IconAdapter.IconViewHolder
     }
 
     public IconAdapter(Context context, int gridSIze) {
-        layoutInflater = LayoutInflater.from(context);
+        this(context);
 
         this.gridSIze = gridSIze;
     }
