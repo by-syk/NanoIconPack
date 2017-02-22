@@ -20,4 +20,4 @@
 -keep class net.sourceforge.pinyin4j.** { *;}
 
 # OkHttp
--dontwarn okio.**
+# -dontwarn okio.**

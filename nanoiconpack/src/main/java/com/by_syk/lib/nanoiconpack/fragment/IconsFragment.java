@@ -24,6 +24,7 @@ import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -238,7 +239,7 @@ public class IconsFragment extends Fragment {
 
             retainedFragment.setIconList(pageId, list);
 
-            contentView.findViewById(R.id.tv_loading).setVisibility(View.GONE);
+            contentView.findViewById(R.id.view_loading).setVisibility(View.GONE);
 
             iconAdapter.refresh(list);
 

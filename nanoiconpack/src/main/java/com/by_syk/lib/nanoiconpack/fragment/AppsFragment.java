@@ -245,7 +245,7 @@ public class AppsFragment extends Fragment {
 
             retainedFragment.setAppList(list);
 
-            contentView.findViewById(R.id.tv_loading).setVisibility(View.GONE);
+            contentView.findViewById(R.id.view_loading).setVisibility(View.GONE);
 
             appAdapter.refresh(list);
 

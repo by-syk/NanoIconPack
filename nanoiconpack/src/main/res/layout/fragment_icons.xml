@@ -19,13 +19,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/tv_loading"
-        android:text="@string/loading"
-        android:layout_gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <include layout="@layout/view_loading" />
 
     <com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView
         style="@style/FastScroller"
