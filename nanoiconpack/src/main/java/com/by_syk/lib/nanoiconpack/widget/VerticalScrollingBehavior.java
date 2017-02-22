@@ -132,12 +132,12 @@ public abstract class VerticalScrollingBehavior<V extends View> extends Coordina
             mScrollDirection = ScrollDirection.SCROLL_DIRECTION_DOWN;
         }
         mTotalDy += dy;
-        onDirectionNestedPreScroll(coordinatorLayout, child, target, dx, dy, consumed, mScrollDirection);
+//        onDirectionNestedPreScroll(coordinatorLayout, child, target, dx, dy, consumed, mScrollDirection);
         // @By_syk
 //        Log.d(C.LOG_TAG, "onNestedPreScroll: " + mTotalDy);
-//        if (Math.abs(mTotalDy) > dampLen) {
-//            onDirectionNestedPreScroll(coordinatorLayout, child, target, dx, dy, consumed, mScrollDirection);
-//        }
+        if (Math.abs(mTotalDy) > dampLen) {
+            onDirectionNestedPreScroll(coordinatorLayout, child, target, dx, dy, consumed, mScrollDirection);
+        }
     }
 
 

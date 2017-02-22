@@ -36,7 +36,8 @@ import com.by_syk.lib.nanoiconpack.fragment.IconsFragment;
  * Created by By_syk on 2016-07-16.
  */
 
-public class MainActivity extends AppCompatActivity implements IconsFragment.OnLoadDoneListener, AppsFragment.OnLoadDoneListener {
+public class MainActivity extends AppCompatActivity
+        implements IconsFragment.OnLoadDoneListener, AppsFragment.OnLoadDoneListener {
     private ViewPager viewPager;
 
     private BottomNavigationView bottomNavigationView;
@@ -57,8 +58,6 @@ public class MainActivity extends AppCompatActivity implements IconsFragment.OnL
         viewPager.setAdapter(pagerAdapter);
 
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation_view);
-        bottomNavigationView.getMenu().getItem(2).setTitle(getString(R.string.nav_all,
-                getResources().getStringArray(R.array.icons).length));
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

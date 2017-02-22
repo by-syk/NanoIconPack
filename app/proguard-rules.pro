@@ -18,3 +18,6 @@
 
 # pinyin4
 -keep class net.sourceforge.pinyin4j.** { *;}
+
+# OkHttp
+-dontwarn okio.**
