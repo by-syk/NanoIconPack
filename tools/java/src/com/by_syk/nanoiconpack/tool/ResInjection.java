@@ -32,7 +32,7 @@ class ResInjection {
     private static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-        System.out.println("=== ResInjection(v1.0.5) for NanoIconPack(v1.3.0) ===");
+        System.out.println("=== ResInjection(v1.0.6) for NanoIconPack(v1.3.0) ===");
         String projectDir = ResInjection.getProjectDir(args);
         String resPath = ResInjection.getResPath(projectDir);
         while (true) {
@@ -280,7 +280,7 @@ class ResInjection {
         text3 = "";
         for (int i = 0, len = text3Arr.length; i < len; ++i) {
             if (i == insertLineIndex) {
-                text3 += "        <item>" + appNameEn + "</item>\n";
+                text3 += "        <item>" + appNameEn.replaceAll("'", "\\\\'") + "</item>\n";
             }
             text3 += text3Arr[i] + "\n";
         }
