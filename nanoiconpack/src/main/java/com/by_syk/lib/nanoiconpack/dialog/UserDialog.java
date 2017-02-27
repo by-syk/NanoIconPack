@@ -22,26 +22,49 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
+import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.by_syk.lib.nanoiconpack.R;
-import com.by_syk.lib.storage.SP;
 
 /**
  * Created by By_syk on 2017-01-01.
  */
 
-public class AppTapHintDialog extends DialogFragment {
+public class UserDialog extends DialogFragment {
+    private EditText etUser;
+
+    private OnContinueListener onContinueListener;
+
+    public interface OnContinueListener {
+        void onContinue(@NonNull String user);
+    }
+
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        return new AlertDialog.Builder(getContext())
-                .setMessage(R.string.app_tap_desc)
-                .setPositiveButton(R.string.dlg_bt_got_it, new DialogInterface.OnClickListener() {
+        ViewGroup viewGroup = (ViewGroup) getActivity().getLayoutInflater()
+                .inflate(R.layout.dialog_user, null);
+        etUser = (EditText) viewGroup.findViewById(R.id.et_user);
+
+        AlertDialog alertDialog = new AlertDialog.Builder(getContext())
+                .setTitle(R.string.dlg_title_user)
+                .setView(viewGroup)
+                .setPositiveButton(R.string.dlg_bt_sign_in, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        (new SP(getContext(), false)).save("appTapHint1", true);
+                        if (onContinueListener != null) {
+                            onContinueListener.onContinue(etUser.getText().toString().trim());
+                        }
                     }
                 })
                 .create();
+        alertDialog.setCanceledOnTouchOutside(false);
+
+        return alertDialog;
+    }
+
+    public void setOnContinueListener(OnContinueListener onContinueListener) {
+        this.onContinueListener = onContinueListener;
     }
 }

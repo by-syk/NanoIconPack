@@ -45,9 +45,7 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
     public static final int HORIZONTAL = LinearLayout.HORIZONTAL;
     public static final int VERTICAL = LinearLayout.VERTICAL;
 
-//    private static final int[] ATTRS = new int[]{ android.R.attr.listDivider };
-    // @By_syk
-    private static final int[] ATTRS = new int[]{ R.attr.app_list_divider };
+    private static final int[] ATTRS = new int[]{ android.R.attr.listDivider };
 
     private Drawable mDivider;
 
@@ -66,9 +64,11 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
      * @param orientation Divider orientation. Should be {@link #HORIZONTAL} or {@link #VERTICAL}.
      */
     public DividerItemDecoration(Context context, int orientation) {
-        final TypedArray a = context.obtainStyledAttributes(ATTRS);
-        mDivider = a.getDrawable(0);
-        a.recycle();
+//        final TypedArray a = context.obtainStyledAttributes(ATTRS);
+//        mDivider = a.getDrawable(0);
+//        a.recycle();
+        // @By_syk
+        mDivider = context.getDrawable(R.drawable.app_list_divider);
         setOrientation(orientation);
     }
 

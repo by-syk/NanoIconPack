@@ -33,13 +33,17 @@ public class IconPickActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_icon_pick);
 
+        init();
+    }
+
+    private void init() {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_content, IconsFragment.newInstance(2))
+                .replace(R.id.fragment_content, IconsFragment.newInstance(0, false))
                 .commit();
     }
 

@@ -11,12 +11,13 @@
 NanoIconPack 是一个简单轻量的图标包APP模板，支持
 + 展示所有图标，按目标APP名（或图标名）拼音排序
 + 过滤展示已适配图标
-+ 列出未适配APP，快速获取APP代码
++ 列出未适配APP，可快速申请重绘图标、快速获取APP代码
 + 图标详情对话框，显示目标APP名（或图标名）、高清图标
 + 图标栅格
 + 新原图标对比显示
 + 快速保存图标
 + 直接应用到启动器、从支持的启动器设置中应用
++ 隐藏式控制台，查看重绘申请统计
 
 相关截图（更多截图去[这里](art/SCREENSHOTS.md)查看）：
 
@@ -73,7 +74,7 @@ NanoIconPack 同时还支持许多未列出的启动器，比如
 | [@sftmi / OMFG图标包](http://www.coolapk.com/apk/com.sftmi.iconpack.omfg) | [![OMFG](art/ic_launcher_omfg.png)](http://www.coolapk.com/apk/com.sftmi.iconpack.omfg) |
 | [@大神sjk / Smalite图标包](http://www.coolapk.com/apk/com.sjk.smaliteiconpack) | [![Smalite](art/ic_launcher_smalite.png)](http://www.coolapk.com/apk/com.sjk.smaliteiconpack) |
 | [@派大鑫 / Party Star](http://www.coolapk.com/apk/com.paidax.iconpack.partystar) | [![Smalite](art/ic_launcher_party_star.png)](http://www.coolapk.com/apk/com.paidax.iconpack.partystar) |
-| [@可以and不行 / Pixcircle图标包](http://www.coolapk.com/apk/com.edward.iconpack.pixcircle) | [![Pixcircle](art/ic_launcher_pixcircle.png)](http://www.coolapk.com/apk/com.edward.iconpack.pixcircle) |
+| [@可以and不行 / Pelmix图标包](http://www.coolapk.com/apk/com.edward.iconpack.pelmix) | [![Pelmix](art/ic_launcher_pelmix.png)](http://www.coolapk.com/apk/com.edward.iconpack.pelmix) |
 | [@Markuss / Aeroblast图标包](http://www.coolapk.com/apk/com.markusslugia.iconpack.aeroblast) | [![Aeroblast](art/ic_launcher_aeroblast.png)](http://www.coolapk.com/apk/com.markusslugia.iconpack.aeroblast) |
 
 如果您基于 NanoIconPack 开发出了自己的图标包作品，请不吝[知会我](#联系开发者)，以便展示在这里。
@@ -86,6 +87,8 @@ NanoIconPack 使用了如下开源项目，致敬开源：
 + [timusus / RecyclerView-FastScroll](https://github.com/timusus/RecyclerView-FastScroll) licensed under [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0)
 + [fython / AlipayZeroSdk](https://github.com/fython/AlipayZeroSdk) licensed under [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0)
 + [kenglxn / QRGen](https://github.com/kenglxn/QRGen) licensed under [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0)
++ [bumptech / glide](https://github.com/bumptech/glide) licensed under [BSD, part MIT and Apache-2.0](https://github.com/bumptech/glide/blob/master/LICENSE)
++ [square / retrofit](https://github.com/square/retrofit) licensed under [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0)
 
 参考了如下资料：
 + [teslacoil / Example_NovaTheme](https://github.com/teslacoil/Example_NovaTheme)

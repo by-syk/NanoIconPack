@@ -18,22 +18,44 @@
 <resources>
 
     <string name="activity_about">关于</string>
+    <string name="activity_req_top">重绘申请统计</string>
 
     <string name="dlg_title_apply">应用到启动器</string>
+    <string name="dlg_title_user">口令</string>
     <string name="dlg_bt_pick">选择</string>
     <string name="dlg_bt_got_it">我知道了</string>
+    <string name="dlg_bt_upload">上传</string>
+    <string name="dlg_bt_cancel">取消</string>
+    <string name="dlg_bt_close">关闭</string>
+    <string name="dlg_bt_sign_in">登入</string>
 
     <string name="menu_apply">应用</string>
     <string name="menu_about">关于</string>
+    <string name="menu_include_filter">包含已重绘</string>
+    <string name="menu_top">TOP</string>
+    <string name="menu_top_32">Top32</string>
+    <string name="menu_top_64">Top64</string>
+    <string name="menu_top_128">Top128</string>
+    <string name="menu_mark_redraw">标记已重绘</string>
+    <string name="menu_undo_mark">取消已重绘标记</string>
+    <string name="menu_goto_market">去应用商店查看</string>
 
     <string name="nav_lost">未适配</string>
     <string name="nav_matched">已适配</string>
     <string name="nav_all">全部</string>
 
     <string name="toast_not_installed">未安装 %s 或其已被停用</string>
-    <string name="toast_code_copied">已复制%d个APP代码</string>
+    <string name="toast_code_copied">已复制APP代码</string>
     <string name="toast_icon_saved">图标已保存到图库</string>
     <string name="toast_icon_not_saved">图标保存失败</string>
+    <string name="toast_no_net_conn">无网络连接 :(</string>
+    <string name="toast_no_net_no_req">无网络连接，无法提交申请 :(</string>
+    <string name="toast_req_redraw_ok">申请重绘成功 :)</string>
+    <string name="toast_req_redraw_failed">申请重绘失败 :(</string>
+    <string name="toast_mark_ok">标记成功 :)</string>
+    <string name="toast_mark_failed">标记失败 :(</string>
+    <string name="toast_undo_mark_ok">已取消标记 :)</string>
+    <string name="toast_undo_mark_failed">取消标记失败 :(</string>
 
     <string name="preference_category_icons">图标 (%d枚)</string>
     <string name="preference_icons_summary_note"></string>
@@ -57,7 +79,7 @@
     <string name="send_code">分享APP代码&#8230;</string>
     <string name="cur_launcher">%s (当前)</string>
     <string name="loading">加载中&#8230;</string>
-    <string name="app_tap_desc">短按以复制该APP代码，长按则直接分享。</string>
+    <string name="app_tap_desc">短按你觉得图标丑的APP项即可申请重绘；长按则是复制APP代码作开发之用。</string>
     <string name="icon_tap_desc">短按查看详情，长按保存到图库。</string>
     <string name="more_launchers_desc">除了列出的启动器，还有许多启动器已被支持，请尝试从启动器设置应用图标包。</string>
     <!--<string name="copyright_desc">"灵魂图匠：[@By_syk](copy:@By_syk)

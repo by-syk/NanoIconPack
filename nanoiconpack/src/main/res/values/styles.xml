@@ -24,8 +24,6 @@
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="ic_action_apply">@drawable/ic_action_apply_dark</item>
         <item name="ic_action_copyright">@drawable/ic_action_copyright_dark</item>
-        <item name="app_list_divider">@drawable/app_list_divider_light</item>
-        <item name="top_shadow">@drawable/top_shadow_light</item><!-- for KitKat -->
         <item name="icon_grid_color">@color/icon_grid_light</item>
         <item name="bottom_bar_color">@color/bottom_bar_color_light</item>
     </style>
@@ -36,8 +34,6 @@
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="ic_action_apply">@drawable/ic_action_apply_light</item>
         <item name="ic_action_copyright">@drawable/ic_action_copyright_light</item>
-        <item name="app_list_divider">@drawable/app_list_divider_light</item>
-        <item name="top_shadow">@drawable/top_shadow_light</item><!-- for KitKat -->
         <item name="icon_grid_color">@color/icon_grid_light</item>
         <item name="bottom_bar_color">@color/bottom_bar_color_light</item>
     </style>
@@ -48,15 +44,16 @@
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="ic_action_apply">@drawable/ic_action_apply_dark</item>
         <item name="ic_action_copyright">@drawable/ic_action_copyright_dark</item>
-        <item name="app_list_divider">@drawable/app_list_divider_dark</item>
-        <item name="top_shadow">@drawable/top_shadow_dark</item><!-- for KitKat -->
         <item name="icon_grid_color">@color/icon_grid_dark</item>
         <item name="bottom_bar_color">@color/bottom_bar_color_dark</item>
     </style>
 
-    <!-- for KitKat -->
-    <style name="Tap">
-        <item name="android:background">?android:attr/selectableItemBackground</item>
+    <style name="AppThemeDarkConsole" parent="Theme.AppCompat">
+        <item name="colorAccent">@color/color_accent</item>
+        <item name="ic_action_done">@drawable/ic_action_done_dark</item>
+        <item name="ic_action_undo">@drawable/ic_action_undo_dark</item>
+        <item name="ic_action_market">@drawable/ic_action_market_dark</item>
+        <item name="icon_grid_color">@color/icon_grid_dark</item>
     </style>
 
     <style name="IconGrid">

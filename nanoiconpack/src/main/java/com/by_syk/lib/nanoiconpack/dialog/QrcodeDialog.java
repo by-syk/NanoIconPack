@@ -39,7 +39,7 @@ public class QrcodeDialog extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         ViewGroup viewGroup = (ViewGroup) getActivity().getLayoutInflater()
                 .inflate(R.layout.dialog_qrcode, null);
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext())
                 .setView(viewGroup);
 
         Bundle bundle = getArguments();

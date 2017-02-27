@@ -19,10 +19,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="@dimen/padding_title_body_dlg"
-    android:paddingLeft="@dimen/padding_content_dlg"
-    android:paddingRight="@dimen/padding_content_dlg"
-    android:paddingBottom="@dimen/padding_content_dlg"
+    android:paddingStart="@dimen/dlg_horz_padding"
+    android:paddingEnd="@dimen/dlg_horz_padding"
+    android:paddingTop="@dimen/dlg_vertical_padding"
+    android:paddingBottom="@dimen/dlg_vertical_padding"
     android:gravity="center"
     android:orientation="horizontal">
 

@@ -15,7 +15,6 @@
   limitations under the License.
   -->
 
-<!-- for KitKat -->
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/coordinator_layout"
@@ -28,25 +27,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <LinearLayout
+    <!-- android:elevation doesn't work with app:itemBackground, but android:background is ok. -->
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/navigation_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_gravity="bottom"
-        app:layout_behavior="com.by_syk.lib.nanoiconpack.widget.BottomNavigationBehavior">
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="4dp"
-            android:background="?attr/top_shadow" />
-
-        <android.support.design.widget.BottomNavigationView
-            android:id="@+id/navigation_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/bottom_bar_color"
-            app:menu="@menu/navigation" />
-
-    </LinearLayout>
+        android:background="?attr/bottom_bar_color"
+        android:elevation="8dp"
+        app:layout_behavior="com.by_syk.lib.nanoiconpack.widget.BottomNavigationBehavior"
+        app:menu="@menu/navigation" />
 
 </android.support.design.widget.CoordinatorLayout>

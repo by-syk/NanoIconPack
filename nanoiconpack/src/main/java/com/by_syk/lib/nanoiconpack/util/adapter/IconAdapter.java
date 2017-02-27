@@ -74,21 +74,22 @@ public class IconAdapter extends RecyclerView.Adapter<IconAdapter.IconViewHolder
     }
 
     @Override
-    public void onBindViewHolder(IconViewHolder holder, int position) {
+    public void onBindViewHolder(final IconViewHolder holder, int position) {
         holder.ivIcon.setImageResource(dataList.get(position).getId());
 
         if (onItemClickListener != null) {
-            final int INDEX = position;
             holder.ivIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    onItemClickListener.onClick(INDEX, dataList.get(INDEX));
+                    int pos = holder.getAdapterPosition();
+                    onItemClickListener.onClick(pos, dataList.get(pos));
                 }
             });
             holder.ivIcon.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
-                    onItemClickListener.onLongClick(INDEX, dataList.get(INDEX));
+                    int pos = holder.getAdapterPosition();
+                    onItemClickListener.onLongClick(pos, dataList.get(pos));
                     return true;
                 }
             });

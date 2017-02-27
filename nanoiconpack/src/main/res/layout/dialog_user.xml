@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   Copyright 2017 By_syk
 
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,21 +14,20 @@
   limitations under the License.
   -->
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
     android:paddingStart="@dimen/dlg_horz_padding"
     android:paddingEnd="@dimen/dlg_horz_padding"
     android:paddingTop="@dimen/dlg_vertical_padding"
     android:paddingBottom="@dimen/dlg_vertical_padding">
 
-    <ImageView
-        android:id="@+id/iv_qrcode"
-        android:layout_width="@dimen/qrcode_size"
-        android:layout_height="@dimen/qrcode_size"
-        android:layout_gravity="center"
-        android:scaleType="fitXY"
-        tools:ignore="ContentDescription" />
+    <EditText
+        android:id="@+id/et_user"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text"
+        android:imeOptions="actionDone" />
 
-</FrameLayout>
+</LinearLayout>

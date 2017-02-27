@@ -21,8 +21,10 @@
     <dimen name="activity_horz_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
-    <dimen name="padding_title_body_dlg">20dp</dimen>
-    <dimen name="padding_content_dlg">24dp</dimen>
+    <!--<dimen name="padding_title_body_dlg">20dp</dimen>
+    <dimen name="padding_content_dlg">24dp</dimen>-->
+    <dimen name="dlg_horz_padding">24dp</dimen>
+    <dimen name="dlg_vertical_padding">20dp</dimen>
 
     <dimen name="unit_padding">8dp</dimen>
     <dimen name="half_unit_padding">8dp</dimen>
@@ -42,5 +44,7 @@
     <dimen name="qrcode_size">224dp</dimen>
     <dimen name="tag_width">6dp</dimen>
     <dimen name="half_tag_width">3dp</dimen>
+    <!-- 56 + 48 + 48 + 8 -->
+    <dimen name="req_bottom_menu_height">160dp</dimen>
 
 </resources>

@@ -113,7 +113,7 @@ public class IconDialog extends DialogFragment {
             }
         });
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity())
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext())
                 .setView(viewContent);
 
         Bundle bundle = getArguments();
@@ -123,7 +123,7 @@ public class IconDialog extends DialogFragment {
                 builder.setTitle(iconBean.getLabel() != null ? iconBean.getLabel() : iconBean.getName());
 //                ivIcon.setImageResource(iconBean.getId());
                 int hdIconId = getResources().getIdentifier(iconBean.getName(), "mipmap",
-                        getActivity().getPackageName());
+                        getContext().getPackageName());
                 if (hdIconId != 0) {
                     ivIcon.setImageResource(hdIconId);
                 } else {
@@ -163,14 +163,14 @@ public class IconDialog extends DialogFragment {
 
     @TargetApi(23)
     private void saveIcon() {
-        if (C.SDK >= 23 && getActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        if (C.SDK >= 23 && getContext().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
             return;
         }
 
-        boolean ok = ExtraUtil.saveIcon(getActivity(), iconBean);
-        GlobalToast.showToast(getActivity(), ok ? R.string.toast_icon_saved
+        boolean ok = ExtraUtil.saveIcon(getContext(), iconBean);
+        GlobalToast.showToast(getContext(), ok ? R.string.toast_icon_saved
                 : R.string.toast_icon_not_saved);
     }
 
@@ -186,7 +186,7 @@ public class IconDialog extends DialogFragment {
         if (bitmap != null) {
             intent.putExtra("icon", bitmap);
             intent.putExtra("android.intent.extra.shortcut.ICON_RESOURCE", iconBean.getId());
-            intent.setData(Uri.parse("android.resource://" + getActivity().getPackageName()
+            intent.setData(Uri.parse("android.resource://" + getContext().getPackageName()
                     + "/" + String.valueOf(iconBean.getId())));
             getActivity().setResult(Activity.RESULT_OK, intent);
         } else {
@@ -204,8 +204,8 @@ public class IconDialog extends DialogFragment {
 
             List<String> matchedPkgList = ExtraUtil.getAppFilterPkg(getResources(), iconBean.getName());
             for (String pkgName : matchedPkgList) {
-                if (PkgUtil.isPkgInstalled(getActivity(), pkgName)) {
-                    PackageManager packageManager = getActivity().getPackageManager();
+                if (PkgUtil.isPkgInstalled(getContext(), pkgName)) {
+                    PackageManager packageManager = getContext().getPackageManager();
                     try {
                         PackageInfo packageInfo = packageManager.getPackageInfo(pkgName, 0);
                         return packageInfo.applicationInfo.loadIcon(packageManager);

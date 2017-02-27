@@ -21,11 +21,9 @@ import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceCategory;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.text.TextUtils;
-import android.view.View;
 
 import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.dialog.QrcodeDialog;
-import com.by_syk.lib.nanoiconpack.util.C;
 import com.by_syk.lib.nanoiconpack.util.PkgUtil;
 import com.by_syk.lib.text.AboutMsgRender;
 
@@ -102,7 +100,7 @@ public class AboutFragment extends PreferenceFragmentCompat implements Preferenc
         if (!TextUtils.isEmpty(summary)) {
             preIconsCopyright.setSummary(summary);
         }
-        summary = PkgUtil.getAppVer(getActivity(), getString(R.string.preference_app_summary_app));
+        summary = PkgUtil.getAppVer(getContext(), getString(R.string.preference_app_summary_app));
         if (!TextUtils.isEmpty(summary)) {
             preAppApp.setSummary(summary);
         }

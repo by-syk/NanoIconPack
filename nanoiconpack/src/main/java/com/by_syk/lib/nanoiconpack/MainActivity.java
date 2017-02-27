@@ -31,6 +31,7 @@ import android.view.MenuItem;
 import com.by_syk.lib.nanoiconpack.dialog.ApplyDialog;
 import com.by_syk.lib.nanoiconpack.fragment.AppsFragment;
 import com.by_syk.lib.nanoiconpack.fragment.IconsFragment;
+import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
 
 /**
  * Created by By_syk on 2016-07-16.
@@ -75,6 +76,8 @@ public class MainActivity extends AppCompatActivity
         });
 
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            private long lastTapTime = 0;
+
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
@@ -85,11 +88,29 @@ public class MainActivity extends AppCompatActivity
                 } else if (id == R.id.nav_all) {
                     viewPager.setCurrentItem(2);
                 }
+                if (id == R.id.nav_lost) {
+                    if (System.currentTimeMillis() - lastTapTime < 400) {
+                        enterConsole();
+                        lastTapTime = 0;
+                    } else {
+                        lastTapTime = System.currentTimeMillis();
+                    }
+                } else {
+                    lastTapTime = 0;
+                }
                 return true;
             }
         });
 
         viewPager.setCurrentItem(1);
+    }
+
+    private void enterConsole() {
+        if (!ExtraUtil.isNetworkConnected(this)) {
+            return;
+        }
+
+        startActivity(new Intent(MainActivity.this, ReqTopActivity.class));
     }
 
     @Override
@@ -135,10 +156,15 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         public Fragment getItem(int position) {
-            if (position == 0) {
-                return AppsFragment.newInstance(position);
+            switch (position) {
+                case 0:
+                    return AppsFragment.newInstance(position);
+                case 1:
+                    return IconsFragment.newInstance(position, true);
+                case 2:
+                    return IconsFragment.newInstance(position, false);
             }
-            return IconsFragment.newInstance(position);
+            return null;
         }
 
         @Override

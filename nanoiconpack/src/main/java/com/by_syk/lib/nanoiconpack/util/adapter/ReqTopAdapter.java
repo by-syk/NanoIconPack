@@ -17,7 +17,6 @@
 package com.by_syk.lib.nanoiconpack.util.adapter;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -26,10 +25,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.bean.AppBean;
 import com.by_syk.lib.nanoiconpack.util.C;
-import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,8 +37,9 @@ import java.util.List;
  * Created by By_syk on 2017-01-27.
  */
 
-public class AppAdapter extends RecyclerView.Adapter<AppAdapter.IconViewHolder>
-    implements FastScrollRecyclerView.SectionedAdapter {
+public class ReqTopAdapter extends RecyclerView.Adapter<ReqTopAdapter.IconViewHolder> {
+    private Context context;
+
     private LayoutInflater layoutInflater;
 
     private List<AppBean> dataList = new ArrayList<>();
@@ -48,10 +48,11 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.IconViewHolder>
 
     public interface OnItemClickListener {
         void onClick(int pos, AppBean bean);
-        void onLongClick(int pos, AppBean bean);
     }
 
-    public AppAdapter(Context context) {
+    public ReqTopAdapter(Context context) {
+        this.context = context;
+
         layoutInflater = LayoutInflater.from(context);
     }
 
@@ -64,25 +65,22 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.IconViewHolder>
     @Override
     public void onBindViewHolder(final IconViewHolder holder, int position) {
         AppBean bean = dataList.get(position);
-        String component = bean.getPkgName();
-        String launcher = bean.getLauncherActivity();
-        if (!TextUtils.isEmpty(launcher)) {
-            if (launcher.startsWith(bean.getPkgName())) {
-                component += "/" + launcher.substring(bean.getPkgName().length());
-            } else {
-                component += "/" + launcher;
+
+        holder.viewTag.setBackgroundResource(bean.isMark() ? R.drawable.tag_redraw : 0);
+//        holder.ivIcon.setImageDrawable(bean.getIcon());
+        if (bean.getIcon() != null) {
+            holder.ivIcon.setImageDrawable(bean.getIcon());
+        } else {
+            holder.ivIcon.setImageResource(0);
+            if (!TextUtils.isEmpty(bean.getIconUrl())) {
+                Glide.with(context)
+                        .load(bean.getIconUrl())
+                        .crossFade()
+                        .into(holder.ivIcon);
             }
         }
-
-        holder.viewTag.setBackgroundResource(bean.isMark() ? R.drawable.tag_req : 0);
-        holder.ivIcon.setImageDrawable(bean.getIcon());
-//        if (bean.getIcon() != null) {
-//            holder.ivIcon.setImageDrawable(bean.getIcon());
-//        } else {
-//            holder.ivIcon.setImageResource(android.R.drawable.sym_def_app_icon);
-//        }
         holder.tvApp.setText(bean.getLabel());
-        holder.tvComponent.setText(component);
+        holder.tvComponent.setText(bean.getPkgName());
         if (bean.getReqTimes() >= 0) {
             holder.tvReqTimes.setText(C.REQ_REDRAW_SUFFIX + String.valueOf(bean.getReqTimes()));
         } else {
@@ -97,26 +95,12 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.IconViewHolder>
                     onItemClickListener.onClick(pos, dataList.get(pos));
                 }
             });
-            holder.viewRoot.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-                    int pos = holder.getAdapterPosition();
-                    onItemClickListener.onLongClick(pos, dataList.get(pos));
-                    return true;
-                }
-            });
         }
     }
 
     @Override
     public int getItemCount() {
         return dataList.size();
-    }
-
-    @NonNull
-    @Override
-    public String getSectionName(int position) {
-        return dataList.get(position).getLabelPinyin().substring(0, 1).toUpperCase();
     }
 
     public AppBean getItem(int pos) {
@@ -127,29 +111,32 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.IconViewHolder>
     }
 
     public void refresh(List<AppBean> dataList) {
-        if (dataList != null) {
-            this.dataList.clear();
-            this.dataList.addAll(dataList);
-
-            notifyDataSetChanged();
+        if (dataList == null) {
+            return;
         }
+
+        for (int i = 0, len = dataList.size(); i < len; ++i) {
+            for (AppBean bean : this.dataList) {
+                if (dataList.get(i).getPkgName().equals(bean.getPkgName())) {
+                    dataList.remove(i);
+                    dataList.add(i, bean);
+                    break;
+                }
+            }
+        }
+
+        this.dataList.clear();
+        this.dataList.addAll(dataList);
+        notifyDataSetChanged();
     }
 
-//    public void updateTag(int pos) {
-//        if (!copiedArr[pos]) {
-//            copiedArr[pos] = true;
-//            notifyItemChanged(pos);
-//        }
-//    }
-//
-//    public void clearTags() {
-//        for (int i = 0, len = copiedArr.length; i < len; ++i) {
-//            if (copiedArr[i]) {
-//                copiedArr[i] = false;
-//                notifyItemChanged(i);
-//            }
-//        }
-//    }
+    public void remove(int pos) {
+        if (pos < 0 || pos >= dataList.size()) {
+            return;
+        }
+        dataList.remove(pos);
+        notifyItemRemoved(pos);
+    }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;

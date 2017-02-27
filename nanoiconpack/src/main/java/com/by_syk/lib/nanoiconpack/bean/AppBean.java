@@ -18,6 +18,7 @@ package com.by_syk.lib.nanoiconpack.bean;
 
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import java.io.Serializable;
 
@@ -26,7 +27,11 @@ import java.io.Serializable;
  */
 
 public class AppBean implements Serializable {
+    @Nullable
     private Drawable icon;
+
+    @Nullable
+    private String iconUrl;
 
     @NonNull
     private String label = "";
@@ -40,6 +45,10 @@ public class AppBean implements Serializable {
     @NonNull
     private String launcherActivity = "";
 
+    private int reqTimes = -1;
+
+    private boolean mark = false;
+
     public AppBean() {}
 
     public AppBean(Drawable icon, String label, String labelPinyin, String pkgName, String launcherActivity) {
@@ -52,6 +61,10 @@ public class AppBean implements Serializable {
 
     public void setIcon(Drawable icon) {
         this.icon = icon;
+    }
+
+    public void setIconUrl(@NonNull String iconUrl) {
+        this.iconUrl = iconUrl;
     }
 
     public void setLabel(String label) {
@@ -78,8 +91,22 @@ public class AppBean implements Serializable {
         }
     }
 
+    public void setReqTimes(int reqTimes) {
+        this.reqTimes = reqTimes;
+    }
+
+    public void setMark(boolean mark) {
+        this.mark = mark;
+    }
+
+    @Nullable
     public Drawable getIcon() {
         return icon;
+    }
+
+    @Nullable
+    public String getIconUrl() {
+        return iconUrl;
     }
 
     @NonNull
@@ -99,5 +126,13 @@ public class AppBean implements Serializable {
     @NonNull
     public String getLauncherActivity() {
         return launcherActivity;
+    }
+
+    public int getReqTimes() {
+        return reqTimes;
+    }
+
+    public boolean isMark() {
+        return mark;
     }
 }

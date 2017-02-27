@@ -1,0 +1,95 @@
+/*
+ * Copyright 2017 By_syk
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.by_syk.lib.nanoiconpack;
+
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
+
+import com.by_syk.lib.nanoiconpack.dialog.UserDialog;
+import com.by_syk.lib.nanoiconpack.fragment.ReqTopFragment;
+import com.by_syk.lib.storage.SP;
+
+/**
+ * Created by By_syk on 2017-02-24.
+ */
+
+public class ReqTopActivity extends AppCompatActivity {
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_req_top);
+
+        init();
+    }
+
+    private void init() {
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
+        if ((new SP(this, false)).contains("user")) {
+            showFragment();
+        } else {
+            signIn();
+        }
+    }
+
+    private void signIn() {
+        UserDialog userDialog = new UserDialog();
+        userDialog.setOnContinueListener(new UserDialog.OnContinueListener() {
+            @Override
+            public void onContinue(@NonNull String user) {
+                if (user.isEmpty()) {
+                    signIn();
+                    return;
+                }
+                (new SP(ReqTopActivity.this, false)).save("user", user);
+                showFragment();
+            }
+        });
+        userDialog.show(getSupportFragmentManager(), "userDialog");
+    }
+
+    private void showFragment() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        ReqTopFragment reqTopFragment = (ReqTopFragment) fragmentManager.findFragmentByTag("reqTopFragment");
+        if (reqTopFragment != null) {
+            fragmentManager.beginTransaction().show(reqTopFragment).commit();
+        } else {
+            fragmentManager.beginTransaction().add(R.id.fragment_content,
+                    ReqTopFragment.newInstance(), "reqTopFragment").commit();
+        }
+//        getSupportFragmentManager().beginTransaction()
+//                .replace(R.id.fragment_content, ReqTopFragment.newInstance(), "reqTopFragment")
+//                .commit();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+}

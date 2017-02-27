@@ -34,12 +34,12 @@ public class IconTapHintDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        return new AlertDialog.Builder(getActivity())
+        return new AlertDialog.Builder(getContext())
                 .setMessage(R.string.icon_tap_desc)
                 .setPositiveButton(R.string.dlg_bt_got_it, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        (new SP(getActivity(), false)).save("iconTapHint", true);
+                        (new SP(getContext(), false)).save("iconTapHint", true);
                     }
                 })
                 .create();
