@@ -471,7 +471,7 @@ public class ExtraUtil {
         if (!TextUtils.isEmpty(androidId)) {
             String serial = Build.SERIAL;
             if (!"unknown".equalsIgnoreCase(serial)) {
-                return androidId + "+" + serial;
+                return androidId + serial;
             }
             return androidId;
         }

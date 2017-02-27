@@ -50,6 +50,7 @@ import com.by_syk.lib.nanoiconpack.util.PkgUtil;
 import com.by_syk.lib.nanoiconpack.util.adapter.AppAdapter;
 import com.by_syk.lib.storage.SP;
 import com.by_syk.lib.toast.GlobalToast;
+import com.google.gson.JsonObject;
 import com.simplecityapps.recyclerview_fastscroll.interfaces.OnFastScrollStateChangeListener;
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 
@@ -401,6 +402,7 @@ public class AppsFragment extends Fragment {
             if (!ExtraUtil.isNetworkConnected(getContext())) {
                 return false;
             }
+            String deviceId = ExtraUtil.getDeviceId(getContext());
             NanoServerService nanoServerService = null;
             for (int i = pos[0]; i <= pos[1]; ++i) {
                 if (isCancelled() || !isAdded()) {
@@ -414,13 +416,14 @@ public class AppsFragment extends Fragment {
                     nanoServerService = RetrofitHelper.getInstance().getRetrofit()
                             .create(NanoServerService.class);
                 }
-                Call<ResResBean<Integer>> call = nanoServerService
-                        .getReqNum(getContext().getPackageName(), bean.getPkgName());
+                Call<ResResBean<JsonObject>> call = nanoServerService
+                        .getReqNum(getContext().getPackageName(), bean.getPkgName(), deviceId);
                 try {
-                    ResResBean<Integer> resResBean = call.execute().body();
+                    ResResBean<JsonObject> resResBean = call.execute().body();
                     if (resResBean != null && resResBean.isStatusSuccess()) {
-                        Log.d(C.LOG_TAG, "bean.setReqTimes(" + resResBean.getResult() + ")");
-                        bean.setReqTimes(resResBean.getResult());
+                        JsonObject jo = resResBean.getResult();
+                        bean.setReqTimes(jo.get("num").getAsInt());
+                        bean.setMark(jo.get("reqed").getAsInt() == 1);
                         publishProgress(i);
                     }
                 } catch (IOException e) {

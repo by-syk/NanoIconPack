@@ -18,6 +18,7 @@ package com.by_syk.lib.nanoiconpack.util.impl;
 
 import com.by_syk.lib.nanoiconpack.bean.ResResBean;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import java.util.Map;
 
@@ -45,8 +46,9 @@ public interface NanoServerService {
                                @FieldMap Map<String, String> fields);
 
     @GET("reqnum/{iconpack}/{pkg}")
-    Call<ResResBean<Integer>> getReqNum(@Path("iconpack") String iconPack,
-                               @Path("pkg") String pkgName);
+    Call<ResResBean<JsonObject>> getReqNum(@Path("iconpack") String iconPack,
+                                           @Path("pkg") String pkgName,
+                                           @Query("deviceid") String deviceId);
 
     @GET("reqtop/{iconpack}/{user}")
     Call<ResResBean<JsonArray>> getReqTop(@Path("iconpack") String iconPack,
