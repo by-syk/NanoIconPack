@@ -173,7 +173,6 @@ public class IconsFragment extends Fragment {
         @Override
         protected List<IconBean> doInBackground(String... strings) {
             if (retainedFragment.isIconListSaved(pageId)) {
-                Log.d(C.LOG_TAG, "LoadIconsTask - retainedFragment.getIconList(pageId)");
                 return retainedFragment.getIconList(pageId);
             }
 

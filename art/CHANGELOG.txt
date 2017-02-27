@@ -1,4 +1,4 @@
-v
+v1.9.0
 - minSdkVersion 向上调整到 21(Android 5.0)
 - 放弃 PagerTabStrip，替换为 BottomNavigationView
 - 支持提交图标申请到服务器

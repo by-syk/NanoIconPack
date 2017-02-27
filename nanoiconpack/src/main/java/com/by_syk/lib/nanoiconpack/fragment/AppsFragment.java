@@ -266,7 +266,6 @@ public class AppsFragment extends Fragment {
 
             boolean forceRefresh = booleans.length > 0 && booleans[0];
             if (!forceRefresh && retainedFragment.isAppListSaved()) {
-                Log.d(C.LOG_TAG, "LoadAppsTask - return retainedFragment.getAppList()");
                 return retainedFragment.getAppList();
             }
 
@@ -413,11 +412,12 @@ public class AppsFragment extends Fragment {
                     nanoServerService = RetrofitHelper.getInstance().getRetrofit()
                             .create(NanoServerService.class);
                 }
-                Call<ResResBean<Integer>> call = nanoServerService.getReqNum(getContext()
-                        .getPackageName(), bean.getPkgName());
+                Call<ResResBean<Integer>> call = nanoServerService
+                        .getReqNum(getContext().getPackageName(), bean.getPkgName());
                 try {
                     ResResBean<Integer> resResBean = call.execute().body();
                     if (resResBean != null && resResBean.isStatusSuccess()) {
+                        Log.d(C.LOG_TAG, "bean.setReqTimes(" + resResBean.getResult() + ")");
                         bean.setReqTimes(resResBean.getResult());
                         publishProgress(i);
                     }

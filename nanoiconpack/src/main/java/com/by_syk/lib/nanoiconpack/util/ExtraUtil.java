@@ -510,4 +510,13 @@ public class ExtraUtil {
             }
         }
     }
+
+    @NonNull
+    public static String renderReqTimes(int reqTimes) {
+        if (reqTimes < 0) {
+            reqTimes = 0;
+        }
+//        return (reqTimes > 1 ? C.REQ_REDRAW_SUFFIX_TWO : C.REQ_REDRAW_SUFFIX_ONE) + reqTimes;
+        return C.REQ_REDRAW_SUFFIX + reqTimes;
+    }
 }

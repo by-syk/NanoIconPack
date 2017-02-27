@@ -29,6 +29,7 @@ import android.widget.TextView;
 import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.bean.AppBean;
 import com.by_syk.lib.nanoiconpack.util.C;
+import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 
 import java.util.ArrayList;
@@ -84,7 +85,7 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.IconViewHolder>
         holder.tvApp.setText(bean.getLabel());
         holder.tvComponent.setText(component);
         if (bean.getReqTimes() >= 0) {
-            holder.tvReqTimes.setText(C.REQ_REDRAW_SUFFIX + String.valueOf(bean.getReqTimes()));
+            holder.tvReqTimes.setText(ExtraUtil.renderReqTimes(bean.getReqTimes()));
         } else {
             holder.tvReqTimes.setText("");
         }

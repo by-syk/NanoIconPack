@@ -34,5 +34,7 @@ public class C {
 
 //    public static final String REQ_REDRAW_SUFFIX = "\uD83C\uDE38 ";
 //    public static final String REQ_REDRAW_SUFFIX = "\uD83D\uDE4F ";
-    public static final String REQ_REDRAW_SUFFIX = "\uD83D\uDCCE ";
+//    public static final String REQ_REDRAW_SUFFIX = "\uD83D\uDCCE ";
+//    public static final String REQ_REDRAW_SUFFIX = "\uD83D\uDC65 ";
+    public static final String REQ_REDRAW_SUFFIX = "\uD83D\uDC64 ";
 }

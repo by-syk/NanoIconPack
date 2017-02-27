@@ -16,13 +16,23 @@
 
 package com.by_syk.lib.nanoiconpack.bean;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by By_syk on 2017-02-24.
  */
 
 public class ResResBean<T> {
+    // Make sure Gson works well after Proguard:
+    // + Using @SerializedName()
+    // + -keep class com.by_syk.lib.nanoiconpack.bean.ResResBean { private *; }
+    @SerializedName("status")
     private int status = -1;
+
+    @SerializedName("msg")
     private String msg;
+
+    @SerializedName("result")
     private T result;
 
     public static final int STATUS_SUCCESS = 0;

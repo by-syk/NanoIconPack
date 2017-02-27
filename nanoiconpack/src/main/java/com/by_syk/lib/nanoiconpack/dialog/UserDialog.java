@@ -50,7 +50,7 @@ public class UserDialog extends DialogFragment {
         AlertDialog alertDialog = new AlertDialog.Builder(getContext())
                 .setTitle(R.string.dlg_title_user)
                 .setView(viewGroup)
-                .setPositiveButton(R.string.dlg_bt_sign_in, new DialogInterface.OnClickListener() {
+                .setPositiveButton(R.string.dlg_bt_ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         if (onContinueListener != null) {

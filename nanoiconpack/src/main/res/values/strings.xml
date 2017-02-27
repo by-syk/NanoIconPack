@@ -29,7 +29,7 @@
     <string name="dlg_bt_upload">Upload</string>
     <string name="dlg_bt_cancel">Cancel</string>
     <string name="dlg_bt_close">Close</string>
-    <string name="dlg_bt_sign_in">Sign in</string>
+    <string name="dlg_bt_ok">Sign in</string>
 
     <string name="menu_apply">Apply</string>
     <string name="menu_about">About</string>

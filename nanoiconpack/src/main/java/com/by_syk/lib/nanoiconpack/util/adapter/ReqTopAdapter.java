@@ -29,6 +29,7 @@ import com.bumptech.glide.Glide;
 import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.bean.AppBean;
 import com.by_syk.lib.nanoiconpack.util.C;
+import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,7 +83,7 @@ public class ReqTopAdapter extends RecyclerView.Adapter<ReqTopAdapter.IconViewHo
         holder.tvApp.setText(bean.getLabel());
         holder.tvComponent.setText(bean.getPkgName());
         if (bean.getReqTimes() >= 0) {
-            holder.tvReqTimes.setText(C.REQ_REDRAW_SUFFIX + String.valueOf(bean.getReqTimes()));
+            holder.tvReqTimes.setText(ExtraUtil.renderReqTimes(bean.getReqTimes()));
         } else {
             holder.tvReqTimes.setText("");
         }
