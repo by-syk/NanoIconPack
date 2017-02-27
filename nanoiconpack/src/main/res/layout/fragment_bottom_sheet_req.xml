@@ -139,4 +139,41 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/view_menu_copy_code"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:background="?android:attr/selectableItemBackground">
+
+        <ImageView
+            android:src="?attr/ic_action_code"
+            android:scaleType="center"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:text="@string/menu_copy_code"
+            android:textSize="18dp"
+            android:textColor="?android:attr/textColorPrimary"
+            android:singleLine="true"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:layout_marginStart="32dp" />
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleSmall"
+            android:id="@+id/pb_copy_code"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/unit_padding"
+            android:layout_marginEnd="16dp" />
+
+    </LinearLayout>
+
 </LinearLayout>

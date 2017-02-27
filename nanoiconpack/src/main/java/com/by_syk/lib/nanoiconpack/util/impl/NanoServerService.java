@@ -46,7 +46,7 @@ public interface NanoServerService {
 
     @GET("reqnum/{iconpack}/{pkg}")
     Call<ResResBean<Integer>> getReqNum(@Path("iconpack") String iconPack,
-                               @Path("pkg") String targetPkg);
+                               @Path("pkg") String pkgName);
 
     @GET("reqtop/{iconpack}/{user}")
     Call<ResResBean<JsonArray>> getReqTop(@Path("iconpack") String iconPack,
@@ -58,13 +58,16 @@ public interface NanoServerService {
     @POST("reqfilter/{iconpack}/{user}")
     Call<ResResBean> filterPkg(@Path("iconpack") String iconPack,
                                @Path("user") String user,
-                               @Field("pkg") String filterPkg);
+                               @Field("pkg") String pkgName);
 
     @DELETE("reqfilter/{iconpack}/{user}")
     Call<ResResBean> undoFilterPkg(@Path("iconpack") String iconPack,
                                    @Path("user") String user,
-                                   @Query("pkg") String filterPkg);
+                                   @Query("pkg") String pkgName);
+
+    @GET("code/{pkg}")
+    Call<ResResBean<JsonArray>> getCode(@Path("pkg") String pkgName);
 
     @GET("iconurl/{pkg}")
-    Call<ResResBean<String>> getIconUrl(@Path("pkg") String pkg);
+    Call<ResResBean<String>> getIconUrl(@Path("pkg") String pkgName);
 }

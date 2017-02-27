@@ -17,10 +17,12 @@
 package com.by_syk.lib.nanoiconpack.dialog;
 
 import android.app.Dialog;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialogFragment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -33,6 +35,9 @@ import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
 import com.by_syk.lib.nanoiconpack.util.RetrofitHelper;
 import com.by_syk.lib.nanoiconpack.util.impl.NanoServerService;
 import com.by_syk.lib.storage.SP;
+import com.by_syk.lib.toast.GlobalToast;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -74,6 +79,7 @@ public class ReqMenuDialog extends BottomSheetDialogFragment implements View.OnC
             contentView.findViewById(R.id.view_menu_undo_mark).setVisibility(View.GONE);
         }
         contentView.findViewById(R.id.view_menu_goto_market).setOnClickListener(this);
+        contentView.findViewById(R.id.view_menu_copy_code).setOnClickListener(this);
 
         BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior
                 .from((View) contentView.getParent());
@@ -99,6 +105,8 @@ public class ReqMenuDialog extends BottomSheetDialogFragment implements View.OnC
         } else if (id == R.id.view_menu_goto_market) {
             ExtraUtil.gotoMarket(getContext(), bean.getPkgName(), false);
             dismiss();
+        } else if (id == R.id.view_menu_copy_code) {
+            copyCode();
         }
     }
 
@@ -170,6 +178,62 @@ public class ReqMenuDialog extends BottomSheetDialogFragment implements View.OnC
                 dismiss();
             }
         });
+    }
+
+    private void copyCode() {
+        contentView.findViewById(R.id.pb_copy_code).setVisibility(View.VISIBLE);
+
+        NanoServerService nanoServerService = RetrofitHelper.getInstance().getRetrofit()
+                .create(NanoServerService.class);
+        Call<ResResBean<JsonArray>> call = nanoServerService.getCode(bean.getPkgName());
+        call.enqueue(new Callback<ResResBean<JsonArray>>() {
+            @Override
+            public void onResponse(Call<ResResBean<JsonArray>> call, Response<ResResBean<JsonArray>> response) {
+                ResResBean<JsonArray> resResBean = response.body();
+                if (resResBean != null && resResBean.isStatusSuccess()) {
+                    String codes = packageCodes(resResBean.getResult());
+                    if (!TextUtils.isEmpty(codes)) {
+                        ExtraUtil.copy2Clipboard(getContext(), codes);
+                        GlobalToast.showToast(getContext(), R.string.toast_code_copied);
+                        dismiss();
+                        return;
+                    }
+                }
+                GlobalToast.showToast(getContext(), R.string.toast_code_copy_failed);
+                dismiss();
+            }
+
+            @Override
+            public void onFailure(Call<ResResBean<JsonArray>> call, Throwable t) {
+                GlobalToast.showToast(getContext(), R.string.toast_code_copy_failed);
+                dismiss();
+            }
+        });
+    }
+
+    private String packageCodes(@NonNull JsonArray ja) {
+        String codes = "";
+        for (int i = 0, len = ja.size(); i < len; ++i) {
+            JsonObject jo = ja.get(i).getAsJsonObject();
+            String code1 = getString(R.string.app_component_label, jo.get("label").getAsString(),
+                    jo.get("labelEn").getAsString());
+            String code2 = getString(R.string.app_component,
+                    jo.get("pkg").getAsString(),
+                    jo.get("launcher").getAsString(),
+                    jo.get("icon").getAsString());
+            int index = codes.indexOf(code2);
+            if (index >= 0) {
+                codes = codes.substring(0, index) + code1 + "\n" + codes.substring(index);
+            } else {
+                codes += code1 + "\n" + code2;
+            }
+            codes += "\n\n";
+        }
+        if (!codes.isEmpty()) {
+            codes = codes.substring(0, codes.length() - 2);
+        }
+
+        return codes;
     }
 
     public void setOnMarkDoneListener(OnMarkDoneListener onMarkDoneListener) {

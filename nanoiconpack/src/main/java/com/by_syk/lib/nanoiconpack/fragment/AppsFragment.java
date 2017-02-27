@@ -239,10 +239,12 @@ public class AppsFragment extends Fragment {
         String label = bean.getLabel();
         String labelEn = PkgUtil.getAppLabelEn(getContext(), bean.getPkgName(), null);
         boolean isSysApp = PkgUtil.isSysApp(getContext(), bean.getPkgName());
-        String code = getString(isSysApp ? R.string.app_component_1 : R.string.app_component,
-                Build.BRAND, Build.MODEL, label, labelEn,
-                bean.getPkgName(), bean.getLauncherActivity(),
-                ExtraUtil.appName2drawableName(label, labelEn));
+        String code = getString(R.string.app_component_label, label, labelEn);
+        code += "\n" + getString(R.string.app_component, bean.getPkgName(),
+                bean.getLauncherActivity(), ExtraUtil.appName2drawableName(label, labelEn));
+        if (isSysApp) {
+            code = getString(R.string.app_component_build, Build.BRAND, Build.MODEL) + "\n" + code;
+        }
 
         if (toCopyOrShare) {
             ExtraUtil.copy2Clipboard(getContext(), code);

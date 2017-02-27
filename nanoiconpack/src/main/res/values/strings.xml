@@ -41,13 +41,15 @@
     <string name="menu_mark_redraw">Mark redrawn</string>
     <string name="menu_undo_mark">Undo mark</string>
     <string name="menu_goto_market">View in market</string>
+    <string name="menu_copy_code">Copy app code</string>
 
     <string name="nav_lost">Lost</string>
     <string name="nav_matched">Matched</string>
     <string name="nav_all">All</string>
 
     <string name="toast_not_installed">%s is not installed or it\'s disabled.</string>
-    <string name="toast_code_copied">App code copied</string>
+    <string name="toast_code_copied">App code copied.</string>
+    <string name="toast_code_copy_failed">Failed to copy code.</string>
     <string name="toast_icon_saved">Icon saved.</string>
     <string name="toast_icon_not_saved">Failed to save the icon.</string>
     <string name="toast_no_net_conn">:( No network connection.</string>
@@ -79,8 +81,9 @@
     <string name="preference_app_title_dashboard">Based on NanoIconPack v1.5.0</string>
     <string name="preference_app_summary_dashboard" translatable="false">[https://github.com/by-syk/NanoIconPack](https://github.com/by-syk/NanoIconPack)</string>
 
-    <string name="app_component" translatable="false">"&lt;!-- %3$s / %4$s -->\n&lt;item component=\"ComponentInfo{%5$s/%6$s}\" drawable=\"%7$s\" />"</string>
-    <string name="app_component_1" translatable="false">"&lt;!-- Build: %1$s / %2$s -->\n&lt;!-- %3$s / %4$s -->\n&lt;item component=\"ComponentInfo{%5$s/%6$s}\" drawable=\"%7$s\" />"</string>
+    <string name="app_component" translatable="false">"&lt;item component=\"ComponentInfo{%1$s/%2$s}\" drawable=\"%3$s\" />"</string>
+    <string name="app_component_label" translatable="false">"&lt;!-- %1$s / %2$s -->"</string>
+    <string name="app_component_build" translatable="false">"&lt;!-- Build: %1$s / %2$s -->"</string>
     <string name="send_code">Share app codes&#8230;</string>
     <string name="cur_launcher">%s (Current)</string>
     <string name="loading">Loading&#8230;</string>
