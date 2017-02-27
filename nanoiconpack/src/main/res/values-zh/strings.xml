@@ -21,7 +21,7 @@
     <string name="activity_req_top">申请统计</string>
 
     <string name="dlg_title_apply">应用到启动器</string>
-    <string name="dlg_title_user">设置密码</string>
+    <string name="dlg_title_user">设置口令</string>
     <string name="dlg_bt_pick">选择</string>
     <string name="dlg_bt_got_it">我知道了</string>
     <string name="dlg_bt_upload">上传</string>
