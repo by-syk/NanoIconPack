@@ -97,6 +97,22 @@ log4js.addAppender(log4js.appenders.file('logs/nano8082.log'), 'nano8082');
 var logger = log4js.getLogger('nano8082');
 logger.setLevel('INFO'); // TRACE, DEBUG, INFO, WARN, ERROR, FATAL
 
+// 用到的SQL命令
+var sqlCmds = {
+  queryByIcon: 'SELECT series, label, label_en, pkg, launcher FROM code WHERE icon = ? LIMIT 128',
+  queryBySeries: 'SELECT icon, label, label_en, pkg, launcher FROM code WHERE series = ?',
+  queryByPkg: 'SELECT series, label, label_en, launcher, icon FROM code WHERE pkg = ? LIMIT 128',
+  queryByLabel: 'SELECT label, label_en, pkg, launcher, icon FROM code WHERE label LIKE ? OR label_en LIKE ? LIMIT 128',
+  req: 'INSERT IGNORE INTO req(icon, label, label_en, pkg, launcher, sys_app, icon_pack, device_id, device_brand, device_model, device_sdk) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+  sumByIpP: 'SELECT COUNT(*) AS num FROM req WHERE icon_pack = ? AND pkg = ?',
+  sumByIpPDi: 'SELECT COUNT(*) AS num FROM req WHERE icon_pack = ? AND pkg = ? GROUP BY device_id = ?',
+  reqTopFilter: 'SELECT label, pkg, COUNT(*) AS sum, 0 AS filter FROM req AS r WHERE icon_pack = ? AND pkg NOT IN (SELECT pkg FROM req_filter AS rf WHERE rf.icon_pack = r.icon_pack AND user = ?) GROUP BY pkg ORDER BY sum DESC, pkg ASC LIMIT ?',
+  reqTop: 'SELECT label, pkg, COUNT(*) AS sum, 1 AS filter FROM req WHERE icon_pack = ? GROUP BY pkg ORDER BY sum DESC, pkg ASC LIMIT ?',
+  reqFilter: 'INSERT IGNORE INTO req_filter(icon_pack, user, pkg) VALUES(?, ?, ?)',
+  reqUndoFilter: 'DELETE FROM req_filter WHERE icon_pack = ? AND user = ? AND pkg = ?',
+  code: 'SELECT label, label_en AS labelEn, pkg, launcher, icon FROM req WHERE pkg = ? GROUP BY label, label_en, launcher'
+};
+
 
 // ====================================== API BLOCK START ======================================= //
 
@@ -119,10 +135,9 @@ app.get('/nanoiconpack', function(req, res) {
 
 // 接口：按图标名精确检索
 app.get('/nanoiconpack/icon/:icon', function(req, res) {
-  logger.info('GET /nanoiconpack/icon/' + req.params.icon);
-  var cmd = 'SELECT series, label, label_en, pkg, launcher FROM code WHERE icon = \''
-    + req.params.icon.replace('\'', '\\\'') + '\' LIMIT 128';
-  query(cmd, function(err, rows) {
+  var icon = req.params.icon;
+  logger.info('GET /nanoiconpack/icon/' + icon);
+  query(sqlCmds.queryByIcon, [icon], function(err, rows) {
     if (err) {
       res.send(err);
       return;
@@ -131,7 +146,7 @@ app.get('/nanoiconpack/icon/:icon', function(req, res) {
     var codes = '';
     for (var i in rows) {
       codes += utils.getCode(rows[i].label, rows[i].label_en, rows[i].pkg,
-        rows[i].launcher, req.params.icon) + '\n\n';
+        rows[i].launcher, icon) + '\n\n';
     }
     if (rows.length >= 128) {
       codes += rows.length + ' in total and more is omitted.';
@@ -140,9 +155,7 @@ app.get('/nanoiconpack/icon/:icon', function(req, res) {
     }
 
     if (rows.length > 0) {
-      var cmd1 = 'SELECT icon, label, label_en, pkg, launcher FROM code WHERE series = \''
-        + rows[0].series + '\'';
-      query(cmd1, function(err1, rows1) {
+      query(sqlCmds.queryBySeries, [rows[0].series], function(err1, rows1) {
         if (err1 || rows1.length == 0) {
           res.set('Content-Type', 'text/plain; charset=utf-8');
           res.send(codes);
@@ -171,10 +184,9 @@ app.get('/nanoiconpack/icon/:icon', function(req, res) {
 
 // 接口：按包名精确检索
 app.get('/nanoiconpack/pkg/:pkg', function(req, res) {
-  logger.info('GET /nanoiconpack/pkg/' + req.params.pkg);
-  var cmd = 'SELECT series, label, label_en, launcher, icon FROM code WHERE pkg = \''
-    + req.params.pkg.replace('\'', '\\\'') + '\' LIMIT 128';
-  query(cmd, function(err, rows) {
+  var pkg = req.params.pkg;
+  logger.info('GET /nanoiconpack/pkg/' + pkg);
+  query(sqlCmds.queryByPkg, [pkg], function(err, rows) {
     if (err) {
       res.send(err);
       return;
@@ -192,9 +204,7 @@ app.get('/nanoiconpack/pkg/:pkg', function(req, res) {
     }
 
     if (rows.length > 0) {
-      var cmd1 = 'SELECT icon, label, label_en, pkg, launcher FROM code WHERE series = \''
-        + rows[0].series + '\'';
-      query(cmd1, function(err1, rows1) {
+      query(sqlCmds.queryBySeries, [rows[0].series], function(err1, rows1) {
         if (err1 || rows1.length == 0) {
           res.set('Content-Type', 'text/plain; charset=utf-8');
           res.send(codes);
@@ -223,11 +233,10 @@ app.get('/nanoiconpack/pkg/:pkg', function(req, res) {
 
 // 接口：按目标APP中文名、英文名模糊检索
 app.get('/nanoiconpack/label/:label', function(req, res) {
-  logger.info('GET /nanoiconpack/label/' + req.params.label);
-  var cmd = 'SELECT label, label_en, pkg, launcher, icon FROM code WHERE label LIKE \'%'
-    + req.params.label.replace('\'', '\\\'') + '%\' OR label_en LIKE \'%'
-    + req.params.label.replace('\'', '\\\'') + '%\' LIMIT 128';
-  query(cmd, function(err, rows) {
+  var label = req.params.label;
+  logger.info('GET /nanoiconpack/label/' + label);
+  var sqlOptions = ['%' + label + '%', '%' + label + '%'];
+  query(sqlCmds.queryByLabel, sqlOptions, function(err, rows) {
     if (err) {
       res.send(err);
       return;
@@ -248,86 +257,67 @@ app.get('/nanoiconpack/label/:label', function(req, res) {
   });
 });
 
-// 接口：申请重绘图标
+// 接口：申请适配图标
 app.post('/nanoiconpack/req/:iconpack([A-Za-z\\d\._]+)', function(req, res) {
-  var iconPack = '\'' + req.params.iconpack + '\'';
+  var iconPack = req.params.iconpack;
   logger.info('POST /nanoiconpack/req/' + iconPack);
   var icon = req.body.icon;
-  if (icon) {
-    icon = '\'' + icon + '\'';
-  } else {
-    icon = 'null';
+  if (!icon) {
+    icon = null;
   }
   var label = req.body.label;
-  if (label) {
-    label = '\'' + label.replace('\'', '\\\'') + '\'';
-  } else {
-    label = 'null';
+  if (!label) {
+    label = null;
   }
   var labelEn = req.body.labelEn;
-  if (labelEn) {
-    labelEn = '\'' + labelEn.replace('\'', '\\\'') + '\'';
-  } else {
-    labelEn = 'null';
+  if (!labelEn) {
+    labelEn = null;
   }
   var pkg = req.body.pkg;
-  if (pkg) {
-    pkg = '\'' + pkg + '\'';
-  } else {
+  if (!pkg) {
     logger.warn('REJECT: No req.body.pkg');
     res.jsonp(utils.getResRes(2));
     return;
   }
   var launcher = req.body.launcher;
-  if (launcher) {
-    launcher = '\'' + launcher + '\'';
-  } else {
+  if (!launcher) {
     logger.warn('REJECT: No req.body.launcher');
     res.jsonp(utils.getResRes(2));
     return;
   }
   var sysApp = req.body.sysApp;
-  if (sysApp == 1 || sysApp == 'true') {
+  if (sysApp == '1' || sysApp == 'true') {
     sysApp = 1;
   } else {
     sysApp = 0;
   }
   var deviceId = req.body.deviceId;
-  if (deviceId) {
-    deviceId = '\'' + deviceId + '\'';
-  } else {
+  if (!deviceId) {
     logger.warn('REJECT: No req.body.deviceId');
     res.jsonp(utils.getResRes(2));
     return;
   }
   var deviceBrand = req.body.deviceBrand;
-  if (deviceBrand) {
-    deviceBrand = '\'' + deviceBrand + '\'';
-  } else {
-    deviceBrand = 'null';
+  if (!deviceBrand) {
+    deviceBrand = null;
   }
   var deviceModel = req.body.deviceModel;
-  if (deviceModel) {
-    deviceModel = '\'' + deviceModel + '\'';
-  } else {
-    deviceModel = 'null';
+  if (!deviceModel) {
+    deviceModel = null;
   }
-  var deviceSdk = req.body.deviceSdk;
+  var deviceSdk = parseInt(req.body.deviceSdk);
   if (!deviceSdk) {
     deviceSdk = 0;
   }
-  var cmd = 'INSERT IGNORE INTO req(icon, label, label_en, pkg, launcher, sys_app,'
-    + ' icon_pack, device_id, device_brand, device_model, device_sdk) VALUES('
-    + icon + ', ' + label + ', ' + labelEn + ', ' + pkg + ', ' + launcher + ', ' + sysApp
-    + ', ' + iconPack + ', ' + deviceId + ', ' + deviceBrand + ', ' + deviceModel + ', ' + deviceSdk + ')';
-  query(cmd, function(err, rows) {
+  var sqlOptions = [icon, label, labelEn, pkg, launcher, sysApp, iconPack, deviceId, deviceBrand, deviceModel, deviceSdk];
+  query(sqlCmds.req, sqlOptions, function(err, rows) {
     if (err) {
       logger.warn(err);
       res.jsonp(utils.getResRes(3));
       return;
     }
-    var cmd1 = 'SELECT COUNT(*) AS num FROM req WHERE icon_pack = ' + iconPack + ' AND pkg = ' + pkg;
-    query(cmd1, function(err1, rows1) {
+    var sqlOptions1 = [iconPack, pkg];
+    query(sqlCmds.sumByIpP, sqlOptions1, function(err1, rows1) {
       if (err1) {
         logger.warn(err1);
         res.jsonp(utils.getResRes(rows.affectedRows > 0 ? 0 : 4));
@@ -335,45 +325,32 @@ app.post('/nanoiconpack/req/:iconpack([A-Za-z\\d\._]+)', function(req, res) {
       }
       res.jsonp(utils.getResRes(rows.affectedRows > 0 ? 0 : 4, undefined, rows1[0].num));
     });
-    /*if (rows.affectedRows > 0) {
-      res.jsonp(utils.getResRes(0));
-    } else {
-      res.jsonp(utils.getResRes(4));
-    }*/
   });
 });
 
-// 接口：查询APP请求重绘图标次数
+// 接口：查询对目标APP的请求适配次数
 app.get('/nanoiconpack/reqnum/:iconpack([A-Za-z\\d\._]+)/:pkg([A-Za-z\\d\._]+)', function(req, res) {
   var iconPack = req.params.iconpack;
   var pkg = req.params.pkg;
-  logger.info('GET /nanoiconpack/reqnum/' + iconPack + '/' + pkg);
   var deviceId = req.query.deviceid;
-  var cmd = 'SELECT COUNT(*) AS num FROM req WHERE icon_pack = \'' + iconPack + '\' AND pkg = \'' + pkg + '\'';
-  query(cmd, function(err, rows) {
+  if (!deviceId) {
+    deviceId = null;
+  }
+  logger.info('GET /nanoiconpack/reqnum/' + iconPack + '/' + pkg + '?deviceid=' + deviceId);
+  var sqlOptions = [iconPack, pkg, deviceId];
+  query(sqlCmds.sumByIpPDi, sqlOptions, function(err, rows) {
     if (err) {
       logger.warn(err);
       res.jsonp(utils.getResRes(3));
       return;
     }
-    if (!deviceId) {
+    if (rows.length == 2) { // 该设备此前已申请过
+      res.jsonp(utils.getResRes(0, undefined, { num: rows[0].num + rows[1].num, reqed: 1 }));
+    } else if (rows.length == 1) {
       res.jsonp(utils.getResRes(0, undefined, { num: rows[0].num, reqed: 0 }));
-      return;
+    } else {
+      res.jsonp(utils.getResRes(0, undefined, { num: 0, reqed: 0 }));
     }
-    var cmd1 = 'SELECT COUNT(*) AS num FROM req WHERE icon_pack = \'' + iconPack + '\' AND pkg = \'' + pkg
-      + '\' AND device_id = \'' + deviceId + '\'';
-    query(cmd1, function(err1, rows1) {
-      var result = {
-        num: rows[0].num,
-        reqed: 0
-      };
-      if (err1) {
-        logger.warn(err1);
-      } else {
-        result.reqed = rows1[0].num;
-      }
-      res.jsonp(utils.getResRes(0, undefined, result));
-    });
   });
 });
 
@@ -381,7 +358,7 @@ app.get('/nanoiconpack/reqnum/:iconpack([A-Za-z\\d\._]+)/:pkg([A-Za-z\\d\._]+)',
 app.get('/nanoiconpack/reqtop/:iconpack([A-Za-z\\d\._]+)/:user', function(req, res) {
   var iconPack = req.params.iconpack;
   var user = req.params.user;
-  var limitNum = req.query.limit;
+  var limitNum = parseInt(req.query.limit);
   if (!limitNum) {
     limitNum = 32;
   } else if (limitNum < 0) {
@@ -390,23 +367,25 @@ app.get('/nanoiconpack/reqtop/:iconpack([A-Za-z\\d\._]+)/:user', function(req, r
     limitNum = 128;
   }
   var filter = req.query.filter;
+  if (filter == 1 || filter == 'true') {
+    filter = 1;
+  } else {
+    filter = 0;
+  }
   logger.info('GET /nanoiconpack/reqtop/' + iconPack + '/' + user + '?limit=' + limitNum + '&filter=' + filter);
-  var cmd = 'SELECT label, pkg, COUNT(*) AS sum, 0 AS filter FROM req AS r WHERE icon_pack = \'' + iconPack
-    + '\' AND pkg NOT IN (SELECT pkg FROM req_filter AS rf WHERE rf.icon_pack = r.icon_pack AND user = \'' + user + '\')'
-    + ' GROUP BY pkg ORDER BY sum DESC, pkg ASC LIMIT ' + limitNum;
-  query(cmd, function(err, rows) {
+  var sqlOptions = [iconPack, user, limitNum];
+  query(sqlCmds.reqTopFilter, sqlOptions, function(err, rows) {
     if (err) {
       logger.warn(err);
       res.jsonp(utils.getResRes(3));
       return;
     }
-    if (filter == 'true' || filter == 1) {
+    if (filter == 1) {
       res.jsonp(utils.getResRes(0, undefined, rows));
       return;
     }
-    var cmd1 = 'SELECT label, pkg, COUNT(*) AS sum, 1 AS filter FROM req AS r WHERE icon_pack = \'' + iconPack
-      + '\' GROUP BY pkg ORDER BY sum DESC, pkg ASC LIMIT ' + limitNum;
-    query(cmd1, function(err1, rows1) {
+    var sqlOptions1 = [iconPack, limitNum];
+    query(sqlCmds.reqTop, sqlOptions1, function(err1, rows1) {
       if (err1) {
         logger.warn(err);
         res.jsonp(utils.getResRes(3));
@@ -426,7 +405,7 @@ app.get('/nanoiconpack/reqtop/:iconpack([A-Za-z\\d\._]+)/:user', function(req, r
   });
 });
 
-// 接口：对申请重绘的APP标记已处理
+// 接口：对申请适配的APP标记已处理
 app.post('/nanoiconpack/reqfilter/:iconpack([A-Za-z\\d\._]+)/:user', function(req, res) {
   var iconPack = req.params.iconpack;
   var user = req.params.user;
@@ -437,9 +416,8 @@ app.post('/nanoiconpack/reqfilter/:iconpack([A-Za-z\\d\._]+)/:user', function(re
     res.jsonp(utils.getResRes(2));
     return;
   }
-  var cmd = 'INSERT IGNORE INTO req_filter(icon_pack, user, pkg) VALUES(\''
-    + iconPack + '\', \'' + user.replace('\'', '\\\'') + '\', \'' + pkg + '\')';
-  query(cmd, function(err, rows) {
+  var sqlOptions = [iconPack, user, pkg];
+  query(sqlCmds.reqFilter, sqlOptions, function(err, rows) {
     if (err) {
       logger.warn(err);
       res.jsonp(utils.getResRes(3));
@@ -453,7 +431,7 @@ app.post('/nanoiconpack/reqfilter/:iconpack([A-Za-z\\d\._]+)/:user', function(re
   });
 });
 
-// 接口：对申请重绘的APP标记未处理
+// 接口：对申请适配的APP标记未处理
 app.delete('/nanoiconpack/reqfilter/:iconpack([A-Za-z\\d\._]+)/:user', function(req, res) {
   var iconPack = req.params.iconpack;
   var user = req.params.user;
@@ -464,9 +442,8 @@ app.delete('/nanoiconpack/reqfilter/:iconpack([A-Za-z\\d\._]+)/:user', function(
     res.jsonp(utils.getResRes(2));
     return;
   }
-  var cmd = 'DELETE FROM req_filter WHERE icon_pack = \'' + iconPack + '\' AND user = \''
-    + user.replace('\'', '\\\'') + '\' AND pkg = \'' + pkg + '\'';
-  query(cmd, function(err, rows) {
+  var sqlOptions = [iconPack, user, pkg];
+  query(sqlCmds.reqUndoFilter, sqlOptions, function(err, rows) {
     if (err) {
       logger.warn(err);
       res.jsonp(utils.getResRes(3));
@@ -483,9 +460,7 @@ app.delete('/nanoiconpack/reqfilter/:iconpack([A-Za-z\\d\._]+)/:user', function(
 // 接口：根据包名查询APP代码
 app.get('/nanoiconpack/code/:pkg([A-Za-z\\d\._]+)', function(req, res) {
   logger.info('GET /nanoiconpack/code/' + req.params.pkg);
-  var cmd = 'SELECT label, label_en AS labelEn, pkg, launcher, icon FROM req WHERE pkg = \''
-    + req.params.pkg + '\' GROUP BY label, label_en, launcher';
-  query(cmd, function(err, rows) {
+  query(sqlCmds.code, [req.params.pkg], function(err, rows) {
     if (err) {
       logger.warn(err);
       res.jsonp(utils.getResRes(3));

@@ -195,21 +195,26 @@ public class ReqTopFragment extends Fragment {
         reqMenuDialog.setOnMarkDoneListener(new ReqMenuDialog.OnMarkDoneListener() {
             @Override
             public void onMarkDone(int pos, AppBean bean1, boolean ok) {
-                if (ok) {
-                    if (bean1.isMark()) {
-                        if (toFilter) {
-                            reqTopAdapter.remove(pos);
-                        } else {
-                            reqTopAdapter.notifyItemChanged(pos);
-                        }
-                        GlobalToast.showToast(getContext(), R.string.toast_mark_ok);
-                    } else {
-                        reqTopAdapter.notifyItemChanged(pos);
-                        GlobalToast.showToast(getContext(), R.string.toast_undo_mark_ok);
-                    }
-                } else {
+                if (!ok) {
                     GlobalToast.showToast(getContext(), bean1.isMark() ? R.string.toast_undo_mark_failed
                             : R.string.toast_mark_failed);
+                    return;
+                }
+                if (bean1.isMark()) {
+                    if (toFilter) {
+                        reqTopAdapter.remove(pos);
+                        if (lazyLoadTask == null) {
+                            lazyLoadTask = new LazyLoadTask();
+                            lazyLoadTask.execute(layoutManager.findFirstVisibleItemPosition(),
+                                    layoutManager.findLastVisibleItemPosition());
+                        }
+                    } else {
+                        reqTopAdapter.notifyItemChanged(pos);
+                    }
+                    GlobalToast.showToast(getContext(), R.string.toast_mark_ok);
+                } else {
+                    reqTopAdapter.notifyItemChanged(pos);
+                    GlobalToast.showToast(getContext(), R.string.toast_undo_mark_ok);
                 }
             }
         });

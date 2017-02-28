@@ -16,27 +16,22 @@
 
 var mysql = require('mysql'); // npm install mysql
 
-// 数据库连接配置
-//var connection = mysql.createConnection({
-//  host: 'localhost',
-//  user: 'test',
-//  password: 'abc123',
-//  database: 'nanoiconpack'
-//});
 // 数据库连接池配置
 var pool = mysql.createPool({
   host: 'localhost',
+  //port: 3306,
   user: 'test',
   password: 'abc123',
-  database: 'nanoiconpack'
+  database: 'nanoiconpack',
+  connectionLimit: 100 // important
 });
 
-var query = function(sql, callback) {
+var query = function(sql, options, callback) {
   pool.getConnection(function(err, conn) {
     if (err) {
       callback(err, null, null);
     } else {
-      conn.query(sql, function(err1, rows) {
+      conn.query(sql, options, function(err1, rows) {
         conn.release();
         callback(err1, rows);
       });

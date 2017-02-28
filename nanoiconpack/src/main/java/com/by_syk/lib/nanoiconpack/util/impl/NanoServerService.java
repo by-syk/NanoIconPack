@@ -37,36 +37,62 @@ import retrofit2.http.Query;
  */
 
 public interface NanoServerService {
+    /**
+     * { "status": 0, "msg": "success" }
+     */
     @GET("/")
     Call<ResResBean> testServer();
 
+    /**
+     * { "status": 0, "msg": "success", "result": 5 }
+     */
     @FormUrlEncoded
     @POST("req/{iconpack}")
     Call<ResResBean<Integer>> reqRedraw(@Path("iconpack") String iconPack,
                                @FieldMap Map<String, String> fields);
 
+    /**
+     * { "status": 0, "msg": "success", "result": { "num": 5, "reqed": 1 } }
+     */
     @GET("reqnum/{iconpack}/{pkg}")
     Call<ResResBean<JsonObject>> getReqNum(@Path("iconpack") String iconPack,
                                            @Path("pkg") String pkgName,
                                            @Query("deviceid") String deviceId);
 
+    /**
+     * { "status": 0, "msg": "success", "result": [
+     *   { "label": "快图浏览", "pkg": "com.alensw.PicFolder", "sum": 2, "filter": 0 }
+     * ]}
+     */
     @GET("reqtop/{iconpack}/{user}")
     Call<ResResBean<JsonArray>> getReqTop(@Path("iconpack") String iconPack,
                                           @Path("user") String user,
                                           @Query("limit") int limitNum,
                                           @Query("filter") boolean filter);
 
+    /**
+     * { "status": 0, "msg": "success" }
+     */
     @FormUrlEncoded
     @POST("reqfilter/{iconpack}/{user}")
     Call<ResResBean> filterPkg(@Path("iconpack") String iconPack,
                                @Path("user") String user,
                                @Field("pkg") String pkgName);
 
+    /**
+     * { "status": 0, "msg": "success" }
+     */
     @DELETE("reqfilter/{iconpack}/{user}")
     Call<ResResBean> undoFilterPkg(@Path("iconpack") String iconPack,
                                    @Path("user") String user,
                                    @Query("pkg") String pkgName);
 
+    /**
+     * { "status": 0, "msg": "success", "result": [
+     *   { "label": "快图浏览", "labelEn": "QuickPic", "pkg": "com.alensw.PicFolder",
+     *     "launcher": "com.alensw.PicFolder.GalleryActivity", "icon": "quick_pic" }
+     * ]}
+     */
     @GET("code/{pkg}")
     Call<ResResBean<JsonArray>> getCode(@Path("pkg") String pkgName);
 
