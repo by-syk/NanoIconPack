@@ -68,7 +68,7 @@ NanoIconPack 同时还支持许多未列出的启动器，比如
 
 NanoIconPack 拥有一个轻量的服务器，提供图标申请和申请统计两大服务。目前您可以免费在基于 NanoIconPack 的图标包APP中接入它。
 
-服务器由神奇的 **[Nodejs](https://nodejs.org/en/)** 驱动，够简单、够轻量。代码已经同项目一并开源（[去查看](https://github.com/by-syk/NanoIconPack/tree/bnv/server/nodejs)），您如果有兴趣的话，完全可以据此搭建出自己的服务器。
+服务器由神奇的 **[Nodejs](https://nodejs.org/en/)** 驱动，够简单、够轻量。代码已经同项目一并开源（[去查看](https://github.com/by-syk/NanoIconPack/tree/bnv/server/nodejs)），您如果有兴趣，完全可以据此搭建出自己的服务器，同时也欢迎和我一并改进它。
 
 
 ### 基于 NanoIconPack 的 APP
