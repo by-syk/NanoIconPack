@@ -19,8 +19,8 @@ var mysql = require('mysql'); // npm install mysql
 // 数据库连接配置
 //var connection = mysql.createConnection({
 //  host: 'localhost',
-//  user: 'root',
-//  password: '',
+//  user: 'test',
+//  password: 'abc123',
 //  database: 'nanoiconpack'
 //});
 // 数据库连接池配置
