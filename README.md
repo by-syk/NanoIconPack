@@ -2,7 +2,7 @@
 
 [![Developing](https://img.shields.io/badge/Developing-v1.9.0-green.svg)](art/CHANGELOG.txt)
 [![Release](https://img.shields.io/badge/Release-v1.4.0-brightgreen.svg)](https://github.com/by-syk/NanoIconPack/releases/tag/1.4.0)
-[![Download](https://img.shields.io/badge/Download-Sample%20APP-brightgreen.svg)](https://github.com/by-syk/NanoIconPack/raw/bnv/out/com.by_syk.nanoiconpack.sample_v1.9.0.6.nightly(17022701).apk)
+[![Download](https://img.shields.io/badge/Download-Sample%20APP-brightgreen.svg)](https://github.com/by-syk/NanoIconPack/raw/bnv/out/com.by_syk.nanoiconpack.sample_v1.9.0.6.nightly(17022800).apk)
 [![License](https://img.shields.io/badge/License-Apache%202.0-yellowgreen.svg)](https://github.com/by-syk/NanoIconPack/blob/master/LICENSE)
 
 ![NanoIconPack](art/ic_launcher_nanoiconpack.png)
@@ -11,13 +11,13 @@
 NanoIconPack 是一个简单轻量的图标包APP模板，支持
 + 展示所有图标，按目标APP名（或图标名）拼音排序
 + 过滤展示已适配图标
-+ 列出未适配APP，可快速申请重绘图标、快速获取APP代码
++ 列出未适配APP，可快速申请适配图标、快速获取APP代码
 + 图标详情对话框，显示目标APP名（或图标名）、高清图标
 + 图标栅格
 + 新原图标对比显示
 + 快速保存图标
 + 直接应用到启动器、从支持的启动器设置中应用
-+ 隐藏式控制台，查看重绘申请统计
++ 隐藏式控制台，查看申请适配统计（由服务器提供支持）
 
 相关截图（更多截图去[这里](art/SCREENSHOTS.md)查看）：
 
