@@ -16,18 +16,18 @@
 
 var mysql = require('mysql'); // npm install mysql
 
-// Êı¾İ¿âÁ¬½ÓÅäÖÃ
+// æ•°æ®åº“è¿æ¥é…ç½®
 //var connection = mysql.createConnection({
 //  host: 'localhost',
 //  user: 'root',
 //  password: '',
 //  database: 'nanoiconpack'
 //});
-// Êı¾İ¿âÁ¬½Ó³ØÅäÖÃ
+// æ•°æ®åº“è¿æ¥æ± é…ç½®
 var pool = mysql.createPool({
   host: 'localhost',
-  user: 'root',
-  password: '',
+  user: 'test',
+  password: 'abc123',
   database: 'nanoiconpack'
 });
 

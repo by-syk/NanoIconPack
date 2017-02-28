@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-// 拼装APP代码
+// 鎷艰APP浠ｇ爜
 exports.getCode = function(label, labelEn, pkg, launcher, icon) {
   if (!label) {
     label = '';
@@ -36,7 +36,7 @@ exports.getCode = function(label, labelEn, pkg, launcher, icon) {
   return code;
 };
 
-// JSON 排序
+// JSON 鎺掑簭
 exports.sortBy = function(filed, rev, primer) {
   rev = (rev) ? -1 : 1;
   return function (a, b) {
@@ -52,7 +52,7 @@ exports.sortBy = function(filed, rev, primer) {
   }
 };
 
-// 解析客户端IP
+// 瑙ｆ瀽瀹㈡埛绔疘P
 /*exports.getClientIp = function(req) {
   return req.headers['x-forwarded-for']
     || req.connection.remoteAddress
@@ -60,7 +60,7 @@ exports.sortBy = function(filed, rev, primer) {
     || req.connection.socket.remoteAddress;
 };*/
 
-// 拼装返回JSON数据
+// 鎷艰杩斿洖JSON鏁版嵁
 exports.getResRes = function(status, msg, result) {
   if (msg == undefined) {
     if (status == 0) {
