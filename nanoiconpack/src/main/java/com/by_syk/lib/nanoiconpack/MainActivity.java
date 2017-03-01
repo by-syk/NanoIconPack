@@ -55,11 +55,10 @@ public class MainActivity extends AppCompatActivity
 
     private void init() {
         viewPager = (ViewPager) findViewById(R.id.view_pager);
-        IconsPagerAdapter pagerAdapter = new IconsPagerAdapter(getSupportFragmentManager());
-        viewPager.setAdapter(pagerAdapter);
-
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation_view);
 
+        viewPager.setOffscreenPageLimit(3); // Keep all 3 pages alive.
+        viewPager.setAdapter(new IconsPagerAdapter(getSupportFragmentManager()));
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
@@ -102,6 +101,8 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        // Set the default page to show.
+        // 0: Lost, 1: Matched 2. All
         viewPager.setCurrentItem(1);
     }
 

@@ -32,7 +32,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +40,6 @@ import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.bean.AppBean;
 import com.by_syk.lib.nanoiconpack.bean.ResResBean;
 import com.by_syk.lib.nanoiconpack.dialog.AppTapHintDialog;
-import com.by_syk.lib.nanoiconpack.util.C;
 import com.by_syk.lib.nanoiconpack.util.RetrofitHelper;
 import com.by_syk.lib.nanoiconpack.util.impl.NanoServerService;
 import com.by_syk.lib.nanoiconpack.widget.DividerItemDecoration;
@@ -265,8 +263,6 @@ public class AppsFragment extends Fragment {
 
         @Override
         protected List<AppBean> doInBackground(Boolean... booleans) {
-            Log.d(C.LOG_TAG, "LoadAppsTask - doInBackground");
-
             boolean forceRefresh = booleans.length > 0 && booleans[0];
             if (!forceRefresh && retainedFragment.isAppListSaved()) {
                 return retainedFragment.getAppList();
