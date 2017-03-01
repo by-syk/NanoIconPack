@@ -37,6 +37,7 @@ import com.by_syk.lib.nanoiconpack.util.impl.NanoServerService;
 import com.by_syk.lib.storage.SP;
 import com.by_syk.lib.toast.GlobalToast;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import retrofit2.Call;
@@ -215,12 +216,23 @@ public class ReqMenuDialog extends BottomSheetDialogFragment implements View.OnC
         String codes = "";
         for (int i = 0, len = ja.size(); i < len; ++i) {
             JsonObject jo = ja.get(i).getAsJsonObject();
-            String code1 = getString(R.string.app_component_label, jo.get("label").getAsString(),
-                    jo.get("labelEn").getAsString());
+            String labelEn = "";
+            JsonElement je = jo.get("labelEn");
+            if (!je.isJsonNull()) {
+                labelEn = je.getAsString();
+            }
+            String code1 = getString(R.string.app_component_label,
+                    jo.get("label").getAsString(),
+                    labelEn);
+            String icon = "";
+            je = jo.get("icon");
+            if (!je.isJsonNull()) {
+                icon = je.getAsString();
+            }
             String code2 = getString(R.string.app_component,
                     jo.get("pkg").getAsString(),
                     jo.get("launcher").getAsString(),
-                    jo.get("icon").getAsString());
+                    icon);
             int index = codes.indexOf(code2);
             if (index >= 0) {
                 codes = codes.substring(0, index) + code1 + "\n" + codes.substring(index);
