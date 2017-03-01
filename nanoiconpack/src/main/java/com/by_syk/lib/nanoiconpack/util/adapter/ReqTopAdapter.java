@@ -17,6 +17,7 @@
 package com.by_syk.lib.nanoiconpack.util.adapter;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -104,6 +105,7 @@ public class ReqTopAdapter extends RecyclerView.Adapter<ReqTopAdapter.IconViewHo
         return dataList.size();
     }
 
+    @Nullable
     public AppBean getItem(int pos) {
         if (pos >= 0 && pos < dataList.size()) {
             return dataList.get(pos);
@@ -117,10 +119,11 @@ public class ReqTopAdapter extends RecyclerView.Adapter<ReqTopAdapter.IconViewHo
         }
 
         for (int i = 0, len = dataList.size(); i < len; ++i) {
-            for (AppBean bean : this.dataList) {
-                if (dataList.get(i).getPkgName().equals(bean.getPkgName())) {
-                    dataList.remove(i);
-                    dataList.add(i, bean);
+            AppBean newBean = dataList.get(i);
+            for (AppBean oldBean : this.dataList) {
+                if (newBean.getPkgName().equals(oldBean.getPkgName())) {
+                    newBean.setIcon(oldBean.getIcon());
+                    newBean.setIconUrl(oldBean.getIconUrl());
                     break;
                 }
             }

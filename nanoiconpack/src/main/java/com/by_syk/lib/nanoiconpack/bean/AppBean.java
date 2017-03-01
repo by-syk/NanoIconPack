@@ -59,11 +59,11 @@ public class AppBean implements Serializable {
         setLauncherActivity(launcherActivity);
     }
 
-    public void setIcon(Drawable icon) {
+    public void setIcon(@Nullable Drawable icon) {
         this.icon = icon;
     }
 
-    public void setIconUrl(@NonNull String iconUrl) {
+    public void setIconUrl(@Nullable String iconUrl) {
         this.iconUrl = iconUrl;
     }
 
