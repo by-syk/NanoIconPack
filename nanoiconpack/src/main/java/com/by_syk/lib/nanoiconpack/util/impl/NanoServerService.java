@@ -96,6 +96,11 @@ public interface NanoServerService {
     @GET("code/{pkg}")
     Call<ResResBean<JsonArray>> getCode(@Path("pkg") String pkgName);
 
+    /**
+     * { "status": 0, "msg": "success",
+     *   "result": "http://image.coolapk.com/apk_logo/2016/0108/12202_1452248424_4592.png"
+     * }
+     */
     @GET("iconurl/{pkg}")
     Call<ResResBean<String>> getIconUrl(@Path("pkg") String pkgName);
 }

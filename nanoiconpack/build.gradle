@@ -7,7 +7,7 @@ android {
     defaultConfig {
         minSdkVersion Integer.parseInt(project.MIN_SDK_VERSION)
         targetSdkVersion Integer.parseInt(project.TARGET_SDK_VERSION)
-        versionCode 17022800
+        versionCode 17030100
         versionName "1.9.0.nightly"
     }
 

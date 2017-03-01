@@ -19,7 +19,7 @@
 
     <dimen name="app_list_item_height">60dp</dimen>
     <dimen name="qrcode_size">192dp</dimen>
-    <!-- 56 + 48 + 8-->
+    <!-- 56 + 48 + 8 -->
     <dimen name="req_bottom_menu_height">112dp</dimen>
 
 </resources>
