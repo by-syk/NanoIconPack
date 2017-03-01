@@ -134,15 +134,15 @@ public class PkgUtil {
     }
 
     @TargetApi(17)
-    public static String getAppLabelEn(Context context, AppBean appBean) {
-        if (context == null || appBean == null) {
-            return null;
+    public static String getAppLabelEn(Context context, String pkgName, String def) {
+        if (context == null || TextUtils.isEmpty(pkgName)) {
+            return def;
         }
 
-        String result = null;
+        String result = def;
         try {
             PackageManager packageManager = context.getPackageManager();
-            ApplicationInfo applicationInfo = packageManager.getPackageInfo(appBean.getPkgName(), 0)
+            ApplicationInfo applicationInfo = packageManager.getPackageInfo(pkgName, 0)
                     .applicationInfo;
 
             Configuration configuration = new Configuration();

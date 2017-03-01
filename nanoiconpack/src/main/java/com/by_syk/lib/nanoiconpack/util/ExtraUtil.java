@@ -27,8 +27,12 @@ import android.content.res.XmlResourceParser;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaScannerConnection;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
@@ -53,6 +57,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -430,5 +435,88 @@ public class ExtraUtil {
         } catch (ActivityNotFoundException e) {
             e.printStackTrace();
         }
+    }
+
+    public static boolean isNetworkConnected(Context context, boolean isWifiOnly) {
+        if (context == null) {
+            return false;
+        }
+
+        ConnectivityManager connectivityManager = (ConnectivityManager)
+                context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager == null) {
+            return false;
+        }
+
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        if (networkInfo == null) {
+            return false;
+        }
+
+        boolean is_connected = networkInfo.isAvailable();
+        if (isWifiOnly) {
+            is_connected &= networkInfo.getType() == ConnectivityManager.TYPE_WIFI;
+        }
+
+        return is_connected;
+    }
+
+    public static boolean isNetworkConnected(Context context) {
+        return isNetworkConnected(context, false);
+    }
+
+    public static String getDeviceId(Context context) {
+        String androidId = Settings.Secure.getString(context.getContentResolver(),
+                Settings.Secure.ANDROID_ID);
+        if (!TextUtils.isEmpty(androidId)) {
+            String serial = Build.SERIAL;
+            if (!"unknown".equalsIgnoreCase(serial)) {
+                return androidId + serial;
+            }
+            return androidId;
+        }
+
+        File file = new File(context.getFilesDir(), "deviceId");
+        file.mkdir();
+        File[] files = file.listFiles();
+        if (files.length > 0) {
+            return files[0].getName();
+        }
+        String id = UUID.randomUUID().toString();
+        (new File(file, id)).mkdir();
+        return id;
+    }
+
+    public static void gotoMarket(Context context, String pkgName, boolean viaBrowser) {
+        if (context == null || TextUtils.isEmpty(pkgName)) {
+            return;
+        }
+
+        // https://play.google.com/store/apps/details?id=%s
+        final String LINK = String.format((viaBrowser
+                ? "http://www.coolapk.com/apk/%s"
+                : "market://details?id=%s"), pkgName);
+
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(LINK));
+
+        try {
+            context.startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            e.printStackTrace();
+
+            if (!viaBrowser) {
+                gotoMarket(context, pkgName, true);
+            }
+        }
+    }
+
+    @NonNull
+    public static String renderReqTimes(int reqTimes) {
+        if (reqTimes < 0) {
+            reqTimes = 0;
+        }
+//        return (reqTimes > 1 ? C.REQ_REDRAW_SUFFIX_TWO : C.REQ_REDRAW_SUFFIX_ONE) + reqTimes;
+        return C.REQ_REDRAW_SUFFIX + reqTimes;
     }
 }

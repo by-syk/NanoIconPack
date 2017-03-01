@@ -17,9 +17,18 @@
 
 <resources>
 
-    <color name="icon_grid_dark">#66808080</color>
-    <color name="icon_grid_light">#77808080</color>
+    <color name="color_primary">#607d8b</color>
+    <color name="color_primary_dark">#455a64</color>
+    <color name="color_accent">#ff5252</color>
 
-    <color name="tag">@android:color/holo_blue_light</color>
+    <color name="icon_grid_dark">#88808080</color>
+    <color name="icon_grid_light">#66808080</color>
+
+    <!-- referred to CardView -->
+    <color name="bottom_bar_color_dark">#ff424242</color>
+    <color name="bottom_bar_color_light">#ffffffff</color>
+
+    <color name="positive">#ff4caf50</color>
+    <color name="negative">#f44336</color>
 
 </resources>

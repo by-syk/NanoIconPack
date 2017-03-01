@@ -16,17 +16,19 @@
 
 package com.by_syk.lib.nanoiconpack.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.XmlResourceParser;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -37,41 +39,91 @@ import android.view.ViewGroup;
 
 import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.bean.AppBean;
+import com.by_syk.lib.nanoiconpack.bean.ResResBean;
 import com.by_syk.lib.nanoiconpack.dialog.AppTapHintDialog;
 import com.by_syk.lib.nanoiconpack.util.C;
+import com.by_syk.lib.nanoiconpack.util.RetrofitHelper;
+import com.by_syk.lib.nanoiconpack.util.impl.NanoServerService;
 import com.by_syk.lib.nanoiconpack.widget.DividerItemDecoration;
 import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
 import com.by_syk.lib.nanoiconpack.util.PkgUtil;
 import com.by_syk.lib.nanoiconpack.util.adapter.AppAdapter;
 import com.by_syk.lib.storage.SP;
 import com.by_syk.lib.toast.GlobalToast;
+import com.google.gson.JsonObject;
+import com.simplecityapps.recyclerview_fastscroll.interfaces.OnFastScrollStateChangeListener;
+import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 
 import org.xmlpull.v1.XmlPullParser;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import retrofit2.Call;
 
 /**
  * Created by By_syk on 2017-01-27.
  */
 
 public class AppsFragment extends Fragment {
+    private int pageId = 0;
+
     private SP sp;
 
     private View contentView;
 
+    private LinearLayoutManager layoutManager;
     private AppAdapter appAdapter;
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
-    private String appCodeSelected = "";
+    private LazyLoadTask lazyLoadTask;
 
     private RetainedFragment retainedFragment;
+
+    private static Handler handler = new Handler();
+
+    private OnLoadDoneListener onLoadDoneListener;
+
+    public interface OnLoadDoneListener {
+        void onLoadDone(int pageId, int sum);
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+
+        if (isVisibleToUser && appAdapter != null && appAdapter.getItemCount() > 0) {
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (!isAdded() || lazyLoadTask != null) {
+                        return;
+                    }
+                    lazyLoadTask = new LazyLoadTask();
+                    lazyLoadTask.execute(layoutManager.findFirstVisibleItemPosition(),
+                            layoutManager.findLastVisibleItemPosition());
+                }
+            }, 400);
+        }
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        if (activity instanceof OnLoadDoneListener) {
+            onLoadDoneListener = (OnLoadDoneListener) activity;
+        }
+    }
 
     @Nullable
     @Override
@@ -86,55 +138,92 @@ public class AppsFragment extends Fragment {
         return contentView;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
+    private void init() {
+        pageId = getArguments().getInt("pageId");
 
-        appCodeSelected = "";
+        sp = new SP(getContext(), false);
 
-        appAdapter.clearTags();
+        initAdapter();
+        initRecycler();
+        initSwipeRefresh();
     }
 
-    private void init() {
-        sp = new SP(getActivity(), false);
-
-        appAdapter = new AppAdapter(getActivity());
+    private void initAdapter() {
+        appAdapter = new AppAdapter(getContext());
         appAdapter.setOnItemClickListener(new AppAdapter.OnItemClickListener() {
             @Override
             public void onClick(int pos, AppBean bean) {
-                if (!sp.getBoolean("appTapHint")) {
-                    (new AppTapHintDialog()).show(getActivity().getFragmentManager(), "appTapTintDialog");
+                if (!sp.getBoolean("appTapHint1")) {
+                    (new AppTapHintDialog()).show(getFragmentManager(), "appTapTintDialog");
                     return;
                 }
-                copyOrShareAppCode(bean, true);
-
-                appAdapter.tag(pos);
+                if (ExtraUtil.isNetworkConnected(getContext())) {
+                    (new SubmitReqTask(pos)).execute();
+                } else {
+                    GlobalToast.showToast(getContext(), R.string.toast_no_net_no_req);
+                }
             }
 
             @Override
             public void onLongClick(int pos, AppBean bean) {
-                if (!sp.getBoolean("appTapHint")) {
-                    (new AppTapHintDialog()).show(getActivity().getFragmentManager(), "hintDialog");
+                if (!sp.getBoolean("appTapHint1")) {
+                    (new AppTapHintDialog()).show(getFragmentManager(), "hintDialog");
                     return;
                 }
-                copyOrShareAppCode(bean, false);
+                copyOrShareAppCode(bean, true);
+            }
+        });
+    }
 
-                appAdapter.tag(pos);
+    private void initRecycler() {
+        layoutManager = new LinearLayoutManager(getContext());
+
+        FastScrollRecyclerView recyclerView = (FastScrollRecyclerView) contentView.findViewById(R.id.recycler_view);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
+                DividerItemDecoration.VERTICAL));
+        recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    if (lazyLoadTask == null) {
+                        lazyLoadTask = new LazyLoadTask();
+                        lazyLoadTask.execute(layoutManager.findFirstVisibleItemPosition(),
+                                layoutManager.findLastVisibleItemPosition());
+                    }
+                } else if (lazyLoadTask != null) {
+                    lazyLoadTask.cancel(true);
+                    lazyLoadTask = null;
+                }
+            }
+        });
+        recyclerView.setStateChangeListener(new OnFastScrollStateChangeListener() {
+            @Override
+            public void onFastScrollStart() {
+                if (lazyLoadTask != null) {
+                    lazyLoadTask.cancel(true);
+                    lazyLoadTask = null;
+                }
+            }
+
+            @Override
+            public void onFastScrollStop() {
+                if (lazyLoadTask == null) {
+                    lazyLoadTask = new LazyLoadTask();
+                    lazyLoadTask.execute(layoutManager.findFirstVisibleItemPosition(),
+                            layoutManager.findLastVisibleItemPosition());
+                }
             }
         });
 
-        RecyclerView recyclerView = (RecyclerView) contentView.findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),
-                DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(appAdapter);
+    }
 
+    private void initSwipeRefresh() {
         swipeRefreshLayout = (SwipeRefreshLayout) contentView.findViewById(R.id.swipe_refresh_layout);
-        if (C.SDK >= 21) {
-            swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.color_accent));
-        } else {
-            swipeRefreshLayout.setColorSchemeColors(getResources().getColor(android.R.color.holo_blue_light));
-        }
+        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.color_accent));
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -149,22 +238,20 @@ public class AppsFragment extends Fragment {
         }
 
         String label = bean.getLabel();
-        String labelEn = PkgUtil.getAppLabelEn(getActivity(), bean);
-        boolean isSysApp = PkgUtil.isSysApp(getActivity(), bean.getPkgName());
-        String code = getString(isSysApp ? R.string.app_component_1 : R.string.app_component,
-                Build.BRAND, Build.MODEL, label, labelEn,
-                bean.getPkgName(), bean.getLauncherActivity(),
-                ExtraUtil.appName2drawableName(label, labelEn));
-        if (!appCodeSelected.contains(code)) {
-            appCodeSelected += (appCodeSelected.length() > 0 ? "\n\n" : "") + code;
+        String labelEn = PkgUtil.getAppLabelEn(getContext(), bean.getPkgName(), null);
+        boolean isSysApp = PkgUtil.isSysApp(getContext(), bean.getPkgName());
+        String code = getString(R.string.app_component_label, label, labelEn);
+        code += "\n" + getString(R.string.app_component, bean.getPkgName(),
+                bean.getLauncherActivity(), ExtraUtil.appName2drawableName(label, labelEn));
+        if (isSysApp) {
+            code = getString(R.string.app_component_build, Build.BRAND, Build.MODEL) + "\n" + code;
         }
 
         if (toCopyOrShare) {
-            ExtraUtil.copy2Clipboard(getActivity(), appCodeSelected);
-            GlobalToast.showToast(getActivity(), getString(R.string.toast_code_copied,
-                    appCodeSelected.split("\n\n").length));
+            ExtraUtil.copy2Clipboard(getContext(), code);
+            GlobalToast.showToast(getContext(), R.string.toast_code_copied);
         } else {
-            ExtraUtil.shareText(getActivity(), appCodeSelected, getString(R.string.send_code));
+            ExtraUtil.shareText(getContext(), code, getString(R.string.send_code));
         }
     }
 
@@ -173,34 +260,34 @@ public class AppsFragment extends Fragment {
         protected void onPreExecute() {
             super.onPreExecute();
 
-            FragmentManager fragmentManager = getFragmentManager();
-            retainedFragment = (RetainedFragment) fragmentManager.findFragmentByTag("data");
-            if (retainedFragment == null) {
-                retainedFragment = new RetainedFragment();
-                fragmentManager.beginTransaction().add(retainedFragment, "data").commit();
-            }
+            retainedFragment = RetainedFragment.initRetainedFragment(getFragmentManager(), "app");
         }
 
         @Override
         protected List<AppBean> doInBackground(Boolean... booleans) {
+            Log.d(C.LOG_TAG, "LoadAppsTask - doInBackground");
+
             boolean forceRefresh = booleans.length > 0 && booleans[0];
             if (!forceRefresh && retainedFragment.isAppListSaved()) {
                 return retainedFragment.getAppList();
             }
 
             List<AppBean> dataList = new ArrayList<>();
-
             try {
-                PackageManager packageManager = getActivity().getPackageManager();
+                PackageManager packageManager = getContext().getPackageManager();
                 Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
                 mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
                 List<ResolveInfo> list = packageManager.queryIntentActivities(mainIntent, 0);
                 for (ResolveInfo resolveInfo : list) {
                     String label = resolveInfo.loadLabel(packageManager).toString();
                     for (String labelPinyin : ExtraUtil.getPinyinForSorting(label)) {
-                        dataList.add(new AppBean(resolveInfo.loadIcon(packageManager),
-                                label, labelPinyin,
-                                resolveInfo.activityInfo.packageName, resolveInfo.activityInfo.name));
+                        AppBean bean = new AppBean();
+//                        bean.setIcon(resolveInfo.loadIcon(packageManager));
+                        bean.setLabel(label);
+                        bean.setLabelPinyin(labelPinyin);
+                        bean.setPkgName(resolveInfo.activityInfo.packageName);
+                        bean.setLauncherActivity(resolveInfo.activityInfo.name);
+                        dataList.add(bean);
                     }
                 }
 
@@ -208,7 +295,6 @@ public class AppsFragment extends Fragment {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
             if (dataList.isEmpty()) {
                 return dataList;
             }
@@ -230,13 +316,29 @@ public class AppsFragment extends Fragment {
 
             retainedFragment.setAppList(list);
 
-            contentView.findViewById(R.id.pb_loading).setVisibility(View.GONE);
+            contentView.findViewById(R.id.view_loading).setVisibility(View.GONE);
 
             appAdapter.refresh(list);
 
             swipeRefreshLayout.setRefreshing(false);
 
-            appCodeSelected = "";
+            if (getUserVisibleHint()) {
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (!isAdded() || lazyLoadTask != null) {
+                            return;
+                        }
+                        lazyLoadTask = new LazyLoadTask();
+                        lazyLoadTask.execute(layoutManager.findFirstVisibleItemPosition(),
+                                layoutManager.findLastVisibleItemPosition());
+                    }
+                }, 400);
+            }
+
+            if (onLoadDoneListener != null) {
+                onLoadDoneListener.onLoadDone(pageId, list.size());
+            }
         }
 
         private void removeMatched(@NonNull List<AppBean> appList) throws Exception {
@@ -272,7 +374,154 @@ public class AppsFragment extends Fragment {
         }
     }
 
-    public static AppsFragment newInstance() {
-        return new AppsFragment();
+    private class LazyLoadTask extends AsyncTask<Integer, Integer, Boolean> {
+        @Override
+        protected Boolean doInBackground(Integer... pos) {
+            if (!isAdded() || pos == null || pos.length < 2) {
+                return false;
+            }
+
+            PackageManager packageManager = getContext().getPackageManager();
+            for (int i = pos[0]; i <= pos[1]; ++i) {
+                if (isCancelled() || !isAdded()) {
+                    return false;
+                }
+                AppBean bean = appAdapter.getItem(i);
+                if (bean.getIcon() != null) {
+                    continue;
+                }
+                try {
+                    PackageInfo packageInfo = packageManager.getPackageInfo(bean.getPkgName(), 0);
+                    bean.setIcon(packageInfo.applicationInfo.loadIcon(packageManager));
+                    publishProgress(i);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            if (!ExtraUtil.isNetworkConnected(getContext())) {
+                return false;
+            }
+            String deviceId = ExtraUtil.getDeviceId(getContext());
+            NanoServerService nanoServerService = null;
+            for (int i = pos[0]; i <= pos[1]; ++i) {
+                if (isCancelled() || !isAdded()) {
+                    return false;
+                }
+                AppBean bean = appAdapter.getItem(i);
+                if (bean.getReqTimes() >= 0) {
+                    continue;
+                }
+                if (nanoServerService == null) {
+                    nanoServerService = RetrofitHelper.getInstance().getRetrofit()
+                            .create(NanoServerService.class);
+                }
+                Call<ResResBean<JsonObject>> call = nanoServerService
+                        .getReqNum(getContext().getPackageName(), bean.getPkgName(), deviceId);
+                try {
+                    ResResBean<JsonObject> resResBean = call.execute().body();
+                    if (resResBean != null && resResBean.isStatusSuccess()) {
+                        JsonObject jo = resResBean.getResult();
+                        bean.setReqTimes(jo.get("num").getAsInt());
+                        bean.setMark(jo.get("reqed").getAsInt() == 1);
+                        publishProgress(i);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            return false;
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+
+            appAdapter.notifyItemChanged(values[0]);
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+
+            lazyLoadTask = null;
+        }
+    }
+
+    private class SubmitReqTask extends AsyncTask<String, Integer, Boolean> {
+        private int pos;
+
+        SubmitReqTask(int pos) {
+            this.pos = pos;
+        }
+
+        @Override
+        protected Boolean doInBackground(String... strings) {
+            AppBean bean = appAdapter.getItem(pos);
+            if (bean.isMark()) {
+                return true;
+            }
+
+            String labelEn = PkgUtil.getAppLabelEn(getContext(), bean.getPkgName(), "");
+            Map<String, String> map = new HashMap<>();
+            map.put("icon", ExtraUtil.appName2drawableName(bean.getLabel(), labelEn));
+            map.put("label", bean.getLabel());
+            map.put("labelEn", labelEn);
+            map.put("pkg", bean.getPkgName());
+            map.put("launcher", bean.getLauncherActivity());
+            map.put("sysApp", PkgUtil.isSysApp(getContext(), bean.getPkgName()) ? "1" : "0");
+            map.put("deviceId", ExtraUtil.getDeviceId(getContext()));
+            map.put("deviceBrand", Build.BRAND);
+            map.put("deviceModel", Build.MODEL);
+            map.put("deviceSdk", String.valueOf(Build.VERSION.SDK_INT));
+
+            NanoServerService nanoServerService = RetrofitHelper.getInstance().getRetrofit()
+                    .create(NanoServerService.class);
+            Call<ResResBean<Integer>> call = nanoServerService.reqRedraw(getContext().getPackageName(), map);
+            try {
+                ResResBean<Integer> resResBean = call.execute().body();
+                if (resResBean != null && (resResBean.getStatus() == ResResBean.STATUS_SUCCESS
+                        || resResBean.getStatus() == ResResBean.STATUS_EXISTED)) {
+                    bean.setReqTimes(resResBean.getResult());
+                    bean.setMark(true);
+                    publishProgress();
+                    return true;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return false;
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+
+            appAdapter.notifyItemChanged(pos);
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+
+            if (!isAdded()) {
+                return;
+            }
+
+            GlobalToast.showToast(getContext(), result ? R.string.toast_req_redraw_ok
+                    : R.string.toast_req_redraw_failed);
+        }
+    }
+
+    public static AppsFragment newInstance(int id) {
+        AppsFragment fragment = new AppsFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putInt("pageId", id);
+        fragment.setArguments(bundle);
+
+        return fragment;
     }
 }

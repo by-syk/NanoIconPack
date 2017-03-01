@@ -9,9 +9,9 @@ android {
         applicationId "com.by_syk.nanoiconpack.sample"
         minSdkVersion Integer.parseInt(project.MIN_SDK_VERSION)
         targetSdkVersion Integer.parseInt(project.TARGET_SDK_VERSION)
-        versionCode 17022100
+        versionCode 17022800
         // Version name format: [version].[num_of_icons]
-        versionName "1.4.1.6.nightly"
+        versionName "1.9.0.6.nightly"
         resConfigs "en", "zh_cn"
     }
 

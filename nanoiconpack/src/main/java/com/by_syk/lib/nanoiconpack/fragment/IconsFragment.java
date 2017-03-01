@@ -18,6 +18,7 @@ package com.by_syk.lib.nanoiconpack.fragment;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
@@ -30,6 +31,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,7 +62,8 @@ import java.util.regex.Pattern;
  */
 
 public class IconsFragment extends Fragment {
-    private int pageId = 1;
+    private int pageId = 0;
+    private boolean filterUnmatched = false;
 
     private SP sp;
 
@@ -70,6 +73,21 @@ public class IconsFragment extends Fragment {
 
     private RetainedFragment retainedFragment;
 
+    private OnLoadDoneListener onLoadDoneListener;
+
+    public interface OnLoadDoneListener {
+        void onLoadDone(int pageId, int sum);
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        if (activity instanceof OnLoadDoneListener) {
+            onLoadDoneListener = (OnLoadDoneListener) activity;
+        }
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -77,39 +95,42 @@ public class IconsFragment extends Fragment {
             contentView = inflater.inflate(R.layout.fragment_icons, container, false);
             init();
 
-            (new LoadIconsTask()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,
-                    "loadIconsTask" + pageId);
+//            (new LoadIconsTask()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,
+//                    "loadIconsTask" + pageId);
+            (new LoadIconsTask()).execute();
         }
 
         return contentView;
     }
 
     private void init() {
-        pageId = getArguments().getInt("pageId", 1);
+        Bundle bundle = getArguments();
+        pageId = bundle.getInt("pageId");
+        filterUnmatched = bundle.getBoolean("filterUnmatched");
 
-        sp = new SP(getActivity(), false);
+        sp = new SP(getContext(), false);
 
         RecyclerView recyclerView = (RecyclerView) contentView.findViewById(R.id.recycler_view);
 
         int[] gridNumAndWidth = calculateGridNumAndWidth();
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), gridNumAndWidth[0]));
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), gridNumAndWidth[0]));
 
-        iconAdapter = new IconAdapter(getActivity(), gridNumAndWidth[1]);
+        iconAdapter = new IconAdapter(getContext(), gridNumAndWidth[1]);
         iconAdapter.setOnItemClickListener(new IconAdapter.OnItemClickListener() {
             @Override
             public void onClick(int pos, IconBean bean) {
                 if (!sp.getBoolean("iconTapHint")) {
-                    (new IconTapHintDialog()).show(getActivity().getFragmentManager(), "iconTapHintDialog");
+                    (new IconTapHintDialog()).show(getFragmentManager(), "iconTapHintDialog");
                     return;
                 }
                 IconDialog.newInstance(bean, ExtraUtil.isFromLauncherPick(getActivity().getIntent()))
-                        .show(getActivity().getFragmentManager(), "iconDialog");
+                        .show(getFragmentManager(), "iconDialog");
             }
 
             @Override
             public void onLongClick(int pos, IconBean bean) {
                 if (!sp.getBoolean("iconTapHint")) {
-                    (new IconTapHintDialog()).show(getActivity().getFragmentManager(), "iconTapHintDialog");
+                    (new IconTapHintDialog()).show(getFragmentManager(), "iconTapHintDialog");
                     return;
                 }
                 saveIcon(bean);
@@ -130,14 +151,14 @@ public class IconsFragment extends Fragment {
 
     @TargetApi(23)
     private void saveIcon(IconBean bean) {
-        if (C.SDK >= 23 && getActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        if (C.SDK >= 23 && getContext().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
             return;
         }
 
-        boolean ok = ExtraUtil.saveIcon(getActivity(), bean);
-        GlobalToast.showToast(getActivity(), ok ? R.string.toast_icon_saved
+        boolean ok = ExtraUtil.saveIcon(getContext(), bean);
+        GlobalToast.showToast(getContext(), ok ? R.string.toast_icon_saved
                 : R.string.toast_icon_not_saved);
     }
 
@@ -146,12 +167,7 @@ public class IconsFragment extends Fragment {
         protected void onPreExecute() {
             super.onPreExecute();
 
-            FragmentManager fragmentManager = getFragmentManager();
-            retainedFragment = (RetainedFragment) fragmentManager.findFragmentByTag("data");
-            if (retainedFragment == null) {
-                retainedFragment = new RetainedFragment();
-                fragmentManager.beginTransaction().add(retainedFragment, "data").commit();
-            }
+            retainedFragment = RetainedFragment.initRetainedFragment(getFragmentManager(), "icon");
         }
 
         @Override
@@ -160,8 +176,11 @@ public class IconsFragment extends Fragment {
                 return retainedFragment.getIconList(pageId);
             }
 
+            if (!isAdded()) {
+                return new ArrayList<>();
+            }
             Resources resources = getResources();
-            if (resources == null || !isAdded()) {
+            if (resources == null) {
                 return new ArrayList<>();
             }
 
@@ -192,7 +211,7 @@ public class IconsFragment extends Fragment {
                     return new ArrayList<>();
                 }
                 int id = resources.getIdentifier(names[i], "drawable",
-                        getActivity().getPackageName());
+                        getContext().getPackageName());
                 dataList.add(new IconBean(id, names[i], labels[i], labelPinyins[i]));
             }
             Collections.sort(dataList, new Comparator<IconBean>() {
@@ -204,9 +223,9 @@ public class IconsFragment extends Fragment {
                 }
             });
 
-            if (pageId == 1) {
+            if (filterUnmatched) {
                 try {
-                    dataList = filterMatched(dataList);
+                    dataList = filterUnmatched(dataList);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -221,15 +240,19 @@ public class IconsFragment extends Fragment {
 
             retainedFragment.setIconList(pageId, list);
 
-            contentView.findViewById(R.id.pb_loading).setVisibility(View.GONE);
+            contentView.findViewById(R.id.view_loading).setVisibility(View.GONE);
 
             iconAdapter.refresh(list);
+
+            if (onLoadDoneListener != null) {
+                onLoadDoneListener.onLoadDone(pageId, list.size());
+            }
         }
 
-        private List<IconBean> filterMatched(@NonNull List<IconBean> dataList) throws Exception {
+        private List<IconBean> filterUnmatched(@NonNull List<IconBean> dataList) throws Exception {
             List<String> installedIconList = new ArrayList<>();
-//            List<String> installedPkgList = PkgUtil.getInstalledPkgs(getActivity());
-            List<String> installedPkgList = PkgUtil.getInstalledPkgsWithLauncherActivity(getActivity());
+//            List<String> installedPkgList = PkgUtil.getInstalledPkgs(getContext());
+            List<String> installedPkgList = PkgUtil.getInstalledPkgsWithLauncherActivity(getContext());
             XmlResourceParser parser = getResources().getXml(R.xml.appfilter);
             int event = parser.getEventType();
             while (event != XmlPullParser.END_DOCUMENT) {
@@ -269,11 +292,12 @@ public class IconsFragment extends Fragment {
         }
     }
 
-    public static IconsFragment newInstance(int id) {
+    public static IconsFragment newInstance(int id, boolean filterUnmatched) {
         IconsFragment fragment = new IconsFragment();
 
         Bundle bundle = new Bundle();
         bundle.putInt("pageId", id);
+        bundle.putBoolean("filterUnmatched", filterUnmatched);
         fragment.setArguments(bundle);
 
         return fragment;

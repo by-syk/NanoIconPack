@@ -19,6 +19,7 @@ package com.by_syk.lib.nanoiconpack.util.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,8 @@ import android.widget.TextView;
 
 import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.bean.AppBean;
+import com.by_syk.lib.nanoiconpack.util.C;
+import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 
 import java.util.ArrayList;
@@ -41,7 +44,6 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.IconViewHolder>
     private LayoutInflater layoutInflater;
 
     private List<AppBean> dataList = new ArrayList<>();
-    private boolean[] tags = new boolean[0];
 
     private OnItemClickListener onItemClickListener;
 
@@ -61,32 +63,46 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.IconViewHolder>
     }
 
     @Override
-    public void onBindViewHolder(IconViewHolder holder, int position) {
+    public void onBindViewHolder(final IconViewHolder holder, int position) {
         AppBean bean = dataList.get(position);
-        String component = bean.getPkgName() + "/";
-        if (bean.getLauncherActivity().startsWith(bean.getPkgName())) {
-            component += bean.getLauncherActivity().substring(bean.getPkgName().length());
-        } else {
-            component += bean.getLauncherActivity();
+        String component = bean.getPkgName();
+        String launcher = bean.getLauncherActivity();
+        if (!TextUtils.isEmpty(launcher)) {
+            if (launcher.startsWith(bean.getPkgName())) {
+                component += "/" + launcher.substring(bean.getPkgName().length());
+            } else {
+                component += "/" + launcher;
+            }
         }
 
-        holder.viewTag.setVisibility(tags[position] ? View.VISIBLE : View.GONE);
+        holder.viewTag.setBackgroundResource(bean.isMark() ? R.drawable.tag_req : 0);
         holder.ivIcon.setImageDrawable(bean.getIcon());
+//        if (bean.getIcon() != null) {
+//            holder.ivIcon.setImageDrawable(bean.getIcon());
+//        } else {
+//            holder.ivIcon.setImageResource(android.R.drawable.sym_def_app_icon);
+//        }
         holder.tvApp.setText(bean.getLabel());
         holder.tvComponent.setText(component);
+        if (bean.getReqTimes() >= 0) {
+            holder.tvReqTimes.setText(ExtraUtil.renderReqTimes(bean.getReqTimes()));
+        } else {
+            holder.tvReqTimes.setText("");
+        }
 
         if (onItemClickListener != null) {
-            final int INDEX = position;
             holder.viewRoot.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    onItemClickListener.onClick(INDEX, dataList.get(INDEX));
+                    int pos = holder.getAdapterPosition();
+                    onItemClickListener.onClick(pos, dataList.get(pos));
                 }
             });
             holder.viewRoot.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
-                    onItemClickListener.onLongClick(INDEX, dataList.get(INDEX));
+                    int pos = holder.getAdapterPosition();
+                    onItemClickListener.onLongClick(pos, dataList.get(pos));
                     return true;
                 }
             });
@@ -104,31 +120,37 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.IconViewHolder>
         return dataList.get(position).getLabelPinyin().substring(0, 1).toUpperCase();
     }
 
+    public AppBean getItem(int pos) {
+        if (pos >= 0 && pos < dataList.size()) {
+            return dataList.get(pos);
+        }
+        return null;
+    }
+
     public void refresh(List<AppBean> dataList) {
         if (dataList != null) {
             this.dataList.clear();
             this.dataList.addAll(dataList);
-            tags = new boolean[dataList.size()];
 
             notifyDataSetChanged();
         }
     }
 
-    public void tag(int pos) {
-        if (!tags[pos]) {
-            tags[pos] = true;
-            notifyItemChanged(pos);
-        }
-    }
-
-    public void clearTags() {
-        for (int i = 0, len = tags.length; i < len; ++i) {
-            if (tags[i]) {
-                tags[i] = false;
-                notifyItemChanged(i);
-            }
-        }
-    }
+//    public void updateTag(int pos) {
+//        if (!copiedArr[pos]) {
+//            copiedArr[pos] = true;
+//            notifyItemChanged(pos);
+//        }
+//    }
+//
+//    public void clearTags() {
+//        for (int i = 0, len = copiedArr.length; i < len; ++i) {
+//            if (copiedArr[i]) {
+//                copiedArr[i] = false;
+//                notifyItemChanged(i);
+//            }
+//        }
+//    }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
@@ -140,6 +162,7 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.IconViewHolder>
         ImageView ivIcon;
         TextView tvApp;
         TextView tvComponent;
+        TextView tvReqTimes;
 
         IconViewHolder(View itemView) {
             super(itemView);
@@ -149,6 +172,7 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.IconViewHolder>
             ivIcon = (ImageView) itemView.findViewById(R.id.iv_icon);
             tvApp = (TextView) itemView.findViewById(R.id.tv_app);
             tvComponent = (TextView) itemView.findViewById(R.id.tv_component);
+            tvReqTimes = (TextView) itemView.findViewById(R.id.tv_req_times);
         }
     }
 }

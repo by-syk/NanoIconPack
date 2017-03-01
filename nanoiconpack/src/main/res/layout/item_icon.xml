@@ -21,11 +21,11 @@
     android:layout_height="@dimen/grid_size">
 
     <ImageView
-        style="@style/Tap"
         android:id="@+id/iv_icon"
         android:layout_width="@dimen/grid_icon_size"
         android:layout_height="@dimen/grid_icon_size"
         android:layout_gravity="center"
+        android:background="?android:attr/selectableItemBackgroundBorderless"
         android:scaleType="fitCenter"
         tools:ignore="ContentDescription" />
 

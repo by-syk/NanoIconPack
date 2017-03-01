@@ -19,8 +19,6 @@ package com.by_syk.lib.nanoiconpack.util.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +26,6 @@ import android.widget.ImageView;
 
 import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.bean.IconBean;
-import com.by_syk.lib.nanoiconpack.util.C;
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 
 import java.util.ArrayList;
@@ -58,7 +55,7 @@ public class IconAdapter extends RecyclerView.Adapter<IconAdapter.IconViewHolder
     }
 
     public IconAdapter(Context context, int gridSIze) {
-        layoutInflater = LayoutInflater.from(context);
+        this(context);
 
         this.gridSIze = gridSIze;
     }
@@ -77,21 +74,22 @@ public class IconAdapter extends RecyclerView.Adapter<IconAdapter.IconViewHolder
     }
 
     @Override
-    public void onBindViewHolder(IconViewHolder holder, int position) {
+    public void onBindViewHolder(final IconViewHolder holder, int position) {
         holder.ivIcon.setImageResource(dataList.get(position).getId());
 
         if (onItemClickListener != null) {
-            final int INDEX = position;
             holder.ivIcon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    onItemClickListener.onClick(INDEX, dataList.get(INDEX));
+                    int pos = holder.getAdapterPosition();
+                    onItemClickListener.onClick(pos, dataList.get(pos));
                 }
             });
             holder.ivIcon.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
-                    onItemClickListener.onLongClick(INDEX, dataList.get(INDEX));
+                    int pos = holder.getAdapterPosition();
+                    onItemClickListener.onLongClick(pos, dataList.get(pos));
                     return true;
                 }
             });

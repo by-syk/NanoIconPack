@@ -7,8 +7,8 @@ android {
     defaultConfig {
         minSdkVersion Integer.parseInt(project.MIN_SDK_VERSION)
         targetSdkVersion Integer.parseInt(project.TARGET_SDK_VERSION)
-        versionCode 17022100
-        versionName "1.4.1.nightly"
+        versionCode 17022800
+        versionName "1.9.0.nightly"
     }
 
     buildTypes {
@@ -31,11 +31,16 @@ dependencies {
 //    compile 'com.android.support:support-v4:25.1.1'
 //    compile 'com.android.support:recyclerview-v7:25.1.1'
     compile 'com.android.support:design:25.1.1'
-    compile 'com.android.support:cardview-v7:25.1.1'
+    compile 'com.android.support:preference-v14:25.1.1'
 
     compile 'com.simplecityapps:recyclerview-fastscroll:1.0.11'
 
 //    compile 'moe.feng:AlipayZeroSdk:1.1'
 
     compile 'com.github.kenglxn.QRGen:android:2.2.0'
+
+    compile 'com.squareup.retrofit2:retrofit:2.2.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.2.0'
+
+    compile 'com.github.bumptech.glide:glide:3.7.0'
 }

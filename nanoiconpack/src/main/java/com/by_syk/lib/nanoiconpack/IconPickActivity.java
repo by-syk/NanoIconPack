@@ -16,10 +16,9 @@
 
 package com.by_syk.lib.nanoiconpack;
 
-import android.app.ActionBar;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.by_syk.lib.nanoiconpack.fragment.IconsFragment;
@@ -28,19 +27,23 @@ import com.by_syk.lib.nanoiconpack.fragment.IconsFragment;
  * Created by By_syk on 2017-01-30.
  */
 
-public class IconPickActivity extends FragmentActivity {
+public class IconPickActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_icon_pick);
 
-        ActionBar actionBar = getActionBar();
+        init();
+    }
+
+    private void init() {
+        ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_content, IconsFragment.newInstance(2))
+                .replace(R.id.fragment_content, IconsFragment.newInstance(0, false))
                 .commit();
     }
 

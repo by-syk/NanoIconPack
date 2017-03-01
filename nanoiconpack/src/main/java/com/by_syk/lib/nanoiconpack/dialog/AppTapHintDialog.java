@@ -16,11 +16,12 @@
 
 package com.by_syk.lib.nanoiconpack.dialog;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.app.DialogFragment;
+import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AlertDialog;
 
 import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.storage.SP;
@@ -30,14 +31,15 @@ import com.by_syk.lib.storage.SP;
  */
 
 public class AppTapHintDialog extends DialogFragment {
+    @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        return new AlertDialog.Builder(getActivity())
+        return new AlertDialog.Builder(getContext())
                 .setMessage(R.string.app_tap_desc)
                 .setPositiveButton(R.string.dlg_bt_got_it, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        (new SP(getActivity(), false)).save("appTapHint", true);
+                        (new SP(getContext(), false)).save("appTapHint1", true);
                     }
                 })
                 .create();

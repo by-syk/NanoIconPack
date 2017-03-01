@@ -19,7 +19,11 @@
 
     <attr name="ic_action_apply" format="reference" />
     <attr name="ic_action_copyright" format="reference" />
-    <attr name="app_list_divider" format="reference" />
+    <attr name="ic_action_done" format="reference" />
+    <attr name="ic_action_undo" format="reference" />
+    <attr name="ic_action_market" format="reference" />
+    <attr name="ic_action_code" format="reference" />
     <attr name="icon_grid_color" format="color" />
+    <attr name="bottom_bar_color" format="color" />
 
 </resources>

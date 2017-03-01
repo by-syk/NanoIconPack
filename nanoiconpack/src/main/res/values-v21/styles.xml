@@ -17,54 +17,8 @@
 
 <resources>
 
-    <style name="AppThemeLightWithDark" parent="@android:style/Theme.Material.Light.DarkActionBar">
-        <item name="android:colorPrimary">@color/color_primary</item>
-        <item name="android:colorPrimaryDark">@color/color_primary_dark</item>
-        <item name="android:colorAccent">@color/color_accent</item>
-        <!--<item name="android:navigationBarColor">@color/color_primary_dark</item>-->
-        <item name="ic_action_apply">@drawable/ic_action_apply_dark</item>
-        <item name="ic_action_copyright">@drawable/ic_action_copyright_dark</item>
-        <item name="app_list_divider">@drawable/app_list_divider_light</item>
-        <item name="icon_grid_color">@color/icon_grid_light</item>
-    </style>
-    <style name="AppThemeLight" parent="@android:style/Theme.Material.Light">
-        <item name="android:colorPrimary">@color/color_primary</item>
-        <item name="android:colorPrimaryDark">@color/color_primary_dark</item>
-        <item name="android:colorAccent">@color/color_accent</item>
-        <!--<item name="android:navigationBarColor">@color/color_primary_dark</item>-->
-        <item name="ic_action_apply">@drawable/ic_action_apply_light</item>
-        <item name="ic_action_copyright">@drawable/ic_action_copyright_light</item>
-        <item name="app_list_divider">@drawable/app_list_divider_light</item>
-        <item name="icon_grid_color">@color/icon_grid_light</item>
-    </style>
-    <style name="AppThemeDark" parent="@android:style/Theme.Material">
-        <item name="android:colorPrimary">@color/color_primary</item>
-        <item name="android:colorPrimaryDark">@color/color_primary_dark</item>
-        <item name="android:colorAccent">@color/color_accent</item>
-        <!--<item name="android:navigationBarColor">@color/color_primary_dark</item>-->
-        <item name="ic_action_apply">@drawable/ic_action_apply_dark</item>
-        <item name="ic_action_copyright">@drawable/ic_action_copyright_dark</item>
-        <item name="app_list_divider">@drawable/app_list_divider_dark</item>
-        <item name="icon_grid_color">@color/icon_grid_dark</item>
-    </style>
-
-    <!--<style name="Dialog" parent="@android:style/Theme.Material.Dialog.Alert">
-        <item name="android:colorPrimary">@color/color_primary</item>
-        <item name="android:colorPrimaryDark">@color/color_primary_dark</item>
-        <item name="android:colorAccent">@color/color_accent</item>
-    </style>-->
-
     <style name="Tap">
         <item name="android:background">?android:attr/selectableItemBackgroundBorderless</item>
-    </style>
-
-    <style name="FastScroller">
-        <item name="fastScrollPopupBgColor">@color/color_accent</item>
-        <item name="fastScrollPopupTextColor">@android:color/primary_text_dark</item>
-        <item name="fastScrollThumbColor">@color/color_accent</item>
-        <!-- PopupBackgroundSize and PopupTextSize values are referred to Nova Launcher -->
-        <item name="fastScrollPopupBackgroundSize">72dp</item>
-        <item name="fastScrollPopupTextSize">44sp</item>
     </style>
 
 </resources>

@@ -25,8 +25,6 @@
 
     <View
         android:id="@+id/view_tag"
-        android:visibility="gone"
-        android:background="@drawable/tag"
         android:layout_width="@dimen/tag_width"
         android:layout_height="@dimen/list_icon_size"
         android:layout_centerVertical="true" />
@@ -36,7 +34,6 @@
         android:layout_width="@dimen/list_icon_size"
         android:layout_height="@dimen/list_icon_size"
         android:scaleType="fitXY"
-        android:layout_marginLeft="@dimen/activity_horz_margin"
         android:layout_marginStart="@dimen/activity_horz_margin"
         android:layout_centerVertical="true"
         tools:ignore="ContentDescription" />
@@ -44,21 +41,37 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/padding_before_list_text"
         android:layout_marginStart="@dimen/padding_before_list_text"
-        android:layout_marginRight="@dimen/handle_bar_width"
         android:layout_marginEnd="@dimen/handle_bar_width"
         android:orientation="vertical"
         android:gravity="center_vertical"
         android:layout_centerVertical="true">
 
-        <TextView
-            android:id="@+id/tv_app"
-            android:textSize="18sp"
-            android:textColor="?android:attr/textColorPrimary"
-            android:singleLine="true"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_app"
+                android:textSize="18sp"
+                android:textColor="?android:attr/textColorPrimary"
+                android:singleLine="true"
+                android:layout_weight="1.0"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
+
+            <!--android:drawableStart="?attr/ic_cloud"-->
+            <TextView
+                android:id="@+id/tv_req_times"
+                android:textSize="12sp"
+                android:layout_marginStart="@dimen/unit_padding"
+                android:textColor="?android:attr/textColorTertiary"
+                android:layout_gravity="center_vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tv_component"

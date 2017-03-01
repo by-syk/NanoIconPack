@@ -15,16 +15,7 @@
   limitations under the License.
   -->
 
-<resources>
-
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horz_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
-
-    <dimen name="padding_title_body_dlg">20dp</dimen>
-    <dimen name="padding_content_dlg">24dp</dimen>
-
-    <dimen name="tag_width">6dp</dimen>
-    <dimen name="half_tag_width">3dp</dimen>
-
-</resources>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragment_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />
