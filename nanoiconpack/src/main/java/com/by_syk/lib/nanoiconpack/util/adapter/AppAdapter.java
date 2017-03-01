@@ -18,6 +18,7 @@ package com.by_syk.lib.nanoiconpack.util.adapter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -120,6 +121,7 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.IconViewHolder>
         return dataList.get(position).getLabelPinyin().substring(0, 1).toUpperCase();
     }
 
+    @Nullable
     public AppBean getItem(int pos) {
         if (pos >= 0 && pos < dataList.size()) {
             return dataList.get(pos);

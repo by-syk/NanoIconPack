@@ -383,7 +383,7 @@ public class AppsFragment extends Fragment {
                     return false;
                 }
                 AppBean bean = appAdapter.getItem(i);
-                if (bean.getIcon() != null) {
+                if (bean == null || bean.getIcon() != null) {
                     continue;
                 }
                 try {
@@ -405,7 +405,7 @@ public class AppsFragment extends Fragment {
                     return false;
                 }
                 AppBean bean = appAdapter.getItem(i);
-                if (bean.getReqTimes() >= 0) {
+                if (bean == null || bean.getReqTimes() >= 0) {
                     continue;
                 }
                 if (nanoServerService == null) {
@@ -455,6 +455,9 @@ public class AppsFragment extends Fragment {
         @Override
         protected Boolean doInBackground(String... strings) {
             AppBean bean = appAdapter.getItem(pos);
+            if (bean == null) {
+                return false;
+            }
             if (bean.isMark()) {
                 return true;
             }
