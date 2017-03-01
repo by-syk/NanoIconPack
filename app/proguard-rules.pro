@@ -41,3 +41,7 @@
   **[] $VALUES;
   public *;
 }
+
+# for RecycleView-FastScroll
+# Fix: Scroll thumbnail is not hiding in release builds with obfuscation
+-keep class com.simplecityapps.recyclerview_fastscroll.views.FastScrollPopup { *; }
