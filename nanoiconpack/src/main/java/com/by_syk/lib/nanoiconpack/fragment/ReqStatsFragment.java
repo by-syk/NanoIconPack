@@ -388,7 +388,7 @@ public class ReqStatsFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_req_top, menu);
+        inflater.inflate(R.menu.menu_req_stats, menu);
 
         menu.getItem(0).setChecked(!toFilter);
         menu.getItem(1).getSubMenu().getItem(limitLevel).setChecked(true);
