@@ -171,7 +171,7 @@ public class IconDialog extends DialogFragment {
 
         boolean ok = ExtraUtil.saveIcon(getContext(), iconBean);
         GlobalToast.showToast(getContext(), ok ? R.string.toast_icon_saved
-                : R.string.toast_icon_not_saved);
+                : R.string.toast_icon_save_failed);
     }
 
     private void returnPickIcon() {

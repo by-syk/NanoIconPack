@@ -43,7 +43,7 @@ public class AppBean implements Serializable {
     private String pkgName = "";
 
     @NonNull
-    private String launcherActivity = "";
+    private String launcher = "";
 
     private int reqTimes = -1;
 
@@ -51,12 +51,12 @@ public class AppBean implements Serializable {
 
     public AppBean() {}
 
-    public AppBean(Drawable icon, String label, String labelPinyin, String pkgName, String launcherActivity) {
+    public AppBean(Drawable icon, String label, String labelPinyin, String pkgName, String launcher) {
         setIcon(icon);
         setLabel(label);
         setLabelPinyin(labelPinyin);
         setPkgName(pkgName);
-        setLauncherActivity(launcherActivity);
+        setLauncher(launcher);
     }
 
     public void setIcon(@Nullable Drawable icon) {
@@ -85,9 +85,9 @@ public class AppBean implements Serializable {
         }
     }
 
-    public void setLauncherActivity(String launcherActivity) {
-        if (launcherActivity != null) {
-            this.launcherActivity = launcherActivity;
+    public void setLauncher(String launcher) {
+        if (launcher != null) {
+            this.launcher = launcher;
         }
     }
 
@@ -124,8 +124,8 @@ public class AppBean implements Serializable {
     }
 
     @NonNull
-    public String getLauncherActivity() {
-        return launcherActivity;
+    public String getLauncher() {
+        return launcher;
     }
 
     public int getReqTimes() {

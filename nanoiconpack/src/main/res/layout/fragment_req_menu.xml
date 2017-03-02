@@ -51,7 +51,7 @@
             tools:ignore="ContentDescription" />
 
         <TextView
-            android:text="@string/menu_mark_redraw"
+            android:text="@string/menu_mark"
             android:textSize="18dp"
             android:singleLine="true"
             android:textColor="?android:attr/textColorPrimary"

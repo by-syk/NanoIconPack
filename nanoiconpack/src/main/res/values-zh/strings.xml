@@ -18,10 +18,10 @@
 <resources>
 
     <string name="activity_about">关于</string>
-    <string name="activity_req_top">申请统计</string>
+    <string name="activity_req_stats">申请统计</string>
 
     <string name="dlg_title_apply">应用到启动器</string>
-    <string name="dlg_title_user">设置口令</string>
+    <string name="dlg_title_set_key">设置口令</string>
     <string name="dlg_bt_pick">选择</string>
     <string name="dlg_bt_got_it">我知道了</string>
     <string name="dlg_bt_upload">上传</string>
@@ -31,12 +31,12 @@
 
     <string name="menu_apply">应用</string>
     <string name="menu_about">关于</string>
-    <string name="menu_include_filter">包含已适配</string>
+    <string name="menu_show_marked">包含已适配</string>
     <string name="menu_top">TOP</string>
     <string name="menu_top_32">Top32</string>
     <string name="menu_top_64">Top64</string>
     <string name="menu_top_128">Top128</string>
-    <string name="menu_mark_redraw">标记已适配</string>
+    <string name="menu_mark">标记已适配</string>
     <string name="menu_undo_mark">取消已适配标记</string>
     <string name="menu_goto_market">去应用商店查看</string>
     <string name="menu_copy_code">复制APP代码</string>
@@ -47,17 +47,17 @@
 
     <string name="toast_not_installed">未安装 %s 或其已被停用</string>
     <string name="toast_code_copied">已复制APP代码</string>
-    <string name="toast_code_copy_failed">复制APP代码失败</string>
+    <string name="toast_code_copy_failed">复制APP代码失败 :(</string>
     <string name="toast_icon_saved">图标已保存到图库</string>
-    <string name="toast_icon_not_saved">图标保存失败</string>
+    <string name="toast_icon_save_failed">图标保存失败 :(</string>
     <string name="toast_no_net_conn">无网络连接 :(</string>
     <string name="toast_no_net_no_req">无网络连接，无法申请适配 :(</string>
-    <string name="toast_req_redraw_ok">申请适配成功 :)</string>
-    <string name="toast_req_redraw_failed">申请适配失败 :(</string>
-    <string name="toast_mark_ok">标记成功 :)</string>
+    <string name="toast_icon_reqed">申请适配成功</string>
+    <string name="toast_icon_req_failed">申请适配失败 :(</string>
+    <string name="toast_marked">标记成功</string>
     <string name="toast_mark_failed">标记失败 :(</string>
-    <string name="toast_undo_mark_ok">已取消标记 :)</string>
-    <string name="toast_undo_mark_failed">取消标记失败 :(</string>
+    <string name="toast_mark_undo">已取消标记</string>
+    <string name="toast_mark_undo_failed">取消标记失败 :(</string>
 
     <string name="preference_category_icons">图标 (%d枚)</string>
     <string name="preference_icons_summary_note"></string>

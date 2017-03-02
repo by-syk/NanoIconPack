@@ -25,18 +25,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.by_syk.lib.nanoiconpack.dialog.UserDialog;
-import com.by_syk.lib.nanoiconpack.fragment.ReqTopFragment;
+import com.by_syk.lib.nanoiconpack.fragment.ReqStatsFragment;
 import com.by_syk.lib.storage.SP;
 
 /**
  * Created by By_syk on 2017-02-24.
  */
 
-public class ReqTopActivity extends AppCompatActivity {
+public class ReqStatsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_req_top);
+        setContentView(R.layout.activity_req_stats);
 
         init();
     }
@@ -63,7 +63,7 @@ public class ReqTopActivity extends AppCompatActivity {
                     signIn();
                     return;
                 }
-                (new SP(ReqTopActivity.this, false)).save("user", user);
+                (new SP(ReqStatsActivity.this, false)).save("user", user);
                 showFragment();
             }
         });
@@ -72,15 +72,15 @@ public class ReqTopActivity extends AppCompatActivity {
 
     private void showFragment() {
         FragmentManager fragmentManager = getSupportFragmentManager();
-        ReqTopFragment reqTopFragment = (ReqTopFragment) fragmentManager.findFragmentByTag("reqTopFragment");
-        if (reqTopFragment != null) {
-            fragmentManager.beginTransaction().show(reqTopFragment).commit();
+        ReqStatsFragment reqStatsFragment = (ReqStatsFragment) fragmentManager.findFragmentByTag("reqStatsFragment");
+        if (reqStatsFragment != null) {
+            fragmentManager.beginTransaction().show(reqStatsFragment).commit();
         } else {
             fragmentManager.beginTransaction().add(R.id.fragment_content,
-                    ReqTopFragment.newInstance(), "reqTopFragment").commit();
+                    ReqStatsFragment.newInstance(), "reqStatsFragment").commit();
         }
 //        getSupportFragmentManager().beginTransaction()
-//                .replace(R.id.fragment_content, ReqTopFragment.newInstance(), "reqTopFragment")
+//                .replace(R.id.fragment_content, ReqStatsFragment.newInstance(), "reqStatsFragment")
 //                .commit();
     }
 

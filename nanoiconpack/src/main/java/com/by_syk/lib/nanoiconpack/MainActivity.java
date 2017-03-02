@@ -111,7 +111,7 @@ public class MainActivity extends AppCompatActivity
             return;
         }
 
-        startActivity(new Intent(MainActivity.this, ReqTopActivity.class));
+        startActivity(new Intent(MainActivity.this, ReqStatsActivity.class));
     }
 
     @Override

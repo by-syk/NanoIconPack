@@ -20,7 +20,7 @@
 
     <item
         android:id="@+id/menu_include_filter"
-        android:title="@string/menu_include_filter"
+        android:title="@string/menu_show_marked"
         android:checkable="true"
         app:showAsAction="never" />
 

@@ -43,7 +43,7 @@ import com.by_syk.lib.nanoiconpack.util.C;
 import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
 import com.by_syk.lib.nanoiconpack.util.RetrofitHelper;
 import com.by_syk.lib.nanoiconpack.util.impl.NanoServerService;
-import com.by_syk.lib.nanoiconpack.util.adapter.ReqTopAdapter;
+import com.by_syk.lib.nanoiconpack.util.adapter.ReqStatsAdapter;
 import com.by_syk.lib.nanoiconpack.widget.DividerItemDecoration;
 import com.by_syk.lib.storage.SP;
 import com.by_syk.lib.toast.GlobalToast;
@@ -62,11 +62,11 @@ import retrofit2.Call;
  * Created by By_syk on 2017-01-27.
  */
 
-public class ReqTopFragment extends Fragment {
+public class ReqStatsFragment extends Fragment {
     private View contentView;
 
     private LinearLayoutManager layoutManager;
-    private ReqTopAdapter reqTopAdapter;
+    private ReqStatsAdapter reqStatsAdapter;
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
@@ -124,8 +124,8 @@ public class ReqTopFragment extends Fragment {
     }
 
     private void initAdapter() {
-        reqTopAdapter = new ReqTopAdapter(getContext());
-        reqTopAdapter.setOnItemClickListener(new ReqTopAdapter.OnItemClickListener() {
+        reqStatsAdapter = new ReqStatsAdapter(getContext());
+        reqStatsAdapter.setOnItemClickListener(new ReqStatsAdapter.OnItemClickListener() {
             @Override
             public void onClick(int pos, AppBean bean) {
                 showReqMenu(pos, bean);
@@ -176,7 +176,7 @@ public class ReqTopFragment extends Fragment {
             }
         });
 
-        recyclerView.setAdapter(reqTopAdapter);
+        recyclerView.setAdapter(reqStatsAdapter);
     }
 
     private void initSwipeRefresh() {
@@ -196,25 +196,25 @@ public class ReqTopFragment extends Fragment {
             @Override
             public void onMarkDone(int pos, AppBean bean1, boolean ok) {
                 if (!ok) {
-                    GlobalToast.showToast(getContext(), bean1.isMark() ? R.string.toast_undo_mark_failed
+                    GlobalToast.showToast(getContext(), bean1.isMark() ? R.string.toast_mark_undo_failed
                             : R.string.toast_mark_failed);
                     return;
                 }
                 if (bean1.isMark()) {
                     if (toFilter) {
-                        reqTopAdapter.remove(pos);
+                        reqStatsAdapter.remove(pos);
                         if (lazyLoadTask == null) {
                             lazyLoadTask = new LazyLoadTask();
                             lazyLoadTask.execute(layoutManager.findFirstVisibleItemPosition(),
                                     layoutManager.findLastVisibleItemPosition());
                         }
                     } else {
-                        reqTopAdapter.notifyItemChanged(pos);
+                        reqStatsAdapter.notifyItemChanged(pos);
                     }
-                    GlobalToast.showToast(getContext(), R.string.toast_mark_ok);
+                    GlobalToast.showToast(getContext(), R.string.toast_marked);
                 } else {
-                    reqTopAdapter.notifyItemChanged(pos);
-                    GlobalToast.showToast(getContext(), R.string.toast_undo_mark_ok);
+                    reqStatsAdapter.notifyItemChanged(pos);
+                    GlobalToast.showToast(getContext(), R.string.toast_mark_undo);
                 }
             }
         });
@@ -289,7 +289,7 @@ public class ReqTopFragment extends Fragment {
 
             contentView.findViewById(R.id.view_loading).setVisibility(View.GONE);
 
-            reqTopAdapter.refresh(list);
+            reqStatsAdapter.refresh(list);
 
             swipeRefreshLayout.setRefreshing(false);
 
@@ -321,7 +321,7 @@ public class ReqTopFragment extends Fragment {
                 if (isCancelled() || !isAdded()) {
                     return false;
                 }
-                AppBean bean = reqTopAdapter.getItem(i);
+                AppBean bean = reqStatsAdapter.getItem(i);
                 if (bean == null || bean.getIcon() != null || bean.getIconUrl() != null) {
                     continue;
                 }
@@ -330,7 +330,7 @@ public class ReqTopFragment extends Fragment {
                     bean.setIcon(packageInfo.applicationInfo.loadIcon(packageManager));
                     publishProgress(i);
                 } catch (Exception e) {
-                    Log.d(C.LOG_TAG, bean.getPkgName() + "is not installed.");
+                    Log.d(C.LOG_TAG, bean.getPkgName() + " is not installed.");
                 }
             }
 
@@ -342,7 +342,7 @@ public class ReqTopFragment extends Fragment {
                 if (isCancelled() || !isAdded()) {
                     return false;
                 }
-                AppBean bean = reqTopAdapter.getItem(i);
+                AppBean bean = reqStatsAdapter.getItem(i);
                 if (bean == null || bean.getIcon() != null || bean.getIconUrl() != null) {
                     continue;
                 }
@@ -371,7 +371,7 @@ public class ReqTopFragment extends Fragment {
         protected void onProgressUpdate(Integer... values) {
             super.onProgressUpdate(values);
 
-            reqTopAdapter.notifyItemChanged(values[0]);
+            reqStatsAdapter.notifyItemChanged(values[0]);
         }
 
         @Override
@@ -382,8 +382,8 @@ public class ReqTopFragment extends Fragment {
         }
     }
 
-    public static ReqTopFragment newInstance() {
-        return new ReqTopFragment();
+    public static ReqStatsFragment newInstance() {
+        return new ReqStatsFragment();
     }
 
     @Override

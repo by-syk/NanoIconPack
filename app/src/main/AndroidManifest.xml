@@ -81,8 +81,8 @@
             android:label="@string/activity_about" />
 
         <activity
-            android:name="com.by_syk.lib.nanoiconpack.ReqTopActivity"
-            android:label="@string/activity_req_top"
+            android:name="com.by_syk.lib.nanoiconpack.ReqStatsActivity"
+            android:label="@string/activity_req_stats"
             android:theme="@style/AppThemeDarkConsole" />
 
     </application>

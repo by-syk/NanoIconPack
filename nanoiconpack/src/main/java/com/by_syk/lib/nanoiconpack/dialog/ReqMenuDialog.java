@@ -28,6 +28,7 @@ import android.widget.TextView;
 import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.bean.AppBean;
 import com.by_syk.lib.nanoiconpack.bean.ResResBean;
+import com.by_syk.lib.nanoiconpack.util.C;
 import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
 import com.by_syk.lib.nanoiconpack.util.RetrofitHelper;
 import com.by_syk.lib.nanoiconpack.util.impl.NanoServerService;
@@ -36,6 +37,8 @@ import com.by_syk.lib.toast.GlobalToast;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -65,7 +68,7 @@ public class ReqMenuDialog extends BottomSheetDialogFragment implements View.OnC
         pos = bundle.getInt("pos");
         bean = (AppBean) bundle.getSerializable("bean");
 
-        contentView = View.inflate(getContext(), R.layout.fragment_bottom_sheet_req, null);
+        contentView = View.inflate(getContext(), R.layout.fragment_req_menu, null);
         dialog.setContentView(contentView);
 
         ((TextView) contentView.findViewById(R.id.tv_title)).setText(bean.getLabel());
@@ -218,7 +221,7 @@ public class ReqMenuDialog extends BottomSheetDialogFragment implements View.OnC
             if (!je.isJsonNull()) {
                 labelEn = je.getAsString();
             }
-            String code1 = getString(R.string.app_component_label,
+            String code1 = String.format(Locale.US, C.APP_CODE_LABEL,
                     jo.get("label").getAsString(),
                     labelEn);
             String icon = "";
@@ -226,7 +229,7 @@ public class ReqMenuDialog extends BottomSheetDialogFragment implements View.OnC
             if (!je.isJsonNull()) {
                 icon = je.getAsString();
             }
-            String code2 = getString(R.string.app_component,
+            String code2 = String.format(Locale.US, C.APP_CODE_COMPONENT,
                     jo.get("pkg").getAsString(),
                     jo.get("launcher").getAsString(),
                     icon);

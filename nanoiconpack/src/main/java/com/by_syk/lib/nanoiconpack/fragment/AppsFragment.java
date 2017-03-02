@@ -40,6 +40,7 @@ import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.bean.AppBean;
 import com.by_syk.lib.nanoiconpack.bean.ResResBean;
 import com.by_syk.lib.nanoiconpack.dialog.AppTapHintDialog;
+import com.by_syk.lib.nanoiconpack.util.C;
 import com.by_syk.lib.nanoiconpack.util.RetrofitHelper;
 import com.by_syk.lib.nanoiconpack.util.impl.NanoServerService;
 import com.by_syk.lib.nanoiconpack.widget.DividerItemDecoration;
@@ -61,6 +62,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -238,11 +240,11 @@ public class AppsFragment extends Fragment {
         String label = bean.getLabel();
         String labelEn = PkgUtil.getAppLabelEn(getContext(), bean.getPkgName(), null);
         boolean isSysApp = PkgUtil.isSysApp(getContext(), bean.getPkgName());
-        String code = getString(R.string.app_component_label, label, labelEn);
-        code += "\n" + getString(R.string.app_component, bean.getPkgName(),
-                bean.getLauncherActivity(), ExtraUtil.appName2drawableName(label, labelEn));
+        String code = String.format(Locale.US, C.APP_CODE_LABEL, label, labelEn);
+        code += "\n" + String.format(Locale.US, C.APP_CODE_COMPONENT, bean.getPkgName(),
+                bean.getLauncher(), ExtraUtil.appName2drawableName(label, labelEn));
         if (isSysApp) {
-            code = getString(R.string.app_component_build, Build.BRAND, Build.MODEL) + "\n" + code;
+            code = String.format(Locale.US, C.APP_CODE_BUILD, Build.BRAND, Build.MODEL) + "\n" + code;
         }
 
         if (toCopyOrShare) {
@@ -282,7 +284,7 @@ public class AppsFragment extends Fragment {
                         bean.setLabel(label);
                         bean.setLabelPinyin(labelPinyin);
                         bean.setPkgName(resolveInfo.activityInfo.packageName);
-                        bean.setLauncherActivity(resolveInfo.activityInfo.name);
+                        bean.setLauncher(resolveInfo.activityInfo.name);
                         dataList.add(bean);
                     }
                 }
@@ -468,7 +470,7 @@ public class AppsFragment extends Fragment {
             map.put("label", bean.getLabel());
             map.put("labelEn", labelEn);
             map.put("pkg", bean.getPkgName());
-            map.put("launcher", bean.getLauncherActivity());
+            map.put("launcher", bean.getLauncher());
             map.put("sysApp", PkgUtil.isSysApp(getContext(), bean.getPkgName()) ? "1" : "0");
             map.put("deviceId", ExtraUtil.getDeviceId(getContext()));
             map.put("deviceBrand", Build.BRAND);
@@ -509,8 +511,8 @@ public class AppsFragment extends Fragment {
                 return;
             }
 
-            GlobalToast.showToast(getContext(), result ? R.string.toast_req_redraw_ok
-                    : R.string.toast_req_redraw_failed);
+            GlobalToast.showToast(getContext(), result ? R.string.toast_icon_reqed
+                    : R.string.toast_icon_req_failed);
         }
     }
 

@@ -48,7 +48,7 @@ public class UserDialog extends DialogFragment {
         etUser = (EditText) viewGroup.findViewById(R.id.et_user);
 
         AlertDialog alertDialog = new AlertDialog.Builder(getContext())
-                .setTitle(R.string.dlg_title_user)
+                .setTitle(R.string.dlg_title_set_key)
                 .setView(viewGroup)
                 .setPositiveButton(R.string.dlg_bt_ok, new DialogInterface.OnClickListener() {
                     @Override

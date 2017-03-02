@@ -29,7 +29,6 @@ import android.widget.TextView;
 
 import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.bean.AppBean;
-import com.by_syk.lib.nanoiconpack.util.C;
 import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 
@@ -67,7 +66,7 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.IconViewHolder>
     public void onBindViewHolder(final IconViewHolder holder, int position) {
         AppBean bean = dataList.get(position);
         String component = bean.getPkgName();
-        String launcher = bean.getLauncherActivity();
+        String launcher = bean.getLauncher();
         if (!TextUtils.isEmpty(launcher)) {
             if (launcher.startsWith(bean.getPkgName())) {
                 component += "/" + launcher.substring(bean.getPkgName().length());
