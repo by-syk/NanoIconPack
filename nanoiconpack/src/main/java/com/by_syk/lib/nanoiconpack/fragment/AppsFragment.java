@@ -238,7 +238,7 @@ public class AppsFragment extends Fragment {
         }
 
         String label = bean.getLabel();
-        String labelEn = PkgUtil.getAppLabelZhEn(getContext(), bean.getPkgName(), null);
+        String labelEn = PkgUtil.getAppLabelEn(getContext(), bean.getPkgName(), null);
         boolean isSysApp = PkgUtil.isSysApp(getContext(), bean.getPkgName());
         String code = String.format(Locale.US, C.APP_CODE_LABEL, label, labelEn);
         code += "\n" + String.format(Locale.US, C.APP_CODE_COMPONENT, bean.getPkgName(),
@@ -464,7 +464,7 @@ public class AppsFragment extends Fragment {
                 return true;
             }
 
-            String labelEn = PkgUtil.getAppLabelZhEn(getContext(), bean.getPkgName(), "");
+            String labelEn = PkgUtil.getAppLabelEn(getContext(), bean.getPkgName(), "");
             Map<String, String> map = new HashMap<>();
             map.put("icon", ExtraUtil.appName2drawableName(bean.getLabel(), labelEn));
             map.put("label", bean.getLabel());

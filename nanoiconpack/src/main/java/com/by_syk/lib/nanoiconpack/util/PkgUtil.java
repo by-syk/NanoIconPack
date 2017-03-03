@@ -135,7 +135,7 @@ public class PkgUtil {
     }
 
     @TargetApi(17)
-    public static String getAppLabelZhEn(Context context, String pkgName, String def) {
+    public static String getAppLabelEn(Context context, String pkgName, String def) {
         if (context == null || TextUtils.isEmpty(pkgName)) {
             return def;
         }
