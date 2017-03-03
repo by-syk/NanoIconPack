@@ -31,7 +31,7 @@
 
     <string name="menu_apply">应用</string>
     <string name="menu_about">关于</string>
-    <string name="menu_show_marked">包含已适配</string>
+    <string name="menu_show_marked">显示已标记</string>
     <string name="menu_top">TOP</string>
     <string name="menu_top_32">Top32</string>
     <string name="menu_top_64">Top64</string>
