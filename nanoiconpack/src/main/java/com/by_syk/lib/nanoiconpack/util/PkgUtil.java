@@ -25,6 +25,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.by_syk.lib.nanoiconpack.bean.AppBean;
@@ -134,7 +135,7 @@ public class PkgUtil {
     }
 
     @TargetApi(17)
-    public static String getAppLabelEn(Context context, String pkgName, String def) {
+    public static String getAppLabelZhEn(Context context, String pkgName, String def) {
         if (context == null || TextUtils.isEmpty(pkgName)) {
             return def;
         }
@@ -142,8 +143,7 @@ public class PkgUtil {
         String result = def;
         try {
             PackageManager packageManager = context.getPackageManager();
-            ApplicationInfo applicationInfo = packageManager.getPackageInfo(pkgName, 0)
-                    .applicationInfo;
+            ApplicationInfo applicationInfo = packageManager.getPackageInfo(pkgName, 0).applicationInfo;
 
             Configuration configuration = new Configuration();
             // It's better, I think, to use Locale.ENGLISH
@@ -158,11 +158,11 @@ public class PkgUtil {
             Resources resources = packageManager.getResourcesForApplication(applicationInfo);
             resources.updateConfiguration(configuration,
                     context.getResources().getDisplayMetrics());
-            final int LABEL_RES = applicationInfo.labelRes;
-            if (LABEL_RES != 0) {
+            int labelResId = applicationInfo.labelRes;
+            if (labelResId != 0) {
                 // If the localized label is not added, the default is returned.
                 // NOTICE!!!If the default were empty, Resources$NotFoundException would be called.
-                result = resources.getString(LABEL_RES);
+                result = resources.getString(labelResId);
             }
 
             /*

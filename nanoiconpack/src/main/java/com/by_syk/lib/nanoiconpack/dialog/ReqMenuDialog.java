@@ -216,6 +216,8 @@ public class ReqMenuDialog extends BottomSheetDialogFragment implements View.OnC
         String codes = "";
         for (int i = 0, len = ja.size(); i < len; ++i) {
             JsonObject jo = ja.get(i).getAsJsonObject();
+            // Why not jo.get("labelEn").getAsString() ?
+            // If null, it crashes.
             String labelEn = "";
             JsonElement je = jo.get("labelEn");
             if (!je.isJsonNull()) {
@@ -237,9 +239,8 @@ public class ReqMenuDialog extends BottomSheetDialogFragment implements View.OnC
             if (index >= 0) {
                 codes = codes.substring(0, index) + code1 + "\n" + codes.substring(index);
             } else {
-                codes += code1 + "\n" + code2;
+                codes += code1 + "\n" + code2 + "\n\n";
             }
-            codes += "\n\n";
         }
         if (!codes.isEmpty()) {
             codes = codes.substring(0, codes.length() - 2);
