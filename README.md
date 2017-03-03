@@ -66,15 +66,30 @@ NanoIconPack 同时还支持许多未列出的启动器，比如
 
 ### 服务器支持
 
-NanoIconPack 拥有一个轻量的服务器，提供图标申请和申请统计两大服务。目前您可以免费在基于 NanoIconPack 的图标包APP中接入它。
+NanoIconPack 拥有一个轻量的服务器，提供图标申请和申请统计两大服务。
 
-服务器由神奇的 **[Nodejs](https://nodejs.org/en/)** 驱动，够简单、够轻量。代码已经同项目一并开源（[去查看](https://github.com/by-syk/NanoIconPack/tree/master/server/nodejs)），您如果有兴趣，完全可以据此搭建出自己的服务器，同时也欢迎和我一并改进它。
+服务器由神奇的 **[Nodejs](https://nodejs.org/en/)** 驱动，够简单、够轻量。代码已经同项目一并开源（[去查看](https://github.com/by-syk/NanoIconPack/tree/master/server/nodejs)），如果您有兴趣，欢迎和我一起改进。
+
+目前服务器由我维护，如果您正在基于 NanoIconPack 开发自己的图标包，可以免费接入它。或者，您也可以利用开源的代码搭建自己的服务器。
 
 > 为什么需要服务器？
 >
 > 在图标申请这个功能上，当前已有的图标包模版主要采用的是邮件方式，不过这并不友好，不仅用户需要多步操作，而且作者对收到的申请邮件也难于进一步统计。所以我们决定借助服务器的支持来简化这一过程，使用户一步申请图标、作者直接看到申请统计结果。
 >
-> 这种方案最初见于 [@sorcerer](http://www.coolapk.com/u/420016) 的 **[Sorcery 图标](http://www.coolapk.com/apk/com.sorcerer.sorcery.iconpack)**。NanoIconPack 只是重走了 **Sorcery 图标** 的路。
+> 这种方案最初见于 [@sorcerer](http://www.coolapk.com/u/420016) 的 **[Sorcery 图标](http://www.coolapk.com/apk/com.sorcerer.sorcery.iconpack)**（未考究）。NanoIconPack 只是重走了 **Sorcery 图标** 的路。
+
+
+### 角色关系
+
+NanoIconPack 项目定义了三个角色：**用户**、**作者**和**开发者**。
+
++ 用户（User）：即图标包的用户。
+
++ 作者（Author）：即图标包作者，一手绘制图标包内所有图标的灵魂图匠。
+
++ 开发者（Developer）：图标包APP开发者，负责图标的添加、打包等开发任务。
+
+作者和开发者这两个角色可以分离，也可以兼任。
 
 
 ### 基于 NanoIconPack 的 APP
