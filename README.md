@@ -1,8 +1,8 @@
 # NanoIconPack 图标包APP模板
 
-[![Developing](https://img.shields.io/badge/Developing-v1.9.0-green.svg)](art/CHANGELOG.txt)
+[![Developing](https://img.shields.io/badge/Developing-v2.0.0-green.svg)](art/CHANGELOG.txt)
 [![Release](https://img.shields.io/badge/Release-v1.4.0-brightgreen.svg)](https://github.com/by-syk/NanoIconPack/releases/tag/1.4.0)
-[![Download](https://img.shields.io/badge/Download-Sample%20APP-brightgreen.svg)](https://github.com/by-syk/NanoIconPack/raw/master/out/com.by_syk.nanoiconpack.sample_v1.9.0.6.nightly(17030100).apk)
+[![Download](https://img.shields.io/badge/Download-Sample%20APP-brightgreen.svg)](https://github.com/by-syk/NanoIconPack/raw/master/out/com.by_syk.nanoiconpack.sample_v2.0.0.6.nightly(17030400).apk)
 [![License](https://img.shields.io/badge/License-Apache%202.0-yellowgreen.svg)](https://github.com/by-syk/NanoIconPack/blob/master/LICENSE)
 
 ![NanoIconPack](art/ic_launcher_nanoiconpack.png)
@@ -91,6 +91,7 @@ NanoIconPack 拥有一个轻量的服务器，提供图标申请和申请统计�
 | [@派大鑫 / Party Star](http://www.coolapk.com/apk/com.paidax.iconpack.partystar) | [![Smalite](art/ic_launcher_party_star.png)](http://www.coolapk.com/apk/com.paidax.iconpack.partystar) |
 | [@可以and不行 / Pelmix图标包](http://www.coolapk.com/apk/com.edward.iconpack.pelmix) | [![Pelmix](art/ic_launcher_pelmix.png)](http://www.coolapk.com/apk/com.edward.iconpack.pelmix) |
 | [@Markuss / Aeroblast图标包](http://www.coolapk.com/apk/com.markusslugia.iconpack.aeroblast) | [![Aeroblast](art/ic_launcher_aeroblast.png)](http://www.coolapk.com/apk/com.markusslugia.iconpack.aeroblast) |
+| [@CookDev / Cardicons Ⅱ 图标包 <sub>new version</sub>](http://www.coolapk.com/apk/com.pandecheng.iconpack) | [![PDC](art/ic_launcher_cardicons.png)](http://www.coolapk.com/apk/cookdev.iconpack.ii) |
 
 如果您基于 NanoIconPack 开发出了自己的图标包作品，请不吝[知会我](#联系开发者)，以便展示在这里。
 
