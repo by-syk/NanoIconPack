@@ -252,7 +252,7 @@ public class IconDialog extends DialogFragment {
             super.onProgressUpdate(values);
 
             if (values[0]) {
-                getDialog().setTitle(iconBean.getLabel() + " ◎");
+                getDialog().setTitle(iconBean.getLabel() + C.ICON_ONE_SUFFIX);
             }
         }
 

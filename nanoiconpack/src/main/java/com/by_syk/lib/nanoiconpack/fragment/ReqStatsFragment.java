@@ -37,6 +37,7 @@ import android.view.ViewGroup;
 
 import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.bean.AppBean;
+import com.by_syk.lib.nanoiconpack.bean.CoolApkApkDetailBean;
 import com.by_syk.lib.nanoiconpack.bean.ResResBean;
 import com.by_syk.lib.nanoiconpack.dialog.ReqMenuDialog;
 import com.by_syk.lib.nanoiconpack.util.C;
@@ -47,6 +48,7 @@ import com.by_syk.lib.nanoiconpack.util.adapter.ReqStatsAdapter;
 import com.by_syk.lib.nanoiconpack.widget.DividerItemDecoration;
 import com.by_syk.lib.storage.SP;
 import com.by_syk.lib.toast.GlobalToast;
+import com.coolapk.market.util.AuthUtils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.simplecityapps.recyclerview_fastscroll.interfaces.OnFastScrollStateChangeListener;
@@ -55,6 +57,7 @@ import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import retrofit2.Call;
 
@@ -337,6 +340,32 @@ public class ReqStatsFragment extends Fragment {
             if (!ExtraUtil.isNetworkConnected(getContext())) {
                 return false;
             }
+//            NanoServerService nanoServerService = null;
+//            for (int i = pos[0]; i <= pos[1]; ++i) {
+//                if (isCancelled() || !isAdded()) {
+//                    return false;
+//                }
+//                AppBean bean = reqStatsAdapter.getItem(i);
+//                if (bean == null || bean.getIcon() != null || bean.getIconUrl() != null) {
+//                    continue;
+//                }
+//                if (nanoServerService == null) {
+//                    nanoServerService = RetrofitHelper.getInstance().getRetrofit()
+//                            .create(NanoServerService.class);
+//                }
+//                Call<ResResBean<String>> call = nanoServerService.getIconUrl(bean.getPkgName());
+//                try {
+//                    ResResBean<String> resResBean = call.execute().body();
+//                    if (resResBean != null && resResBean.isStatusSuccess()) {
+//                        bean.setIconUrl(resResBean.getResult());
+//                        publishProgress(i);
+//                        continue;
+//                    }
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//                bean.setIconUrl("");
+//            }
             NanoServerService nanoServerService = null;
             for (int i = pos[0]; i <= pos[1]; ++i) {
                 if (isCancelled() || !isAdded()) {
@@ -347,14 +376,15 @@ public class ReqStatsFragment extends Fragment {
                     continue;
                 }
                 if (nanoServerService == null) {
-                    nanoServerService = RetrofitHelper.getInstance().getRetrofit()
-                            .create(NanoServerService.class);
+                    nanoServerService = RetrofitHelper.getInstance().init4Coolapk()
+                            .getRetrofit4Coolapk().create(NanoServerService.class);
                 }
-                Call<ResResBean<String>> call = nanoServerService.getIconUrl(bean.getPkgName());
+                Call<CoolApkApkDetailBean> call = nanoServerService.getCoolApkApkDetail(AuthUtils
+                        .getAS(UUID.randomUUID().toString()), bean.getPkgName());
                 try {
-                    ResResBean<String> resResBean = call.execute().body();
-                    if (resResBean != null && resResBean.isStatusSuccess()) {
-                        bean.setIconUrl(resResBean.getResult());
+                    CoolApkApkDetailBean apkDetailBean = call.execute().body();
+                    if (apkDetailBean != null && apkDetailBean.getData() != null) {
+                        bean.setIconUrl(apkDetailBean.getData().iconUrl);
                         publishProgress(i);
                         continue;
                     }

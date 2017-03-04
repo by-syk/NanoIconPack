@@ -31,6 +31,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitHelper {
     private Retrofit retrofit;
+    private Retrofit retrofit4Coolapk;
 
     private static RetrofitHelper retrofitHelper;
 
@@ -45,8 +46,25 @@ public class RetrofitHelper {
                 .build();
     }
 
+    public RetrofitHelper init4Coolapk() {
+        if (retrofit4Coolapk != null) {
+            return retrofitHelper;
+        }
+
+        retrofit4Coolapk = new Retrofit.Builder()
+                .baseUrl(C.URL_COOLAPK_API)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        return retrofitHelper;
+    }
+
     public Retrofit getRetrofit() {
         return retrofit;
+    }
+
+    public Retrofit getRetrofit4Coolapk() {
+        return retrofit4Coolapk;
     }
 
     /**
