@@ -21,10 +21,12 @@ import android.animation.LayoutTransition;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
@@ -34,6 +36,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -232,15 +235,34 @@ public class IconDialog extends DialogFragment {
             }
             publishProgress(use);
 
+//            for (AppFilterReader.Bean bean : matchedList) {
+//                if (bean.pkg == null || bean.launcher == null) { // invalid
+//                    continue;
+//                }
+//                if (PkgUtil.isPkgInstalled(getContext(), bean.pkg)) {
+//                    PackageManager packageManager = getContext().getPackageManager();
+//                    try {
+//                        PackageInfo packageInfo = packageManager.getPackageInfo(bean.pkg, 0);
+//                        return packageInfo.applicationInfo.loadIcon(packageManager);
+//                    } catch (PackageManager.NameNotFoundException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
+            PackageManager packageManager = getContext().getPackageManager();
+            Intent intent = new Intent();
             for (AppFilterReader.Bean bean : matchedList) {
-                if (PkgUtil.isPkgInstalled(getContext(), bean.pkg)) {
-                    PackageManager packageManager = getContext().getPackageManager();
-                    try {
-                        PackageInfo packageInfo = packageManager.getPackageInfo(bean.pkg, 0);
-                        return packageInfo.applicationInfo.loadIcon(packageManager);
-                    } catch (PackageManager.NameNotFoundException e) {
-                        e.printStackTrace();
+                if (bean.pkg == null || bean.launcher == null) { // invalid
+                    continue;
+                }
+                try {
+                    intent.setComponent(new ComponentName(bean.pkg, bean.launcher));
+                    ResolveInfo resolveInfo = packageManager.resolveActivity(intent, 0);
+                    if (resolveInfo != null) {
+                        return resolveInfo.loadIcon(packageManager);
                     }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
             return null;

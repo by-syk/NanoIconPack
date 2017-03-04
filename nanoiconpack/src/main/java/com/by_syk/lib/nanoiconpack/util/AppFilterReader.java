@@ -47,10 +47,7 @@ public class AppFilterReader {
     private AppFilterReader() {}
 
     public synchronized boolean init(Resources resources) {
-        Log.d(C.LOG_TAG, "AppFilterReader - init");
-
         if (isReadDone()) {
-            Log.d(C.LOG_TAG, "isReadDone()");
             return true;
         }
         if (resources == null) {
