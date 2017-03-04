@@ -224,6 +224,10 @@ public class IconDialog extends DialogFragment {
             }
             List<AppFilterReader.Bean> matchedList = reader.findByDrawable(iconBean.getName());
 
+            if (!isAdded()) {
+                return null;
+            }
+
             boolean use = false;
             for (AppFilterReader.Bean bean : matchedList) {
                 if (iconBean.getName().equals(bean.drawable)) {
@@ -251,7 +255,7 @@ public class IconDialog extends DialogFragment {
         protected void onProgressUpdate(Boolean... values) {
             super.onProgressUpdate(values);
 
-            if (values[0]) {
+            if (isAdded() && values[0]) {
                 getDialog().setTitle(iconBean.getLabel() + C.ICON_ONE_SUFFIX);
             }
         }
