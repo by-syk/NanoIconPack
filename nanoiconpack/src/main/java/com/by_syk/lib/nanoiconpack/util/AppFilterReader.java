@@ -42,15 +42,17 @@ public class AppFilterReader {
     @NonNull
     private List<Bean> dataList = new ArrayList<>();
 
+    private boolean isReadDone = false;
+
     private AppFilterReader() {}
 
-    public boolean isInited() {
-        return !dataList.isEmpty();
-    }
+    public synchronized boolean init(Resources resources) {
+        Log.d(C.LOG_TAG, "AppFilterReader - init");
 
-    public boolean init(Resources resources) {
-        dataList.clear();
-
+        if (isReadDone()) {
+            Log.d(C.LOG_TAG, "isReadDone()");
+            return true;
+        }
         if (resources == null) {
             return false;
         }
@@ -89,7 +91,8 @@ public class AppFilterReader {
                 }
                 event = parser.next();
             }
-            return isInited();
+            isReadDone = true;
+            return true;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -97,9 +100,18 @@ public class AppFilterReader {
         return false;
     }
 
+    public boolean isReadDone() {
+        return isReadDone;
+    }
+
+    @NonNull
+    public List<Bean> getDataList() {
+        return dataList;
+    }
+
     public List<Bean> findByDrawable(String drawable) {
         List<Bean> list = new ArrayList<>();
-        if (!isInited() || TextUtils.isEmpty(drawable)) {
+        if (!isReadDone() || TextUtils.isEmpty(drawable)) {
             return list;
         }
 

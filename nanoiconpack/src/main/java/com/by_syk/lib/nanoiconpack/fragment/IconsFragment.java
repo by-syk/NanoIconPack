@@ -21,7 +21,6 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
-import android.content.res.XmlResourceParser;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -38,14 +37,13 @@ import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.bean.IconBean;
 import com.by_syk.lib.nanoiconpack.dialog.IconDialog;
 import com.by_syk.lib.nanoiconpack.dialog.IconTapHintDialog;
+import com.by_syk.lib.nanoiconpack.util.AppFilterReader;
 import com.by_syk.lib.nanoiconpack.util.C;
 import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
 import com.by_syk.lib.nanoiconpack.util.PkgUtil;
 import com.by_syk.lib.nanoiconpack.util.adapter.IconAdapter;
 import com.by_syk.lib.storage.SP;
 import com.by_syk.lib.toast.GlobalToast;
-
-import org.xmlpull.v1.XmlPullParser;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -247,46 +245,39 @@ public class IconsFragment extends Fragment {
             }
         }
 
-        private List<IconBean> filterUnmatched(@NonNull List<IconBean> dataList) throws Exception {
+        private List<IconBean> filterUnmatched(@NonNull List<IconBean> iconList) throws Exception {
             List<String> installedIconList = new ArrayList<>();
 //            List<String> installedPkgList = PkgUtil.getInstalledPkgs(getContext());
-            List<String> installedPkgList = PkgUtil.getInstalledPkgsWithLauncherActivity(getContext());
-            XmlResourceParser parser = getResources().getXml(R.xml.appfilter);
-            int event = parser.getEventType();
-            while (event != XmlPullParser.END_DOCUMENT) {
-                if (event == XmlPullParser.START_TAG) {
-                    if ("item".equals(parser.getName())) {
-                        String component = parser.getAttributeValue(0);
-                        if (component != null) {
-                            Matcher matcher = Pattern.compile("ComponentInfo\\{([^/]+?)/.+?\\}")
-                                    .matcher(component);
-                            if (matcher.matches()) {
-                                String pkgName = matcher.group(1);
-                                String drawable = parser.getAttributeValue(1);
-                                for (String installedPkg : installedPkgList) {
-                                    if (installedPkg.equals(pkgName)) {
-                                        installedIconList.add(drawable);
-                                        break;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                event = parser.next();
-            }
+//            List<String> installedPkgList = PkgUtil.getInstalledPkgsWithLauncherActivity(getContext());
+            List<String> installedPkgActivityList = PkgUtil.getInstalledPkgActivities(getContext());
 
-            List<IconBean> installedDataList = new ArrayList<>();
-            for (IconBean bean : dataList) {
-                for (String icon : installedIconList) {
-                    if (icon.equals(bean.getName())) {
-                        installedDataList.add(bean);
+            AppFilterReader reader = AppFilterReader.getInstance();
+            reader.init(getResources());
+            for (AppFilterReader.Bean bean : reader.getDataList()) {
+                if (bean.pkg == null || bean.launcher == null) { // invalid
+                    continue;
+                }
+                for (String pkgActivity : installedPkgActivityList) {
+                    String[] arr = pkgActivity.split("/");
+                    // Check package name and launcher activity at the same time
+                    if (arr[0].equals(bean.pkg) && arr[1].equals(bean.launcher)) {
+                        installedIconList.add(bean.drawable);
                         break;
                     }
                 }
             }
 
-            return installedDataList;
+            List<IconBean> installedIconBeanList = new ArrayList<>();
+            for (IconBean bean : iconList) {
+                for (String icon : installedIconList) {
+                    if (icon.equals(bean.getName())) {
+                        installedIconBeanList.add(bean);
+                        break;
+                    }
+                }
+            }
+
+            return installedIconBeanList;
         }
     }
 

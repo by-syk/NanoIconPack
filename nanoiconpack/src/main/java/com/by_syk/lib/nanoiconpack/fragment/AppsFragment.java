@@ -21,7 +21,6 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.content.res.XmlResourceParser;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -40,6 +39,7 @@ import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.bean.AppBean;
 import com.by_syk.lib.nanoiconpack.bean.ResResBean;
 import com.by_syk.lib.nanoiconpack.dialog.AppTapHintDialog;
+import com.by_syk.lib.nanoiconpack.util.AppFilterReader;
 import com.by_syk.lib.nanoiconpack.util.C;
 import com.by_syk.lib.nanoiconpack.util.RetrofitHelper;
 import com.by_syk.lib.nanoiconpack.util.impl.NanoServerService;
@@ -53,8 +53,6 @@ import com.google.gson.JsonObject;
 import com.simplecityapps.recyclerview_fastscroll.interfaces.OnFastScrollStateChangeListener;
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 
-import org.xmlpull.v1.XmlPullParser;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -64,8 +62,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import retrofit2.Call;
 
@@ -344,30 +340,22 @@ public class AppsFragment extends Fragment {
                 return;
             }
 
-            XmlResourceParser parser = getResources().getXml(R.xml.appfilter);
-            int event = parser.getEventType();
-            while (event != XmlPullParser.END_DOCUMENT) {
-                if (event == XmlPullParser.START_TAG) {
-                    if ("item".equals(parser.getName())) {
-                        String component = parser.getAttributeValue(0);
-                        if (component != null) {
-                            Matcher matcher = Pattern.compile("ComponentInfo\\{([^/]+?)/.+?\\}")
-                                    .matcher(component);
-                            if (matcher.matches()) {
-                                Iterator<AppBean> iterator = appList.iterator();
-                                while (iterator.hasNext()) {
-                                    AppBean bean = iterator.next();
-                                    if (bean.getPkgName().equals(matcher.group(1))) {
-                                        iterator.remove();
-                                        // To remove all polyphone items, cannot use break
-//                                        break;
-                                    }
-                                }
-                            }
-                        }
+            AppFilterReader reader = AppFilterReader.getInstance();
+            reader.init(getResources());
+            for (AppFilterReader.Bean bean : reader.getDataList()) {
+                if (bean.pkg == null || bean.launcher == null) { // invalid
+                    continue;
+                }
+                Iterator<AppBean> iterator = appList.iterator();
+                while (iterator.hasNext()) {
+                    AppBean appBean = iterator.next();
+                    // Check package name and launcher activity at the same time
+                    if (appBean.getPkgName().equals(bean.pkg) && appBean.getLauncher().equals(bean.launcher)) {
+                        iterator.remove();
+                        // To remove all polyphone items, cannot use break
+//                        break;
                     }
                 }
-                event = parser.next();
             }
         }
     }

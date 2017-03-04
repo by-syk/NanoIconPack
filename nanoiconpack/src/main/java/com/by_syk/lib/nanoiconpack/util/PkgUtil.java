@@ -95,6 +95,27 @@ public class PkgUtil {
         return pkgNameList;
     }
 
+    public static List<String> getInstalledPkgActivities(Context context) {
+        List<String> pkgLauncherList = new ArrayList<>();
+        if (context == null) {
+            return pkgLauncherList;
+        }
+
+        try {
+            Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
+            mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+            List<ResolveInfo> list = context.getPackageManager().queryIntentActivities(mainIntent, 0);
+            for (ResolveInfo resolveInfo : list) {
+                pkgLauncherList.add(resolveInfo.activityInfo.packageName
+                        + "/" + resolveInfo.activityInfo.name);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return pkgLauncherList;
+    }
+
     public static String getLauncherActivity(Context context, String pkgName) {
         if (context == null || pkgName == null) {
             return null;

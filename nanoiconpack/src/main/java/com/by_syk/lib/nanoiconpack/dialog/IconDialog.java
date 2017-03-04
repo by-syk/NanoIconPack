@@ -216,12 +216,7 @@ public class IconDialog extends DialogFragment {
 //                }
 //            }
             AppFilterReader reader = AppFilterReader.getInstance();
-            if (!reader.isInited()) {
-                boolean ok = reader.init(getResources());
-                if (!ok) {
-                    return null;
-                }
-            }
+            reader.init(getResources());
             List<AppFilterReader.Bean> matchedList = reader.findByDrawable(iconBean.getName());
 
             if (!isAdded()) {
