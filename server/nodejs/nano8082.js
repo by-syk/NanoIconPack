@@ -15,7 +15,7 @@
  */
 
 /*
--- APP 代码表
+-- APP代码表（TODO 移除）
 CREATE TABLE code(
   -- APP系列，如QQ与QQ轻聊版可归为同一APP系列
   series VARCHAR(128),
@@ -35,6 +35,8 @@ CREATE TABLE code(
 );
 -- 申请表
 CREATE TABLE req(
+  -- APP系列，如QQ与QQ轻聊版可归为同一APP系列
+  series VARCHAR(128),
   -- 根据APP名自动生成图标名（可能没有）
   icon VARCHAR(128),
   -- 目标APP名
@@ -59,8 +61,9 @@ CREATE TABLE req(
   device_sdk TINYINT(1) DEFAULT 0,
   -- 申请时间
   time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY(pkg, launcher, icon_pack, device_id)
-);
+  PRIMARY KEY(pkg, launcher, icon_pack, device_id),
+  CONSTRAINT fk_series FOREIGN KEY(series) REFERENCES series(name) ON UPDATE CASCADE ON DELETE SET NULL
+) ENGINE = InnoDB;
 -- 申请过滤表
 CREATE TABLE req_filter(
   -- 归属图标包包名
@@ -73,6 +76,17 @@ CREATE TABLE req_filter(
   time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY(icon_pack, user, pkg)
 );
+-- APP系列表
+CREATE TABLE series(
+  -- APP系列，如各系统的电话APP可归为同一系列
+  name VARCHAR(128) PRIMARY KEY,
+  -- 系列名
+  label VARCHAR(128),
+  -- 系列名英文
+  label_en VARCHAR(128),
+  -- 是否为系统APP系列
+  sys TINYINT(1) DEFAULT 0
+) ENGINE = InnoDB;
  */
 
 var http = require('http');
@@ -133,7 +147,7 @@ app.get('/nanoiconpack', function(req, res) {
     + '\n\nCopyright © 2017 By_syk. All rights reserved.');
 });
 
-// 接口：按图标名精确检索
+// 接口：按图标名精确检索（TODO 移除）
 app.get('/nanoiconpack/icon/:icon', function(req, res) {
   var icon = req.params.icon;
   logger.info('GET /nanoiconpack/icon/' + icon);
@@ -182,7 +196,7 @@ app.get('/nanoiconpack/icon/:icon', function(req, res) {
   });
 });
 
-// 接口：按包名精确检索
+// 接口：按包名精确检索（TODO 移除）
 app.get('/nanoiconpack/pkg/:pkg', function(req, res) {
   var pkg = req.params.pkg;
   logger.info('GET /nanoiconpack/pkg/' + pkg);
@@ -231,7 +245,7 @@ app.get('/nanoiconpack/pkg/:pkg', function(req, res) {
   });
 });
 
-// 接口：按目标APP中文名、英文名模糊检索
+// 接口：按目标APP中文名、英文名模糊检索（TODO 移除）
 app.get('/nanoiconpack/label/:label', function(req, res) {
   var label = req.params.label;
   logger.info('GET /nanoiconpack/label/' + label);
@@ -372,6 +386,13 @@ app.get('/nanoiconpack/reqtop/:iconpack([A-Za-z\\d\._]+)/:user', function(req, r
   } else {
     filter = 0;
   }
+  // 区别 label 与 label_en
+  /*var en = req.query.en;
+  if (en == 1 || en == 'true') {
+    en = 1;
+  } else {
+    en = 0;
+  }*/
   logger.info('GET /nanoiconpack/reqtop/' + iconPack + '/' + user + '?limit=' + limitNum + '&filter=' + filter);
   var sqlOptions = [iconPack, user, limitNum];
   query(sqlCmds.reqTopFilter, sqlOptions, function(err, rows) {
@@ -470,7 +491,7 @@ app.get('/nanoiconpack/code/:pkg([A-Za-z\\d\._]+)', function(req, res) {
   });
 });
 
-// 根据包名获取图标链接（来源为酷安）
+// 根据包名获取图标链接（来源为酷安）（TODO 移除）
 app.get('/nanoiconpack/iconurl/:pkg([A-Za-z\\d\._]+)', function(req, res) {
   var pkg = req.params.pkg;
   logger.info('GET /nanoiconpack/iconurl/' + pkg);
