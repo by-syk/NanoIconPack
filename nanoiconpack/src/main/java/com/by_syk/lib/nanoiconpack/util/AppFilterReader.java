@@ -19,7 +19,9 @@ package com.by_syk.lib.nanoiconpack.util;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.by_syk.lib.nanoiconpack.R;
 
@@ -79,12 +81,10 @@ public class AppFilterReader {
                         continue;
                     }
                     Matcher matcher = Pattern.compile("ComponentInfo\\{([^/]+?)/(.+?)\\}").matcher(component);
-                    if (!matcher.matches()) {
-                        event = parser.next();
-                        continue;
+                    if (matcher.matches()) {
+                        bean.pkg = matcher.group(1);
+                        bean.launcher = matcher.group(2);
                     }
-                    bean.pkg = matcher.group(1);
-                    bean.launcher = matcher.group(2);
                     dataList.add(bean);
                 }
                 event = parser.next();
@@ -126,10 +126,10 @@ public class AppFilterReader {
     }
 
     public class Bean {
-        @NonNull
+        @Nullable
         public String pkg;
 
-        @NonNull
+        @Nullable
         public String launcher;
 
         @NonNull
