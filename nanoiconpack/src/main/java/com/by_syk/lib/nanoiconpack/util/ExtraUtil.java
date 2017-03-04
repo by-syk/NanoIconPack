@@ -22,8 +22,6 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.content.res.XmlResourceParser;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaScannerConnection;
@@ -37,7 +35,6 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.bean.IconBean;
 
 import net.sourceforge.pinyin4j.PinyinHelper;
@@ -46,8 +43,6 @@ import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
 import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
 import net.sourceforge.pinyin4j.format.HanyuPinyinVCharType;
 import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
-
-import org.xmlpull.v1.XmlPullParser;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -120,47 +115,6 @@ public class ExtraUtil {
 //        }
 //        return list;
 //    }
-
-    public static List<String> getAppFilterPkg(Resources resources, String iconName) {
-        List<String> list = new ArrayList<>();
-        if (resources == null || TextUtils.isEmpty(iconName)) {
-            return list;
-        }
-
-        if (iconName.matches(".+?_\\d+")) {
-            iconName = iconName.substring(0, iconName.lastIndexOf('_'));
-        }
-
-        XmlResourceParser parser = resources.getXml(R.xml.appfilter);
-        try {
-            int event = parser.getEventType();
-            while (event != XmlPullParser.END_DOCUMENT) {
-                if (event == XmlPullParser.START_TAG) {
-                    if ("item".equals(parser.getName())) {
-                        String drawable = parser.getAttributeValue(null, "drawable");
-                        if (drawable != null && drawable.matches(".+?_\\d+")) {
-                            drawable = drawable.substring(0, drawable.lastIndexOf('_'));
-                        }
-                        if (iconName.equals(drawable)) {
-                            String component = parser.getAttributeValue(null, "component");
-                            if (component != null) {
-                                Matcher matcher = Pattern.compile("ComponentInfo\\{([^/]+?)/.+?\\}")
-                                        .matcher(component);
-                                if (matcher.matches()) {
-                                    list.add(matcher.group(1));
-                                }
-                            }
-                        }
-                    }
-                }
-                event = parser.next();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return list;
-    }
 
     public static boolean isFromLauncherPick(Intent intent) {
         if (intent == null) {

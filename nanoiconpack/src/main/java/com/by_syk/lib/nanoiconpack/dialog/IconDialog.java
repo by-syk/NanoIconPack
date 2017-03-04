@@ -41,6 +41,7 @@ import android.widget.ImageView;
 
 import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.bean.IconBean;
+import com.by_syk.lib.nanoiconpack.util.AppFilterReader;
 import com.by_syk.lib.nanoiconpack.util.C;
 import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
 import com.by_syk.lib.nanoiconpack.util.PkgUtil;
@@ -195,19 +196,48 @@ public class IconDialog extends DialogFragment {
         getActivity().finish();
     }
 
-    class ExtractRawIconTask extends AsyncTask<String, Integer, Drawable> {
+    class ExtractRawIconTask extends AsyncTask<String, Boolean, Drawable> {
         @Override
         protected Drawable doInBackground(String... strings) {
             if (!isAdded()) {
                 return null;
             }
 
-            List<String> matchedPkgList = ExtraUtil.getAppFilterPkg(getResources(), iconBean.getName());
-            for (String pkgName : matchedPkgList) {
-                if (PkgUtil.isPkgInstalled(getContext(), pkgName)) {
+//            List<String> matchedPkgList = ExtraUtil.getAppFilterPkg(getResources(), iconBean.getName());
+//            for (String pkgName : matchedPkgList) {
+//                if (PkgUtil.isPkgInstalled(getContext(), pkgName)) {
+//                    PackageManager packageManager = getContext().getPackageManager();
+//                    try {
+//                        PackageInfo packageInfo = packageManager.getPackageInfo(pkgName, 0);
+//                        return packageInfo.applicationInfo.loadIcon(packageManager);
+//                    } catch (PackageManager.NameNotFoundException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
+            AppFilterReader reader = AppFilterReader.getInstance();
+            if (!reader.isInited()) {
+                boolean ok = reader.init(getResources());
+                if (!ok) {
+                    return null;
+                }
+            }
+            List<AppFilterReader.Bean> matchedList = reader.findByDrawable(iconBean.getName());
+
+            boolean use = false;
+            for (AppFilterReader.Bean bean : matchedList) {
+                if (iconBean.getName().equals(bean.drawable)) {
+                    use = true;
+                    break;
+                }
+            }
+            publishProgress(use);
+
+            for (AppFilterReader.Bean bean : matchedList) {
+                if (PkgUtil.isPkgInstalled(getContext(), bean.pkg)) {
                     PackageManager packageManager = getContext().getPackageManager();
                     try {
-                        PackageInfo packageInfo = packageManager.getPackageInfo(pkgName, 0);
+                        PackageInfo packageInfo = packageManager.getPackageInfo(bean.pkg, 0);
                         return packageInfo.applicationInfo.loadIcon(packageManager);
                     } catch (PackageManager.NameNotFoundException e) {
                         e.printStackTrace();
@@ -215,6 +245,15 @@ public class IconDialog extends DialogFragment {
                 }
             }
             return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(Boolean... values) {
+            super.onProgressUpdate(values);
+
+            if (values[0]) {
+                getDialog().setTitle(iconBean.getLabel() + " ◎");
+            }
         }
 
         @Override

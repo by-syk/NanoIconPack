@@ -25,10 +25,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
-
-import com.by_syk.lib.nanoiconpack.bean.AppBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -180,8 +177,7 @@ public class PkgUtil {
             } else {
                 configuration.locale = Locale.getDefault();
             }
-            resources.updateConfiguration(configuration,
-                    context.getResources().getDisplayMetrics());
+            resources.updateConfiguration(configuration, context.getResources().getDisplayMetrics());
         } catch (Exception e) {
             e.printStackTrace();
         }
