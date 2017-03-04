@@ -118,7 +118,7 @@ public class ReqMenuDialog extends BottomSheetDialogFragment implements View.OnC
 
         NanoServerService nanoServerService = RetrofitHelper.getInstance().getRetrofit()
                 .create(NanoServerService.class);
-        Call<ResResBean> call = nanoServerService.filterPkg(getActivity().getPackageName(),
+        Call<ResResBean> call = nanoServerService.filterPkg(getContext().getPackageName(),
                 user, bean.getPkgName());
         call.enqueue(new Callback<ResResBean>() {
             @Override
@@ -153,7 +153,7 @@ public class ReqMenuDialog extends BottomSheetDialogFragment implements View.OnC
 
         NanoServerService nanoServerService = RetrofitHelper.getInstance().getRetrofit()
                 .create(NanoServerService.class);
-        Call<ResResBean> call = nanoServerService.undoFilterPkg(getActivity().getPackageName(),
+        Call<ResResBean> call = nanoServerService.undoFilterPkg(getContext().getPackageName(),
                 user, bean.getPkgName());
         call.enqueue(new Callback<ResResBean>() {
             @Override
