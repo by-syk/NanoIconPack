@@ -229,7 +229,8 @@ public class AppsFragment extends Fragment {
     }
 
     private void copyOrShareAppCode(AppBean bean, boolean toCopyOrShare) {
-        if (bean == null) {
+        if (bean == null || bean.getPkgName().equals(bean.getLauncher())) {
+            GlobalToast.showToast(getContext(), R.string.toast_code_copy_failed);
             return;
         }
 
@@ -445,7 +446,7 @@ public class AppsFragment extends Fragment {
         @Override
         protected Boolean doInBackground(String... strings) {
             AppBean bean = appAdapter.getItem(pos);
-            if (bean == null) {
+            if (bean == null || bean.getPkgName().equals(bean.getLauncher())) {
                 return false;
             }
             if (bean.isMark()) {
