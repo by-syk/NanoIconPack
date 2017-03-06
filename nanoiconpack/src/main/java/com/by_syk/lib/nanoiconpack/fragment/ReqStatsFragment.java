@@ -42,6 +42,7 @@ import com.by_syk.lib.nanoiconpack.dialog.ReqMenuDialog;
 import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
 import com.by_syk.lib.nanoiconpack.util.PkgUtil;
 import com.by_syk.lib.nanoiconpack.util.RetrofitHelper;
+import com.by_syk.lib.nanoiconpack.util.impl.CoolApkServerService;
 import com.by_syk.lib.nanoiconpack.util.impl.NanoServerService;
 import com.by_syk.lib.nanoiconpack.util.adapter.ReqStatsAdapter;
 import com.by_syk.lib.nanoiconpack.widget.DividerItemDecoration;
@@ -363,7 +364,7 @@ public class ReqStatsFragment extends Fragment {
 //                }
 //                bean.setIconUrl("");
 //            }
-            NanoServerService nanoServerService = null;
+            CoolApkServerService serverService = null;
             for (int i = pos[0]; i <= pos[1]; ++i) {
                 if (isCancelled() || !isAdded()) {
                     return false;
@@ -372,11 +373,11 @@ public class ReqStatsFragment extends Fragment {
                 if (bean == null || bean.getIcon() != null || bean.getIconUrl() != null) {
                     continue;
                 }
-                if (nanoServerService == null) {
-                    nanoServerService = RetrofitHelper.getInstance().init4Coolapk()
-                            .getRetrofit4Coolapk().create(NanoServerService.class);
+                if (serverService == null) {
+                    serverService = RetrofitHelper.getInstance().init4Coolapk()
+                            .getRetrofit4Coolapk().create(CoolApkServerService.class);
                 }
-                Call<CoolApkApkDetailBean> call = nanoServerService.getCoolApkApkDetail(AuthUtils
+                Call<CoolApkApkDetailBean> call = serverService.getCoolApkApkDetail(AuthUtils
                         .getAS(UUID.randomUUID().toString()), bean.getPkgName());
                 try {
                     CoolApkApkDetailBean apkDetailBean = call.execute().body();
