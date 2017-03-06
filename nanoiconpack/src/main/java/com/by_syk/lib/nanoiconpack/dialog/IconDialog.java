@@ -24,7 +24,6 @@ import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
@@ -36,7 +35,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -47,7 +45,6 @@ import com.by_syk.lib.nanoiconpack.bean.IconBean;
 import com.by_syk.lib.nanoiconpack.util.AppFilterReader;
 import com.by_syk.lib.nanoiconpack.util.C;
 import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
-import com.by_syk.lib.nanoiconpack.util.PkgUtil;
 import com.by_syk.lib.toast.GlobalToast;
 
 import java.util.List;
@@ -73,6 +70,8 @@ public class IconDialog extends DialogFragment {
         viewContent = (ViewGroup) getActivity().getLayoutInflater()
                 .inflate(R.layout.dialog_icon, null);
         viewContent.setLayoutTransition(new LayoutTransition());
+//        LayoutTransition layoutTransition = viewContent.getLayoutTransition();
+//        layoutTransition.enableTransitionType(LayoutTransition.CHANGING);
 
         iconViewSmall = viewContent.findViewById(R.id.small_icon_view);
         iconViewSmall.setOnClickListener(new View.OnClickListener() {
@@ -295,8 +294,13 @@ public class IconDialog extends DialogFragment {
             }
 
             ((ImageView) iconViewSmall.findViewById(R.id.iv_icon_small)).setImageDrawable(drawable);
-            viewContent.addView(iconViewSmall);
-            iconGridView.setVisibility(View.VISIBLE);
+            iconViewSmall.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    iconGridView.setVisibility(View.VISIBLE);
+                    viewContent.addView(iconViewSmall);
+                }
+            }, 100);
         }
     }
 
