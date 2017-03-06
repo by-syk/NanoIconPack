@@ -27,7 +27,7 @@
         android:id="@+id/tv_title"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:textSize="18dp"
+        android:textSize="18sp"
         android:singleLine="true"
         android:textColor="?android:attr/textColorSecondary"
         android:gravity="center_vertical"
@@ -52,7 +52,7 @@
 
         <TextView
             android:text="@string/menu_mark"
-            android:textSize="18dp"
+            android:textSize="18sp"
             android:singleLine="true"
             android:textColor="?android:attr/textColorPrimary"
             android:layout_width="0dp"
@@ -91,7 +91,7 @@
 
         <TextView
             android:text="@string/menu_undo_mark"
-            android:textSize="18dp"
+            android:textSize="18sp"
             android:textColor="?android:attr/textColorPrimary"
             android:singleLine="true"
             android:layout_width="0dp"
@@ -128,7 +128,7 @@
 
         <TextView
             android:text="@string/menu_goto_market"
-            android:textSize="18dp"
+            android:textSize="18sp"
             android:textColor="?android:attr/textColorPrimary"
             android:singleLine="true"
             android:layout_width="0dp"
@@ -157,7 +157,7 @@
 
         <TextView
             android:text="@string/menu_copy_code"
-            android:textSize="18dp"
+            android:textSize="18sp"
             android:textColor="?android:attr/textColorPrimary"
             android:singleLine="true"
             android:layout_width="0dp"

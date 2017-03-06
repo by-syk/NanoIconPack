@@ -220,11 +220,7 @@ public class IconsFragment extends Fragment {
             });
 
             if (filterUnmatched) {
-                try {
-                    dataList = filterUnmatched(dataList);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                dataList = filterUnmatched(dataList);
             }
 
             return dataList;
@@ -245,7 +241,7 @@ public class IconsFragment extends Fragment {
             }
         }
 
-        private List<IconBean> filterUnmatched(@NonNull List<IconBean> iconList) throws Exception {
+        private List<IconBean> filterUnmatched(@NonNull List<IconBean> iconList) {
             List<String> installedIconList = new ArrayList<>();
 //            List<String> installedPkgList = PkgUtil.getInstalledPkgs(getContext());
 //            List<String> installedPkgList = PkgUtil.getInstalledPkgsWithLauncherActivity(getContext());

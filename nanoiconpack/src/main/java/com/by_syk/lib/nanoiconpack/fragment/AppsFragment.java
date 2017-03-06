@@ -336,7 +336,7 @@ public class AppsFragment extends Fragment {
             }
         }
 
-        private void removeMatched(@NonNull List<AppBean> appList) throws Exception {
+        private void removeMatched(@NonNull List<AppBean> appList) {
             if (appList.isEmpty()) {
                 return;
             }

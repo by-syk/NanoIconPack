@@ -21,7 +21,6 @@ import android.content.res.XmlResourceParser;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.by_syk.lib.nanoiconpack.R;
 
