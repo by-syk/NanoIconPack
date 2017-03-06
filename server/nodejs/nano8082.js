@@ -103,6 +103,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // 解析 POST JSON
 //app.use(bodyParser.json({ limit: '1mb' }));
 
+// 支持静态文件
+// app.use(express.static('public'));
+
 // console log is loaded by default, so you won't normally need to do this
 //log4js.loadAppender('console');
 log4js.loadAppender('file');
@@ -124,7 +127,8 @@ var sqlCmds = {
   reqTop: 'SELECT label, pkg, COUNT(*) AS sum, 1 AS filter FROM req WHERE icon_pack = ? GROUP BY pkg ORDER BY sum DESC, pkg ASC LIMIT ?',
   reqFilter: 'INSERT IGNORE INTO req_filter(icon_pack, user, pkg) VALUES(?, ?, ?)',
   reqUndoFilter: 'DELETE FROM req_filter WHERE icon_pack = ? AND user = ? AND pkg = ?',
-  code: 'SELECT label, label_en AS labelEn, pkg, launcher, icon FROM req WHERE pkg = ? GROUP BY label, label_en, launcher'
+  queryByPkg2: 'SELECT label, label_en AS labelEn, pkg, launcher, icon FROM req WHERE pkg = ? GROUP BY label, label_en, launcher',
+  queryByLabel2: 'SELECT label, label_en AS labelEn, pkg, launcher, icon FROM req WHERE label LIKE ? OR label_en LIKE ? GROUP BY label, label_en, launcher LIMIT 128'
 };
 
 
@@ -134,7 +138,7 @@ var sqlCmds = {
 // 接口：主页
 app.get('/nanoiconpack', function(req, res) {
   logger.info('GET /nanoiconpack');
-  res.set('Content-Type', 'text/plain; charset=utf-8');
+  /*res.set('Content-Type', 'text/plain; charset=utf-8');
   res.send('APIs:'
     + '\n  // icon name - accurate search'
     + '\n  ' + req.originalUrl + '/icon/:icon'
@@ -144,7 +148,8 @@ app.get('/nanoiconpack', function(req, res) {
     + '\n  ' + req.originalUrl + '/label/:label'
     + '\n\nData is gathered from NanoIconPack, Sorcery, iFlat, IrideUI, Antimo, etc..'
     + '\n\nHope this helps.'
-    + '\n\nCopyright © 2017 By_syk. All rights reserved.');
+    + '\n\nCopyright © 2017 By_syk. All rights reserved.');*/
+  res.sendFile(__dirname + '/public/query.htm');
 });
 
 // 接口：按图标名精确检索（TODO 移除）
@@ -478,10 +483,24 @@ app.delete('/nanoiconpack/reqfilter/:iconpack([A-Za-z\\d\._]+)/:user', function(
   });
 });
 
-// 接口：根据包名查询APP代码
-app.get('/nanoiconpack/code/:pkg([A-Za-z\\d\._]+)', function(req, res) {
-  logger.info('GET /nanoiconpack/code/' + req.params.pkg);
-  query(sqlCmds.code, [req.params.pkg], function(err, rows) {
+// 接口：根据包名、APP中英文名查询APP代码
+app.get('/nanoiconpack/code/:keyword', function(req, res) {
+  var keyword = req.params.keyword;
+  if (keyword.length == 1 && keyword.charCodeAt(0) < 128) {
+    res.jsonp(utils.getResRes(2));
+    return;
+  }
+  logger.info('GET /nanoiconpack/code/' + keyword);
+  var sql;
+  var sqlOptions;
+  if ((new RegExp('^[a-zA-Z\\d_]+\\.[a-zA-Z\\d_\\.]+$')).test(keyword)) {
+    sql = sqlCmds.queryByPkg2;
+    sqlOptions = [keyword];
+  } else {
+    sql = sqlCmds.queryByLabel2;
+    sqlOptions = ['%' + keyword + '%', '%' + keyword + '%'];
+  }
+  query(sql, sqlOptions, function(err, rows) {
     if (err) {
       logger.warn(err);
       res.jsonp(utils.getResRes(3));

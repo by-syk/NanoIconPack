@@ -36,6 +36,20 @@ exports.getCode = function(label, labelEn, pkg, launcher, icon) {
   return code;
 };
 
+// 拼装APP代码
+exports.getCodeLite = function(pkg, launcher, icon) {
+  if (!pkg) {
+    pkg = '';
+  }
+  if (!launcher) {
+    launcher = '';
+  }
+  if (!icon) {
+    icon = '';
+  }
+  return '<item component="ComponentInfo{' + pkg + '/' + launcher + '}" drawable="' + icon + '" />';
+};
+
 // JSON 排序
 exports.sortBy = function(filed, rev, primer) {
   rev = (rev) ? -1 : 1;
