@@ -68,88 +68,10 @@
     <!-- The whole 31 icons are required, or it doesn't work. -->
     <!--<calendar
         component="ComponentInfo{com.google.android.calendar/com.android.calendar.AllInOneActivity}"
-        prefix="calendar_d" />
-    <calendar
-        component="ComponentInfo{com.android.calendar/com.android.calendar.AllInOneActivity}"
-        prefix="calendar_d" />
-    <calendar
-        component="ComponentInfo{am.sunrise.android.calendar/am.sunrise.android.calendar.ui.HomeActivity}"
-        prefix="calendar_d" />
-    <calendar
-        component="ComponentInfo{com.android.calendar/com.meizu.flyme.calendar.AllInOneActivity}"
-        prefix="calendar_d" />
-    <calendar
-        component="ComponentInfo{com.android.calendar/com.android.calendar.homepage.AllInOneActivity}"
-        prefix="calendar_d" />
-    <calendar
-        component="ComponentInfo{com.oneplus.calendar/com.android.calendar.AllInOneActivity}"
         prefix="calendar_d" />-->
 
     <!--<item
         component="ComponentInfo{com.google.android.calendar/com.android.calendar.AllInOneActivity}"
-        drawable="calendar" />
-    <item
-        component="ComponentInfo{com.android.calendar/com.android.calendar.AllInOneActivity}"
-        drawable="calendar" />
-    <item
-        component="ComponentInfo{am.sunrise.android.calendar/am.sunrise.android.calendar.ui.HomeActivity}"
-        drawable="calendar" />
-    <item
-        component="ComponentInfo{com.android.calendar/com.meizu.flyme.calendar.AllInOneActivity}"
-        drawable="calendar" />
-    <item
-        component="ComponentInfo{com.android.calendar/com.android.calendar.homepage.AllInOneActivity}"
-        drawable="calendar" />
-    <item
-        component="ComponentInfo{com.oneplus.calendar/com.android.calendar.AllInOneActivity}"
-        drawable="calendar" />
-    <item
-        component="ComponentInfo{com.google.android.calendar/com.android.calendar.LaunchActivity}"
-        drawable="calendar" />
-    <item
-        component="ComponentInfo{com.google.android.calendar/com.android.calendar.HtcCalendarProvider}"
-        drawable="calendar" />
-    <item
-        component="ComponentInfo{com.android.calendar/com.android.calendar.CalendarTabActivity}"
-        drawable="calendar" />
-    <item
-        component="ComponentInfo{com.android.calendar/com.android.calendar.MonthActivity}"
-        drawable="calendar" />
-    <item
-        component="ComponentInfo{com.android.calendar/com.android.calendar.LaunchActivity}"
-        drawable="calendar" />
-    <item
-        component="ComponentInfo{com.android.calendar/com.android.calendar.AgendaActivity}"
-        drawable="calendar" />
-    <item
-        component="ComponentInfo{com.android.calendar/com.android.calendar.EventInfoActivity}"
-        drawable="calendar" />
-    <item
-        component="ComponentInfo{com.android.calendar/com.android.calendar.EditEventActivity}"
-        drawable="calendar" />
-    <item
-        component="ComponentInfo{com.android.calendar/com.android.calendar.timeline.EventListWithStartTime}"
-        drawable="calendar" />
-    <item
-        component="ComponentInfo{com.android.calendar/com.android.calendar.ChooserActivity}"
-        drawable="calendar" />
-    <item
-        component="ComponentInfo{com.android.calendar/com.android.calendar.LaunchTasksActivity}"
-        drawable="calendar" />
-    <item
-        component="ComponentInfo{com.htc.calendar/com.htc.calendar.CalendarActivityMain}"
-        drawable="calendar" />
-    <item
-        component="ComponentInfo{com.lenovo.android.calendar/com.lenovo.android.calendar.SplashActivity}"
-        drawable="calendar" />
-    <item
-        component="ComponentInfo{com.sonymobile.calendar/com.sonymobile.calendar.LaunchActivity}"
-        drawable="calendar" />
-    <item
-        component="ComponentInfo{cn.nubia.calendar.preset/cn.nubia.calendar.AllInOneActivity}"
-        drawable="calendar" />
-    <item
-        component="ComponentInfo{com.bbk.calendar/com.bbk.calendar.MainActivity}"
         drawable="calendar" />-->
 
 </resources>
