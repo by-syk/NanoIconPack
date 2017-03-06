@@ -18,9 +18,9 @@ package com.by_syk.lib.nanoiconpack.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -41,12 +41,12 @@ import com.by_syk.lib.nanoiconpack.bean.ResResBean;
 import com.by_syk.lib.nanoiconpack.dialog.AppTapHintDialog;
 import com.by_syk.lib.nanoiconpack.util.AppFilterReader;
 import com.by_syk.lib.nanoiconpack.util.C;
-import com.by_syk.lib.nanoiconpack.util.RetrofitHelper;
-import com.by_syk.lib.nanoiconpack.util.impl.NanoServerService;
-import com.by_syk.lib.nanoiconpack.widget.DividerItemDecoration;
 import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
 import com.by_syk.lib.nanoiconpack.util.PkgUtil;
+import com.by_syk.lib.nanoiconpack.util.RetrofitHelper;
 import com.by_syk.lib.nanoiconpack.util.adapter.AppAdapter;
+import com.by_syk.lib.nanoiconpack.util.impl.NanoServerService;
+import com.by_syk.lib.nanoiconpack.widget.DividerItemDecoration;
 import com.by_syk.lib.storage.SP;
 import com.by_syk.lib.toast.GlobalToast;
 import com.google.gson.JsonObject;
@@ -377,12 +377,11 @@ public class AppsFragment extends Fragment {
                 if (bean == null || bean.getIcon() != null) {
                     continue;
                 }
-                try {
-                    PackageInfo packageInfo = packageManager.getPackageInfo(bean.getPkgName(), 0);
-                    bean.setIcon(packageInfo.applicationInfo.loadIcon(packageManager));
+//                Drawable icon = PkgUtil.getIcon(packageManager, bean.getPkgName());
+                Drawable icon = PkgUtil.getIcon(packageManager, bean.getPkgName(), bean.getLauncher());
+                if (icon != null) {
+                    bean.setIcon(icon);
                     publishProgress(i);
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
             }
 

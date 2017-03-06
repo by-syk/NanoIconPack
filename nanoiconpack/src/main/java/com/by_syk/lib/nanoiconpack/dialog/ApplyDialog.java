@@ -26,9 +26,9 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 
+import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.util.PkgUtil;
 import com.by_syk.lib.toast.GlobalToast;
-import com.by_syk.lib.nanoiconpack.R;
 
 /**
  * Created by By_syk on 2017-01-27.

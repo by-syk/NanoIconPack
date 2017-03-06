@@ -16,8 +16,8 @@
 
 package com.by_syk.lib.nanoiconpack.fragment;
 
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,7 +27,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -40,8 +39,8 @@ import com.by_syk.lib.nanoiconpack.bean.AppBean;
 import com.by_syk.lib.nanoiconpack.bean.CoolApkApkDetailBean;
 import com.by_syk.lib.nanoiconpack.bean.ResResBean;
 import com.by_syk.lib.nanoiconpack.dialog.ReqMenuDialog;
-import com.by_syk.lib.nanoiconpack.util.C;
 import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
+import com.by_syk.lib.nanoiconpack.util.PkgUtil;
 import com.by_syk.lib.nanoiconpack.util.RetrofitHelper;
 import com.by_syk.lib.nanoiconpack.util.impl.NanoServerService;
 import com.by_syk.lib.nanoiconpack.util.adapter.ReqStatsAdapter;
@@ -328,12 +327,10 @@ public class ReqStatsFragment extends Fragment {
                 if (bean == null || bean.getIcon() != null || bean.getIconUrl() != null) {
                     continue;
                 }
-                try {
-                    PackageInfo packageInfo = packageManager.getPackageInfo(bean.getPkgName(), 0);
-                    bean.setIcon(packageInfo.applicationInfo.loadIcon(packageManager));
+                Drawable icon = PkgUtil.getIcon(packageManager, bean.getPkgName());
+                if (icon != null) {
+                    bean.setIcon(icon);
                     publishProgress(i);
-                } catch (Exception e) {
-                    Log.d(C.LOG_TAG, bean.getPkgName() + " is not installed.");
                 }
             }
 

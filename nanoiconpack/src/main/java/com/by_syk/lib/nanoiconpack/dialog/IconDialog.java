@@ -21,11 +21,9 @@ import android.animation.LayoutTransition;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
@@ -45,6 +43,7 @@ import com.by_syk.lib.nanoiconpack.bean.IconBean;
 import com.by_syk.lib.nanoiconpack.util.AppFilterReader;
 import com.by_syk.lib.nanoiconpack.util.C;
 import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
+import com.by_syk.lib.nanoiconpack.util.PkgUtil;
 import com.by_syk.lib.toast.GlobalToast;
 
 import java.util.List;
@@ -234,34 +233,15 @@ public class IconDialog extends DialogFragment {
             }
             publishProgress(use);
 
-//            for (AppFilterReader.Bean bean : matchedList) {
-//                if (bean.pkg == null || bean.launcher == null) { // invalid
-//                    continue;
-//                }
-//                if (PkgUtil.isPkgInstalled(getContext(), bean.pkg)) {
-//                    PackageManager packageManager = getContext().getPackageManager();
-//                    try {
-//                        PackageInfo packageInfo = packageManager.getPackageInfo(bean.pkg, 0);
-//                        return packageInfo.applicationInfo.loadIcon(packageManager);
-//                    } catch (PackageManager.NameNotFoundException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }
             PackageManager packageManager = getContext().getPackageManager();
-            Intent intent = new Intent();
             for (AppFilterReader.Bean bean : matchedList) {
                 if (bean.pkg == null || bean.launcher == null) { // invalid
                     continue;
                 }
-                try {
-                    intent.setComponent(new ComponentName(bean.pkg, bean.launcher));
-                    ResolveInfo resolveInfo = packageManager.resolveActivity(intent, 0);
-                    if (resolveInfo != null) {
-                        return resolveInfo.loadIcon(packageManager);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
+//                Drawable icon = PkgUtil.getIcon(packageManager, bean.pkg);
+                Drawable icon = PkgUtil.getIcon(packageManager, bean.pkg, bean.launcher);
+                if (icon != null) {
+                    return icon;
                 }
             }
             return null;
@@ -294,7 +274,7 @@ public class IconDialog extends DialogFragment {
             }
 
             ((ImageView) iconViewSmall.findViewById(R.id.iv_icon_small)).setImageDrawable(drawable);
-            iconViewSmall.postDelayed(new Runnable() {
+            viewContent.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     iconGridView.setVisibility(View.VISIBLE);

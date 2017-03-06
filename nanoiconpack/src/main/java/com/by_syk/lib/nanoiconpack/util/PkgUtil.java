@@ -25,7 +25,9 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -236,5 +238,40 @@ public class PkgUtil {
         }
 
         return "";
+    }
+
+    /**
+     * Get launcher icon
+     */
+    public static Drawable getIcon(PackageManager pkgManager, String pkgName) {
+        if (pkgManager  == null || TextUtils.isEmpty(pkgName)) {
+            return null;
+        }
+
+        try {
+            PackageInfo packageInfo = pkgManager.getPackageInfo(pkgName, 0);
+            return packageInfo.applicationInfo.loadIcon(pkgManager);
+        } catch (Exception e) {
+            Log.d(C.LOG_TAG, pkgName + " is not installed.");
+        }
+
+        return null;
+    }
+
+    /**
+     * Get Activity icon
+     */
+    public static Drawable getIcon(PackageManager pkgManager, String pkgName, String activity) {
+        if (pkgManager  == null || TextUtils.isEmpty(pkgName) || TextUtils.isEmpty(activity)) {
+            return null;
+        }
+
+        Intent intent = new Intent();
+        intent.setClassName(pkgName, activity);
+        ResolveInfo resolveInfo = pkgManager.resolveActivity(intent, 0);
+        if (resolveInfo != null) {
+            return resolveInfo.loadIcon(pkgManager);
+        }
+        return null;
     }
 }
