@@ -8,22 +8,9 @@
 ![NanoIconPack](art/ic_launcher_nanoiconpack.png)
 
 
-NanoIconPack 是一个简单轻量的图标包APP模板，支持
-+ 展示所有图标，按目标APP名（或图标名）拼音排序
-+ 过滤展示已适配图标
-+ 列出未适配APP，可快速申请适配图标、快速获取APP代码
-+ 图标详情对话框，显示目标APP名（或图标名）、高清图标
-+ 图标栅格
-+ 新原图标对比显示
-+ 快速保存图标
-+ 直接应用到启动器、从支持的启动器设置中应用
-+ 隐藏式控制台，查看申请适配统计（由服务器提供支持）
+NanoIconPack 是一个简单轻量的图标包APP模板，支持主流启动器，并提供一些辅助功能。
 
-相关截图（更多截图去[这里](art/SCREENSHOTS.md)查看）：
-
-[![NanoIconPack](art/screenshots_nano.png)](art/SCREENSHOTS.md)
-
-您可以基于此进行二次开发，只需要装配图标、修改少量文件即可用于发布。
+您可以基于此进行二次开发，只需要装配图标、修改少量文件*（不涉及Java代码）*即可打包出自己的图标包。
 
 
 ### 支持启动器
@@ -58,6 +45,35 @@ NanoIconPack 同时还支持许多未列出的启动器，比如
 > 已知不支持并不打算支持：
 > + ~~TSF桌面~~
 > + ~~Atom桌面~~
+
+
+### 辅助功能
+
+除了图标包最基本的功能外，我们还为 NanoIconPack 开发了一些有用的辅助功能。
+
++ 主界面三大页
+  
+  ![NanoIconPack](art/show1.png)
+
++ 图标查看
+  
+  ![NanoIconPack](art/show2.png)
+  
++ 图标申请适配统计
+
+  ![NanoIconPack](art/show4.png)
+  
+  *隐藏式入口：\*双击主界面底栏的“未适配”图标*
+
++ 版权描述
+
+  ![NanoIconPack](art/show5.png)
+  
++ 支持启动器的手动替换图标
+
+  ![NanoIconPack](art/show3.png)
+
+更多截图去[这里](art/SCREENSHOTS.md)查看）
 
 
 ### 二次开发
