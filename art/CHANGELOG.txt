@@ -1,4 +1,4 @@
-v2.0.0
+v2.0.0 2017-03-07
 - minSdkVersion 向上调整到 21(Android 5.0)
 - 放弃 PagerTabStrip，替换为 BottomNavigationView
 - 每个页面标题均附加页面元素数（之前仅“全部”页支持）

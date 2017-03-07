@@ -63,17 +63,17 @@ NanoIconPack 同时还支持许多未列出的启动器，比如
 
   ![NanoIconPack](art/show4.png)
   
-  *隐藏式入口：双击主界面底栏的“未适配”图标*
+  > 该界面默认不可见，进入方法：双击主界面底栏的**未适配**图标
 
 + 版权描述
 
   ![NanoIconPack](art/show5.png)
-  
+    
 + 支持启动器的手动替换图标
 
   ![NanoIconPack](art/show3.png)
 
-具体细节请下载 Sample APP 体验；更多截图去[这里](art/SCREENSHOTS.md)查看。
+具体细节请下载 Sample APP 体验。
 
 
 ### 服务器支持
