@@ -122,13 +122,15 @@ var sqlCmds = {
   queryByLabel: 'SELECT label, label_en, pkg, launcher, icon FROM code WHERE label LIKE ? OR label_en LIKE ? LIMIT 128',
   req: 'INSERT IGNORE INTO req(icon, label, label_en, pkg, launcher, sys_app, icon_pack, device_id, device_brand, device_model, device_sdk) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
   sumByIpP: 'SELECT COUNT(*) AS num FROM req WHERE icon_pack = ? AND pkg = ?',
-  sumByIpPDi: 'SELECT COUNT(*) AS num FROM req WHERE icon_pack = ? AND pkg = ? GROUP BY device_id = ?',
+  sumByIpPDi: 'SELECT device_id, COUNT(*) AS num FROM req WHERE icon_pack = ? AND pkg = ? GROUP BY device_id = ?',
   reqTopFilter: 'SELECT label, pkg, COUNT(*) AS sum, 0 AS filter FROM req AS r WHERE icon_pack = ? AND pkg NOT IN (SELECT pkg FROM req_filter AS rf WHERE rf.icon_pack = r.icon_pack AND user = ?) GROUP BY pkg ORDER BY sum DESC, pkg ASC LIMIT ?',
   reqTop: 'SELECT label, pkg, COUNT(*) AS sum, 1 AS filter FROM req WHERE icon_pack = ? GROUP BY pkg ORDER BY sum DESC, pkg ASC LIMIT ?',
   reqFilter: 'INSERT IGNORE INTO req_filter(icon_pack, user, pkg) VALUES(?, ?, ?)',
   reqUndoFilter: 'DELETE FROM req_filter WHERE icon_pack = ? AND user = ? AND pkg = ?',
   queryByPkg2: 'SELECT label, label_en AS labelEn, pkg, launcher, icon FROM req WHERE pkg = ? GROUP BY label, label_en, launcher',
-  queryByLabel2: 'SELECT label, label_en AS labelEn, pkg, launcher, icon FROM req WHERE label LIKE ? OR label_en LIKE ? GROUP BY label, label_en, launcher LIMIT 128'
+  queryByLabel2: 'SELECT label, label_en AS labelEn, pkg, launcher, icon FROM req WHERE label LIKE ? OR label_en LIKE ? GROUP BY label, label_en, launcher LIMIT 128',
+  sumReqTimes: 'SELECT COUNT(*) AS sum FROM req',
+  sumApps: 'SELECT COUNT(*) AS sum FROM (SELECT pkg FROM req GROUP BY pkg, launcher) AS pkgs'
 };
 
 
@@ -366,7 +368,11 @@ app.get('/nanoiconpack/reqnum/:iconpack([A-Za-z\\d\._]+)/:pkg([A-Za-z\\d\._]+)',
     if (rows.length == 2) { // 该设备此前已申请过
       res.jsonp(utils.getResRes(0, undefined, { num: rows[0].num + rows[1].num, reqed: 1 }));
     } else if (rows.length == 1) {
-      res.jsonp(utils.getResRes(0, undefined, { num: rows[0].num, reqed: 0 }));
+      if (rows[0].device_id == deviceId) { // 该设备此前已申请过
+        res.jsonp(utils.getResRes(0, undefined, { num: rows[0].num, reqed: 1 }));
+      } else {
+        res.jsonp(utils.getResRes(0, undefined, { num: rows[0].num, reqed: 0 }));
+      }
     } else {
       res.jsonp(utils.getResRes(0, undefined, { num: 0, reqed: 0 }));
     }
@@ -507,6 +513,30 @@ app.get('/nanoiconpack/code/:keyword', function(req, res) {
       return;
     }
     res.jsonp(utils.getResRes(0, undefined, rows));
+  });
+});
+
+// 接口：查询请求总数和APP总数
+app.get('/nanoiconpack/sum', function(req, res) {
+  logger.info('GET /nanoiconpack/sum');
+  query(sqlCmds.sumReqTimes, [], function(err, rows) {
+    if (err) {
+      logger.warn(err);
+      res.jsonp(utils.getResRes(3));
+      return;
+    }
+    query(sqlCmds.sumApps, [], function(err1, rows1) {
+      var result = {
+        reqTimes: rows[0].sum,
+        apps: -1
+      };
+      if (err1) {
+        logger.warn(err1);
+      } else {
+        result.apps = rows1[0].sum;
+      }
+      res.jsonp(utils.getResRes(0, undefined, result));
+    });
   });
 });
 
