@@ -1,6 +1,6 @@
 # NanoIconPack 图标包APP模板
 
-[![Developing](https://img.shields.io/badge/Developing-v2.0.0-green.svg)](art/CHANGELOG.txt)
+[![Developing](https://img.shields.io/badge/Developing-v2.0.1-green.svg)](art/CHANGELOG.txt)
 [![Release](https://img.shields.io/badge/Release-v2.0.0-brightgreen.svg)](https://github.com/by-syk/NanoIconPack/releases/tag/2.0.0)
 [![Download](https://img.shields.io/badge/Download-Sample%20APP-brightgreen.svg)](https://github.com/by-syk/NanoIconPack/raw/master/out/com.by_syk.nanoiconpack.sample_v2.0.0.7(17030600).apk)
 [![License](https://img.shields.io/badge/License-Apache%202.0-yellowgreen.svg)](https://github.com/by-syk/NanoIconPack/blob/master/LICENSE)
@@ -98,8 +98,8 @@ NanoIconPack 拥有一个轻量的服务器，提供图标申请和申请统计�
 
 | APP | ICON |
 | :---- | :----: |
-| [@Childish / Anormaly <sub>old version</sub>](http://www.coolapk.com/apk/com.childish.cooldog) | [![Anormaly](art/ic_launcher_anormaly.png)](http://www.coolapk.com/apk/com.childish.cooldog) |
-| [@ArchieLiu / 左下图标包 <sub>old version</sub>](http://www.coolapk.com/apk/com.zuoxia.iconpack) | [![LeftBlow](art/ic_launcher_left_below.png)](http://www.coolapk.com/apk/com.zuoxia.iconpack) |
+| @Childish / Anormaly <sub>old version</sub> | [![Anormaly](art/ic_launcher_anormaly.png)](http://www.coolapk.com/apk/com.childish.cooldog) |
+| @ArchieLiu / 左下图标包 <sub>old version</sub> | [![LeftBlow](art/ic_launcher_left_below.png)](http://www.coolapk.com/apk/com.zuoxia.iconpack) |
 | [@pandecheng / PDC图标包 <sub>new version</sub>](http://www.coolapk.com/apk/com.pandecheng.iconpack) | [![PDC](art/ic_launcher_pdc.png)](http://www.coolapk.com/apk/com.pandecheng.iconpack) |
 | [@sftmi / OMFG图标包](http://www.coolapk.com/apk/com.sftmi.iconpack.omfg) | [![OMFG](art/ic_launcher_omfg.png)](http://www.coolapk.com/apk/com.sftmi.iconpack.omfg) |
 | [@大神sjk / Smalite图标包](http://www.coolapk.com/apk/com.sjk.smaliteiconpack) | [![Smalite](art/ic_launcher_smalite.png)](http://www.coolapk.com/apk/com.sjk.smaliteiconpack) |
@@ -109,7 +109,7 @@ NanoIconPack 拥有一个轻量的服务器，提供图标申请和申请统计�
 | [@CookDev / Cardicons Ⅱ 图标包 <sub>new version</sub>](http://www.coolapk.com/apk/cookdev.iconpack.ii) | [![PDC](art/ic_launcher_cardicons.png)](http://www.coolapk.com/apk/cookdev.iconpack.ii) |
 | [@atony / OriginalWish图标包 <sub>new version</sub>](http://www.coolapk.com/apk/com.atony.iconpack.originalwish) | [![PDC](art/ic_launcher_original_wish.png)](http://www.coolapk.com/apk/com.atony.iconpack.originalwish) |
 
-如果您基于 NanoIconPack 开发出了自己的图标包作品，请不吝[知会我](#联系开发者)，以便展示在这里。
+如果您基于 NanoIconPack 开发了自己的图标包作品并且愿意[告诉我](#联系开发者)，我将把它展示在这里。
 
 
 ### 使用开源项目和参考资料
@@ -126,7 +126,7 @@ NanoIconPack 使用了如下开源项目，致敬开源：
 + [teslacoil / Example_NovaTheme](https://github.com/teslacoil/Example_NovaTheme)
 + [[GUIDE] Apex Launcher Theme Tutorial](https://forum.xda-developers.com/showthread.php?t=1649891)
 + [IconShowcase](https://github.com/jahirfiquitiva/IconShowcase)
-+ [bjzhou / Coolapk](https://github.com/bjzhou/Coolapk)
++ [酷安开源版](https://github.com/bjzhou/Coolapk)
 
 
 ### 更好的图标包模板

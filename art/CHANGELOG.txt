@@ -1,3 +1,6 @@
+v2.0.1
+- 修改“应用”菜单图标
+
 v2.0.0 2017-03-07
 - minSdkVersion 向上调整到 21(Android 5.0)
 - 放弃 PagerTabStrip，替换为 BottomNavigationView
