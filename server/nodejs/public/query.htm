@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--
+  Copyright 2017 By_syk
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+
+<html>
+<head>
+<meta content="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>NanoQuery</title>
+
+<link rel="stylesheet" href="http://oev9dotro.bkt.clouddn.com/css/bootstrap-3.3.5.min.css">
+<script src="http://oev9dotro.bkt.clouddn.com/js/jquery-3.0.0.min.js"></script>
+<script src="http://oev9dotro.bkt.clouddn.com/js/bootstrap-3.3.5.min.js"></script>
+
+<style type="text/css">
+body {
+  padding-top: 70px;
+  padding-bottom: 70px;
+}
+</style>
+
+<script type="text/javascript">
+$(document).ready(function() {
+  $("#btQuery").click(function() {
+    var keyword = $("#inputKeyword").val().trim();
+    if (!keyword) {
+      $("#inputKeyword").focus();
+      return;
+    }
+    $.get("nanoiconpack/code/" + keyword, function(data) {
+      fill(data);
+    });
+  });
+  $("#inputKeyword").bind("keypress", function(event) {
+    if(event.keyCode == "13") {
+        $("#btQuery").click();
+    }
+  });
+  $.get("nanoiconpack/sum", function(data) {
+    if (data && data.status == 0) {
+      $("#sum").text(data.result.apps);
+    }
+  });
+});
+function fill(data) {
+  $("#codeTbody").empty();
+  if (!data) {
+    $("#codeTbody").append("<tr><td colspan=\"5\">error</td></tr>");
+    return;
+  }
+  if (data.status != 0) {
+    $("#codeTbody").append("<tr><td colspan=\"5\">" + data.msg + "</td></tr>");
+    return;
+  }
+  var dataArr = data.result;
+  if (dataArr.length == 0) {
+    $("#codeTbody").append("<tr><td colspan=\"4\">empty</td></tr>");
+    return;
+  }
+  for (var i = 0; i < dataArr.length; ++i) {
+    var item = dataArr[i];
+    if (!item.label) {
+      item.label = "&nbsp;";
+    }
+    if (!item.labelEn) {
+      item.labelEn = "&nbsp;";
+    }
+    if (item.labelEn == item.label) {
+      item.labelEn = "&nbsp;";
+    }
+    var code = "<tr>";
+    code += "<td>" + item.label + "</td>";
+    code += "<td>" + item.labelEn + "</td>";
+    code += "<td><a href=\"http://www.coolapk.com/apk/" + item.pkg + "\" target=\"_blank\">" + item.pkg + "</a></td>";
+    code += "<td>" + item.launcher + "</td>";
+    code += "<td><button type=\"button\" class=\"btn btn-link btn-xs\">Code</button></td>";
+    code += "</tr>";
+    $("#codeTbody").append(code);
+  }
+  $("#codeTbody tr td button").click(function() {
+    var tds = $(this).parent().parent().children();
+    var code = "<!-- " + tds.eq(0).text() + " / " + tds.eq(1).text() + " -->";
+    code += "\n<item component=\"ComponentInfo{" + tds.eq(2).text() + "/" + tds.eq(3).text()
+      + "}\" drawable=\"\" />";
+    $("#taCode").text(code);
+    $("#codeDlg").modal("show");
+  });
+}
+</script>
+</head>
+
+<body>
+
+<nav class="navbar navbar-default navbar-fixed-top">
+<div class="container-fluid">
+<div class="navbar-header">
+<a class="navbar-brand" href="https://github.com/by-syk/NanoIconPack" target="_blank">NanoIconPack</a>
+<p class="navbar-text navbar-right">Query <span id="sum"></span></p>
+</div>
+</div>
+</nav>
+
+<div class="container-fluid">
+<div class="row">
+<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 col-lg-offset-2 col-md-offset-2">
+  <div class="input-group">
+  <input type="text" id="inputKeyword" class="form-control">
+  <span class="input-group-btn">
+  <button type="button" id="btQuery" class="btn btn-default">&nbsp;Go&nbsp;</button>
+  </span>
+  </div>
+  <br />
+  <div class="table-responsive">
+  <table class="table table-striped table-hover">
+  <thead><tr>
+  <th>Label</th>
+  <th>LabelEn</th>
+  <th>Package</th>
+  <th>Launcher</th>
+  <th>&nbsp;</th>
+  </tr></thead>
+  <tbody id="codeTbody">
+  <tr><td colspan="5">...</td></tr>
+  </tbody>
+  </table>
+  </div>
+</div>
+</div>
+</div>
+
+<div id="codeDlg" class="modal fade">
+<div class="modal-dialog">
+<div class="modal-content">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">Code</h4>
+  </div>
+  <div class="modal-body">
+    <textarea id="taCode" class="form-control" rows="8" style="resize: none"></textarea>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" data-dismiss="modal">Dismiss</button>
+  </div>
+</div>
+</div>
+</div>
+
+<nav class="navbar navbar-default navbar-fixed-bottom">
+<table border="0" align="center" height="50px">
+<tr height="50px">
+<td height="50px" valign="middle" align="center">
+<small>
+Copyright &copy; 2016 <a href="mailto:By_syk@163.com">By_syk</a>. All rights reserved.
+</small>
+</td>
+</tr>
+</table>
+</nav>
+
+</body>
+</html>
