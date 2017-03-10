@@ -95,10 +95,16 @@ function fill(data) {
   }
   $("#codeTbody tr td button").click(function() {
     var tds = $(this).parent().parent().children();
-    var code = "<!-- " + tds.eq(0).text() + " / " + tds.eq(1).text() + " -->";
+    var code = "<!-- " + tds.eq(0).text() + " / ";
+    if (tds.eq(1).text().trim().length == 0) {
+      code += tds.eq(0).text() + " -->";
+    } else {
+      code += tds.eq(1).text() + " -->";
+    }
     code += "\n<item component=\"ComponentInfo{" + tds.eq(2).text() + "/" + tds.eq(3).text()
       + "}\" drawable=\"\" />";
-    $("#taCode").text(code);
+    //$("#taCode").text(code);
+    $("#taCode").val(code);
     $("#codeDlg").modal("show");
   });
 }
