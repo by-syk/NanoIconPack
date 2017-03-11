@@ -34,7 +34,9 @@
     <!--<item drawable="settings" />-->
     <!--<item drawable="sms" />-->
 
-    <category title="Game" /><!-- Copy game icons here from all category -->
+    <category title="Game" /><!-- Copy game icons here from All category -->
+
+    <category title="Alternative" /><!-- Copy alternative icons here from All category -->
 
     <category title="All(0)" /><!-- All icons here -->
     <!--<item drawable="calendar" />-->
