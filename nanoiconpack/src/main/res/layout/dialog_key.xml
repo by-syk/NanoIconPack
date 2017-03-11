@@ -24,8 +24,14 @@
     android:paddingTop="@dimen/dlg_vertical_padding"
     android:paddingBottom="@dimen/dlg_vertical_padding">
 
+    <TextView
+        android:text="@string/key_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <EditText
         android:id="@+id/et_user"
+        android:layout_marginTop="@dimen/unit_padding"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="text"
