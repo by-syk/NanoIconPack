@@ -108,6 +108,7 @@ NanoIconPack 拥有一个轻量的服务器，提供图标申请和申请统计�
 | [@Markuss / Aeroblast图标包](http://www.coolapk.com/apk/com.markusslugia.iconpack.aeroblast) | [![Aeroblast](art/ic_launcher_aeroblast.png)](http://www.coolapk.com/apk/com.markusslugia.iconpack.aeroblast) |
 | [@CookDev / Cardicons Ⅱ 图标包 <sub>new version</sub>](http://www.coolapk.com/apk/cookdev.iconpack.ii) | [![PDC](art/ic_launcher_cardicons.png)](http://www.coolapk.com/apk/cookdev.iconpack.ii) |
 | [@atony / OriginalWish图标包 <sub>new version</sub>](http://www.coolapk.com/apk/com.atony.iconpack.originalwish) | [![PDC](art/ic_launcher_original_wish.png)](http://www.coolapk.com/apk/com.atony.iconpack.originalwish) |
+| [@梁月丶 / 祈愿图标包](http://www.coolapk.com/apk/com.liangyue.iconpack.hhope) | [![Hhope](art/ic_launcher_hhope.png)](http://www.coolapk.com/apk/com.liangyue.iconpack.hhope) |
 
 如果您基于 NanoIconPack 开发了自己的图标包作品并且愿意[告诉我](#联系开发者)，我将把它展示在这里。
 
