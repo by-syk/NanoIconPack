@@ -2,6 +2,6 @@
 title NanoIconPackTool-ResInjection
 set "projectDir=E:\Android\CoreProjects\NanoIconPack\"
 :main
-java -jar ResInjection-1.0.5.4.1.3.0.jar %projectDir%
+java -jar ResInjection-1.1.0.4.2.0.0.jar %projectDir%
 pause
 goto main

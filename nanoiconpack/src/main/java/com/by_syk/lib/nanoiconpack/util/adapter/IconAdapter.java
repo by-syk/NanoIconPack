@@ -24,6 +24,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.bean.IconBean;
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
@@ -39,6 +41,8 @@ public class IconAdapter extends RecyclerView.Adapter<IconAdapter.IconViewHolder
         implements FastScrollRecyclerView.SectionedAdapter {
     private LayoutInflater layoutInflater;
 
+//    private RequestManager requestManager;
+
     private int gridSIze = -1;
 
     private List<IconBean> dataList = new ArrayList<>();
@@ -52,6 +56,8 @@ public class IconAdapter extends RecyclerView.Adapter<IconAdapter.IconViewHolder
 
     public IconAdapter(Context context) {
         layoutInflater = LayoutInflater.from(context);
+
+//        requestManager = Glide.with(context);
     }
 
     public IconAdapter(Context context, int gridSIze) {
@@ -76,6 +82,7 @@ public class IconAdapter extends RecyclerView.Adapter<IconAdapter.IconViewHolder
     @Override
     public void onBindViewHolder(final IconViewHolder holder, int position) {
         holder.ivIcon.setImageResource(dataList.get(position).getId());
+//        requestManager.load(dataList.get(position).getId()).into(holder.ivIcon);
 
         if (onItemClickListener != null) {
             holder.ivIcon.setOnClickListener(new View.OnClickListener() {

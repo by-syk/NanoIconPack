@@ -32,7 +32,7 @@ class ResInjection {
     private static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-        System.out.println("=== ResInjection(v1.0.6) for NanoIconPack(v1.3.0) ===");
+        System.out.println("=== ResInjection(v1.1.0) for NanoIconPack(v2.0.0) ===");
         String projectDir = ResInjection.getProjectDir(args);
         String resPath = ResInjection.getResPath(projectDir);
         while (true) {
@@ -121,17 +121,17 @@ class ResInjection {
             System.out.println("ComponentInfo([pkgName]/[launcherActivity], \".\" to finish):");
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
-                if (line.equals(".")) {
+                if (line.equals(".") || line.equals("。")) {
                     break;
                 }
                 componentInfoList.add(line);
             }
         } else if (which == 1) {
             System.out.println("Codes(\".\" to finish):");
-            String input = "";
+            String input = ""; // No '\n'
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
-                if (line.equals(".")) {
+                if (line.equals(".") || line.equals("。")) {
                     break;
                 }
                 if (line.endsWith(".")) {
@@ -140,10 +140,10 @@ class ResInjection {
                 }
                 input += line;
             }
-            Matcher matcher = Pattern.compile("<\\!-- (.+?) / (.*?) -->" +
-                    "<item component=\"ComponentInfo\\{(.+?)\\}\"" +
-                    " drawable=\"(.+?)\" />").matcher(input);
-            if (matcher.matches()) {
+            Matcher matcher = Pattern.compile("<\\!-- (.+?) / (.*?) -->"
+                    + "<item component=\"ComponentInfo\\{(.+?)\\}\""
+                    + " drawable=\"(.+?)\" />").matcher(input);
+            if (matcher.find()) {
                 iconName = matcher.group(4);
                 appName = matcher.group(1);
                 appNameEn = matcher.group(2);
@@ -151,6 +151,13 @@ class ResInjection {
                     appNameEn = appName;
                 }
                 componentInfoList.add(matcher.group(3));
+                // 连续添加
+                matcher = Pattern.compile("ComponentInfo\\{(.+?)\\}").matcher(input);
+                while (matcher.find()) {
+                    if (!componentInfoList.contains(matcher.group(1))) {
+                        componentInfoList.add(matcher.group(1));
+                    }
+                }
             }
         }
         if (iconName.isEmpty() || appName.isEmpty() || appNameEn.isEmpty()) {
