@@ -24,7 +24,8 @@
     android:paddingTop="@dimen/dlg_vertical_padding"
     android:paddingBottom="@dimen/dlg_vertical_padding"
     android:gravity="center"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:animateLayoutChanges="true">
 
     <FrameLayout
         android:layout_width="@dimen/dlg_icon_size"
@@ -49,7 +50,8 @@
     <FrameLayout
         android:id="@+id/small_icon_view"
         android:layout_width="@dimen/dlg_small_icon_size"
-        android:layout_height="@dimen/dlg_small_icon_size">
+        android:layout_height="@dimen/dlg_small_icon_size"
+        android:visibility="gone">
 
         <com.by_syk.lib.view.IconGridView
             style="@style/IconGridSmall"

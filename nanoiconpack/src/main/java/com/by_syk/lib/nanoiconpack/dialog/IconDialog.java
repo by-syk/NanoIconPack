@@ -17,7 +17,6 @@
 package com.by_syk.lib.nanoiconpack.dialog;
 
 import android.Manifest;
-import android.animation.LayoutTransition;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Dialog;
@@ -34,7 +33,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
 
@@ -53,7 +51,6 @@ import java.util.List;
  */
 
 public class IconDialog extends DialogFragment {
-    private ViewGroup viewContent;
     private View iconGridView;
     private View iconViewSmall;
 
@@ -66,21 +63,16 @@ public class IconDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        viewContent = (ViewGroup) getActivity().getLayoutInflater()
-                .inflate(R.layout.dialog_icon, null);
-        viewContent.setLayoutTransition(new LayoutTransition());
-//        LayoutTransition layoutTransition = viewContent.getLayoutTransition();
-//        layoutTransition.enableTransitionType(LayoutTransition.CHANGING);
+        View viewContent = getActivity().getLayoutInflater().inflate(R.layout.dialog_icon, null);
 
         iconViewSmall = viewContent.findViewById(R.id.small_icon_view);
         iconViewSmall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                viewContent.removeView(iconViewSmall);
+                iconViewSmall.setVisibility(View.GONE);
                 iconGridView.setVisibility(View.INVISIBLE);
             }
         });
-        viewContent.removeView(iconViewSmall);
 
         iconGridView = viewContent.findViewById(R.id.icon_grid);
 
@@ -99,10 +91,10 @@ public class IconDialog extends DialogFragment {
                 if (iconViewSmall == null) {
                     (new ExtractRawIconTask()).execute();
                 } else {
-                    if (viewContent.getChildCount() == 2) {
-                        viewContent.removeView(iconViewSmall);
+                    if (iconViewSmall.getVisibility() == View.VISIBLE) {
+                        iconViewSmall.setVisibility(View.GONE);
                     } else {
-                        viewContent.addView(iconViewSmall);
+                        iconViewSmall.setVisibility(View.VISIBLE);
                     }
                 }
             }
@@ -269,16 +261,12 @@ public class IconDialog extends DialogFragment {
                 return;
             }
 
-            if (viewContent.getChildCount() > 1) {
-                return;
-            }
-
             ((ImageView) iconViewSmall.findViewById(R.id.iv_icon_small)).setImageDrawable(drawable);
-            viewContent.postDelayed(new Runnable() {
+            iconViewSmall.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     iconGridView.setVisibility(View.VISIBLE);
-                    viewContent.addView(iconViewSmall);
+                    iconViewSmall.setVisibility(View.VISIBLE);
                 }
             }, 100);
         }
