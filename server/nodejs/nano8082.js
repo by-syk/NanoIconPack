@@ -127,8 +127,8 @@ var sqlCmds = {
   reqTop: 'SELECT label, pkg, COUNT(*) AS sum, 1 AS filter FROM req WHERE icon_pack = ? GROUP BY pkg ORDER BY sum DESC, pkg ASC LIMIT ?',
   reqFilter: 'INSERT IGNORE INTO req_filter(icon_pack, user, pkg) VALUES(?, ?, ?)',
   reqUndoFilter: 'DELETE FROM req_filter WHERE icon_pack = ? AND user = ? AND pkg = ?',
-  queryByPkg2: 'SELECT label, label_en AS labelEn, pkg, launcher, icon FROM req WHERE pkg = ? GROUP BY label, label_en, launcher',
-  queryByLabel2: 'SELECT label, label_en AS labelEn, pkg, launcher, icon FROM req WHERE label LIKE ? OR label_en LIKE ? GROUP BY label, label_en, launcher LIMIT 128',
+  queryByPkg2: 'SELECT label, label_en AS labelEn, pkg, launcher, COUNT(*) AS sum FROM req WHERE pkg = ? GROUP BY label, label_en, launcher',
+  queryByLabel2: 'SELECT label, label_en AS labelEn, pkg, launcher, COUNT(*) AS sum FROM req WHERE label LIKE ? OR label_en LIKE ? GROUP BY label, label_en, launcher LIMIT 128',
   sumReqTimes: 'SELECT COUNT(*) AS sum FROM req',
   sumApps: 'SELECT COUNT(*) AS sum FROM (SELECT pkg FROM req GROUP BY pkg, launcher) AS pkgs'
 };

@@ -36,8 +36,14 @@ body {
 </style>
 
 <script type="text/javascript">
+var lastQueryTime = 0;
 $(document).ready(function() {
   $("#btQuery").click(function() {
+    if (Date.now() - lastQueryTime < 2000) { // 避免频繁点击
+      return true;
+    }
+    lastQueryTime = Date.now();
+
     var keyword = $("#inputKeyword").val().trim();
     if (!keyword) {
       $("#inputKeyword").focus();
@@ -61,16 +67,16 @@ $(document).ready(function() {
 function fill(data) {
   $("#codeTbody").empty();
   if (!data) {
-    $("#codeTbody").append("<tr><td colspan=\"5\">error</td></tr>");
+    $("#codeTbody").append("<tr><td colspan=\"6\">error</td></tr>");
     return;
   }
   if (data.status != 0) {
-    $("#codeTbody").append("<tr><td colspan=\"5\">" + data.msg + "</td></tr>");
+    $("#codeTbody").append("<tr><td colspan=\"6\">" + data.msg + "</td></tr>");
     return;
   }
   var dataArr = data.result;
   if (dataArr.length == 0) {
-    $("#codeTbody").append("<tr><td colspan=\"4\">empty</td></tr>");
+    $("#codeTbody").append("<tr><td colspan=\"6\">empty</td></tr>");
     return;
   }
   for (var i = 0; i < dataArr.length; ++i) {
@@ -87,26 +93,40 @@ function fill(data) {
     var code = "<tr>";
     code += "<td>" + item.label + "</td>";
     code += "<td>" + item.labelEn + "</td>";
-    code += "<td><a href=\"http://www.coolapk.com/apk/" + item.pkg + "\" target=\"_blank\">" + item.pkg + "</a></td>";
+    //code += "<td><a href=\"http://www.coolapk.com/apk/" + item.pkg + "\" target=\"_blank\">" + item.pkg + "</a></td>";
+    code += "<td><a href=\"javascript:void(0);\" data-url=\"http://www.coolapk.com/apk/" + item.pkg + "\">" + item.pkg + "</a></td>";
     code += "<td>" + item.launcher + "</td>";
+    code += "<td><span class=\"badge\">" + item.sum + "</span></td>";
     code += "<td><button type=\"button\" class=\"btn btn-link btn-xs\">Code</button></td>";
     code += "</tr>";
     $("#codeTbody").append(code);
   }
+  $("#codeTbody tr td a").click(function() {
+    window.open($(this).attr("data-url"));
+    return false; // 阻止继续向下分发点击事件
+  });
   $("#codeTbody tr td button").click(function() {
     var tds = $(this).parent().parent().children();
-    var code = "<!-- " + tds.eq(0).text() + " / ";
-    if (tds.eq(1).text().trim().length == 0) {
-      code += tds.eq(0).text() + " -->";
-    } else {
-      code += tds.eq(1).text() + " -->";
-    }
-    code += "\n<item component=\"ComponentInfo{" + tds.eq(2).text() + "/" + tds.eq(3).text()
-      + "}\" drawable=\"\" />";
-    //$("#taCode").text(code);
-    $("#taCode").val(code);
-    $("#codeDlg").modal("show");
+    showCode(tds);
+    return false; // 阻止继续向下分发点击事件
   });
+  $("#codeTbody tr").click(function() {
+    var tds = $(this).children();
+    showCode(tds);
+  });
+}
+function showCode(tds) {
+  var code = "<!-- " + tds.eq(0).text() + " / ";
+  if (tds.eq(1).text().trim().length == 0) {
+    code += tds.eq(0).text() + " -->";
+  } else {
+    code += tds.eq(1).text() + " -->";
+  }
+  code += "\n<item component=\"ComponentInfo{" + tds.eq(2).text() + "/" + tds.eq(3).text()
+    + "}\" drawable=\"\" />";
+  //$("#taCode").text(code);
+  $("#taCode").val(code);
+  $("#codeDlg").modal("show");
 }
 </script>
 </head>
@@ -124,7 +144,7 @@ function fill(data) {
 
 <div class="container-fluid">
 <div class="row">
-<div class="col-lg-8 col-md-8 col-sm-12 col-xs-12 col-lg-offset-2 col-md-offset-2">
+<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 col-lg-offset-1 col-md-offset-1">
   <div class="input-group">
   <input type="text" id="inputKeyword" class="form-control">
   <span class="input-group-btn">
@@ -139,10 +159,11 @@ function fill(data) {
   <th>LabelEn</th>
   <th>Package</th>
   <th>Launcher</th>
+  <th>Times</th>
   <th>&nbsp;</th>
   </tr></thead>
   <tbody id="codeTbody">
-  <tr><td colspan="5">...</td></tr>
+  <tr><td colspan="6">...</td></tr>
   </tbody>
   </table>
   </div>
