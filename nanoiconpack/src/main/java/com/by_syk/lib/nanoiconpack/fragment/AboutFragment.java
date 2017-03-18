@@ -55,90 +55,90 @@ public class AboutFragment extends PreferenceFragmentCompat implements Preferenc
     }
 
     private void init() {
-        PreferenceCategory preCatIcons = (PreferenceCategory) findPreference(PREFERENCE_ICONS);
-        Preference preIconsNote = findPreference(PREFERENCE_ICONS_NOTE);
-        Preference preIconsAuthor = findPreference(PREFERENCE_ICONS_AUTHOR);
-        Preference preIconsContact = findPreference(PREFERENCE_ICONS_CONTACT);
-        Preference preIconsDonate = findPreference(PREFERENCE_ICONS_DONATE);
-        Preference preIconsTodo1 = findPreference(PREFERENCE_ICONS_TODO_1);
-        Preference preIconsCopyright = findPreference(PREFERENCE_ICONS_COPYRIGHT);
-        PreferenceCategory preCatApp = (PreferenceCategory) findPreference(PREFERENCE_APP);
-        Preference preAppApp = findPreference(PREFERENCE_APP_APP);
-        Preference preAppTodo1 = findPreference(PREFERENCE_APP_TODO_1);
-        Preference preAppDashboard = findPreference(PREFERENCE_APP_DASHBOARD);
+        PreferenceCategory prefCatIcons = (PreferenceCategory) findPreference(PREFERENCE_ICONS);
+        Preference prefIconsNote = findPreference(PREFERENCE_ICONS_NOTE);
+        Preference prefIconsAuthor = findPreference(PREFERENCE_ICONS_AUTHOR);
+        Preference prefIconsContact = findPreference(PREFERENCE_ICONS_CONTACT);
+        Preference prefIconsDonate = findPreference(PREFERENCE_ICONS_DONATE);
+        Preference prefIconsTodo1 = findPreference(PREFERENCE_ICONS_TODO_1);
+        Preference prefIconsCopyright = findPreference(PREFERENCE_ICONS_COPYRIGHT);
+        PreferenceCategory prefCatApp = (PreferenceCategory) findPreference(PREFERENCE_APP);
+        Preference prefAppApp = findPreference(PREFERENCE_APP_APP);
+        Preference prefAppTodo1 = findPreference(PREFERENCE_APP_TODO_1);
+        Preference prefAppDashboard = findPreference(PREFERENCE_APP_DASHBOARD);
 
-//        preIconsNote.setOnPreferenceClickListener(this);
-        preIconsAuthor.setOnPreferenceClickListener(this);
-        preIconsContact.setOnPreferenceClickListener(this);
-        preIconsDonate.setOnPreferenceClickListener(this);
-        preIconsTodo1.setOnPreferenceClickListener(this);
-        preIconsCopyright.setOnPreferenceClickListener(this);
-        preAppApp.setOnPreferenceClickListener(this);
-        preAppTodo1.setOnPreferenceClickListener(this);
-        preAppDashboard.setOnPreferenceClickListener(this);
+//        prefIconsNote.setOnPreferenceClickListener(this);
+        prefIconsAuthor.setOnPreferenceClickListener(this);
+        prefIconsContact.setOnPreferenceClickListener(this);
+        prefIconsDonate.setOnPreferenceClickListener(this);
+        prefIconsTodo1.setOnPreferenceClickListener(this);
+        prefIconsCopyright.setOnPreferenceClickListener(this);
+        prefAppApp.setOnPreferenceClickListener(this);
+        prefAppTodo1.setOnPreferenceClickListener(this);
+        prefAppDashboard.setOnPreferenceClickListener(this);
 
-        preCatIcons.setTitle(getString(R.string.preference_category_icons,
+        prefCatIcons.setTitle(getString(R.string.preference_category_icons,
                 getResources().getStringArray(R.array.icons).length));
 
         String summary = AboutMsgRender.parseCode(getString(R.string.preference_icons_summary_author));
         if (!TextUtils.isEmpty(summary)) {
-            preIconsAuthor.setSummary(summary);
+            prefIconsAuthor.setSummary(summary);
         }
         summary = AboutMsgRender.parseCode(getString(R.string.preference_icons_summary_contact));
         if (!TextUtils.isEmpty(summary)) {
-            preIconsContact.setSummary(summary);
+            prefIconsContact.setSummary(summary);
         }
         summary = AboutMsgRender.parseCode(getString(R.string.preference_icons_summary_donate));
         if (!TextUtils.isEmpty(summary)) {
-            preIconsDonate.setSummary(summary);
+            prefIconsDonate.setSummary(summary);
         }
         summary = AboutMsgRender.parseCode(getString(R.string.preference_icons_summary_todo_1));
         if (!TextUtils.isEmpty(summary)) {
-            preIconsTodo1.setSummary(summary);
+            prefIconsTodo1.setSummary(summary);
         }
         summary = AboutMsgRender.parseCode(getString(R.string.preference_icons_summary_copyright));
         if (!TextUtils.isEmpty(summary)) {
-            preIconsCopyright.setSummary(summary);
+            prefIconsCopyright.setSummary(summary);
         }
         summary = PkgUtil.getAppVer(getContext(), getString(R.string.preference_app_summary_app));
         if (!TextUtils.isEmpty(summary)) {
-            preAppApp.setSummary(summary);
+            prefAppApp.setSummary(summary);
         }
         summary = AboutMsgRender.parseCode(getString(R.string.preference_app_summary_todo_1));
         if (!TextUtils.isEmpty(summary)) {
-            preAppTodo1.setSummary(summary);
+            prefAppTodo1.setSummary(summary);
         }
         summary = AboutMsgRender.parseCode(getString(R.string.preference_app_summary_dashboard));
         if (!TextUtils.isEmpty(summary)) {
-            preAppDashboard.setSummary(summary);
+            prefAppDashboard.setSummary(summary);
         }
 
-        if (preIconsNote.getSummary() == null || preIconsNote.getSummary().length() == 0) {
-            preCatIcons.removePreference(preIconsNote);
+        if (prefIconsNote.getSummary() == null || prefIconsNote.getSummary().length() == 0) {
+            prefCatIcons.removePreference(prefIconsNote);
         }
-        if (preIconsAuthor.getSummary() == null || preIconsAuthor.getSummary().length() == 0) {
-            preCatIcons.removePreference(preIconsAuthor);
+        if (prefIconsAuthor.getSummary() == null || prefIconsAuthor.getSummary().length() == 0) {
+            prefCatIcons.removePreference(prefIconsAuthor);
         }
-        if (preIconsContact.getSummary() == null || preIconsContact.getSummary().length() == 0) {
-            preCatIcons.removePreference(preIconsContact);
+        if (prefIconsContact.getSummary() == null || prefIconsContact.getSummary().length() == 0) {
+            prefCatIcons.removePreference(prefIconsContact);
         }
-        if (preIconsDonate.getSummary() == null || preIconsDonate.getSummary().length() == 0) {
-            preCatIcons.removePreference(preIconsDonate);
+        if (prefIconsDonate.getSummary() == null || prefIconsDonate.getSummary().length() == 0) {
+            prefCatIcons.removePreference(prefIconsDonate);
         }
-        if (preIconsTodo1.getSummary() == null || preIconsTodo1.getSummary().length() == 0) {
-            preCatIcons.removePreference(preIconsTodo1);
+        if (prefIconsTodo1.getSummary() == null || prefIconsTodo1.getSummary().length() == 0) {
+            prefCatIcons.removePreference(prefIconsTodo1);
         }
-        if (preIconsCopyright.getSummary() == null || preIconsCopyright.getSummary().length() == 0) {
-            preCatIcons.removePreference(preIconsCopyright);
+        if (prefIconsCopyright.getSummary() == null || prefIconsCopyright.getSummary().length() == 0) {
+            prefCatIcons.removePreference(prefIconsCopyright);
         }
-        if (preAppApp.getSummary() == null || preAppApp.getSummary().length() == 0) {
-            preCatApp.removePreference(preAppApp);
+        if (prefAppApp.getSummary() == null || prefAppApp.getSummary().length() == 0) {
+            prefCatApp.removePreference(prefAppApp);
         }
-        if (preAppTodo1.getSummary() == null || preAppTodo1.getSummary().length() == 0) {
-            preCatApp.removePreference(preAppTodo1);
+        if (prefAppTodo1.getSummary() == null || prefAppTodo1.getSummary().length() == 0) {
+            prefCatApp.removePreference(prefAppTodo1);
         }
-        if (preAppDashboard.getSummary() == null || preAppDashboard.getSummary().length() == 0) {
-            preCatApp.removePreference(preAppDashboard);
+        if (prefAppDashboard.getSummary() == null || prefAppDashboard.getSummary().length() == 0) {
+            prefCatApp.removePreference(prefAppDashboard);
         }
     }
 
