@@ -87,28 +87,7 @@ CREATE TABLE series(
   -- 是否为系统APP系列
   sys TINYINT(1) DEFAULT 0
 ) ENGINE = InnoDB;
--- 常用APP表
-CREATE TABLE base(
-  -- APP系列，如QQ与QQ轻聊版可归为同一APP系列
-  series VARCHAR(128),
-  -- 根据APP名自动生成图标名（可能没有）
-  icon VARCHAR(128),
-  -- 目标APP名
-  label VARCHAR(128),
-  -- 目标APP名英文（可能没有）
-  label_en VARCHAR(128),
-  -- 包名
-  pkg VARCHAR(128),
-  -- 启动项
-  launcher VARCHAR(192),
-  -- 设备品牌
-  os_tag VARCHAR(32),
-  -- 申请时间
-  time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY(pkg, launcher, icon_pack, device_id),
-  CONSTRAINT fk_series FOREIGN KEY(series) REFERENCES series(name) ON UPDATE CASCADE ON DELETE SET NULL
-) ENGINE = InnoDB;
- */
+*/
 
 var http = require('http');
 var express = require('express'); // npm install express
