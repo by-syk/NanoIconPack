@@ -24,6 +24,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>NanoQuery</title>
 
+<!-- ICON -->
+<link href="/nanoiconpack/imgs/favicon.ico" rel="icon" type="image/x-icon" />
+<link href="/nanoiconpack/imgs/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+
 <link rel="stylesheet" href="http://oev9dotro.bkt.clouddn.com/css/bootstrap-3.3.5.min.css">
 <script src="http://oev9dotro.bkt.clouddn.com/js/jquery-3.0.0.min.js"></script>
 <script src="http://oev9dotro.bkt.clouddn.com/js/bootstrap-3.3.5.min.js"></script>
@@ -158,13 +162,13 @@ function showCode(tds) {
   <div class="alert alert-info" role="alert">NanoQuery is supported by data of <span class="badge" id="apps"></span> apps and <span class="badge" id="reqTimes"></span> requests.</div>
   <div class="alert alert-warning alert-dismissible" role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    Looking for base apps of various devices? <a class="alert-link" href="/nanoiconpack/page/base">Click here.</a>
+    <strong>Tips</strong> Looking for base apps of various devices? <a class="alert-link" href="/nanoiconpack/page/base">Click here.</a>
   </div>
   <div class="input-group">
-  <input type="text" id="inputKeyword" class="form-control">
   <span class="input-group-btn">
-  <button type="button" id="btQuery" class="btn btn-default">&nbsp;Go&nbsp;</button>
+    <button type="button" id="btQuery" class="btn btn-default">&nbsp;<span class="glyphicon glyphicon-search" aria-hidden="true"></span>&nbsp;</button>
   </span>
+  <input type="text" id="inputKeyword" class="form-control" placeholder="Search by app or package...">
   </div>
   <br />
   <div class="table-responsive">

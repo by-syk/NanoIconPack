@@ -104,7 +104,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 //app.use(bodyParser.json({ limit: '1mb' }));
 
 // 支持静态文件
-// app.use(express.static('public'));
+app.use(express.static('public'));
 
 // console log is loaded by default, so you won't normally need to do this
 //log4js.loadAppender('console');
@@ -610,13 +610,13 @@ app.get('/nanoiconpack', function(req, res) {
 // 页面：检索
 app.get('/nanoiconpack/page/query', function(req, res) {
   logger.info('GET /nanoiconpack/page/query');
-  res.sendFile(__dirname + '/public/query.htm');
+  res.sendFile(__dirname + '/pages/query.htm');
 });
 
 // 页面：常用APP一览
 app.get('/nanoiconpack/page/base', function(req, res) {
   logger.info('GET /nanoiconpack/page/base');
-  res.sendFile(__dirname + '/public/base.htm');
+  res.sendFile(__dirname + '/pages/base.htm');
 });
 
 
