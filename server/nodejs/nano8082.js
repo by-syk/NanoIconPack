@@ -87,6 +87,27 @@ CREATE TABLE series(
   -- 是否为系统APP系列
   sys TINYINT(1) DEFAULT 0
 ) ENGINE = InnoDB;
+-- 常用APP表
+CREATE TABLE base(
+  -- APP系列，如QQ与QQ轻聊版可归为同一APP系列
+  series VARCHAR(128),
+  -- 根据APP名自动生成图标名（可能没有）
+  icon VARCHAR(128),
+  -- 目标APP名
+  label VARCHAR(128),
+  -- 目标APP名英文（可能没有）
+  label_en VARCHAR(128),
+  -- 包名
+  pkg VARCHAR(128),
+  -- 启动项
+  launcher VARCHAR(192),
+  -- 设备品牌
+  os_tag VARCHAR(32),
+  -- 申请时间
+  time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY(pkg, launcher, icon_pack, device_id),
+  CONSTRAINT fk_series FOREIGN KEY(series) REFERENCES series(name) ON UPDATE CASCADE ON DELETE SET NULL
+) ENGINE = InnoDB;
  */
 
 var http = require('http');
@@ -130,29 +151,13 @@ var sqlCmds = {
   queryByPkg2: 'SELECT label, label_en AS labelEn, pkg, launcher, icon, COUNT(*) AS sum FROM req WHERE pkg = ? GROUP BY label, label_en, launcher',
   queryByLabel2: 'SELECT label, label_en AS labelEn, pkg, launcher, icon, COUNT(*) AS sum FROM req WHERE label LIKE ? OR label_en LIKE ? GROUP BY label, label_en, launcher LIMIT 128',
   sumReqTimes: 'SELECT COUNT(*) AS sum FROM req',
-  sumApps: 'SELECT COUNT(*) AS sum FROM (SELECT pkg FROM req GROUP BY pkg, launcher) AS pkgs'
+  sumApps: 'SELECT COUNT(*) AS sum FROM (SELECT pkg FROM req GROUP BY pkg, launcher) AS pkgs',
+  baseApps: 'SELECT s.label, s.label_en, s.name, r.pkg, r.launcher, r.device_brand FROM series AS s LEFT JOIN req AS r ON s.name = r.series WHERE s.sys = 1 GROUP BY s.name, r.pkg, r.launcher ORDER BY s.name, r.pkg, r.launcher'
 };
 
 
 // ====================================== API BLOCK START ======================================= //
 
-
-// 接口：主页
-app.get('/nanoiconpack', function(req, res) {
-  logger.info('GET /nanoiconpack');
-  /*res.set('Content-Type', 'text/plain; charset=utf-8');
-  res.send('APIs:'
-    + '\n  // icon name - accurate search'
-    + '\n  ' + req.originalUrl + '/icon/:icon'
-    + '\n  // package name - accurate search'
-    + '\n  ' + req.originalUrl + '/pkg/:pkg'
-    + '\n  // app label - fuzzy search'
-    + '\n  ' + req.originalUrl + '/label/:label'
-    + '\n\nData is gathered from NanoIconPack, Sorcery, iFlat, IrideUI, Antimo, etc..'
-    + '\n\nHope this helps.'
-    + '\n\nCopyright © 2017 By_syk. All rights reserved.');*/
-  res.sendFile(__dirname + '/public/query.htm');
-});
 
 // 接口：按图标名精确检索（TODO 移除）
 app.get('/nanoiconpack/icon/:icon', function(req, res) {
@@ -577,6 +582,31 @@ app.get('/nanoiconpack/iconurl/:pkg([A-Za-z\\d\._]+)', function(req, res) {
   req1.end();
 });
 
+// 接口：获取各系统常用APP代码（如电话、信息、相机等）
+app.get('/nanoiconpack/base', function(req, res) {
+  logger.info('GET /nanoiconpack/base');
+  query(sqlCmds.baseApps, [], function(err, rows) {
+    if (err) {
+      logger.warn(err);
+      res.jsonp(utils.getResRes(3));
+      return;
+    }
+    var result = [];
+    var lastRow = {};
+    for (var i in rows) {
+      var row = rows[i];
+      if (row.name != lastRow.name) {
+        lastRow = row;
+        result.push({icon: row.name, label: row.label, labelEn: row.label_en, more: []});
+      }
+      if (row.pkg && row.launcher) {
+        result[result.length - 1].more.push({pkg: row.pkg, launcher: row.launcher, brand: row.device_brand});
+      }
+    }
+    res.jsonp(utils.getResRes(0, undefined, result));
+  });
+});
+
 // 接口：错误
 /*app.get('*', function(req, res) {
   res.status(404).send('404');
@@ -589,6 +619,29 @@ app.get('/nanoiconpack/test', function(req, res) {
 
 
 // ======================================= API BLOCK END ======================================== //
+
+
+// ====================================== PAGE BLOCK START ====================================== //
+
+
+app.get('/nanoiconpack', function(req, res) {
+  res.redirect('/nanoiconpack/page/query');
+});
+
+// 页面：检索
+app.get('/nanoiconpack/page/query', function(req, res) {
+  logger.info('GET /nanoiconpack/page/query');
+  res.sendFile(__dirname + '/public/query.htm');
+});
+
+// 页面：常用APP一览
+app.get('/nanoiconpack/page/base', function(req, res) {
+  logger.info('GET /nanoiconpack/page/base');
+  res.sendFile(__dirname + '/public/base.htm');
+});
+
+
+// ======================================= PAGE BLOCK END ======================================= //
 
 
 var server = app.listen(8082, function() {

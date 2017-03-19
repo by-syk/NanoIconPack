@@ -47,9 +47,10 @@ $(document).ready(function() {
     var keyword = $("#inputKeyword").val().trim();
     if (!keyword) {
       $("#inputKeyword").focus();
-      return;
+      return true;
     }
-    $.get("nanoiconpack/code/" + keyword, function(data) {
+    status("Loading...");
+    $.get("/nanoiconpack/code/" + keyword, function(data) {
       fill(data);
     });
   });
@@ -58,27 +59,36 @@ $(document).ready(function() {
         $("#btQuery").click();
     }
   });
-  $.get("nanoiconpack/sum", function(data) {
+  $.get("/nanoiconpack/sum", function(data) {
     if (data && data.status == 0) {
       $("#sum").text(data.result.apps);
+      $("#apps").text(data.result.apps);
+      $("#reqTimes").text(data.result.reqTimes);
     }
   });
 });
-function fill(data) {
+function clear(str) {
   $("#codeTbody").empty();
+}
+function status(str) {
+  clear();
+  $("#codeTbody").append("<tr><td colspan=\"6\">" + str + "</td></tr>");
+}
+function fill(data) {
   if (!data) {
-    $("#codeTbody").append("<tr><td colspan=\"6\">error</td></tr>");
+    status("error");
     return;
   }
   if (data.status != 0) {
-    $("#codeTbody").append("<tr><td colspan=\"6\">" + data.msg + "</td></tr>");
+    status(data.msg);
     return;
   }
   var dataArr = data.result;
   if (dataArr.length == 0) {
-    $("#codeTbody").append("<tr><td colspan=\"6\">empty</td></tr>");
+    status("empty");
     return;
   }
+  clear();
   for (var i = 0; i < dataArr.length; ++i) {
     var item = dataArr[i];
     if (!item.label) {
@@ -137,7 +147,7 @@ function showCode(tds) {
 <div class="container-fluid">
 <div class="navbar-header">
 <a class="navbar-brand" href="https://github.com/by-syk/NanoIconPack" target="_blank">NanoIconPack</a>
-<p class="navbar-text navbar-right">Query <span id="sum"></span></p>
+<p class="navbar-text navbar-right">Query</p>
 </div>
 </div>
 </nav>
@@ -145,6 +155,11 @@ function showCode(tds) {
 <div class="container-fluid">
 <div class="row">
 <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 col-lg-offset-1 col-md-offset-1">
+  <div class="alert alert-info" role="alert">NanoQuery is supported by data of <span class="badge" id="apps"></span> apps and <span class="badge" id="reqTimes"></span> requests.</div>
+  <div class="alert alert-warning alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    Looking for base apps of various devices? <a class="alert-link" href="/nanoiconpack/page/base">Click here.</a>
+  </div>
   <div class="input-group">
   <input type="text" id="inputKeyword" class="form-control">
   <span class="input-group-btn">

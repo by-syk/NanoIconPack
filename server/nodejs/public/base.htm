@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--
+  Copyright 2017 By_syk
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+
+<html>
+<head>
+<meta content="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>NanoBase</title>
+
+<link rel="stylesheet" href="http://oev9dotro.bkt.clouddn.com/css/bootstrap-3.3.5.min.css">
+<script src="http://oev9dotro.bkt.clouddn.com/js/jquery-3.0.0.min.js"></script>
+<script src="http://oev9dotro.bkt.clouddn.com/js/bootstrap-3.3.5.min.js"></script>
+
+<style type="text/css">
+body {
+  padding-top: 70px;
+  padding-bottom: 70px;
+}
+</style>
+
+<script type="text/javascript">
+var lastQueryTime = 0;
+$(document).ready(function() {
+  $.get("/nanoiconpack/base", function(data) {
+    fill(data);
+  });
+});
+function fill(data) {
+  if (!data) {
+    return;
+  }
+  if (data.status != 0) {
+    return;
+  }
+  var dataArr = data.result;
+  if (dataArr.length == 0) {
+    return;
+  }
+  for (var i in dataArr) {
+    var item = dataArr[i];
+    var headingId = "heading" + item.icon;
+    var collapseId = "collapse" + item.icon;
+    var code = "<div class=\"panel panel-default\">";
+    code += "<div class=\"panel-heading\" role=\"tab\" id=\"" + headingId + "\">";
+    code += "<h4 class=\"panel-title\">";
+    code += "<a role=\"button\" data-toggle=\"collapse\" data-parent=\"#appsList\" href=\"#" + collapseId + "\" aria-expanded=\"false\" aria-controls=\"" + collapseId + "\">" + item.label + " / " + item.labelEn + "</a>";
+    //code += "&nbsp;&nbsp;<span class=\"label label-default\">" + item.code.length + "</span>";
+    code += "</h4></div>";
+    code += "<div id=\"" + collapseId + "\" class=\"panel-collapse collapse\" role=\"tabpanel\" aria-labelledby=\"" + headingId + "\">";
+    //code += "<ul class=\"list-group\">";
+    code += "<div class=\"list-group\">";
+    for (var j in item.more) {
+      var itemMore = item.more[j];
+      code += "<a href=\"javascript:void(0);\" class=\"list-group-item\" data-icon=\"" + item.icon + "\" data-pkg=\"" + itemMore.pkg + "\" data-launcher=\"" + itemMore.launcher + "\">";
+      code += "<span class=\"badge\">" + itemMore.brand + "</span>";
+      code += itemMore.pkg + "/" + itemMore.launcher;
+      code += "</a>";
+    }
+    code += "</div></div>";
+    code += "</div>";
+    $("#appsList").append(code);
+  }
+  $(".list-group-item").click(function() {
+    var tds = $(this).parent().parent().children();
+    showCode($(this).attr("data-icon"), $(this).attr("data-pkg"), $(this).attr("data-launcher"));
+  });
+  for (var i in dataArr) {
+    var item = dataArr[i];
+    var collapseId = "collapse" + dataArr[i].icon;
+    $("#" + collapseId).on("show.bs.collapse", function () {
+      $(this).parent().attr("class", "panel panel-info");
+    });
+    $("#" + collapseId).on("hide.bs.collapse", function () {
+      $(this).parent().attr("class", "panel panel-default");
+    });
+  }
+}
+function showCode(icon, pkg, launcher) {
+  var code = "<item component=\"ComponentInfo{" + pkg + "/" + launcher + "}\" drawable=\"" + icon + "\" />";
+  //$("#taCode").text(code);
+  $("#taCode").val(code);
+  $("#codeDlg").modal("show");
+}
+</script>
+</head>
+
+<body>
+
+<nav class="navbar navbar-default navbar-fixed-top">
+<div class="container-fluid">
+<div class="navbar-header">
+<a class="navbar-brand" href="https://github.com/by-syk/NanoIconPack" target="_blank">NanoIconPack</a>
+<p class="navbar-text navbar-right">Base apps</p>
+</div>
+</div>
+</nav>
+
+<div class="container-fluid">
+<div class="row">
+<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 col-lg-offset-1 col-md-offset-1">
+  <div class="alert alert-warning alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    Want to search app name or package name? <a class="alert-link" href="/nanoiconpack/page/query">Click here.</a>
+  </div>
+  <div class="panel-group" id="appsList" role="tablist" />
+</div>
+</div>
+</div>
+
+<div id="codeDlg" class="modal fade">
+<div class="modal-dialog">
+<div class="modal-content">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">Code</h4>
+  </div>
+  <div class="modal-body">
+    <textarea id="taCode" class="form-control" rows="8" style="resize: none"></textarea>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" data-dismiss="modal">Dismiss</button>
+  </div>
+</div>
+</div>
+</div>
+
+<nav class="navbar navbar-default navbar-fixed-bottom">
+<table border="0" align="center" height="50px">
+<tr height="50px">
+<td height="50px" valign="middle" align="center">
+<small>
+Copyright &copy; 2016 <a href="mailto:By_syk@163.com">By_syk</a>. All rights reserved.
+</small>
+</td>
+</tr>
+</table>
+</nav>
+
+</body>
+</html>
