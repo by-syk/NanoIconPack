@@ -220,7 +220,7 @@ public class ReqMenuDialog extends BottomSheetDialogFragment implements View.OnC
             // If null, it crashes.
             String labelEn = "";
             JsonElement je = jo.get("labelEn");
-            if (!je.isJsonNull()) {
+            if (je != null && !je.isJsonNull()) {
                 labelEn = je.getAsString();
             }
             String code1 = String.format(Locale.US, C.APP_CODE_LABEL,
@@ -228,7 +228,7 @@ public class ReqMenuDialog extends BottomSheetDialogFragment implements View.OnC
                     labelEn);
             String icon = "";
             je = jo.get("icon");
-            if (!je.isJsonNull()) {
+            if (je != null && !je.isJsonNull()) {
                 icon = je.getAsString();
             }
             String code2 = String.format(Locale.US, C.APP_CODE_COMPONENT,
