@@ -1,6 +1,6 @@
 # NanoIconPack 图标包APP模板
 
-[![Developing](https://img.shields.io/badge/Developing-v2.0.1-green.svg)](art/CHANGELOG.txt)
+[![Developing](https://img.shields.io/badge/Developing-v2.0.2-green.svg)](art/CHANGELOG.txt)
 [![Release](https://img.shields.io/badge/Release-v2.0.0-brightgreen.svg)](https://github.com/by-syk/NanoIconPack/releases/tag/2.0.0)
 [![Download](https://img.shields.io/badge/Download-Sample%20APP-brightgreen.svg)](https://github.com/by-syk/NanoIconPack/raw/master/out/com.by_syk.nanoiconpack.sample_v2.0.0.7(17030600).apk)
 [![License](https://img.shields.io/badge/License-Apache%202.0-yellowgreen.svg)](https://github.com/by-syk/NanoIconPack/blob/master/LICENSE)
@@ -10,7 +10,7 @@
 
 NanoIconPack 是一个简单轻量的图标包APP模板，支持主流启动器，并提供一些辅助功能。
 
-您可以基于此进行二次开发，只需要装配图标、修改少量文件*（不涉及Java代码）*即可打包出自己的图标包。
+您可以基于此进行二次开发，只需要装配图标、修改少量文件_（不涉及Java代码）_即可打包出自己的图标包。
 
 
 ### 支持启动器
@@ -84,7 +84,7 @@ NanoIconPack 拥有一个轻量的服务器，提供图标申请和申请统计�
 
 > 为什么需要服务器？
 >
-> 在图标申请这个功能上，当前已有的图标包模版主要采用的是邮件方式，不过这并不友好，不仅用户需要多步操作，而且作者对收到的申请邮件也难于进一步统计。所以我们决定借助服务器的支持来简化这一过程，使用户一步申请图标、作者直接看到申请统计结果。
+> 在图标申请这个功能上，当前大部分图标包主要采用的是邮件方式，不过这并不友好，不仅用户需要多步操作，而且作者对收到的申请邮件也难于进一步统计。所以我们决定借助服务器的支持来简化这一过程，使用户一步申请图标、作者直接看到申请统计结果。
 >
 > 这种方案最初见于 [@sorcerer](http://www.coolapk.com/u/420016) 的 **[Sorcery 图标](http://www.coolapk.com/apk/com.sorcerer.sorcery.iconpack)**（未考究）。NanoIconPack 只是重走了 **Sorcery 图标** 的路。
 
@@ -105,16 +105,16 @@ NanoIconPack 拥有一个轻量的服务器，提供图标申请和申请统计�
 | [@CookDev / Cardicons Ⅱ 图标包 <sub>new version</sub>](http://www.coolapk.com/apk/cookdev.iconpack.ii) | [![PDC](art/ic_launcher_cardicons.png)](http://www.coolapk.com/apk/cookdev.iconpack.ii) |
 | [@可以and不行 / Pelmix图标包](http://www.coolapk.com/apk/com.edward.iconpack.pelmix) | [![Pelmix](art/ic_launcher_pelmix.png)](http://www.coolapk.com/apk/com.edward.iconpack.pelmix) |
 | [@Markuss / Aeroblast图标包](http://www.coolapk.com/apk/com.markusslugia.iconpack.aeroblast) | [![Aeroblast](art/ic_launcher_aeroblast.png)](http://www.coolapk.com/apk/com.markusslugia.iconpack.aeroblast) |
-| [@梁月丶 / 祈愿图标包](http://www.coolapk.com/apk/com.liangyue.iconpack.hhope) | [![Hhope](art/ic_launcher_hhope.png)](http://www.coolapk.com/apk/com.liangyue.iconpack.hhope) |
 | [@sftmi / OMFG图标包](http://www.coolapk.com/apk/com.sftmi.iconpack.omfg) | [![OMFG](art/ic_launcher_omfg.png)](http://www.coolapk.com/apk/com.sftmi.iconpack.omfg) |
+| [@梁月丶 / 祈愿图标包](http://www.coolapk.com/apk/com.liangyue.iconpack.hhope) | [![Hhope](art/ic_launcher_hhope.png)](http://www.coolapk.com/apk/com.liangyue.iconpack.hhope) |
 | [@LYCSKY497 / LYCSKY图标包](http://www.coolapk.com/apk/com.lycsky.iconpack) | [![LYCSKY](art/ic_launcher_lycsky.png)](http://www.coolapk.com/apk/com.lycsky.iconpack) |
 
 如果您基于 NanoIconPack 开发了自己的图标包作品并且愿意[告诉我](#联系开发者)，我将把它展示在这里。
 
 
-### 使用开源项目和参考资料
+### 致谢
 
-NanoIconPack 使用了如下开源项目，致敬开源：
+致敬开源！NanoIconPack 使用了如下开源项目：
 + [Li Min / pinyin4j](https://sourceforge.net/projects/pinyin4j/) licensed under [GPLv2](https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
 + [fython / AlipayZeroSdk](https://github.com/fython/AlipayZeroSdk) licensed under [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0)
 + [kenglxn / QRGen](https://github.com/kenglxn/QRGen) licensed under [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0)
@@ -122,11 +122,20 @@ NanoIconPack 使用了如下开源项目，致敬开源：
 + [bumptech / glide](https://github.com/bumptech/glide) licensed under [BSD, part MIT and Apache-2.0](https://github.com/bumptech/glide/blob/master/LICENSE)
 + [timusus / RecyclerView-FastScroll](https://github.com/timusus/RecyclerView-FastScroll) licensed under [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0)
 
-参考了如下资料：
+NanoIconPack 参考了如下资料：
 + [teslacoil / Example_NovaTheme](https://github.com/teslacoil/Example_NovaTheme)
 + [[GUIDE] Apex Launcher Theme Tutorial](https://forum.xda-developers.com/showthread.php?t=1649891)
 + [IconShowcase](https://github.com/jahirfiquitiva/IconShowcase)
 + [酷安开源版](https://github.com/bjzhou/Coolapk)
+
+感谢伴随 NanoIconPack 开发过程的一群小伙伴们，他们来自酷安，提出了很多建设性建议：
++ [@atony](http://www.coolapk.com/u/474222)
++ [@Childish](http://www.coolapk.com/u/596651)
++ [@可以and不行](http://www.coolapk.com/u/444646)
++ [@Markuss](http://www.coolapk.com/u/529718)
++ [@pandecheng](http://www.coolapk.com/u/531994)
++ [@sftmi](http://www.coolapk.com/u/491391)
++ [@ArchieLiu](http://www.coolapk.com/u/801526)
 
 
 ### 更好的图标包模板
