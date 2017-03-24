@@ -71,6 +71,15 @@ public interface NanoServerService {
                                           @Query("filter") boolean filter);
 
     /**
+     * { "status": 0, "msg": "success", "result": [
+     *   { "label": "快图浏览", "pkg": "com.alensw.PicFolder", "sum": 2, "filter": 1 }
+     * ]}
+     */
+    @GET("reqtopfiltered/{iconpack}/{user}")
+    Call<ResResBean<JsonArray>> getReqTopFiltered(@Path("iconpack") String iconPack,
+                                          @Path("user") String user);
+
+    /**
      * { "status": 0, "msg": "success" }
      */
     @FormUrlEncoded

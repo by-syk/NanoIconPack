@@ -84,6 +84,24 @@ public class ReqStatsActivity extends AppCompatActivity {
 //                .commit();
     }
 
+//    @TargetApi(25)
+//    private void enableShortcut() {
+//        if (C.SDK < 25 || sp.getBoolean("shortcutEnabled")) {
+//            return;
+//        }
+//        sp.save("shortcutEnabled", true);
+//
+//        ShortcutInfo shortcut = new ShortcutInfo.Builder(this, "reqStats")
+//                .setShortLabel(getString(R.string.shortcut_req_stats))
+//                .setLongLabel(getString(R.string.shortcut_req_stats))
+//                .setIcon(Icon.createWithResource(this, R.drawable.ic_shortcut_stats))
+//                .setIntent(new Intent(this, ReqStatsActivity.class))
+//                .build();
+//
+//        ShortcutManager shortcutManager = getSystemService(ShortcutManager.class);
+//        shortcutManager.setDynamicShortcuts(Arrays.asList(shortcut));
+//    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {

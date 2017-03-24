@@ -54,6 +54,8 @@
         <item name="ic_action_undo">@drawable/ic_action_undo_dark</item>
         <item name="ic_action_market">@drawable/ic_action_market_dark</item>
         <item name="ic_action_code">@drawable/ic_action_code_dark</item>
+        <item name="ic_action_filter">@drawable/ic_action_filter_dark</item>
+        <item name="ic_action_compare">@drawable/ic_action_compare_dark</item>
     </style>
 
     <style name="IconGrid">

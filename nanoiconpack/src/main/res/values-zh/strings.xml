@@ -31,6 +31,8 @@
 
     <string name="menu_apply">应用</string>
     <string name="menu_about">关于</string>
+    <string name="menu_filter">过滤</string>
+    <string name="menu_show_unmarked">显示未标记</string>
     <string name="menu_show_marked">显示已标记</string>
     <string name="menu_top">TOP</string>
     <string name="menu_top_32">Top32</string>
@@ -85,5 +87,6 @@
     <string name="icon_tap_desc">点击查看详情，长按保存到图库。</string>
     <string name="more_launchers_desc">除了列出的启动器，还有许多启动器已被支持，请尝试从启动器设置应用图标包。</string>
     <string name="key_desc">请设置一个口令，以便于系统区分不同用户并针对性保存数据。</string>
+    <string name="shortcut_req_stats">申请统计</string>
 
 </resources>

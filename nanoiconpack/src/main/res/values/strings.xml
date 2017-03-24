@@ -33,6 +33,8 @@
 
     <string name="menu_apply">Apply</string>
     <string name="menu_about">About</string>
+    <string name="menu_filter">Filter</string>
+    <string name="menu_show_unmarked">Show unmarked</string>
     <string name="menu_show_marked">Show marked</string>
     <string name="menu_top">Top</string>
     <string name="menu_top_32">Top32</string>
@@ -88,5 +90,6 @@
     <string name="icon_tap_desc">TAP icon to view its detail, and LONG PRESS to save to gallery.</string>
     <string name="more_launchers_desc">Besides the listed, more launchers are supported, please try applying from launcher.</string>
     <string name="key_desc">Please enter a key for the system to recognize users.</string>
+    <string name="shortcut_req_stats">Request stats</string>
 
 </resources>

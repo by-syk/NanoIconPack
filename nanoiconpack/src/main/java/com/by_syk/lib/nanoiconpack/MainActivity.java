@@ -18,6 +18,7 @@ package com.by_syk.lib.nanoiconpack;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -111,7 +112,12 @@ public class MainActivity extends AppCompatActivity
             return;
         }
 
-        startActivity(new Intent(this, ReqStatsActivity.class));
+        (new Handler()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                startActivity(new Intent(MainActivity.this, ReqStatsActivity.class));
+            }
+        }, 100);
     }
 
     @Override

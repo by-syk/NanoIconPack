@@ -78,7 +78,8 @@ public class ReqStatsFragment extends Fragment {
     private RetainedFragment retainedFragment;
 
     private String user;
-    private boolean toFilter = true;
+//    private boolean toFilter = true;
+    private int filterType = 0;
     private int limitLevel = 0;
 
     private static final int[] LIMIT_NUM_ARR = {32, 64, 128};
@@ -92,7 +93,8 @@ public class ReqStatsFragment extends Fragment {
         setHasOptionsMenu(true);
 
         if (savedInstanceState != null) {
-            toFilter = savedInstanceState.getBoolean("toFilter", true);
+//            toFilter = savedInstanceState.getBoolean("toFilter", true);
+            filterType = savedInstanceState.getInt("filterType", 0);
             limitLevel = savedInstanceState.getInt("limitLevel", 0);
         }
     }
@@ -114,7 +116,8 @@ public class ReqStatsFragment extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        outState.putBoolean("toFilter", toFilter);
+//        outState.putBoolean("toFilter", toFilter);
+        outState.putInt("filterType", filterType);
         outState.putInt("limitLevel", limitLevel);
     }
 
@@ -203,32 +206,52 @@ public class ReqStatsFragment extends Fragment {
                             : R.string.toast_mark_failed);
                     return;
                 }
-                if (bean1.isMark()) {
-                    if (toFilter) {
-                        reqStatsAdapter.remove(pos);
-                        if (lazyLoadTask == null) {
-                            lazyLoadTask = new LazyLoadTask();
-                            lazyLoadTask.execute(layoutManager.findFirstVisibleItemPosition(),
-                                    layoutManager.findLastVisibleItemPosition());
-                        }
-                    } else {
-                        reqStatsAdapter.notifyItemChanged(pos);
-                    }
-                    GlobalToast.showToast(getContext(), R.string.toast_marked);
-                } else {
-                    reqStatsAdapter.notifyItemChanged(pos);
-                    GlobalToast.showToast(getContext(), R.string.toast_mark_undo);
+//                if (bean1.isMark()) {
+//                    if (toFilter) {
+//                        reqStatsAdapter.remove(pos);
+//                        if (lazyLoadTask == null) {
+//                            lazyLoadTask = new LazyLoadTask();
+//                            lazyLoadTask.execute(layoutManager.findFirstVisibleItemPosition(),
+//                                    layoutManager.findLastVisibleItemPosition());
+//                        }
+//                    } else {
+//                        reqStatsAdapter.notifyItemChanged(pos);
+//                    }
+//                    GlobalToast.showToast(getContext(), R.string.toast_marked);
+//                } else {
+//                    reqStatsAdapter.notifyItemChanged(pos);
+//                    GlobalToast.showToast(getContext(), R.string.toast_mark_undo);
+//                }
+                reqStatsAdapter.remove(pos);
+                if (lazyLoadTask == null) {
+                    lazyLoadTask = new LazyLoadTask();
+                    lazyLoadTask.execute(layoutManager.findFirstVisibleItemPosition(),
+                            layoutManager.findLastVisibleItemPosition());
                 }
+                GlobalToast.showToast(getContext(),
+                        bean1.isMark() ? R.string.toast_marked : R.string.toast_mark_undo);
             }
         });
         reqMenuDialog.show(getFragmentManager(), "reqMenuDialog");
     }
 
-    private void updateData(boolean toFilter, int limitLevel) {
-        if (toFilter == this.toFilter && limitLevel == this.limitLevel) {
+//    private void updateData(boolean toFilter, int limitLevel) {
+//        if (toFilter == this.toFilter && limitLevel == this.limitLevel) {
+//            return;
+//        }
+//        this.toFilter = toFilter;
+//        this.limitLevel = limitLevel;
+//
+//        swipeRefreshLayout.setRefreshing(true);
+//
+//        (new LoadAppsTask()).execute(true);
+//    }
+
+    private void updateData(int filterType, int limitLevel) {
+        if (filterType == this.filterType && limitLevel == this.limitLevel) {
             return;
         }
-        this.toFilter = toFilter;
+        this.filterType = filterType;
         this.limitLevel = limitLevel;
 
         swipeRefreshLayout.setRefreshing(true);
@@ -260,8 +283,15 @@ public class ReqStatsFragment extends Fragment {
             try {
                 NanoServerService nanoServerService = RetrofitHelper.getInstance().getRetrofit()
                         .create(NanoServerService.class);
-                Call<ResResBean<JsonArray>> call = nanoServerService.getReqTop(getContext().getPackageName(),
-                        user, LIMIT_NUM_ARR[limitLevel], toFilter);
+//                Call<ResResBean<JsonArray>> call = nanoServerService.getReqTop(getContext().getPackageName(),
+//                        user, LIMIT_NUM_ARR[limitLevel], toFilter);
+                Call<ResResBean<JsonArray>> call;
+                if (filterType == 1) {
+                    call = nanoServerService.getReqTopFiltered(getContext().getPackageName(), user);
+                } else /*if (filterType == 0)*/ {
+                    call = nanoServerService.getReqTop(getContext().getPackageName(),
+                            user, LIMIT_NUM_ARR[limitLevel], true);
+                }
                 ResResBean<JsonArray> resResBean = call.execute().body();
                 if (resResBean == null || !resResBean.isStatusSuccess()
                         || resResBean.getResult() == null) {
@@ -418,28 +448,40 @@ public class ReqStatsFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.menu_req_stats, menu);
 
-        menu.getItem(0).setChecked(!toFilter);
+//        menu.getItem(0).setChecked(!toFilter);
+        menu.getItem(0).getSubMenu().getItem(filterType).setChecked(true);
         menu.getItem(1).getSubMenu().getItem(limitLevel).setChecked(true);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.menu_include_filter) {
+        /*if (id == R.id.menu_include_filter) {
             updateData(item.isChecked(), limitLevel);
+            item.setChecked(!item.isChecked());
+            return true;
+        }*/if (id == R.id.menu_show_unmarked) {
+            updateData(0, limitLevel);
+            item.setChecked(!item.isChecked());
+            return true;
+        } else if (id == R.id.menu_show_marked) {
+            updateData(1, limitLevel);
             item.setChecked(!item.isChecked());
             return true;
         } else if (id == R.id.menu_top_32) {
             item.setChecked(true);
-            updateData(toFilter, 0);
+//            updateData(toFilter, 0);
+            updateData(filterType, 0);
             return true;
         } else if (id == R.id.menu_top_64) {
             item.setChecked(true);
-            updateData(toFilter, 1);
+//            updateData(toFilter, 1);
+            updateData(filterType, 1);
             return true;
         } else if (id == R.id.menu_top_128) {
             item.setChecked(true);
-            updateData(toFilter, 2);
+//            updateData(toFilter, 2);
+            updateData(filterType, 2);
             return true;
         }
         return super.onOptionsItemSelected(item);
