@@ -89,7 +89,7 @@ public class ReqStatsAdapter extends RecyclerView.Adapter<ReqStatsAdapter.IconVi
         }
 
         if (onItemClickListener != null) {
-            holder.viewRoot.setOnClickListener(new View.OnClickListener() {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     int pos = holder.getAdapterPosition();
@@ -146,7 +146,6 @@ public class ReqStatsAdapter extends RecyclerView.Adapter<ReqStatsAdapter.IconVi
     }
 
     static class IconViewHolder extends RecyclerView.ViewHolder {
-        View viewRoot;
         View viewTag;
         ImageView ivIcon;
         TextView tvApp;
@@ -156,7 +155,6 @@ public class ReqStatsAdapter extends RecyclerView.Adapter<ReqStatsAdapter.IconVi
         IconViewHolder(View itemView) {
             super(itemView);
 
-            viewRoot = itemView;
             viewTag = itemView.findViewById(R.id.view_tag);
             ivIcon = (ImageView) itemView.findViewById(R.id.iv_icon);
             tvApp = (TextView) itemView.findViewById(R.id.tv_app);

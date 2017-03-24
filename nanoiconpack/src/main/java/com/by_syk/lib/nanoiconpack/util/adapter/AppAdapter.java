@@ -91,14 +91,14 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.IconViewHolder>
         }
 
         if (onItemClickListener != null) {
-            holder.viewRoot.setOnClickListener(new View.OnClickListener() {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     int pos = holder.getAdapterPosition();
                     onItemClickListener.onClick(pos, dataList.get(pos));
                 }
             });
-            holder.viewRoot.setOnLongClickListener(new View.OnLongClickListener() {
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
                     int pos = holder.getAdapterPosition();
@@ -158,7 +158,6 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.IconViewHolder>
     }
 
     static class IconViewHolder extends RecyclerView.ViewHolder {
-        View viewRoot;
         View viewTag;
         ImageView ivIcon;
         TextView tvApp;
@@ -168,7 +167,6 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.IconViewHolder>
         IconViewHolder(View itemView) {
             super(itemView);
 
-            viewRoot = itemView;
             viewTag = itemView.findViewById(R.id.view_tag);
             ivIcon = (ImageView) itemView.findViewById(R.id.iv_icon);
             tvApp = (TextView) itemView.findViewById(R.id.tv_app);
