@@ -87,6 +87,19 @@ CREATE TABLE series(
   -- 是否为系统APP系列
   sys TINYINT(1) DEFAULT 0
 ) ENGINE = InnoDB;
+-- 图标包（TODO 建立图标包管理机制）
+CREATE TABLE icon_pack(
+  -- 包名
+  pkg VARCHAR(64) PRIMARY KEY,
+  -- APP名
+  label VARCHAR(128),
+  -- APP英文名
+  label_en VARCHAR(128),
+  -- 作者
+  author VARCHAR(32),
+  -- 黑名单
+  evil TINYINT(1) DEFAULT 0
+) ENGINE = InnoDB;
 */
 
 var http = require('http');
@@ -123,7 +136,8 @@ var sqlCmds = {
   req: 'INSERT IGNORE INTO req(icon, label, label_en, pkg, launcher, sys_app, icon_pack, device_id, device_brand, device_model, device_sdk) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
   sumByIpP: 'SELECT COUNT(*) AS num FROM req WHERE icon_pack = ? AND pkg = ?',
   sumByIpPDi: 'SELECT device_id, COUNT(*) AS num FROM req WHERE icon_pack = ? AND pkg = ? GROUP BY device_id = ?',
-  reqTopFilter: 'SELECT label, pkg, COUNT(*) AS sum, 0 AS filter FROM req AS r WHERE icon_pack = ? AND pkg NOT IN (SELECT pkg FROM req_filter AS rf WHERE rf.icon_pack = r.icon_pack AND user = ?) GROUP BY pkg ORDER BY sum DESC, pkg ASC LIMIT ?',
+  reqTopFilterMarked: 'SELECT label, pkg, COUNT(*) AS sum, 0 AS filter FROM req AS r WHERE icon_pack = ? AND pkg NOT IN (SELECT pkg FROM req_filter AS rf WHERE rf.icon_pack = r.icon_pack AND user = ?) GROUP BY pkg ORDER BY sum DESC, pkg ASC LIMIT ?',
+  reqTopOnlyMarked: 'SELECT label, pkg, COUNT(*) AS sum, 1 AS filter FROM req AS r WHERE icon_pack = ? AND pkg IN (SELECT pkg FROM req_filter AS rf WHERE rf.icon_pack = r.icon_pack AND user = ?) GROUP BY pkg ORDER BY sum DESC, pkg ASC',
   reqTop: 'SELECT label, pkg, COUNT(*) AS sum, 1 AS filter FROM req WHERE icon_pack = ? GROUP BY pkg ORDER BY sum DESC, pkg ASC LIMIT ?',
   reqFilter: 'INSERT IGNORE INTO req_filter(icon_pack, user, pkg) VALUES(?, ?, ?)',
   reqUndoFilter: 'DELETE FROM req_filter WHERE icon_pack = ? AND user = ? AND pkg = ?',
@@ -139,7 +153,7 @@ var sqlCmds = {
 
 
 // 接口：按图标名精确检索（TODO 移除）
-app.get('/nanoiconpack/icon/:icon', function(req, res) {
+/*app.get('/nanoiconpack/icon/:icon', function(req, res) {
   var icon = req.params.icon;
   logger.info('GET /nanoiconpack/icon/' + icon);
   query(sqlCmds.queryByIcon, [icon], function(err, rows) {
@@ -185,10 +199,10 @@ app.get('/nanoiconpack/icon/:icon', function(req, res) {
       res.send(codes);
     }
   });
-});
+});*/
 
 // 接口：按包名精确检索（TODO 移除）
-app.get('/nanoiconpack/pkg/:pkg', function(req, res) {
+/*app.get('/nanoiconpack/pkg/:pkg', function(req, res) {
   var pkg = req.params.pkg;
   logger.info('GET /nanoiconpack/pkg/' + pkg);
   query(sqlCmds.queryByPkg, [pkg], function(err, rows) {
@@ -234,10 +248,10 @@ app.get('/nanoiconpack/pkg/:pkg', function(req, res) {
       res.send(codes);
     }
   });
-});
+});*/
 
 // 接口：按目标APP中文名、英文名模糊检索（TODO 移除）
-app.get('/nanoiconpack/label/:label', function(req, res) {
+/*app.get('/nanoiconpack/label/:label', function(req, res) {
   var label = req.params.label;
   logger.info('GET /nanoiconpack/label/' + label);
   var sqlOptions = ['%' + label + '%', '%' + label + '%'];
@@ -260,7 +274,7 @@ app.get('/nanoiconpack/label/:label', function(req, res) {
     res.set('Content-Type', 'text/plain; charset=utf-8');
     res.send(codes);
   });
-});
+});*/
 
 // 接口：申请适配图标
 app.post('/nanoiconpack/req/:iconpack([A-Za-z\\d\._]+)', function(req, res) {
@@ -375,35 +389,28 @@ app.get('/nanoiconpack/reqtop/:iconpack([A-Za-z\\d\._]+)/:user', function(req, r
   } else if (limitNum > 128) {
     limitNum = 128;
   }
-  var filter = req.query.filter;
-  if (filter == 1 || filter == 'true') {
-    filter = 1;
+  var filterMarked = req.query.filter; // 过滤掉已标记的APP（默认false）
+  if (filterMarked == 1 || filterMarked == 'true') {
+    filterMarked = 1;
   } else {
-    filter = 0;
+    filterMarked = 0;
   }
-  // 区别 label 与 label_en
-  /*var en = req.query.en;
-  if (en == 1 || en == 'true') {
-    en = 1;
-  } else {
-    en = 0;
-  }*/
-  logger.info('GET /nanoiconpack/reqtop/' + iconPack + '/' + user + '?limit=' + limitNum + '&filter=' + filter);
+  logger.info('GET /nanoiconpack/reqtop/' + iconPack + '/' + user + '?limit=' + limitNum + '&filter=' + filterMarked);
   var sqlOptions = [iconPack, user, limitNum];
-  query(sqlCmds.reqTopFilter, sqlOptions, function(err, rows) {
+  query(sqlCmds.reqTopFilterMarked, sqlOptions, function(err, rows) {
     if (err) {
       logger.warn(err);
       res.jsonp(utils.getResRes(3));
       return;
     }
-    if (filter == 1) {
+    if (filterMarked == 1) {
       res.jsonp(utils.getResRes(0, undefined, rows));
       return;
     }
     var sqlOptions1 = [iconPack, limitNum];
     query(sqlCmds.reqTop, sqlOptions1, function(err1, rows1) {
       if (err1) {
-        logger.warn(err);
+        logger.warn(err1);
         res.jsonp(utils.getResRes(3));
         return;
       }
@@ -418,6 +425,22 @@ app.get('/nanoiconpack/reqtop/:iconpack([A-Za-z\\d\._]+)/:user', function(req, r
       }
       res.jsonp(utils.getResRes(0, undefined, rows1));
     });
+  });
+});
+
+// 接口：在已过滤的APP中查询请求数TOP的APP
+app.get('/nanoiconpack/reqtopfiltered/:iconpack([A-Za-z\\d\._]+)/:user', function(req, res) {
+  var iconPack = req.params.iconpack;
+  var user = req.params.user;
+  logger.info('GET /nanoiconpack/reqtopfiltered/' + iconPack + '/' + user);
+  var sqlOptions = [iconPack, user];
+  query(sqlCmds.reqTopOnlyMarked, sqlOptions, function(err, rows) {
+    if (err) {
+      logger.warn(err);
+      res.jsonp(utils.getResRes(3));
+      return;
+    }
+    res.jsonp(utils.getResRes(0, undefined, rows));
   });
 });
 
@@ -524,8 +547,33 @@ app.get('/nanoiconpack/sum', function(req, res) {
   });
 });
 
+// 接口：获取各系统常用APP代码（如电话、信息、相机等）
+app.get('/nanoiconpack/base', function(req, res) {
+  logger.info('GET /nanoiconpack/base');
+  query(sqlCmds.baseApps, [], function(err, rows) {
+    if (err) {
+      logger.warn(err);
+      res.jsonp(utils.getResRes(3));
+      return;
+    }
+    var result = [];
+    var lastRow = {};
+    for (var i in rows) {
+      var row = rows[i];
+      if (row.name != lastRow.name) {
+        lastRow = row;
+        result.push({icon: row.name, label: row.label, labelEn: row.label_en, more: []});
+      }
+      if (row.pkg && row.launcher) {
+        result[result.length - 1].more.push({pkg: row.pkg, launcher: row.launcher, brand: row.device_brand});
+      }
+    }
+    res.jsonp(utils.getResRes(0, undefined, result));
+  });
+});
+
 // 根据包名获取图标链接（来源为酷安）（TODO 移除）
-app.get('/nanoiconpack/iconurl/:pkg([A-Za-z\\d\._]+)', function(req, res) {
+/*app.get('/nanoiconpack/iconurl/:pkg([A-Za-z\\d\._]+)', function(req, res) {
   var pkg = req.params.pkg;
   logger.info('GET /nanoiconpack/iconurl/' + pkg);
   var url = 'http://api.coolapk.com/market/v2/api.php'
@@ -559,42 +607,17 @@ app.get('/nanoiconpack/iconurl/:pkg([A-Za-z\\d\._]+)', function(req, res) {
     res.jsonp(utils.getResRes(6));
   });
   req1.end();
-});
-
-// 接口：获取各系统常用APP代码（如电话、信息、相机等）
-app.get('/nanoiconpack/base', function(req, res) {
-  logger.info('GET /nanoiconpack/base');
-  query(sqlCmds.baseApps, [], function(err, rows) {
-    if (err) {
-      logger.warn(err);
-      res.jsonp(utils.getResRes(3));
-      return;
-    }
-    var result = [];
-    var lastRow = {};
-    for (var i in rows) {
-      var row = rows[i];
-      if (row.name != lastRow.name) {
-        lastRow = row;
-        result.push({icon: row.name, label: row.label, labelEn: row.label_en, more: []});
-      }
-      if (row.pkg && row.launcher) {
-        result[result.length - 1].more.push({pkg: row.pkg, launcher: row.launcher, brand: row.device_brand});
-      }
-    }
-    res.jsonp(utils.getResRes(0, undefined, result));
-  });
-});
-
-// 接口：错误
-/*app.get('*', function(req, res) {
-  res.status(404).send('404');
 });*/
 
 // 接口：测试
 app.get('/nanoiconpack/test', function(req, res) {
   res.jsonp(utils.getResRes(0));
 });
+
+// 接口：错误
+/*app.get('*', function(req, res) {
+  res.status(404).send('404');
+});*/
 
 
 // ======================================= API BLOCK END ======================================== //

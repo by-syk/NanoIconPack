@@ -117,16 +117,16 @@ public class ReqStatsAdapter extends RecyclerView.Adapter<ReqStatsAdapter.IconVi
             return;
         }
 
-//        for (int i = 0, len = dataList.size(); i < len; ++i) {
-//            AppBean newBean = dataList.get(i);
-//            for (AppBean oldBean : this.dataList) {
-//                if (newBean.getPkgName().equals(oldBean.getPkgName())) {
-//                    newBean.setIcon(oldBean.getIcon());
-//                    newBean.setIconUrl(oldBean.getIconUrl());
-//                    break;
-//                }
-//            }
-//        }
+        for (int i = 0, len = dataList.size(); i < len; ++i) {
+            AppBean newBean = dataList.get(i);
+            for (AppBean oldBean : this.dataList) {
+                if (newBean.getPkgName().equals(oldBean.getPkgName())) {
+                    newBean.setIcon(oldBean.getIcon());
+                    newBean.setIconUrl(oldBean.getIconUrl());
+                    break;
+                }
+            }
+        }
 
         this.dataList.clear();
         this.dataList.addAll(dataList);
