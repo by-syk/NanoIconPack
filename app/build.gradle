@@ -11,7 +11,7 @@ android {
         targetSdkVersion Integer.parseInt(project.TARGET_SDK_VERSION)
         versionCode 17032400
         // Version name format: [version].[num_of_icons]
-        versionName "2.0.1.7.nightly"
+        versionName "2.0.2.7.nightly"
         resConfigs "en", "zh_cn"
     }
 
