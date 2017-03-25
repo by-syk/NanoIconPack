@@ -83,6 +83,9 @@
         prefix="calendar_d" />
     <calendar
         component="ComponentInfo{com.oneplus.calendar/com.android.calendar.AllInOneActivity}"
+        prefix="calendar_d" />
+    <calendar
+        component="ComponentInfo{com.samsung.android.calendar/com.android.calendar.AllInOneActivity}"
         prefix="calendar_d" />-->
 
     <item
@@ -150,6 +153,9 @@
         drawable="calendar" />
     <item
         component="ComponentInfo{com.bbk.calendar/com.bbk.calendar.MainActivity}"
+        drawable="calendar" />
+    <item
+        component="ComponentInfo{com.samsung.android.calendar/com.android.calendar.AllInOneActivity}"
         drawable="calendar" />
 
     <item
