@@ -86,6 +86,9 @@
         prefix="calendar_d" />
     <calendar
         component="ComponentInfo{com.samsung.android.calendar/com.android.calendar.AllInOneActivity}"
+        prefix="calendar_d" />
+    <calendar
+        component="ComponentInfo{com.zui.calendar/com.zui.calendar.MainActivity}"
         prefix="calendar_d" />-->
 
     <item
@@ -156,6 +159,9 @@
         drawable="calendar" />
     <item
         component="ComponentInfo{com.samsung.android.calendar/com.android.calendar.AllInOneActivity}"
+        drawable="calendar" />
+    <item
+        component="ComponentInfo{com.zui.calendar/com.zui.calendar.MainActivity}"
         drawable="calendar" />
 
     <item
