@@ -22,6 +22,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.by_syk.lib.nanoiconpack.fragment.IconsFragment;
+import com.by_syk.lib.nanoiconpack.util.AllIconsGetter;
 
 /**
  * Created by By_syk on 2017-01-30.
@@ -43,7 +44,7 @@ public class IconPickActivity extends AppCompatActivity {
         }
 
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_content, IconsFragment.newInstance(0, false))
+                .replace(R.id.fragment_content, IconsFragment.newInstance(0, new AllIconsGetter()))
                 .commit();
     }
 

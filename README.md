@@ -129,6 +129,7 @@ NanoIconPack 参考了如下资料：
 + [酷安开源版](https://github.com/bjzhou/Coolapk)
 
 感谢伴随 NanoIconPack 开发过程的一群小伙伴们，他们来自酷安，提出了很多建设性建议：
++ [@ArchieLiu](http://www.coolapk.com/u/801526)
 + [@atony](http://www.coolapk.com/u/474222)
 + [@Childish](http://www.coolapk.com/u/596651)
 + [@CookDev](http://www.coolapk.com/u/315615)
@@ -137,7 +138,6 @@ NanoIconPack 参考了如下资料：
 + [@Markuss](http://www.coolapk.com/u/529718)
 + [@pandecheng](http://www.coolapk.com/u/531994)
 + [@sftmi](http://www.coolapk.com/u/491391)
-+ [@ArchieLiu](http://www.coolapk.com/u/801526)
 + 等……
 
 

@@ -32,7 +32,9 @@ import android.view.MenuItem;
 import com.by_syk.lib.nanoiconpack.dialog.ApplyDialog;
 import com.by_syk.lib.nanoiconpack.fragment.AppsFragment;
 import com.by_syk.lib.nanoiconpack.fragment.IconsFragment;
+import com.by_syk.lib.nanoiconpack.util.AllIconsGetter;
 import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
+import com.by_syk.lib.nanoiconpack.util.MatchedIconsGetter;
 
 /**
  * Created by By_syk on 2016-07-16.
@@ -167,9 +169,9 @@ public class MainActivity extends AppCompatActivity
                 case 0:
                     return AppsFragment.newInstance(position);
                 case 1:
-                    return IconsFragment.newInstance(position, true);
+                    return IconsFragment.newInstance(position, new MatchedIconsGetter());
                 case 2:
-                    return IconsFragment.newInstance(position, false);
+                    return IconsFragment.newInstance(position, new AllIconsGetter());
             }
             return null;
         }

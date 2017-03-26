@@ -51,7 +51,6 @@ public class ApplyDialog extends DialogFragment {
             launcherPkgs[i] = paras[1];
             if (paras[1].equals(launcherPkg)) {
                 launcherNames[i] = getString(R.string.cur_launcher, paras[0]);
-                break;
             }
         }
 

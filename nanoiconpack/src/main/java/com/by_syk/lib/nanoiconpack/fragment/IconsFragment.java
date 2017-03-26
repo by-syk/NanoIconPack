@@ -20,10 +20,8 @@ import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -37,21 +35,15 @@ import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.bean.IconBean;
 import com.by_syk.lib.nanoiconpack.dialog.IconDialog;
 import com.by_syk.lib.nanoiconpack.dialog.IconTapHintDialog;
-import com.by_syk.lib.nanoiconpack.util.AppFilterReader;
 import com.by_syk.lib.nanoiconpack.util.C;
 import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
-import com.by_syk.lib.nanoiconpack.util.PkgUtil;
 import com.by_syk.lib.nanoiconpack.util.adapter.IconAdapter;
+import com.by_syk.lib.nanoiconpack.util.IconsGetter;
 import com.by_syk.lib.storage.SP;
 import com.by_syk.lib.toast.GlobalToast;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Created by By_syk on 2017-01-27.
@@ -59,7 +51,7 @@ import java.util.regex.Pattern;
 
 public class IconsFragment extends Fragment {
     private int pageId = 0;
-    private boolean filterUnmatched = false;
+    private IconsGetter iconsGetter;
 
     private SP sp;
 
@@ -102,7 +94,7 @@ public class IconsFragment extends Fragment {
     private void init() {
         Bundle bundle = getArguments();
         pageId = bundle.getInt("pageId");
-        filterUnmatched = bundle.getBoolean("filterUnmatched");
+        iconsGetter = (IconsGetter) bundle.getSerializable("iconsGetter");
 
         sp = new SP(getContext(), false);
 
@@ -172,58 +164,16 @@ public class IconsFragment extends Fragment {
                 return retainedFragment.getIconList(pageId);
             }
 
-            if (!isAdded()) {
-                return new ArrayList<>();
-            }
-            Resources resources = getResources();
-            if (resources == null) {
+            if (!isAdded() || iconsGetter == null) {
                 return new ArrayList<>();
             }
 
-            String[] names = resources.getStringArray(R.array.icons);
-            String[] labels = resources.getStringArray(R.array.icon_labels);
-            String[] labelPinyins;
-            if (labels.length > 0) {
-                labelPinyins = ExtraUtil.getPinyinForSorting(labels);
-            } else { // No app name list provided, use icon name list instead.
-                labels = new String[names.length];
-                for (int i = 0, len = names.length; i < len; ++i) {
-                    labels[i] = names[i].replaceAll("_", " ");
-                }
-                labelPinyins = Arrays.copyOf(labels, labels.length);
+            try {
+                return iconsGetter.getIcons(getContext());
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-
-            Pattern pattern = Pattern.compile("(?<=\\D|^)\\d(?=\\D|$)");
-            for (int i = 0, len = labelPinyins.length; i < len; ++i) { // 优化100以内数值逻辑排序
-                Matcher matcher = pattern.matcher(labelPinyins[i]);
-                if (matcher.find()) {
-                    labelPinyins[i] = matcher.replaceAll("0" + matcher.group(0));
-                }
-            }
-
-            List<IconBean> dataList = new ArrayList<>();
-            for (int i = 0, len = names.length; i < len; ++i) {
-                if (!isAdded()) {
-                    return new ArrayList<>();
-                }
-                int id = resources.getIdentifier(names[i], "drawable",
-                        getContext().getPackageName());
-                dataList.add(new IconBean(id, names[i], labels[i], labelPinyins[i]));
-            }
-            Collections.sort(dataList, new Comparator<IconBean>() {
-                @Override
-                public int compare(IconBean bean1, IconBean bean2) {
-//                    return bean1.getName().compareTo(bean2.getName());
-//                    return bean1.getLabel().compareTo(bean2.getLabel());
-                    return bean1.getLabelPinyin().compareTo(bean2.getLabelPinyin());
-                }
-            });
-
-            if (filterUnmatched) {
-                dataList = filterUnmatched(dataList);
-            }
-
-            return dataList;
+            return new ArrayList<>();
         }
 
         @Override
@@ -240,49 +190,14 @@ public class IconsFragment extends Fragment {
                 onLoadDoneListener.onLoadDone(pageId, list.size());
             }
         }
-
-        private List<IconBean> filterUnmatched(@NonNull List<IconBean> iconList) {
-            List<String> installedIconList = new ArrayList<>();
-//            List<String> installedPkgList = PkgUtil.getInstalledPkgs(getContext());
-//            List<String> installedPkgList = PkgUtil.getInstalledPkgsWithLauncherActivity(getContext());
-            List<String> installedPkgActivityList = PkgUtil.getInstalledPkgActivities(getContext());
-
-            AppFilterReader reader = AppFilterReader.getInstance();
-            reader.init(getResources());
-            for (AppFilterReader.Bean bean : reader.getDataList()) {
-                if (bean.pkg == null || bean.launcher == null) { // invalid
-                    continue;
-                }
-                for (String pkgActivity : installedPkgActivityList) {
-                    String[] arr = pkgActivity.split("/");
-                    // Check package name and launcher activity at the same time
-                    if (arr[0].equals(bean.pkg) && arr[1].equals(bean.launcher)) {
-                        installedIconList.add(bean.drawable);
-                        break;
-                    }
-                }
-            }
-
-            List<IconBean> installedIconBeanList = new ArrayList<>();
-            for (IconBean bean : iconList) {
-                for (String icon : installedIconList) {
-                    if (icon.equals(bean.getName())) {
-                        installedIconBeanList.add(bean);
-                        break;
-                    }
-                }
-            }
-
-            return installedIconBeanList;
-        }
     }
 
-    public static IconsFragment newInstance(int id, boolean filterUnmatched) {
+    public static IconsFragment newInstance(int id, IconsGetter iconsGetter) {
         IconsFragment fragment = new IconsFragment();
 
         Bundle bundle = new Bundle();
         bundle.putInt("pageId", id);
-        bundle.putBoolean("filterUnmatched", filterUnmatched);
+        bundle.putSerializable("iconsGetter", iconsGetter);
         fragment.setArguments(bundle);
 
         return fragment;
