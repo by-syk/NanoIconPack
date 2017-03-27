@@ -64,6 +64,7 @@
     <string name="toast_mark_failed">:( Failed to mark</string>
     <string name="toast_mark_undo">Cancelled mark</string>
     <string name="toast_mark_undo_failed">:( Failed to cancel mark</string>
+    <string name="toast_whats_new">These icons are redrew or added into v%1$s.</string>
 
     <string name="preference_category_icons">Icons (%d)</string>
     <string name="preference_icons_summary_note"></string>
@@ -92,6 +93,5 @@
     <string name="icon_tap_desc">TAP icon to view its detail, and LONG PRESS to save to gallery.</string>
     <string name="more_launchers_desc">Besides the listed, more launchers are supported, please try applying from launcher.</string>
     <string name="key_desc">Please enter a key for the system to recognize users.</string>
-    <string name="shortcut_req_stats">Request stats</string>
 
 </resources>

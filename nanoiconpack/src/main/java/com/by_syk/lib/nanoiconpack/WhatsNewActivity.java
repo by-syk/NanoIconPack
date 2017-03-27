@@ -17,18 +17,21 @@
 package com.by_syk.lib.nanoiconpack;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.by_syk.lib.nanoiconpack.fragment.IconsFragment;
 import com.by_syk.lib.nanoiconpack.util.LatestIconsGetter;
+import com.by_syk.lib.nanoiconpack.util.PkgUtil;
 
 /**
  * Created by By_syk on 2017-01-30.
  */
 
-public class WhatsNewActivity extends AppCompatActivity {
+public class WhatsNewActivity extends AppCompatActivity implements IconsFragment.OnLoadDoneListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +50,22 @@ public class WhatsNewActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_content, fragment)
                 .commit();
+    }
+
+    private void showHint() {
+        Snackbar.make(findViewById(R.id.coordinator_layout),
+                PkgUtil.getAppVer(this, getString(R.string.toast_whats_new)),
+                Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onLoadDone(int pageId, int sum) {
+        (new Handler()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                showHint();
+            }
+        }, 400);
     }
 
     @Override

@@ -62,6 +62,7 @@
     <string name="toast_mark_failed">标记失败 :(</string>
     <string name="toast_mark_undo">已取消标记</string>
     <string name="toast_mark_undo_failed">取消标记失败 :(</string>
+    <string name="toast_whats_new">该版本（v%1$s）添加或重绘了这些图标</string>
 
     <string name="preference_category_icons">图标 (%d枚)</string>
     <string name="preference_icons_summary_note"></string>
@@ -89,6 +90,5 @@
     <string name="icon_tap_desc">点击查看详情，长按保存到图库。</string>
     <string name="more_launchers_desc">除了列出的启动器，还有许多启动器已被支持，请尝试从启动器设置应用图标包。</string>
     <string name="key_desc">请设置一个口令，以便于系统区分不同用户并针对性保存数据。</string>
-    <string name="shortcut_req_stats">申请统计</string>
 
 </resources>

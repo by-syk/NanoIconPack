@@ -27,7 +27,7 @@
     <item
         android:id="@+id/menu_whats_new"
         android:title="@string/menu_whats_new"
-        android:icon="@drawable/ic_action_fill_dark"
+        android:icon="?attr/ic_action_fill"
         android:visible="false"
         app:showAsAction="never" />
 
