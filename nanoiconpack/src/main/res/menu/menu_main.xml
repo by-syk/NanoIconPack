@@ -25,6 +25,13 @@
         app:showAsAction="ifRoom" />
 
     <item
+        android:id="@+id/menu_whats_new"
+        android:title="@string/menu_whats_new"
+        android:icon="@drawable/ic_action_fill_dark"
+        android:visible="false"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/menu_about"
         android:title="@string/menu_about"
         android:icon="?attr/ic_action_copyright"

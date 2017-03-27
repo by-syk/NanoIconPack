@@ -22,6 +22,7 @@
         <item name="colorPrimaryDark">@color/color_primary_dark</item>
         <item name="colorAccent">@color/color_accent</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
+        <item name="ic_action_fill">@drawable/ic_action_fill_dark</item>
         <item name="ic_action_apply">@drawable/ic_action_apply_dark</item>
         <item name="ic_action_copyright">@drawable/ic_action_copyright_dark</item>
         <item name="icon_grid_color">@color/icon_grid_light</item>
@@ -32,6 +33,7 @@
         <item name="colorPrimaryDark">@color/color_primary_dark</item>
         <item name="colorAccent">@color/color_accent</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
+        <item name="ic_action_fill">@drawable/ic_action_fill_light</item>
         <item name="ic_action_apply">@drawable/ic_action_apply_light</item>
         <item name="ic_action_copyright">@drawable/ic_action_copyright_light</item>
         <item name="icon_grid_color">@color/icon_grid_light</item>
@@ -42,6 +44,7 @@
         <item name="colorPrimary">@color/color_primary</item>
         <item name="colorAccent">@color/color_accent</item>
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
+        <item name="ic_action_fill">@drawable/ic_action_fill_dark</item>
         <item name="ic_action_apply">@drawable/ic_action_apply_dark</item>
         <item name="ic_action_copyright">@drawable/ic_action_copyright_dark</item>
         <item name="icon_grid_color">@color/icon_grid_dark</item>

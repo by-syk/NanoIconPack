@@ -28,4 +28,10 @@
         <!--<item>Calendar</item>-->
     </string-array>
 
+    <!-- Latest icons (Make sure it's from the "icons" array) -->
+    <!-- Just KEEP IT EMPTY BUT DO NOT DELETE IT if you do not want to show additional icons of new version app. -->
+    <string-array name="latest_icons" translatable="false">
+        <!--<item>Calendar</item>-->
+    </string-array>
+
 </resources>

@@ -77,6 +77,10 @@
         </activity>
 
         <activity
+            android:name="com.by_syk.lib.nanoiconpack.WhatsNewActivity"
+            android:label="@string/activity_whats_new" />
+
+        <activity
             android:name="com.by_syk.lib.nanoiconpack.AboutActivity"
             android:label="@string/activity_about" />
 

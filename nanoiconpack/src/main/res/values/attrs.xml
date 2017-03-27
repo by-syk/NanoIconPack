@@ -17,6 +17,7 @@
 
 <resources>
 
+    <attr name="ic_action_fill" format="reference" />
     <attr name="ic_action_apply" format="reference" />
     <attr name="ic_action_copyright" format="reference" />
     <attr name="ic_action_done" format="reference" />

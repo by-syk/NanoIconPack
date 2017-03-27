@@ -19,6 +19,7 @@
 
     <string name="activity_about">关于</string>
     <string name="activity_req_stats">申请统计</string>
+    <string name="activity_whats_new">更新了啥</string>
 
     <string name="dlg_title_apply">应用到启动器</string>
     <string name="dlg_title_set_key">设置口令</string>
@@ -29,6 +30,7 @@
     <string name="dlg_bt_close">关闭</string>
     <string name="dlg_bt_ok">确定</string>
 
+    <string name="menu_whats_new">更新了啥</string>
     <string name="menu_apply">应用</string>
     <string name="menu_about">关于</string>
     <string name="menu_filter">过滤</string>

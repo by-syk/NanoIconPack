@@ -35,6 +35,8 @@ import com.by_syk.lib.nanoiconpack.fragment.IconsFragment;
 import com.by_syk.lib.nanoiconpack.util.AllIconsGetter;
 import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
 import com.by_syk.lib.nanoiconpack.util.MatchedIconsGetter;
+import com.by_syk.lib.nanoiconpack.util.PkgUtil;
+import com.by_syk.lib.storage.SP;
 
 /**
  * Created by By_syk on 2016-07-16.
@@ -42,6 +44,8 @@ import com.by_syk.lib.nanoiconpack.util.MatchedIconsGetter;
 
 public class MainActivity extends AppCompatActivity
         implements IconsFragment.OnLoadDoneListener, AppsFragment.OnLoadDoneListener {
+    private SP sp;
+
     private ViewPager viewPager;
 
     private BottomNavigationView bottomNavigationView;
@@ -57,6 +61,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void init() {
+        sp = new SP(this, false);
+
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation_view);
 
@@ -126,13 +132,27 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
+        // If latest icons is provided, show the entrance menu item.
+        if (getResources().getStringArray(R.array.latest_icons).length > 0) {
+            menu.getItem(1).setVisible(true);
+            menu.getItem(2).setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+            if (!sp.getBoolean("hideLatest" + PkgUtil.getAppVer(this, "%1$s"))) {
+                menu.getItem(0).setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+                menu.getItem(1).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+            }
+        }
+
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.menu_apply) {
+        if (id == R.id.menu_whats_new) {
+            sp.save("hideLatest" + PkgUtil.getAppVer(this, "%1$s"), true);
+            item.setIntent(new Intent(this, WhatsNewActivity.class));
+            return super.onOptionsItemSelected(item);
+        } else if (id == R.id.menu_apply) {
             (new ApplyDialog()).show(getSupportFragmentManager(), "applyDialog");
             return true;
         } else if (id == R.id.menu_about) {
