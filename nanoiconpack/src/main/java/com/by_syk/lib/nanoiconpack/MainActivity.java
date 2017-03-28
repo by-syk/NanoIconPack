@@ -36,6 +36,7 @@ import com.by_syk.lib.nanoiconpack.util.AllIconsGetter;
 import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
 import com.by_syk.lib.nanoiconpack.util.MatchedIconsGetter;
 import com.by_syk.lib.nanoiconpack.util.PkgUtil;
+import com.by_syk.lib.nanoiconpack.util.SimplePageTransformer;
 import com.by_syk.lib.storage.SP;
 
 /**
@@ -67,6 +68,7 @@ public class MainActivity extends AppCompatActivity
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation_view);
 
         viewPager.setOffscreenPageLimit(3); // Keep all 3 pages alive.
+        viewPager.setPageTransformer(true, new SimplePageTransformer(SimplePageTransformer.ANIM_ZOOM_OUT));
         viewPager.setAdapter(new IconsPagerAdapter(getSupportFragmentManager()));
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
