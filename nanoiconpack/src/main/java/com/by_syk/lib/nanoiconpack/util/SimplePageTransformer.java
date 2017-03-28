@@ -21,8 +21,10 @@ public class SimplePageTransformer implements ViewPager.PageTransformer {
 
     public SimplePageTransformer(int animType) {
         if (animType == ANIM_RANDOM) {
-            int[] anim_types = {ANIM_DEFAULT ,ANIM_ZOOM_OUT, ANIM_DEPTH};
-            this.animType = anim_types[(new Random()).nextInt(anim_types.length)];
+            int[] animTypes = {ANIM_DEFAULT, ANIM_ZOOM_OUT, ANIM_DEPTH};
+            this.animType = animTypes[(new Random()).nextInt(animTypes.length)];
+        } else {
+            this.animType = animType;
         }
     }
 
@@ -43,30 +45,29 @@ public class SimplePageTransformer implements ViewPager.PageTransformer {
         final float MIN_SCALE = 0.85f;
         final float MIN_ALPHA = 0.5f;
 
-        int page_width = view.getWidth();
-        int page_height = view.getHeight();
+        int pageWidth = view.getWidth();
+        int pageHeight = view.getHeight();
 
         if (position < -1) { // [-Infinity,-1)
             // This page is way off-screen to the left.
             view.setAlpha(0);
         } else if (position <= 1) { // [-1,1]
             // Modify the default slide transition to shrink the page as well
-            float scale_factor = Math.max(MIN_SCALE, 1 - Math.abs(position));
-            float vert_margin = page_height * (1 - scale_factor) / 2;
-            float horz_margin = page_width * (1 - scale_factor) / 2;
+            float scaleFactor = Math.max(MIN_SCALE, 1 - Math.abs(position));
+            float verMargin = pageHeight * (1 - scaleFactor) / 2;
+            float horzMargin = pageWidth * (1 - scaleFactor) / 2;
             if (position < 0) {
-                view.setTranslationX(horz_margin - vert_margin / 2);
+                view.setTranslationX(horzMargin - verMargin / 2);
             } else {
-                view.setTranslationX(-horz_margin + vert_margin / 2);
+                view.setTranslationX(-horzMargin + verMargin / 2);
             }
 
             // Scale the page down (between MIN_SCALE and 1)
-            view.setScaleX(scale_factor);
-            view.setScaleY(scale_factor);
+            view.setScaleX(scaleFactor);
+            view.setScaleY(scaleFactor);
 
             // Fade the page relative to its size.
-            view.setAlpha(MIN_ALPHA + (scale_factor - MIN_SCALE)
-                    / (1 - MIN_SCALE) * (1 - MIN_ALPHA));
+            view.setAlpha(MIN_ALPHA + (scaleFactor - MIN_SCALE) / (1 - MIN_SCALE) * (1 - MIN_ALPHA));
         } else { // (1,+Infinity]
             // This page is way off-screen to the right.
             view.setAlpha(0);
@@ -76,7 +77,7 @@ public class SimplePageTransformer implements ViewPager.PageTransformer {
     private void transformPageDepth(View view, float position) {
         final float MIN_SCALE = 0.75f;
 
-        int page_width = view.getWidth();
+        int pageWidth = view.getWidth();
 
         if (position < -1) { // [-Infinity,-1)
             // This page is way off-screen to the left.
@@ -92,12 +93,12 @@ public class SimplePageTransformer implements ViewPager.PageTransformer {
             view.setAlpha(1 - position);
 
             // Counteract the default slide transition
-            view.setTranslationX(page_width * -position);
+            view.setTranslationX(pageWidth * -position);
 
             // Scale the page down (between MIN_SCALE and 1)
-            float scale_factor = MIN_SCALE + (1 - MIN_SCALE) * (1 - Math.abs(position));
-            view.setScaleX(scale_factor);
-            view.setScaleY(scale_factor);
+            float scaleFactor = MIN_SCALE + (1 - MIN_SCALE) * (1 - Math.abs(position));
+            view.setScaleX(scaleFactor);
+            view.setScaleY(scaleFactor);
         } else { // (1,+Infinity]
             // This page is way off-screen to the right.
             view.setAlpha(0);
