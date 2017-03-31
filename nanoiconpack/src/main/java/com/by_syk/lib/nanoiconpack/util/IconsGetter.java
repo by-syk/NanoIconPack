@@ -72,7 +72,7 @@ public abstract class IconsGetter implements Serializable {
             @Override
             public int compare(IconBean bean1, IconBean bean2) {
 //                return bean1.getName().compareTo(bean2.getName());
-//                return bean1.getLabel().compareTo(bean2.getLabel());
+//                return bean1.getAppLabel().compareTo(bean2.getAppLabel());
                 return bean1.getLabelPinyin().compareTo(bean2.getLabelPinyin());
             }
         });

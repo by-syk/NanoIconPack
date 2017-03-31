@@ -59,12 +59,20 @@ public class RetrofitHelper {
         return retrofitHelper;
     }
 
-    public Retrofit getRetrofit() {
-        return retrofit;
+//    public Retrofit getRetrofit() {
+//        return retrofit;
+//    }
+//
+//    public Retrofit getRetrofit4Coolapk() {
+//        return retrofit4Coolapk;
+//    }
+
+    public <T> T getService(Class<T> service) {
+        return retrofit.create(service);
     }
 
-    public Retrofit getRetrofit4Coolapk() {
-        return retrofit4Coolapk;
+    public <T> T getService4Coolapk(Class<T> service) {
+        return retrofit4Coolapk.create(service);
     }
 
     /**

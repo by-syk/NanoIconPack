@@ -37,6 +37,7 @@ import android.view.ViewGroup;
 
 import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.bean.AppBean;
+import com.by_syk.lib.nanoiconpack.bean.ReqNumBean;
 import com.by_syk.lib.nanoiconpack.bean.ResResBean;
 import com.by_syk.lib.nanoiconpack.dialog.AppTapHintDialog;
 import com.by_syk.lib.nanoiconpack.util.AppFilterReader;
@@ -49,7 +50,6 @@ import com.by_syk.lib.nanoiconpack.util.impl.NanoServerService;
 import com.by_syk.lib.nanoiconpack.widget.DividerItemDecoration;
 import com.by_syk.lib.storage.SP;
 import com.by_syk.lib.toast.GlobalToast;
-import com.google.gson.JsonObject;
 import com.simplecityapps.recyclerview_fastscroll.interfaces.OnFastScrollStateChangeListener;
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 
@@ -297,7 +297,7 @@ public class AppsFragment extends Fragment {
             Collections.sort(dataList, new Comparator<AppBean>() {
                 @Override
                 public int compare(AppBean bean1, AppBean bean2) {
-//                    return bean1.getLabel().compareTo(bean2.getLabel());
+//                    return bean1.getAppLabel().compareTo(bean2.getAppLabel());
                     return bean1.getLabelPinyin().compareTo(bean2.getLabelPinyin());
                 }
             });
@@ -399,18 +399,20 @@ public class AppsFragment extends Fragment {
                     continue;
                 }
                 if (nanoServerService == null) {
-                    nanoServerService = RetrofitHelper.getInstance().getRetrofit()
-                            .create(NanoServerService.class);
+                    nanoServerService = RetrofitHelper.getInstance()
+                            .getService(NanoServerService.class);
                 }
-                Call<ResResBean<JsonObject>> call = nanoServerService
+                Call<ResResBean<ReqNumBean>> call = nanoServerService
                         .getReqNum(getContext().getPackageName(), bean.getPkgName(), deviceId);
                 try {
-                    ResResBean<JsonObject> resResBean = call.execute().body();
-                    if (resResBean != null && resResBean.isStatusSuccess()) {
-                        JsonObject jo = resResBean.getResult();
-                        bean.setReqTimes(jo.get("num").getAsInt());
-                        bean.setMark(jo.get("reqed").getAsInt() == 1);
-                        publishProgress(i);
+                    ResResBean<ReqNumBean> resResBean = call.execute().body();
+                    if (resResBean.isStatusSuccess()) {
+                        ReqNumBean reqNumBean = resResBean.getResult();
+                        if (reqNumBean != null) {
+                            bean.setReqTimes(reqNumBean.getReqTimes());
+                            bean.setMark(reqNumBean.isRequested());
+                            publishProgress(i);
+                        }
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -465,8 +467,8 @@ public class AppsFragment extends Fragment {
             map.put("deviceModel", Build.MODEL);
             map.put("deviceSdk", String.valueOf(Build.VERSION.SDK_INT));
 
-            NanoServerService nanoServerService = RetrofitHelper.getInstance().getRetrofit()
-                    .create(NanoServerService.class);
+            NanoServerService nanoServerService = RetrofitHelper.getInstance()
+                    .getService(NanoServerService.class);
             Call<ResResBean<Integer>> call = nanoServerService.reqRedraw(getContext().getPackageName(), map);
             try {
                 ResResBean<Integer> resResBean = call.execute().body();

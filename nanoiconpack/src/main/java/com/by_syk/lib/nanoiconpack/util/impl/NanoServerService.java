@@ -16,10 +16,14 @@
 
 package com.by_syk.lib.nanoiconpack.util.impl;
 
+import com.by_syk.lib.nanoiconpack.bean.CodeBean;
+import com.by_syk.lib.nanoiconpack.bean.ReqNumBean;
+import com.by_syk.lib.nanoiconpack.bean.ReqTopBean;
 import com.by_syk.lib.nanoiconpack.bean.ResResBean;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -55,7 +59,7 @@ public interface NanoServerService {
      * { "status": 0, "msg": "success", "result": { "num": 5, "reqed": 1 } }
      */
     @GET("reqnum/{iconpack}/{pkg}")
-    Call<ResResBean<JsonObject>> getReqNum(@Path("iconpack") String iconPack,
+    Call<ResResBean<ReqNumBean>> getReqNum(@Path("iconpack") String iconPack,
                                            @Path("pkg") String pkgName,
                                            @Query("deviceid") String deviceId);
 
@@ -65,10 +69,10 @@ public interface NanoServerService {
      * ]}
      */
     @GET("reqtop/{iconpack}/{user}")
-    Call<ResResBean<JsonArray>> getReqTop(@Path("iconpack") String iconPack,
-                                          @Path("user") String user,
-                                          @Query("limit") int limitNum,
-                                          @Query("filter") boolean filter);
+    Call<ResResBean<List<ReqTopBean>>> getReqTop(@Path("iconpack") String iconPack,
+                                                 @Path("user") String user,
+                                                 @Query("limit") int limitNum,
+                                                 @Query("filter") boolean filter);
 
     /**
      * { "status": 0, "msg": "success", "result": [
@@ -76,7 +80,7 @@ public interface NanoServerService {
      * ]}
      */
     @GET("reqtopfiltered/{iconpack}/{user}")
-    Call<ResResBean<JsonArray>> getReqTopFiltered(@Path("iconpack") String iconPack,
+    Call<ResResBean<List<ReqTopBean>>> getReqTopFiltered(@Path("iconpack") String iconPack,
                                           @Path("user") String user);
 
     /**
@@ -103,7 +107,7 @@ public interface NanoServerService {
      * ]}
      */
     @GET("code/{pkg}")
-    Call<ResResBean<JsonArray>> getCode(@Path("pkg") String pkgName);
+    Call<ResResBean<List<CodeBean>>> getCode(@Path("pkg") String pkgName);
 
 //    /**
 //     * { "status": 0, "msg": "success",

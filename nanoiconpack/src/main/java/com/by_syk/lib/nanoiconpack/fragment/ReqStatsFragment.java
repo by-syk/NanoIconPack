@@ -37,6 +37,7 @@ import android.view.ViewGroup;
 import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.bean.AppBean;
 import com.by_syk.lib.nanoiconpack.bean.CoolApkApkDetailBean;
+import com.by_syk.lib.nanoiconpack.bean.ReqTopBean;
 import com.by_syk.lib.nanoiconpack.bean.ResResBean;
 import com.by_syk.lib.nanoiconpack.dialog.ReqMenuDialog;
 import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
@@ -49,8 +50,6 @@ import com.by_syk.lib.nanoiconpack.widget.DividerItemDecoration;
 import com.by_syk.lib.storage.SP;
 import com.by_syk.lib.toast.GlobalToast;
 import com.coolapk.market.util.AuthUtils;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.simplecityapps.recyclerview_fastscroll.interfaces.OnFastScrollStateChangeListener;
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 
@@ -281,30 +280,29 @@ public class ReqStatsFragment extends Fragment {
             List<AppBean> dataList = new ArrayList<>();
 
             try {
-                NanoServerService nanoServerService = RetrofitHelper.getInstance().getRetrofit()
-                        .create(NanoServerService.class);
+                NanoServerService nanoServerService = RetrofitHelper.getInstance()
+                        .getService(NanoServerService.class);
 //                Call<ResResBean<JsonArray>> call = nanoServerService.getReqTop(getContext().getPackageName(),
 //                        user, LIMIT_NUM_ARR[limitLevel], toFilter);
-                Call<ResResBean<JsonArray>> call;
+                Call<ResResBean<List<ReqTopBean>>> call;
                 if (filterType == 1) {
                     call = nanoServerService.getReqTopFiltered(getContext().getPackageName(), user);
                 } else /*if (filterType == 0)*/ {
                     call = nanoServerService.getReqTop(getContext().getPackageName(),
                             user, LIMIT_NUM_ARR[limitLevel], true);
                 }
-                ResResBean<JsonArray> resResBean = call.execute().body();
+                ResResBean<List<ReqTopBean>> resResBean = call.execute().body();
                 if (resResBean == null || !resResBean.isStatusSuccess()
                         || resResBean.getResult() == null) {
                     return dataList;
                 }
-                JsonArray ja = resResBean.getResult();
-                for (int i = 0, len = ja.size(); i < len; ++i) {
-                    JsonObject jo = ja.get(i).getAsJsonObject();
+                List<ReqTopBean> reqTopBeanList = resResBean.getResult();
+                for (ReqTopBean reqTopBean : reqTopBeanList) {
                     AppBean bean = new AppBean();
-                    bean.setLabel(jo.get("label").getAsString());
-                    bean.setPkgName(jo.get("pkg").getAsString());
-                    bean.setReqTimes(jo.get("sum").getAsInt());
-                    bean.setMark(jo.get("filter").getAsInt() == 1);
+                    bean.setLabel(reqTopBean.getAppLabel());
+                    bean.setPkgName(reqTopBean.getPkg());
+                    bean.setReqTimes(reqTopBean.getReqTimes());
+                    bean.setMark(reqTopBean.isMarked());
                     dataList.add(bean);
                 }
             } catch (Exception e) {
@@ -405,7 +403,7 @@ public class ReqStatsFragment extends Fragment {
                 }
                 if (serverService == null) {
                     serverService = RetrofitHelper.getInstance().init4Coolapk()
-                            .getRetrofit4Coolapk().create(CoolApkServerService.class);
+                            .getService4Coolapk(CoolApkServerService.class);
                 }
                 Call<CoolApkApkDetailBean> call = serverService.getCoolApkApkDetail(AuthUtils
                         .getAS(UUID.randomUUID().toString()), bean.getPkgName());

@@ -24,8 +24,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.RequestManager;
 import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.bean.IconBean;
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
@@ -115,7 +113,7 @@ public class IconAdapter extends RecyclerView.Adapter<IconAdapter.IconViewHolder
 
 //        IconBean bean = dataList.get(position);
 //        String indexStr = bean.getLabelPinyin().substring(0, 1).toUpperCase();
-//        String character = bean.getLabel();
+//        String character = bean.getAppLabel();
 //        if (!TextUtils.isEmpty(character)) {
 //            character = character.substring(0, 1).toUpperCase();
 //            if (!character.equals(indexStr)) {

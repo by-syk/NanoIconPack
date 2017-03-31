@@ -27,6 +27,7 @@ import android.widget.TextView;
 
 import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.bean.AppBean;
+import com.by_syk.lib.nanoiconpack.bean.CodeBean;
 import com.by_syk.lib.nanoiconpack.bean.ResResBean;
 import com.by_syk.lib.nanoiconpack.util.C;
 import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
@@ -34,10 +35,8 @@ import com.by_syk.lib.nanoiconpack.util.RetrofitHelper;
 import com.by_syk.lib.nanoiconpack.util.impl.NanoServerService;
 import com.by_syk.lib.storage.SP;
 import com.by_syk.lib.toast.GlobalToast;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 
+import java.util.List;
 import java.util.Locale;
 
 import retrofit2.Call;
@@ -120,8 +119,8 @@ public class ReqMenuDialog extends BottomSheetDialogFragment implements View.OnC
 
         String user = (new SP(getContext(), false)).getString("user");
 
-        NanoServerService nanoServerService = RetrofitHelper.getInstance().getRetrofit()
-                .create(NanoServerService.class);
+        NanoServerService nanoServerService = RetrofitHelper.getInstance()
+                .getService(NanoServerService.class);
         Call<ResResBean> call = nanoServerService.filterPkg(getContext().getPackageName(),
                 user, bean.getPkgName());
         call.enqueue(new Callback<ResResBean>() {
@@ -155,8 +154,8 @@ public class ReqMenuDialog extends BottomSheetDialogFragment implements View.OnC
 
         String user = (new SP(getContext(), false)).getString("user");
 
-        NanoServerService nanoServerService = RetrofitHelper.getInstance().getRetrofit()
-                .create(NanoServerService.class);
+        NanoServerService nanoServerService = RetrofitHelper.getInstance()
+                .getService(NanoServerService.class);
         Call<ResResBean> call = nanoServerService.undoFilterPkg(getContext().getPackageName(),
                 user, bean.getPkgName());
         call.enqueue(new Callback<ResResBean>() {
@@ -188,14 +187,14 @@ public class ReqMenuDialog extends BottomSheetDialogFragment implements View.OnC
     private void copyCode() {
         contentView.findViewById(R.id.pb_copy_code).setVisibility(View.VISIBLE);
 
-        NanoServerService nanoServerService = RetrofitHelper.getInstance().getRetrofit()
-                .create(NanoServerService.class);
-        Call<ResResBean<JsonArray>> call = nanoServerService.getCode(bean.getPkgName());
-        call.enqueue(new Callback<ResResBean<JsonArray>>() {
+        NanoServerService nanoServerService = RetrofitHelper.getInstance()
+                .getService(NanoServerService.class);
+        Call<ResResBean<List<CodeBean>>> call = nanoServerService.getCode(bean.getPkgName());
+        call.enqueue(new Callback<ResResBean<List<CodeBean>>>() {
             @Override
-            public void onResponse(Call<ResResBean<JsonArray>> call, Response<ResResBean<JsonArray>> response) {
-                ResResBean<JsonArray> resResBean = response.body();
-                if (resResBean != null && resResBean.isStatusSuccess()) {
+            public void onResponse(Call<ResResBean<List<CodeBean>>> call, Response<ResResBean<List<CodeBean>>> response) {
+                ResResBean<List<CodeBean>> resResBean = response.body();
+                if (resResBean.isStatusSuccess()) {
                     String codes = packageCodes(resResBean.getResult());
                     if (!TextUtils.isEmpty(codes)) {
                         ExtraUtil.copy2Clipboard(getContext(), codes);
@@ -209,35 +208,24 @@ public class ReqMenuDialog extends BottomSheetDialogFragment implements View.OnC
             }
 
             @Override
-            public void onFailure(Call<ResResBean<JsonArray>> call, Throwable t) {
+            public void onFailure(Call<ResResBean<List<CodeBean>>> call, Throwable t) {
                 GlobalToast.showToast(getContext(), R.string.toast_code_copy_failed);
                 dismiss();
             }
         });
     }
 
-    private String packageCodes(@NonNull JsonArray ja) {
+    private String packageCodes(@NonNull List<CodeBean> codeBeanList) {
         String codes = "";
-        for (int i = 0, len = ja.size(); i < len; ++i) {
-            JsonObject jo = ja.get(i).getAsJsonObject();
-            // Why not jo.get("labelEn").getAsString() ?
-            // If null, it crashes.
-            String labelEn = "";
-            JsonElement je = jo.get("labelEn");
-            if (je != null && !je.isJsonNull()) {
-                labelEn = je.getAsString();
-            }
+        for (CodeBean codeBean : codeBeanList) {
+            String labelEn = codeBean.getAppLabelEn();
             String code1 = String.format(Locale.US, C.APP_CODE_LABEL,
-                    jo.get("label").getAsString(),
+                    codeBean.getAppLabel(),
                     labelEn);
-            String icon = "";
-            je = jo.get("icon");
-            if (je != null && !je.isJsonNull()) {
-                icon = je.getAsString();
-            }
+            String icon = codeBean.getIconName();
             String code2 = String.format(Locale.US, C.APP_CODE_COMPONENT,
-                    jo.get("pkg").getAsString(),
-                    jo.get("launcher").getAsString(),
+                    codeBean.getPkg(),
+                    codeBean.getLauncherActivity(),
                     icon);
             int index = codes.indexOf(code2);
             if (index >= 0) {

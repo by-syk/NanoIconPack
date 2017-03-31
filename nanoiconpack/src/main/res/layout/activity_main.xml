@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="?attr/bottom_bar_color"
-        android:elevation="8dp"
+        app:elevation="8dp"
         app:layout_behavior="com.by_syk.lib.nanoiconpack.widget.BottomNavigationBehavior"
         app:menu="@menu/navigation" />
 

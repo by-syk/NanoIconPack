@@ -407,12 +407,12 @@ public class ExtraUtil {
             return false;
         }
 
-        boolean is_connected = networkInfo.isAvailable();
+        boolean isConnected = networkInfo.isAvailable();
         if (isWifiOnly) {
-            is_connected &= networkInfo.getType() == ConnectivityManager.TYPE_WIFI;
+            isConnected &= networkInfo.getType() == ConnectivityManager.TYPE_WIFI;
         }
 
-        return is_connected;
+        return isConnected;
     }
 
     public static boolean isNetworkConnected(Context context) {
