@@ -18,6 +18,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/menu_filter"
         android:title="@string/menu_filter"
         android:icon="@drawable/ic_action_compare_dark"
         app:showAsAction="ifRoom">
@@ -35,6 +36,7 @@
     </item>
 
     <item
+        android:id="@+id/menu_top"
         android:title="@string/menu_top"
         android:icon="@drawable/ic_action_filter_dark"
         app:showAsAction="ifRoom">

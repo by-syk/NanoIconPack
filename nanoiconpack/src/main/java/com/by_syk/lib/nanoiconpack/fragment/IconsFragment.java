@@ -150,6 +150,17 @@ public class IconsFragment extends Fragment {
                 : R.string.toast_icon_save_failed);
     }
 
+    public static IconsFragment newInstance(int id, IconsGetter iconsGetter) {
+        IconsFragment fragment = new IconsFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putInt("pageId", id);
+        bundle.putSerializable("iconsGetter", iconsGetter);
+        fragment.setArguments(bundle);
+
+        return fragment;
+    }
+
     private class LoadIconsTask extends AsyncTask<String, Integer, List<IconBean>> {
         @Override
         protected void onPreExecute() {
@@ -190,16 +201,5 @@ public class IconsFragment extends Fragment {
                 onLoadDoneListener.onLoadDone(pageId, list.size());
             }
         }
-    }
-
-    public static IconsFragment newInstance(int id, IconsGetter iconsGetter) {
-        IconsFragment fragment = new IconsFragment();
-
-        Bundle bundle = new Bundle();
-        bundle.putInt("pageId", id);
-        bundle.putSerializable("iconsGetter", iconsGetter);
-        fragment.setArguments(bundle);
-
-        return fragment;
     }
 }

@@ -1,5 +1,6 @@
 package com.by_syk.lib.nanoiconpack.util;
 
+import android.support.annotation.IntDef;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
@@ -12,6 +13,8 @@ import java.util.Random;
 public class SimplePageTransformer implements ViewPager.PageTransformer {
     private int animType = ANIM_ZOOM_OUT;
 
+    @IntDef({ANIM_RANDOM, ANIM_DEFAULT, ANIM_ZOOM_OUT, ANIM_DEPTH})
+    public @interface AnimType {}
     public static final int ANIM_RANDOM = 0;
     public static final int ANIM_DEFAULT = 1;
     public static final int ANIM_ZOOM_OUT = 2;
@@ -19,7 +22,7 @@ public class SimplePageTransformer implements ViewPager.PageTransformer {
 
     public SimplePageTransformer() {}
 
-    public SimplePageTransformer(int animType) {
+    public SimplePageTransformer(@AnimType int animType) {
         if (animType == ANIM_RANDOM) {
             int[] animTypes = {ANIM_DEFAULT, ANIM_ZOOM_OUT, ANIM_DEPTH};
             this.animType = animTypes[(new Random()).nextInt(animTypes.length)];

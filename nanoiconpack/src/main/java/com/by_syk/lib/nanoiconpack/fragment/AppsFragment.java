@@ -252,6 +252,16 @@ public class AppsFragment extends Fragment {
         }
     }
 
+    public static AppsFragment newInstance(int id) {
+        AppsFragment fragment = new AppsFragment();
+
+        Bundle bundle = new Bundle();
+        bundle.putInt("pageId", id);
+        fragment.setArguments(bundle);
+
+        return fragment;
+    }
+
     private class LoadAppsTask extends AsyncTask<Boolean, Integer, List<AppBean>> {
         @Override
         protected void onPreExecute() {
@@ -504,15 +514,5 @@ public class AppsFragment extends Fragment {
             GlobalToast.showToast(getContext(), result ? R.string.toast_icon_reqed
                     : R.string.toast_icon_req_failed);
         }
-    }
-
-    public static AppsFragment newInstance(int id) {
-        AppsFragment fragment = new AppsFragment();
-
-        Bundle bundle = new Bundle();
-        bundle.putInt("pageId", id);
-        fragment.setArguments(bundle);
-
-        return fragment;
     }
 }

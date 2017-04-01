@@ -77,7 +77,6 @@ public class ReqStatsFragment extends Fragment {
     private RetainedFragment retainedFragment;
 
     private String user;
-//    private boolean toFilter = true;
     private int filterType = 0;
     private int limitLevel = 0;
 
@@ -92,7 +91,6 @@ public class ReqStatsFragment extends Fragment {
         setHasOptionsMenu(true);
 
         if (savedInstanceState != null) {
-//            toFilter = savedInstanceState.getBoolean("toFilter", true);
             filterType = savedInstanceState.getInt("filterType", 0);
             limitLevel = savedInstanceState.getInt("limitLevel", 0);
         }
@@ -115,7 +113,6 @@ public class ReqStatsFragment extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-//        outState.putBoolean("toFilter", toFilter);
         outState.putInt("filterType", filterType);
         outState.putInt("limitLevel", limitLevel);
     }
@@ -205,22 +202,6 @@ public class ReqStatsFragment extends Fragment {
                             : R.string.toast_mark_failed);
                     return;
                 }
-//                if (bean1.isMark()) {
-//                    if (toFilter) {
-//                        reqStatsAdapter.remove(pos);
-//                        if (lazyLoadTask == null) {
-//                            lazyLoadTask = new LazyLoadTask();
-//                            lazyLoadTask.execute(layoutManager.findFirstVisibleItemPosition(),
-//                                    layoutManager.findLastVisibleItemPosition());
-//                        }
-//                    } else {
-//                        reqStatsAdapter.notifyItemChanged(pos);
-//                    }
-//                    GlobalToast.showToast(getContext(), R.string.toast_marked);
-//                } else {
-//                    reqStatsAdapter.notifyItemChanged(pos);
-//                    GlobalToast.showToast(getContext(), R.string.toast_mark_undo);
-//                }
                 reqStatsAdapter.remove(pos);
                 if (lazyLoadTask == null) {
                     lazyLoadTask = new LazyLoadTask();
@@ -234,18 +215,6 @@ public class ReqStatsFragment extends Fragment {
         reqMenuDialog.show(getFragmentManager(), "reqMenuDialog");
     }
 
-//    private void updateData(boolean toFilter, int limitLevel) {
-//        if (toFilter == this.toFilter && limitLevel == this.limitLevel) {
-//            return;
-//        }
-//        this.toFilter = toFilter;
-//        this.limitLevel = limitLevel;
-//
-//        swipeRefreshLayout.setRefreshing(true);
-//
-//        (new LoadAppsTask()).execute(true);
-//    }
-
     private void updateData(int filterType, int limitLevel) {
         if (filterType == this.filterType && limitLevel == this.limitLevel) {
             return;
@@ -256,6 +225,45 @@ public class ReqStatsFragment extends Fragment {
         swipeRefreshLayout.setRefreshing(true);
 
         (new LoadAppsTask()).execute(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_req_stats, menu);
+
+        menu.findItem(R.id.menu_filter).getSubMenu().getItem(filterType).setChecked(true);
+        menu.findItem(R.id.menu_top).getSubMenu().getItem(limitLevel).setChecked(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.menu_show_unmarked) {
+            updateData(0, limitLevel);
+            item.setChecked(!item.isChecked());
+            return true;
+        } else if (id == R.id.menu_show_marked) {
+            updateData(1, limitLevel);
+            item.setChecked(!item.isChecked());
+            return true;
+        } else if (id == R.id.menu_top_32) {
+            item.setChecked(true);
+            updateData(filterType, 0);
+            return true;
+        } else if (id == R.id.menu_top_64) {
+            item.setChecked(true);
+            updateData(filterType, 1);
+            return true;
+        } else if (id == R.id.menu_top_128) {
+            item.setChecked(true);
+            updateData(filterType, 2);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public static ReqStatsFragment newInstance() {
+        return new ReqStatsFragment();
     }
 
     private class LoadAppsTask extends AsyncTask<Boolean, Integer, List<AppBean>> {
@@ -436,52 +444,5 @@ public class ReqStatsFragment extends Fragment {
 
             lazyLoadTask = null;
         }
-    }
-
-    public static ReqStatsFragment newInstance() {
-        return new ReqStatsFragment();
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_req_stats, menu);
-
-//        menu.getItem(0).setChecked(!toFilter);
-        menu.getItem(0).getSubMenu().getItem(filterType).setChecked(true);
-        menu.getItem(1).getSubMenu().getItem(limitLevel).setChecked(true);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        /*if (id == R.id.menu_include_filter) {
-            updateData(item.isChecked(), limitLevel);
-            item.setChecked(!item.isChecked());
-            return true;
-        }*/if (id == R.id.menu_show_unmarked) {
-            updateData(0, limitLevel);
-            item.setChecked(!item.isChecked());
-            return true;
-        } else if (id == R.id.menu_show_marked) {
-            updateData(1, limitLevel);
-            item.setChecked(!item.isChecked());
-            return true;
-        } else if (id == R.id.menu_top_32) {
-            item.setChecked(true);
-//            updateData(toFilter, 0);
-            updateData(filterType, 0);
-            return true;
-        } else if (id == R.id.menu_top_64) {
-            item.setChecked(true);
-//            updateData(toFilter, 1);
-            updateData(filterType, 1);
-            return true;
-        } else if (id == R.id.menu_top_128) {
-            item.setChecked(true);
-//            updateData(toFilter, 2);
-            updateData(filterType, 2);
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 }
