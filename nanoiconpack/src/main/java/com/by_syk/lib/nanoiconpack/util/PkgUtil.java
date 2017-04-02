@@ -216,7 +216,9 @@ public class PkgUtil {
         try {
             PackageManager packageManager = context.getPackageManager();
             ApplicationInfo applicationInfo = packageManager.getPackageInfo(pkgName, 0).applicationInfo;
-            return (applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == ApplicationInfo.FLAG_SYSTEM;
+//            return (applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == ApplicationInfo.FLAG_SYSTEM;
+            return ((ApplicationInfo.FLAG_SYSTEM | ApplicationInfo.FLAG_UPDATED_SYSTEM_APP)
+                    & applicationInfo.flags) != 0;
         } catch (Exception e) {
             e.printStackTrace();
         }

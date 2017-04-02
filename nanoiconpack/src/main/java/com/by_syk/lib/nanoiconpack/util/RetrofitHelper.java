@@ -92,7 +92,11 @@ public class RetrofitHelper {
 
     public static RetrofitHelper getInstance() {
         if (retrofitHelper == null) {
-            retrofitHelper = new RetrofitHelper();
+            synchronized(RetrofitHelper.class) {
+                if (retrofitHelper == null) {
+                    retrofitHelper = new RetrofitHelper();
+                }
+            }
         }
         return retrofitHelper;
     }
