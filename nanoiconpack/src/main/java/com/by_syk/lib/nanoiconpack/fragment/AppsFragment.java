@@ -39,7 +39,6 @@ import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.bean.AppBean;
 import com.by_syk.lib.nanoiconpack.bean.ReqNumBean;
 import com.by_syk.lib.nanoiconpack.bean.ResResBean;
-import com.by_syk.lib.nanoiconpack.dialog.AppTapHintDialog;
 import com.by_syk.lib.nanoiconpack.util.AppFilterReader;
 import com.by_syk.lib.nanoiconpack.util.C;
 import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
@@ -48,7 +47,6 @@ import com.by_syk.lib.nanoiconpack.util.RetrofitHelper;
 import com.by_syk.lib.nanoiconpack.util.adapter.AppAdapter;
 import com.by_syk.lib.nanoiconpack.util.impl.NanoServerService;
 import com.by_syk.lib.nanoiconpack.widget.DividerItemDecoration;
-import com.by_syk.lib.storage.SP;
 import com.by_syk.lib.toast.GlobalToast;
 import com.simplecityapps.recyclerview_fastscroll.interfaces.OnFastScrollStateChangeListener;
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
@@ -71,8 +69,6 @@ import retrofit2.Call;
 
 public class AppsFragment extends Fragment {
     private int pageId = 0;
-
-    private SP sp;
 
     private View contentView;
 
@@ -137,8 +133,6 @@ public class AppsFragment extends Fragment {
     private void init() {
         pageId = getArguments().getInt("pageId");
 
-        sp = new SP(getContext(), false);
-
         initAdapter();
         initRecycler();
         initSwipeRefresh();
@@ -149,10 +143,10 @@ public class AppsFragment extends Fragment {
         appAdapter.setOnItemClickListener(new AppAdapter.OnItemClickListener() {
             @Override
             public void onClick(int pos, AppBean bean) {
-                if (!sp.getBoolean("appTapHint1")) {
-                    (new AppTapHintDialog()).show(getFragmentManager(), "appTapTintDialog");
-                    return;
-                }
+//                if (!sp.getBoolean("appTapHint1")) {
+//                    (new AppTapHintDialog()).show(getFragmentManager(), "appTapTintDialog");
+//                    return;
+//                }
                 if (ExtraUtil.isNetworkConnected(getContext())) {
                     (new SubmitReqTask(pos)).execute();
                 } else {
@@ -162,10 +156,10 @@ public class AppsFragment extends Fragment {
 
             @Override
             public void onLongClick(int pos, AppBean bean) {
-                if (!sp.getBoolean("appTapHint1")) {
-                    (new AppTapHintDialog()).show(getFragmentManager(), "hintDialog");
-                    return;
-                }
+//                if (!sp.getBoolean("appTapHint1")) {
+//                    (new AppTapHintDialog()).show(getFragmentManager(), "hintDialog");
+//                    return;
+//                }
                 copyOrShareAppCode(bean, true);
             }
         });

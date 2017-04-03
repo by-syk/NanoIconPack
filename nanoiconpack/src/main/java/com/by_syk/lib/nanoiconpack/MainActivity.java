@@ -68,7 +68,8 @@ public class MainActivity extends AppCompatActivity
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation_view);
 
         viewPager.setOffscreenPageLimit(3); // Keep all 3 pages alive.
-        viewPager.setPageTransformer(true, new SimplePageTransformer(SimplePageTransformer.ANIM_ZOOM_OUT));
+        viewPager.setPageTransformer(true, new SimplePageTransformer(getResources()
+                .getInteger(R.integer.home_page_transform_anim)));
         viewPager.setAdapter(new IconsPagerAdapter(getSupportFragmentManager()));
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

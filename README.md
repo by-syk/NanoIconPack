@@ -1,6 +1,6 @@
 # NanoIconPack 图标包APP模板
 
-[![Developing](https://img.shields.io/badge/Developing-v2.0.4-green.svg)](art/CHANGELOG.txt)
+[![Developing](https://img.shields.io/badge/Developing-v2.1.0-green.svg)](art/CHANGELOG.txt)
 [![Release](https://img.shields.io/badge/Release-v2.0.0-brightgreen.svg)](https://github.com/by-syk/NanoIconPack/releases/tag/2.0.0)
 [![Download](https://img.shields.io/badge/Download-Sample%20APP-brightgreen.svg)](https://github.com/by-syk/NanoIconPack/raw/master/out/com.by_syk.nanoiconpack.sample_v2.0.0.7(17030600).apk)
 [![License](https://img.shields.io/badge/License-Apache%202.0-yellowgreen.svg)](https://github.com/by-syk/NanoIconPack/blob/master/LICENSE)
@@ -121,6 +121,7 @@ NanoIconPack 拥有一个轻量的服务器，提供图标申请和申请统计�
 + [square / retrofit](https://github.com/square/retrofit) licensed under [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0)
 + [bumptech / glide](https://github.com/bumptech/glide) licensed under [BSD, part MIT and Apache-2.0](https://github.com/bumptech/glide/blob/master/LICENSE)
 + [timusus / RecyclerView-FastScroll](https://github.com/timusus/RecyclerView-FastScroll) licensed under [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0)
++ [wooplr / Spotlight](https://github.com/wooplr/Spotlight) licensed under [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0)
 
 NanoIconPack 参考了如下资料：
 + [teslacoil / Example_NovaTheme](https://github.com/teslacoil/Example_NovaTheme)

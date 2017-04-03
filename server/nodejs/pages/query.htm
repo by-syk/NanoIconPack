@@ -58,18 +58,28 @@ $(document).ready(function() {
       fill(data);
     });
   });
+  $("#inputKeyword").focus(function() {
+    $(this).select();
+  });
   $("#inputKeyword").bind("keypress", function(event) {
     if(event.keyCode == "13") {
         $("#btQuery").click();
     }
   });
+  $('#codeDlg').on('shown.bs.modal', function () {
+    $('#taCode').focus();
+  });
+  /*$("#taCode").blur(function() {
+    $("#codeDlg").modal("hide");
+  });*/
   $.get("/nanoiconpack/sum", function(data) {
     if (data && data.status == 0) {
-      $("#sum").text(data.result.apps);
+      $("#iconPacks").text(data.result.iconPacks);
       $("#apps").text(data.result.apps);
       $("#reqTimes").text(data.result.reqTimes);
     }
   });
+  $("#inputKeyword").focus();
 });
 function clear(str) {
   $("#codeTbody").empty();
@@ -159,7 +169,7 @@ function showCode(tds) {
 <div class="container-fluid">
 <div class="row">
 <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 col-lg-offset-1 col-md-offset-1">
-  <div class="alert alert-info" role="alert">NanoQuery is supported by data of <span class="badge" id="apps"></span> apps and <span class="badge" id="reqTimes"></span> requests.</div>
+  <div class="alert alert-info" role="alert">How much data? <span class="badge" id="iconPacks"></span> iconpacks, <span class="badge" id="apps"></span> apps and <span class="badge" id="reqTimes"></span> requests.</div>
   <div class="alert alert-warning alert-dismissible" role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     <strong>Tips</strong> Looking for base apps of various devices? <a class="alert-link" href="/nanoiconpack/page/base">Click here.</a>

@@ -19,7 +19,10 @@ package com.by_syk.lib.nanoiconpack.util.adapter;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -36,7 +39,8 @@ import java.util.List;
  */
 
 public class IconAdapter extends RecyclerView.Adapter<IconAdapter.IconViewHolder>
-        implements FastScrollRecyclerView.SectionedAdapter {
+        implements FastScrollRecyclerView.SectionedAdapter,
+        View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
     private LayoutInflater layoutInflater;
 
 //    private RequestManager requestManager;
@@ -44,6 +48,8 @@ public class IconAdapter extends RecyclerView.Adapter<IconAdapter.IconViewHolder
     private int gridSIze = -1;
 
     private List<IconBean> dataList = new ArrayList<>();
+
+    private int contextMenuActiveItemPos = -1;
 
     private OnItemClickListener onItemClickListener;
 
@@ -93,11 +99,15 @@ public class IconAdapter extends RecyclerView.Adapter<IconAdapter.IconViewHolder
             holder.ivIcon.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
-                    int pos = holder.getAdapterPosition();
-                    onItemClickListener.onLongClick(pos, dataList.get(pos));
-                    return true;
+//                    int pos = holder.getAdapterPosition();
+//                    onItemClickListener.onLongClick(pos, dataList.get(pos));
+//                    return true;
+                    contextMenuActiveItemPos = holder.getAdapterPosition();
+                    return false;
                 }
             });
+            // OnLongClickListener -> onCreateContextMenu -> onMenuItemClick
+            holder.itemView.setOnCreateContextMenuListener(this);
         }
     }
 
@@ -109,20 +119,34 @@ public class IconAdapter extends RecyclerView.Adapter<IconAdapter.IconViewHolder
     @NonNull
     @Override
     public String getSectionName(int position) {
-        // TODO Try highlighting index icon here?
-
-//        IconBean bean = dataList.get(position);
-//        String indexStr = bean.getLabelPinyin().substring(0, 1).toUpperCase();
-//        String character = bean.getAppLabel();
-//        if (!TextUtils.isEmpty(character)) {
-//            character = character.substring(0, 1).toUpperCase();
-//            if (!character.equals(indexStr)) {
-//                indexStr = character + " " + indexStr;
-//            }
-//        }
-//        return indexStr;
-
         return dataList.get(position).getLabelPinyin().substring(0, 1).toUpperCase();
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
+        contextMenu.setHeaderTitle(dataList.get(contextMenuActiveItemPos).getLabel());
+        contextMenu.add(Menu.NONE, 0, Menu.NONE, R.string.menu_view_icon);
+        contextMenu.add(Menu.NONE, 1, Menu.NONE, R.string.menu_save_icon);
+        contextMenu.getItem(0).setOnMenuItemClickListener(this);
+        contextMenu.getItem(1).setOnMenuItemClickListener(this);
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem menuItem) {
+        if (onItemClickListener == null) {
+            return true;
+        }
+        switch (menuItem.getItemId()) {
+            case 0:
+                onItemClickListener.onClick(contextMenuActiveItemPos,
+                        dataList.get(contextMenuActiveItemPos));
+                break;
+            case 1:
+                onItemClickListener.onLongClick(contextMenuActiveItemPos,
+                        dataList.get(contextMenuActiveItemPos));
+                break;
+        }
+        return true;
     }
 
     public void refresh(List<IconBean> dataList) {

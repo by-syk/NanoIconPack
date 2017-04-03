@@ -145,6 +145,7 @@ var sqlCmds = {
   queryByLabel2: 'SELECT label, label_en AS labelEn, pkg, launcher, icon, COUNT(*) AS sum FROM req WHERE label LIKE ? OR label_en LIKE ? GROUP BY label, label_en, launcher LIMIT 128',
   sumReqTimes: 'SELECT COUNT(*) AS sum FROM req',
   sumApps: 'SELECT COUNT(*) AS sum FROM (SELECT pkg FROM req GROUP BY pkg, launcher) AS pkgs',
+  sumIconPacks: 'SELECT COUNT(*) AS sum FROM (SELECT icon_pack FROM req GROUP BY icon_pack HAVING COUNT(icon_pack) > 32) AS iconPacks',
   baseApps: 'SELECT s.label, s.label_en, s.name, r.pkg, r.launcher, r.device_brand FROM series AS s LEFT JOIN req AS r ON s.name = r.series WHERE s.sys = 1 GROUP BY s.name, r.pkg, r.launcher ORDER BY s.name, r.pkg, r.launcher'
 };
 
@@ -535,14 +536,24 @@ app.get('/nanoiconpack/sum', function(req, res) {
     query(sqlCmds.sumApps, [], function(err1, rows1) {
       var result = {
         reqTimes: rows[0].sum,
-        apps: -1
+        apps: -1,
+        iconPacks: -1
       };
       if (err1) {
         logger.warn(err1);
-      } else {
-        result.apps = rows1[0].sum;
+        res.jsonp(utils.getResRes(0, undefined, result));
+        return;
       }
-      res.jsonp(utils.getResRes(0, undefined, result));
+      result.apps = rows1[0].sum;
+      query(sqlCmds.sumIconPacks, [], function(err2, rows2) {
+        if (err2) {
+          logger.warn(err2);
+          res.jsonp(utils.getResRes(0, undefined, result));
+          return;
+        }
+        result.iconPacks = rows2[0].sum;
+        res.jsonp(utils.getResRes(0, undefined, result));
+      });
     });
   });
 });

@@ -21,7 +21,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -40,10 +43,13 @@ import java.util.List;
  */
 
 public class AppAdapter extends RecyclerView.Adapter<AppAdapter.IconViewHolder>
-    implements FastScrollRecyclerView.SectionedAdapter {
+        implements FastScrollRecyclerView.SectionedAdapter,
+        View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
     private LayoutInflater layoutInflater;
 
     private List<AppBean> dataList = new ArrayList<>();
+
+    private int contextMenuActiveItemPos = -1;
 
     private OnItemClickListener onItemClickListener;
 
@@ -101,11 +107,15 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.IconViewHolder>
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
-                    int pos = holder.getAdapterPosition();
-                    onItemClickListener.onLongClick(pos, dataList.get(pos));
-                    return true;
+//                    int pos = holder.getAdapterPosition();
+//                    onItemClickListener.onLongClick(pos, dataList.get(pos));
+//                    return true;
+                    contextMenuActiveItemPos = holder.getAdapterPosition();
+                    return false;
                 }
             });
+            // OnLongClickListener -> onCreateContextMenu -> onMenuItemClick
+            holder.itemView.setOnCreateContextMenuListener(this);
         }
     }
 
@@ -118,6 +128,33 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.IconViewHolder>
     @Override
     public String getSectionName(int position) {
         return dataList.get(position).getLabelPinyin().substring(0, 1).toUpperCase();
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
+        contextMenu.setHeaderTitle(dataList.get(contextMenuActiveItemPos).getLabel());
+        contextMenu.add(Menu.NONE, 0, Menu.NONE, R.string.menu_request_icon);
+        contextMenu.add(Menu.NONE, 1, Menu.NONE, R.string.menu_copy_code);
+        contextMenu.getItem(0).setOnMenuItemClickListener(this);
+        contextMenu.getItem(1).setOnMenuItemClickListener(this);
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem menuItem) {
+        if (onItemClickListener == null) {
+            return true;
+        }
+        switch (menuItem.getItemId()) {
+            case 0:
+                onItemClickListener.onClick(contextMenuActiveItemPos,
+                        dataList.get(contextMenuActiveItemPos));
+                break;
+            case 1:
+                onItemClickListener.onLongClick(contextMenuActiveItemPos,
+                        dataList.get(contextMenuActiveItemPos));
+                break;
+        }
+        return true;
     }
 
     @Nullable

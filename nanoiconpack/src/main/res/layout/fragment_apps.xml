@@ -30,7 +30,9 @@
             style="@style/FastScroller"
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:paddingTop="@dimen/padding_above_list"
+            android:clipToPadding="false" />
 
     </android.support.v4.widget.SwipeRefreshLayout>
 

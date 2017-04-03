@@ -55,7 +55,7 @@ public class WhatsNewActivity extends AppCompatActivity implements IconsFragment
     private void showHint() {
         Snackbar.make(findViewById(R.id.coordinator_layout),
                 PkgUtil.getAppVer(this, getString(R.string.toast_whats_new)),
-                Snackbar.LENGTH_LONG).show();
+                Snackbar.LENGTH_INDEFINITE).show();
     }
 
     @Override
