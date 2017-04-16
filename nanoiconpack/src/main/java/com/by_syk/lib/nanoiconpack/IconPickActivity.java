@@ -23,6 +23,7 @@ import android.view.MenuItem;
 
 import com.by_syk.lib.nanoiconpack.fragment.IconsFragment;
 import com.by_syk.lib.nanoiconpack.util.AllIconsGetter;
+import com.by_syk.lib.nanoiconpack.util.adapter.IconAdapter;
 
 /**
  * Created by By_syk on 2017-01-30.
@@ -43,8 +44,10 @@ public class IconPickActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
+        IconsFragment fragment = IconsFragment.newInstance(0, new AllIconsGetter(),
+                getResources().getInteger(R.integer.picker_grid_item_mode));
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_content, IconsFragment.newInstance(0, new AllIconsGetter()))
+                .replace(R.id.fragment_content, fragment)
                 .commit();
     }
 

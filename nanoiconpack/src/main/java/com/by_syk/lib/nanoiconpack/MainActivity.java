@@ -37,6 +37,7 @@ import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
 import com.by_syk.lib.nanoiconpack.util.MatchedIconsGetter;
 import com.by_syk.lib.nanoiconpack.util.PkgUtil;
 import com.by_syk.lib.nanoiconpack.util.SimplePageTransformer;
+import com.by_syk.lib.nanoiconpack.util.adapter.IconAdapter;
 import com.by_syk.lib.storage.SP;
 
 /**
@@ -192,9 +193,11 @@ public class MainActivity extends AppCompatActivity
                 case 0:
                     return AppsFragment.newInstance(position);
                 case 1:
-                    return IconsFragment.newInstance(position, new MatchedIconsGetter());
+                    return IconsFragment.newInstance(position, new MatchedIconsGetter(),
+                            getResources().getInteger(R.integer.home_grid_item_mode));
                 case 2:
-                    return IconsFragment.newInstance(position, new AllIconsGetter());
+                    return IconsFragment.newInstance(position, new AllIconsGetter(),
+                            getResources().getInteger(R.integer.home_grid_item_mode));
             }
             return null;
         }

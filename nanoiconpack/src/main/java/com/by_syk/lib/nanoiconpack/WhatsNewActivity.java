@@ -26,6 +26,7 @@ import android.view.MenuItem;
 import com.by_syk.lib.nanoiconpack.fragment.IconsFragment;
 import com.by_syk.lib.nanoiconpack.util.LatestIconsGetter;
 import com.by_syk.lib.nanoiconpack.util.PkgUtil;
+import com.by_syk.lib.nanoiconpack.util.adapter.IconAdapter;
 
 /**
  * Created by By_syk on 2017-01-30.
@@ -46,7 +47,8 @@ public class WhatsNewActivity extends AppCompatActivity implements IconsFragment
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
 
-        IconsFragment fragment = IconsFragment.newInstance(0, new LatestIconsGetter());
+        IconsFragment fragment = IconsFragment.newInstance(0, new LatestIconsGetter(),
+                getResources().getInteger(R.integer.whats_new_grid_item_mode));
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_content, fragment)
                 .commit();

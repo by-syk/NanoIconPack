@@ -27,13 +27,14 @@
     <dimen name="dlg_vertical_padding">20dp</dimen>
 
     <dimen name="unit_padding">8dp</dimen>
-    <dimen name="half_unit_padding">8dp</dimen>
+    <dimen name="half_unit_padding">4dp</dimen>
     <dimen name="double_unit_padding">16dp</dimen>
 
     <!--<dimen name="grid_size">64dp</dimen>-->
     <!--<dimen name="grid_icon_size">48dp</dimen>-->
     <dimen name="grid_size">80dp</dimen>
     <dimen name="grid_icon_size">72dp</dimen>
+    <dimen name="grid_small_icon_size">48dp</dimen>
     <dimen name="list_icon_size">48dp</dimen>
     <dimen name="dlg_icon_size">128dp</dimen>
     <dimen name="dlg_small_icon_size">72dp</dimen>

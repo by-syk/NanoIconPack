@@ -22,4 +22,10 @@
     <!-- 3: ANIM_DEPTH -->
     <integer name="home_page_transform_anim">2</integer>
 
+    <!-- 0: MODE_ICON -->
+    <!-- 1: MODE_ICON_LABEL -->
+    <integer name="home_grid_item_mode">0</integer>
+    <integer name="whats_new_grid_item_mode">1</integer>
+    <integer name="picker_grid_item_mode">1</integer>
+
 </resources>

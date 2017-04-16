@@ -18,13 +18,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.by_syk.nanoiconpack.sample">
 
-    <!-- For saving icons -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
-    <!-- For requesting redrawing -->
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     <!-- Available themes: AppThemeDark, AppThemeLight, AppThemeLightWithDark -->
     <application
         android:allowBackup="true"
@@ -62,32 +55,6 @@
                  Action 3 recognizes ADW's
                  and more... -->
         </activity>
-
-        <activity android:name="com.by_syk.lib.nanoiconpack.IconPickActivity">
-            <!-- For Nova -->
-            <intent-filter>
-                <action android:name="com.novalauncher.THEME" />
-                <category android:name="com.novalauncher.category.CUSTOM_ICON_PICKER" />
-            </intent-filter>
-            <!-- For ADW -->
-            <intent-filter>
-                <action android:name="org.adw.launcher.icons.ACTION_PICK_ICON" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:name="com.by_syk.lib.nanoiconpack.WhatsNewActivity"
-            android:label="@string/activity_whats_new" />
-
-        <activity
-            android:name="com.by_syk.lib.nanoiconpack.AboutActivity"
-            android:label="@string/activity_about" />
-
-        <activity
-            android:name="com.by_syk.lib.nanoiconpack.ReqStatsActivity"
-            android:label="@string/activity_req_stats"
-            android:theme="@style/AppThemeDarkConsole" />
 
     </application>
 

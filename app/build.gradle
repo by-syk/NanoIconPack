@@ -9,7 +9,7 @@ android {
         applicationId "com.by_syk.nanoiconpack.sample"
         minSdkVersion Integer.parseInt(project.MIN_SDK_VERSION)
         targetSdkVersion Integer.parseInt(project.TARGET_SDK_VERSION)
-        versionCode 17040200
+        versionCode 17040400
         // Version name format: [version].[num_of_icons]
         versionName "2.1.0.7.nightly"
 
@@ -19,7 +19,7 @@ android {
     buildTypes {
         release {
             shrinkResources false // Keep false, or icons in /drawable-nodpi/ will become black.
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
             // For formatting apk file name, like com.by_syk.template_v1.0.0(17012500).apk

@@ -18,6 +18,41 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.by_syk.lib.nanoiconpack">
 
-    <application android:label="@string/app_name" />
+    <!-- For saving icons -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <!-- For requesting redrawing -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application android:label="@string/app_name">
+
+        <activity
+            android:name=".ReqStatsActivity"
+            android:label="@string/activity_req_stats"
+            android:theme="@style/AppThemeDarkConsole" />
+
+        <activity android:name=".IconPickActivity">
+            <!-- For Nova -->
+            <intent-filter>
+                <action android:name="com.novalauncher.THEME" />
+                <category android:name="com.novalauncher.category.CUSTOM_ICON_PICKER" />
+            </intent-filter>
+            <!-- For ADW -->
+            <intent-filter>
+                <action android:name="org.adw.launcher.icons.ACTION_PICK_ICON" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".WhatsNewActivity"
+            android:label="@string/activity_whats_new" />
+
+        <activity
+            android:name=".AboutActivity"
+            android:label="@string/activity_about" />
+
+    </application>
 
 </manifest>

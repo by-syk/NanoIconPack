@@ -53,6 +53,7 @@ import java.util.List;
 public class IconsFragment extends Fragment {
     private int pageId = 0;
     private IconsGetter iconsGetter;
+    private int gridItemMode;
 
     private SP sp;
 
@@ -97,6 +98,7 @@ public class IconsFragment extends Fragment {
         Bundle bundle = getArguments();
         pageId = bundle.getInt("pageId");
         iconsGetter = (IconsGetter) bundle.getSerializable("iconsGetter");
+        gridItemMode = bundle.getInt("mode", IconAdapter.MODE_ICON);
 
         sp = new SP(getContext(), false);
 
@@ -106,6 +108,7 @@ public class IconsFragment extends Fragment {
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), gridNumAndWidth[0]));
 
         iconAdapter = new IconAdapter(getContext(), gridNumAndWidth[1]);
+        iconAdapter.setMode(gridItemMode);
         iconAdapter.setOnItemClickListener(new IconAdapter.OnItemClickListener() {
             @Override
             public void onClick(int pos, IconBean bean) {
@@ -186,12 +189,13 @@ public class IconsFragment extends Fragment {
                 : R.string.toast_icon_save_failed);
     }
 
-    public static IconsFragment newInstance(int id, IconsGetter iconsGetter) {
+    public static IconsFragment newInstance(int id, IconsGetter iconsGetter, @IconAdapter.Mode int mode) {
         IconsFragment fragment = new IconsFragment();
 
         Bundle bundle = new Bundle();
         bundle.putInt("pageId", id);
         bundle.putSerializable("iconsGetter", iconsGetter);
+        bundle.putInt("mode", mode);
         fragment.setArguments(bundle);
 
         return fragment;

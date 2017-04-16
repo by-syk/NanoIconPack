@@ -61,7 +61,6 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content" />
 
-            <!--android:drawableStart="?attr/ic_cloud"-->
             <TextView
                 android:id="@+id/tv_req_times"
                 android:textSize="12sp"

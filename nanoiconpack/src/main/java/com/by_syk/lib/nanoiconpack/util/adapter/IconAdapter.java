@@ -17,6 +17,7 @@
 package com.by_syk.lib.nanoiconpack.util.adapter;
 
 import android.content.Context;
+import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.ContextMenu;
@@ -26,6 +27,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.bean.IconBean;
@@ -38,18 +40,24 @@ import java.util.List;
  * Created by By_syk on 2017-01-27.
  */
 
-public class IconAdapter extends RecyclerView.Adapter<IconAdapter.IconViewHolder>
+public class IconAdapter extends RecyclerView.Adapter
         implements FastScrollRecyclerView.SectionedAdapter,
         View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
     private LayoutInflater layoutInflater;
 
 //    private RequestManager requestManager;
 
-    private int gridSIze = -1;
-
     private List<IconBean> dataList = new ArrayList<>();
 
+    private int gridSize = -1;
+
     private int contextMenuActiveItemPos = -1;
+
+    @IntDef({MODE_ICON, MODE_ICON_LABEL})
+    public  @interface Mode {}
+    private int mode = MODE_ICON;
+    public static final int MODE_ICON = 0;
+    public static final int MODE_ICON_LABEL = 1;
 
     private OnItemClickListener onItemClickListener;
 
@@ -64,39 +72,54 @@ public class IconAdapter extends RecyclerView.Adapter<IconAdapter.IconViewHolder
 //        requestManager = Glide.with(context);
     }
 
-    public IconAdapter(Context context, int gridSIze) {
+    public IconAdapter(Context context, int gridSize) {
         this(context);
 
-        this.gridSIze = gridSIze;
+        this.gridSize = gridSize;
     }
 
     @Override
-    public IconViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View contentView = layoutInflater.inflate(R.layout.item_icon, parent, false);
-
-        if (gridSIze > 0) {
-            ViewGroup.LayoutParams layoutParams = contentView.getLayoutParams();
-            layoutParams.width = gridSIze;
-            layoutParams.height = gridSIze;
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View contentView;
+        RecyclerView.ViewHolder viewHolder;
+        if (viewType == MODE_ICON_LABEL) {
+            contentView = layoutInflater.inflate(R.layout.item_icon_label, parent, false);
+            viewHolder = new IconLabelViewHolder(contentView);
+        } else {
+            contentView = layoutInflater.inflate(R.layout.item_icon, parent, false);
+            viewHolder = new IconViewHolder(contentView);
         }
 
-        return new IconViewHolder(contentView);
+        if (gridSize > 0) {
+            ViewGroup.LayoutParams layoutParams = contentView.getLayoutParams();
+            layoutParams.width = gridSize;
+            layoutParams.height = gridSize;
+        }
+
+        return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(final IconViewHolder holder, int position) {
-        holder.ivIcon.setImageResource(dataList.get(position).getId());
-//        requestManager.load(dataList.get(position).getId()).into(holder.ivIcon);
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof IconLabelViewHolder) {
+            IconLabelViewHolder viewHolder = (IconLabelViewHolder) holder;
+            viewHolder.ivIcon.setImageResource(dataList.get(position).getId());
+            viewHolder.tvLabel.setText(dataList.get(position).getLabel());
+        } else {
+            IconViewHolder viewHolder = (IconViewHolder) holder;
+            viewHolder.ivIcon.setImageResource(dataList.get(position).getId());
+//            requestManager.load(dataList.get(position).getId()).into(viewHolder.ivIcon);
+        }
 
         if (onItemClickListener != null) {
-            holder.ivIcon.setOnClickListener(new View.OnClickListener() {
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     int pos = holder.getAdapterPosition();
                     onItemClickListener.onClick(pos, dataList.get(pos));
                 }
             });
-            holder.ivIcon.setOnLongClickListener(new View.OnLongClickListener() {
+            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
 //                    int pos = holder.getAdapterPosition();
@@ -114,6 +137,11 @@ public class IconAdapter extends RecyclerView.Adapter<IconAdapter.IconViewHolder
     @Override
     public int getItemCount() {
         return dataList.size();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return mode;
     }
 
     @NonNull
@@ -149,6 +177,20 @@ public class IconAdapter extends RecyclerView.Adapter<IconAdapter.IconViewHolder
         return true;
     }
 
+    public void setMode(int mode) {
+        this.mode = mode;
+    }
+
+    public void switchMode() {
+        if (mode == MODE_ICON) {
+            mode = MODE_ICON_LABEL;
+        } else {
+            mode = MODE_ICON;
+        }
+
+        notifyDataSetChanged();
+    }
+
     public void refresh(List<IconBean> dataList) {
         if (dataList != null) {
             this.dataList.clear();
@@ -169,6 +211,18 @@ public class IconAdapter extends RecyclerView.Adapter<IconAdapter.IconViewHolder
             super(itemView);
 
             ivIcon = (ImageView) itemView.findViewById(R.id.iv_icon);
+        }
+    }
+
+    private static class IconLabelViewHolder extends RecyclerView.ViewHolder {
+        private ImageView ivIcon;
+        private TextView tvLabel;
+
+        IconLabelViewHolder(View itemView) {
+            super(itemView);
+
+            ivIcon = (ImageView) itemView.findViewById(R.id.iv_icon);
+            tvLabel = (TextView) itemView.findViewById(R.id.tv_label);
         }
     }
 }

@@ -20,9 +20,9 @@ var mysql = require('mysql'); // npm install mysql
 var pool = mysql.createPool({
   host: 'localhost',
   //port: 3306,
-  user: 'test',
-  password: 'abc123',
   database: 'nanoiconpack',
+  user: 'nanoiconpack',
+  password: 'nanoiconpack',
   connectionLimit: 100 // important
 });
 
