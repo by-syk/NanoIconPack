@@ -20,7 +20,6 @@ import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -39,9 +38,7 @@ import com.by_syk.lib.nanoiconpack.util.C;
 import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
 import com.by_syk.lib.nanoiconpack.util.adapter.IconAdapter;
 import com.by_syk.lib.nanoiconpack.util.IconsGetter;
-import com.by_syk.lib.storage.SP;
 import com.by_syk.lib.toast.GlobalToast;
-import com.wooplr.spotlight.SpotlightView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,12 +52,9 @@ public class IconsFragment extends Fragment {
     private IconsGetter iconsGetter;
     private int gridItemMode;
 
-    private SP sp;
-
     private View contentView;
 
     private IconAdapter iconAdapter;
-    private RecyclerView recyclerView;
 
     private RetainedFragment retainedFragment;
 
@@ -100,9 +94,7 @@ public class IconsFragment extends Fragment {
         iconsGetter = (IconsGetter) bundle.getSerializable("iconsGetter");
         gridItemMode = bundle.getInt("mode", IconAdapter.MODE_ICON);
 
-        sp = new SP(getContext(), false);
-
-        recyclerView = (RecyclerView) contentView.findViewById(R.id.recycler_view);
+        RecyclerView recyclerView = (RecyclerView) contentView.findViewById(R.id.recycler_view);
 
         int[] gridNumAndWidth = calculateGridNumAndWidth();
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), gridNumAndWidth[0]));
@@ -112,58 +104,16 @@ public class IconsFragment extends Fragment {
         iconAdapter.setOnItemClickListener(new IconAdapter.OnItemClickListener() {
             @Override
             public void onClick(int pos, IconBean bean) {
-                if (!showTapHint(pos)) {
-                    return;
-                }
                 IconDialog.newInstance(bean, ExtraUtil.isFromLauncherPick(getActivity().getIntent()))
                         .show(getFragmentManager(), "iconDialog");
             }
 
             @Override
             public void onLongClick(int pos, IconBean bean) {
-                if (!showTapHint(pos)) {
-                    return;
-                }
                 saveIcon(bean);
             }
         });
         recyclerView.setAdapter(iconAdapter);
-    }
-
-    private boolean showTapHint(int recyclerChildViewPos) {
-        if (sp.getBoolean("iconTapHint1")) {
-            return true;
-        }
-
-//        (new IconTapHintDialog()).show(getFragmentManager(), "iconTapHintDialog");
-        try {
-            new SpotlightView.Builder(getActivity())
-                    .introAnimationDuration(400)
-                    .enableRevealAnimation(true)
-                    .performClick(false)
-                    .fadeinTextDuration(400)
-                    .headingTvColor(getResources().getColor(R.color.color_accent))
-                    .headingTvSize(32)
-                    .headingTvText(getString(R.string.tips))
-                    .subHeadingTvColor(Color.WHITE)
-                    .subHeadingTvSize(16)
-                    .subHeadingTvText(getString(R.string.icon_tap_desc))
-                    .maskColor(0xdc000000)
-                    .target(recyclerView.getChildAt(recyclerChildViewPos))
-                    .lineAnimDuration(400)
-                    .lineAndArcColor(getResources().getColor(R.color.color_primary))
-                    .dismissOnTouch(true)
-                    .dismissOnBackPress(true)
-                    .enableDismissAfterShown(true)
-                    .usageId("iconTapHint1") // UNIQUE ID
-                    .show();
-            sp.save("iconTapHint1", true);
-            return false;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return true;
     }
 
     private int[] calculateGridNumAndWidth() {

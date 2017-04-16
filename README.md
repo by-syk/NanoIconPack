@@ -121,7 +121,6 @@ NanoIconPack 拥有一个轻量的服务器，提供图标申请和申请统计�
 + [square / retrofit](https://github.com/square/retrofit) licensed under [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0)
 + [bumptech / glide](https://github.com/bumptech/glide) licensed under [BSD, part MIT and Apache-2.0](https://github.com/bumptech/glide/blob/master/LICENSE)
 + [timusus / RecyclerView-FastScroll](https://github.com/timusus/RecyclerView-FastScroll) licensed under [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0)
-+ [wooplr / Spotlight](https://github.com/wooplr/Spotlight) licensed under [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0)
 
 NanoIconPack 参考了如下资料：
 + [teslacoil / Example_NovaTheme](https://github.com/teslacoil/Example_NovaTheme)

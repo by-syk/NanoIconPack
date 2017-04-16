@@ -37,7 +37,6 @@ import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
 import com.by_syk.lib.nanoiconpack.util.MatchedIconsGetter;
 import com.by_syk.lib.nanoiconpack.util.PkgUtil;
 import com.by_syk.lib.nanoiconpack.util.SimplePageTransformer;
-import com.by_syk.lib.nanoiconpack.util.adapter.IconAdapter;
 import com.by_syk.lib.storage.SP;
 
 /**

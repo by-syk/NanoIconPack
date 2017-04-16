@@ -23,7 +23,6 @@ import android.view.MenuItem;
 
 import com.by_syk.lib.nanoiconpack.fragment.IconsFragment;
 import com.by_syk.lib.nanoiconpack.util.AllIconsGetter;
-import com.by_syk.lib.nanoiconpack.util.adapter.IconAdapter;
 
 /**
  * Created by By_syk on 2017-01-30.

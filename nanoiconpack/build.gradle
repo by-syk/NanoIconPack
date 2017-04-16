@@ -45,5 +45,5 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:3.7.0'
 
 //    compile 'com.github.amlcurran.showcaseview:library:5.4.3'
-    compile 'com.github.wooplr:Spotlight:1.2.3'
+//    compile 'com.github.wooplr:Spotlight:1.2.3'
 }

@@ -26,7 +26,6 @@ import android.view.MenuItem;
 import com.by_syk.lib.nanoiconpack.fragment.IconsFragment;
 import com.by_syk.lib.nanoiconpack.util.LatestIconsGetter;
 import com.by_syk.lib.nanoiconpack.util.PkgUtil;
-import com.by_syk.lib.nanoiconpack.util.adapter.IconAdapter;
 
 /**
  * Created by By_syk on 2017-01-30.
@@ -57,7 +56,7 @@ public class WhatsNewActivity extends AppCompatActivity implements IconsFragment
     private void showHint() {
         Snackbar.make(findViewById(R.id.coordinator_layout),
                 PkgUtil.getAppVer(this, getString(R.string.toast_whats_new)),
-                Snackbar.LENGTH_INDEFINITE).show();
+                Snackbar.LENGTH_LONG).show();
     }
 
     @Override
