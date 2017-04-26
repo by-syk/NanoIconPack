@@ -20,8 +20,6 @@ import com.by_syk.lib.nanoiconpack.bean.CodeBean;
 import com.by_syk.lib.nanoiconpack.bean.ReqNumBean;
 import com.by_syk.lib.nanoiconpack.bean.ReqTopBean;
 import com.by_syk.lib.nanoiconpack.bean.ResResBean;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 
 import java.util.List;
 import java.util.Map;
@@ -108,12 +106,4 @@ public interface NanoServerService {
      */
     @GET("code/{pkg}")
     Call<ResResBean<List<CodeBean>>> getCode(@Path("pkg") String pkgName);
-
-//    /**
-//     * { "status": 0, "msg": "success",
-//     *   "result": "http://image.coolapk.com/apk_logo/2016/0108/12202_1452248424_4592.png"
-//     * }
-//     */
-//    @GET("iconurl/{pkg}")
-//    Call<ResResBean<String>> getIconUrl(@Path("pkg") String pkgName);
 }
