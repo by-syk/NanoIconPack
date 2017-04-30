@@ -59,6 +59,10 @@ NanoIconPack 同时还支持许多未列出的启动器，比如
   
   ![NanoIconPack](art/show2.png)
   
++ 「更新了啥」页面展示新图标
+
+  ![NanoIconPack](art/show6.png)
+  
 + 图标申请适配统计
 
   ![NanoIconPack](art/show4.png)
