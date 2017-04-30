@@ -27,6 +27,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -40,6 +41,7 @@ import com.by_syk.lib.nanoiconpack.bean.CoolApkApkDetailBean;
 import com.by_syk.lib.nanoiconpack.bean.ReqTopBean;
 import com.by_syk.lib.nanoiconpack.bean.ResResBean;
 import com.by_syk.lib.nanoiconpack.dialog.ReqMenuDialog;
+import com.by_syk.lib.nanoiconpack.util.C;
 import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
 import com.by_syk.lib.nanoiconpack.util.PkgUtil;
 import com.by_syk.lib.nanoiconpack.util.RetrofitHelper;
@@ -233,6 +235,7 @@ public class ReqStatsFragment extends Fragment {
 
         menu.findItem(R.id.menu_filter).getSubMenu().getItem(filterType).setChecked(true);
         menu.findItem(R.id.menu_top).getSubMenu().getItem(limitLevel).setChecked(true);
+        menu.findItem(R.id.menu_top).setVisible(filterType == 0);
     }
 
     @Override
@@ -240,11 +243,11 @@ public class ReqStatsFragment extends Fragment {
         int id = item.getItemId();
         if (id == R.id.menu_show_unmarked) {
             updateData(0, limitLevel);
-            item.setChecked(!item.isChecked());
+            getActivity().invalidateOptionsMenu();
             return true;
         } else if (id == R.id.menu_show_marked) {
             updateData(1, limitLevel);
-            item.setChecked(!item.isChecked());
+            getActivity().invalidateOptionsMenu();
             return true;
         } else if (id == R.id.menu_top_32) {
             item.setChecked(true);

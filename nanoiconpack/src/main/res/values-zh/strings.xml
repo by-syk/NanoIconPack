@@ -84,7 +84,7 @@
     <string name="preference_app_summary_app">v%1$s (%2$d)</string>
     <string name="preference_app_title_todo_1"></string>
     <string name="preference_app_summary_todo_1"></string>
-    <string name="preference_app_title_dashboard">基于 NanoIconPack v2.1.0</string>
+    <string name="preference_app_title_dashboard">基于 NanoIconPack v2.1.1</string>
 
     <string name="send_code">分享APP代码&#8230;</string>
     <string name="cur_launcher">%s (当前)</string>
