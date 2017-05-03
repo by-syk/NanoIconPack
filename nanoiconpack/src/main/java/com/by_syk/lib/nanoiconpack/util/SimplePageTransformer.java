@@ -13,12 +13,13 @@ import java.util.Random;
 public class SimplePageTransformer implements ViewPager.PageTransformer {
     private int animType = ANIM_ZOOM_OUT;
 
-    @IntDef({ANIM_RANDOM, ANIM_DEFAULT, ANIM_ZOOM_OUT, ANIM_DEPTH})
+    @IntDef({ANIM_RANDOM, ANIM_DEFAULT, ANIM_ZOOM_OUT, ANIM_DEPTH, ANIM_FLIP})
     public @interface AnimType {}
     public static final int ANIM_RANDOM = 0;
     public static final int ANIM_DEFAULT = 1;
     public static final int ANIM_ZOOM_OUT = 2;
     public static final int ANIM_DEPTH = 3;
+    public static final int ANIM_FLIP = 4;
 
     public SimplePageTransformer() {}
 
@@ -38,6 +39,9 @@ public class SimplePageTransformer implements ViewPager.PageTransformer {
                 break;
             case ANIM_DEPTH:
                 transformPageDepth(view, position);
+                break;
+            case ANIM_FLIP:
+                transformPageFlip(view, position);
                 break;
             case ANIM_DEFAULT:
                 // Do nothing
@@ -105,6 +109,45 @@ public class SimplePageTransformer implements ViewPager.PageTransformer {
         } else { // (1,+Infinity]
             // This page is way off-screen to the right.
             view.setAlpha(0);
+        }
+    }
+
+    private void transformPageFlip(View view, float position) {
+        float percentage = 1 - Math.abs(position);
+        view.setCameraDistance(12000);
+        setVisibility(view, position);
+        setTranslation(view);
+        setSize(view, position, percentage);
+        setRotation(view, position, percentage);
+    }
+
+    private void setVisibility(View view, float position) {
+        if (position < 0.5 && position > -0.5) {
+            view.setVisibility(View.VISIBLE);
+        } else {
+            view.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    private void setTranslation(View view) {
+        ViewPager viewPager = (ViewPager) view.getParent();
+        int scroll = viewPager.getScrollX() - view.getLeft();
+        view.setTranslationX(scroll);
+    }
+
+    private void setSize(View view, float position, float percentage) {
+        if (percentage < 0.85f) {
+            percentage = 0.85f;
+        }
+        view.setScaleX((position != 0 && position != 1) ? percentage : 1);
+        view.setScaleY((position != 0 && position != 1) ? percentage : 1);
+    }
+
+    private void setRotation(View view, float position, float percentage) {
+        if (position > 0) {
+            view.setRotationY(-180 * (percentage + 1));
+        } else {
+            view.setRotationY(180 * (percentage + 1));
         }
     }
 }

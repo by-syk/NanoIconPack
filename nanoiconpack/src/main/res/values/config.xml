@@ -20,7 +20,8 @@
     <!-- 1: ANIM_DEFAULT -->
     <!-- 2: ANIM_ZOOM_OUT -->
     <!-- 3: ANIM_DEPTH -->
-    <integer name="home_page_transform_anim">2</integer>
+    <!-- 4: ANIM_FLIP -->
+    <integer name="home_page_transform_anim">1</integer>
 
     <!-- 0: MODE_ICON -->
     <!-- 1: MODE_ICON_LABEL -->

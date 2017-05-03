@@ -112,6 +112,7 @@ NanoIconPack 拥有一个轻量的服务器，提供图标申请和申请统计�
 | [@sftmi / OMFG图标包](http://www.coolapk.com/apk/com.sftmi.iconpack.omfg) | [![OMFG](art/ic_launcher_omfg.png)](http://www.coolapk.com/apk/com.sftmi.iconpack.omfg) |
 | [@梁月丶 / 祈愿图标包](http://www.coolapk.com/apk/com.liangyue.iconpack.hhope) | [![Hhope](art/ic_launcher_hhope.png)](http://www.coolapk.com/apk/com.liangyue.iconpack.hhope) |
 | [@LYCSKY497 / LYCSKY图标包](http://www.coolapk.com/apk/com.lycsky.iconpack) | [![LYCSKY](art/ic_launcher_lycsky.png)](http://www.coolapk.com/apk/com.lycsky.iconpack) |
+| [@ClydeSHenry / Galet IconPack](http://www.coolapk.com/apk/com.clydeshenry.iconpack.galet) | [![LYCSKY](art/ic_launcher_galet.png)](http://www.coolapk.com/apk/com.clydeshenry.iconpack.galet) |
 
 如果您基于 NanoIconPack 开发了自己的图标包作品并且愿意[告诉我](#联系开发者)，我将把它展示在这里。
 
