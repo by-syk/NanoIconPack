@@ -102,12 +102,14 @@ CREATE TABLE icon_pack(
 ) ENGINE = InnoDB;
 */
 
-var http = require('http');
 var express = require('express'); // npm install express
 var bodyParser = require('body-parser'); // npm install body-parser
 var log4js = require('log4js'); // npm install log4js
 var query = require('./mysql');
 var utils = require('./utils');
+
+// 服务运行目标端口
+var serverPort = 8082;
 
 var app = express();
 
@@ -123,8 +125,8 @@ app.use(express.static('public'));
 //log4js.loadAppender('console');
 log4js.loadAppender('file');
 //log4js.addAppender(log4js.appenders.console());
-log4js.addAppender(log4js.appenders.file('logs/nano8082.log'), 'nano8082');
-var logger = log4js.getLogger('nano8082');
+log4js.addAppender(log4js.appenders.file('logs/nano' + serverPort + '.log'), 'nano' + serverPort);
+var logger = log4js.getLogger('nano' + serverPort);
 logger.setLevel('INFO'); // TRACE, DEBUG, INFO, WARN, ERROR, FATAL
 
 // 用到的SQL命令
@@ -306,7 +308,7 @@ app.post('/nanoiconpack/req/:iconpack([A-Za-z\\d\._]+)', function(req, res) {
     return;
   }
   var sysApp = req.body.sysApp;
-  if (sysApp == '1' || sysApp == 'true') {
+  if (sysApp == '1' || sysApp == 'true') { // typeof sysApp string
     sysApp = 1;
   } else {
     sysApp = 0;
@@ -340,7 +342,7 @@ app.post('/nanoiconpack/req/:iconpack([A-Za-z\\d\._]+)', function(req, res) {
     query(sqlCmds.sumByIpP, sqlOptions1, function(err1, rows1) {
       if (err1) {
         logger.warn(err1);
-        res.jsonp(utils.getResRes(rows.affectedRows > 0 ? 0 : 4));
+        res.jsonp(utils.getResRes(3));
         return;
       }
       res.jsonp(utils.getResRes(rows.affectedRows > 0 ? 0 : 4, undefined, rows1[0].num));
@@ -620,9 +622,14 @@ app.get('/nanoiconpack/base', function(req, res) {
   req1.end();
 });*/
 
-// 接口：测试
-app.get('/nanoiconpack/test', function(req, res) {
-  res.jsonp(utils.getResRes(0));
+// 接口：看门狗
+app.get('/nanoiconpack/watchdog', function(req, res) {
+  logger.info('GET /nanoiconpack/watchdog');
+  
+  res.jsonp(utils.getResRes(0, undefined, {
+    port: serverPort,
+    time: Date.now()
+  }));
 });
 
 // 接口：错误
@@ -657,7 +664,7 @@ app.get('/nanoiconpack/page/base', function(req, res) {
 // ======================================= PAGE BLOCK END ======================================= //
 
 
-var server = app.listen(8082, function() {
+var server = app.listen(serverPort, function() {
   var host = server.address().address;
   var port = server.address().port;
 
