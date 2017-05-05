@@ -16,12 +16,6 @@
 
 package com.by_syk.lib.nanoiconpack.util;
 
-import com.by_syk.lib.nanoiconpack.bean.ResResBean;
-import com.by_syk.lib.nanoiconpack.util.impl.NanoServerService;
-
-import java.io.IOException;
-
-import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -73,21 +67,6 @@ public class RetrofitHelper {
 
     public <T> T getService4Coolapk(Class<T> service) {
         return retrofit4Coolapk.create(service);
-    }
-
-    /**
-     * Cannot run in UiThread
-     */
-    public boolean testServer() {
-        NanoServerService nanoServerService = retrofit.create(NanoServerService.class);
-        Call<ResResBean> call = nanoServerService.testServer();
-        try {
-            ResResBean resResBean = call.execute().body();
-            return resResBean != null && resResBean.isStatusSuccess();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return false;
     }
 
     public static RetrofitHelper getInstance() {

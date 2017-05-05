@@ -40,12 +40,6 @@ import retrofit2.http.Query;
 
 public interface NanoServerService {
     /**
-     * { "status": 0, "msg": "success" }
-     */
-    @GET("/")
-    Call<ResResBean> testServer();
-
-    /**
      * { "status": 0, "msg": "success", "result": 5 }
      */
     @FormUrlEncoded
