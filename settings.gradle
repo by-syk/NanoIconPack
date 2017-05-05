@@ -1,16 +1,1 @@
-include ':nanoiconpack', ':app',
-//        ':anormaly'
-        ':originalwish',
-//        ':omfg',
-//        ':blueworld'
-//        ':fireflies'
-//        ':pelmix'
-//        ':wheat',
-//        ':transparent'
-//        ':xiaocan'
-//        ':cardicons',
-        ':pdc',
-        ':hhope'
-//        ':lycsky'
-//        ':pitaya'
-//        'square'
+include ':nanoiconpack', ':app'
