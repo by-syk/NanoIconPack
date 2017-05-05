@@ -4,9 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/NanoIconPack.iml" filepath="$PROJECT_DIR$/NanoIconPack.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/fireflies/fireflies.iml" filepath="$PROJECT_DIR$/fireflies/fireflies.iml" />
       <module fileurl="file://$PROJECT_DIR$/nanoiconpack/nanoiconpack.iml" filepath="$PROJECT_DIR$/nanoiconpack/nanoiconpack.iml" />
-      <module fileurl="file://$PROJECT_DIR$/originalwish/originalwish.iml" filepath="$PROJECT_DIR$/originalwish/originalwish.iml" />
     </modules>
   </component>
 </project>
