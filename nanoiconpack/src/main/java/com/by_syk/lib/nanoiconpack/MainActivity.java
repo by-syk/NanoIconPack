@@ -137,11 +137,11 @@ public class MainActivity extends AppCompatActivity
 
         // If latest icons is provided, show the entrance menu item.
         if (getResources().getStringArray(R.array.latest_icons).length > 0) {
-            menu.getItem(1).setVisible(true);
-            menu.getItem(2).setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+            menu.findItem(R.id.menu_whats_new).setVisible(true);
+            menu.findItem(R.id.menu_about).setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
             if (!sp.getBoolean("hideLatest" + PkgUtil.getAppVer(this, "%1$s"))) {
-                menu.getItem(0).setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
-                menu.getItem(1).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+                menu.findItem(R.id.menu_apply).setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+                menu.findItem(R.id.menu_whats_new).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
             }
         }
 
