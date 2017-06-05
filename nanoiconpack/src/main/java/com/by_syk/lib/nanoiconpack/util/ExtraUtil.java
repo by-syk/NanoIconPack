@@ -309,7 +309,7 @@ public class ExtraUtil {
         // Make sure the Pictures directory exists.
         picDir.mkdirs();
         File targetFile = new File(picDir, "ic_" + iconBean.getName()
-                + "_" + System.currentTimeMillis() + ".png");
+                + "_" + bitmap.getByteCount() + ".png");
 
         boolean result = false;
         OutputStream outputStream = null;
