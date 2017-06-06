@@ -49,6 +49,12 @@ public class AppBean implements Serializable {
 
     private boolean mark = false;
 
+    // If true, it shows the app(pkg + launcher) is recorded in appfilter.xml but not marked
+    private boolean hintMark = false;
+
+    // If true, it shows the app's pkg is recorded in appfilter.xml but its launcher not
+    private boolean hintLost = false;
+
     public AppBean() {}
 
     public AppBean(Drawable icon, String label, String labelPinyin, String pkgName, String launcher) {
@@ -99,6 +105,14 @@ public class AppBean implements Serializable {
         this.mark = mark;
     }
 
+    public void setHintMark(boolean hintMark) {
+        this.hintMark = hintMark;
+    }
+
+    public void setHintLost(boolean hintLost) {
+        this.hintLost = hintLost;
+    }
+
     @Nullable
     public Drawable getIcon() {
         return icon;
@@ -134,5 +148,13 @@ public class AppBean implements Serializable {
 
     public boolean isMark() {
         return mark;
+    }
+
+    public boolean isHintMark() {
+        return hintMark;
+    }
+
+    public boolean isHintLost() {
+        return hintLost;
     }
 }

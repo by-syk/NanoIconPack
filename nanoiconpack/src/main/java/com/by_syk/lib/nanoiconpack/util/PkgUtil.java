@@ -26,6 +26,7 @@ import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -275,5 +276,18 @@ public class PkgUtil {
             return resolveInfo.loadIcon(pkgManager);
         }
         return null;
+    }
+
+    @NonNull
+    public static String concatComponent(@NonNull String pkgName, String launcherActivity) {
+        String component = pkgName;
+        if (!TextUtils.isEmpty(launcherActivity)) {
+            if (launcherActivity.startsWith(pkgName)) {
+                component += "/" + launcherActivity.substring(pkgName.length());
+            } else {
+                component += "/" + launcherActivity;
+            }
+        }
+        return component;
     }
 }

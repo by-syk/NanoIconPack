@@ -84,7 +84,11 @@
     <string name="preference_app_summary_app">v%1$s (%2$d)</string>
     <string name="preference_app_title_todo_1"></string>
     <string name="preference_app_summary_todo_1"></string>
-    <string name="preference_app_title_dashboard">基于 NanoIconPack v2.1.2</string>
+    <string name="preference_app_title_dashboard">基于 NanoIconPack v%s</string>
+    <string name="preference_category_dev">开发选项</string>
+    <string name="preference_dev_title_stats">申请统计</string>
+    <string name="preference_dev_title_query">检索APP代码</string>
+    <string name="preference_dev_summary_query">[http://by-syk.com:8081/nanoiconpack/page/query](http://by-syk.com:8081/nanoiconpack/page/query)</string>
 
     <string name="send_code">分享APP代码&#8230;</string>
     <string name="cur_launcher">%s (当前)</string>

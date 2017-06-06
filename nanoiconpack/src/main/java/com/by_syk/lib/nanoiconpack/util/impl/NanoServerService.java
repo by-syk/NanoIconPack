@@ -45,7 +45,7 @@ public interface NanoServerService {
     @FormUrlEncoded
     @POST("req/{iconpack}")
     Call<ResResBean<Integer>> reqRedraw(@Path("iconpack") String iconPack,
-                               @FieldMap Map<String, String> fields);
+                                        @FieldMap Map<String, String> fields);
 
     /**
      * { "status": 0, "msg": "success", "result": { "num": 5, "reqed": 1 } }
@@ -57,10 +57,11 @@ public interface NanoServerService {
 
     /**
      * { "status": 0, "msg": "success", "result": [
-     *   { "label": "快图浏览", "pkg": "com.alensw.PicFolder", "sum": 2, "filter": 0 }
+     *   { "label": "快图浏览", "pkg": "com.alensw.PicFolder",
+     *     "launcher": "com.alensw.PicFolder.GalleryActivity", "sum": 2, "filter": 0 }
      * ]}
      */
-    @GET("reqtop/{iconpack}/{user}")
+    @GET("reqtop2/{iconpack}/{user}")
     Call<ResResBean<List<ReqTopBean>>> getReqTop(@Path("iconpack") String iconPack,
                                                  @Path("user") String user,
                                                  @Query("limit") int limitNum,
@@ -68,12 +69,13 @@ public interface NanoServerService {
 
     /**
      * { "status": 0, "msg": "success", "result": [
-     *   { "label": "快图浏览", "pkg": "com.alensw.PicFolder", "sum": 2, "filter": 1 }
+     *   { "label": "快图浏览", "pkg": "com.alensw.PicFolder",
+     *     "launcher": "com.alensw.PicFolder.GalleryActivity", "sum": 2, "filter": 1 }
      * ]}
      */
-    @GET("reqtopfiltered/{iconpack}/{user}")
+    @GET("reqtopfiltered2/{iconpack}/{user}")
     Call<ResResBean<List<ReqTopBean>>> getReqTopFiltered(@Path("iconpack") String iconPack,
-                                          @Path("user") String user);
+                                                          @Path("user") String user);
 
     /**
      * { "status": 0, "msg": "success" }
@@ -82,7 +84,8 @@ public interface NanoServerService {
     @POST("reqfilter/{iconpack}/{user}")
     Call<ResResBean> filterPkg(@Path("iconpack") String iconPack,
                                @Path("user") String user,
-                               @Field("pkg") String pkgName);
+                               @Field("pkg") String pkgName,
+                               @Field("launcher") String launcherActivity);
 
     /**
      * { "status": 0, "msg": "success" }
@@ -90,7 +93,8 @@ public interface NanoServerService {
     @DELETE("reqfilter/{iconpack}/{user}")
     Call<ResResBean> undoFilterPkg(@Path("iconpack") String iconPack,
                                    @Path("user") String user,
-                                   @Query("pkg") String pkgName);
+                                   @Query("pkg") String pkgName,
+                                   @Query("launcher") String launcherActivity);
 
     /**
      * { "status": 0, "msg": "success", "result": [
@@ -98,6 +102,7 @@ public interface NanoServerService {
      *     "launcher": "com.alensw.PicFolder.GalleryActivity", "icon": "quick_pic" }
      * ]}
      */
-    @GET("code/{pkg}")
-    Call<ResResBean<List<CodeBean>>> getCode(@Path("pkg") String pkgName);
+    @GET("code/{pkg}/{launcher}")
+    Call<ResResBean<List<CodeBean>>> getCode(@Path("pkg") String pkgName,
+                                             @Path("launcher") String launcherActivity);
 }

@@ -17,8 +17,6 @@
 
 <resources>
 
-    <string name="lib_ver" translatable="false">3.0.0</string>
-
     <!-- 1: ANIM_DEFAULT -->
     <!-- 2: ANIM_ZOOM_OUT -->
     <!-- 3: ANIM_DEPTH -->

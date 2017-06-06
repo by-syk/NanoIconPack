@@ -30,6 +30,7 @@ import com.bumptech.glide.Glide;
 import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.bean.AppBean;
 import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
+import com.by_syk.lib.nanoiconpack.util.PkgUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +60,7 @@ public class ReqStatsAdapter extends RecyclerView.Adapter<ReqStatsAdapter.IconVi
 
     @Override
     public IconViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View contentView = layoutInflater.inflate(R.layout.item_app, parent, false);
+        View contentView = layoutInflater.inflate(R.layout.item_req_stats, parent, false);
         return new IconViewHolder(contentView);
     }
 
@@ -81,11 +82,18 @@ public class ReqStatsAdapter extends RecyclerView.Adapter<ReqStatsAdapter.IconVi
             }
         }
         holder.tvApp.setText(bean.getLabel());
-        holder.tvComponent.setText(bean.getPkgName());
+        holder.tvComponent.setText(PkgUtil.concatComponent(bean.getPkgName(), bean.getLauncher()));
         if (bean.getReqTimes() >= 0) {
             holder.tvReqTimes.setText(ExtraUtil.renderReqTimes(bean.getReqTimes()));
         } else {
             holder.tvReqTimes.setText("");
+        }
+        if (bean.isHintMark() || bean.isHintLost()) {
+            holder.viewHint.setVisibility(View.VISIBLE);
+            holder.viewHint.setBackground(context.getDrawable(bean.isHintMark() ?
+                    R.drawable.red_dot_mark : R.drawable.red_dot_lost));
+        } else {
+            holder.viewHint.setVisibility(View.GONE);
         }
 
         if (onItemClickListener != null) {
@@ -151,6 +159,7 @@ public class ReqStatsAdapter extends RecyclerView.Adapter<ReqStatsAdapter.IconVi
         TextView tvApp;
         TextView tvComponent;
         TextView tvReqTimes;
+        View viewHint;
 
         IconViewHolder(View itemView) {
             super(itemView);
@@ -160,6 +169,7 @@ public class ReqStatsAdapter extends RecyclerView.Adapter<ReqStatsAdapter.IconVi
             tvApp = (TextView) itemView.findViewById(R.id.tv_app);
             tvComponent = (TextView) itemView.findViewById(R.id.tv_component);
             tvReqTimes = (TextView) itemView.findViewById(R.id.tv_req_times);
+            viewHint = itemView.findViewById(R.id.view_hint);
         }
     }
 }

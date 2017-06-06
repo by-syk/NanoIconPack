@@ -29,6 +29,9 @@ public class ReqTopBean {
     @SerializedName("pkg")
     private String pkg;
 
+    @SerializedName("launcher")
+    private String launcher;
+
     @SerializedName("sum")
     private int reqTimes;
 
@@ -41,6 +44,10 @@ public class ReqTopBean {
 
     public String getPkg() {
         return pkg;
+    }
+
+    public String getLauncher() {
+        return launcher;
     }
 
     public int getReqTimes() {

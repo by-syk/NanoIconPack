@@ -355,7 +355,7 @@ public class AppsFragment extends Fragment {
                 while (iterator.hasNext()) {
                     AppBean appBean = iterator.next();
                     // Check package name and launcher activity at the same time
-                    if (appBean.getPkgName().equals(bean.pkg) && appBean.getLauncher().equals(bean.launcher)) {
+                    if (bean.pkg.equals(appBean.getPkgName()) && bean.launcher.equals(appBean.getLauncher())) {
                         iterator.remove();
                         // To remove all polyphone items, cannot use break
 //                        break;
@@ -410,7 +410,7 @@ public class AppsFragment extends Fragment {
                         .getReqNum(getContext().getPackageName(), bean.getPkgName(), deviceId);
                 try {
                     ResResBean<ReqNumBean> resResBean = call.execute().body();
-                    if (resResBean.isStatusSuccess()) {
+                    if (resResBean != null && resResBean.isStatusSuccess()) {
                         ReqNumBean reqNumBean = resResBean.getResult();
                         if (reqNumBean != null) {
                             bean.setReqTimes(reqNumBean.getReqTimes());

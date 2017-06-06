@@ -53,6 +53,13 @@
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
+            <View
+                android:id="@+id/view_hint"
+                android:visibility="gone"
+                android:layout_marginEnd="@dimen/unit_padding"
+                android:layout_width="@dimen/unit_padding"
+                android:layout_height="@dimen/unit_padding" />
+
             <TextView
                 android:id="@+id/tv_app"
                 android:textSize="18sp"

@@ -19,6 +19,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:paddingStart="@dimen/dlg_horz_padding"
     android:paddingEnd="@dimen/dlg_horz_padding"
     android:paddingTop="@dimen/dlg_vertical_padding"

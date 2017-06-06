@@ -32,9 +32,7 @@ public class C {
     public static final String APP_CODE_BUILD = "<!-- Build: %1$s / %2$s -->";
 
     public static final String URL_NANO_SERVER = "http://by-syk.com:8081/nanoiconpack/";
-//    public static final String URL_NANO_SERVER = "http://192.168.43.76:8081/nanoiconpack/";
-//    public static final String URL_NANO_SERVER = "http://192.168.31.108:8081/nanoiconpack/";
-//    public static final String URL_NANO_SERVER = "http://192.168.1.105:8081/nanoiconpack/";
+//    public static final String URL_NANO_SERVER = "http://192.168.43.76:8082/nanoiconpack/";
     public static final String URL_COOLAPK_API = "https://api.coolapk.com/v6/";
 
 //    public static final String REQ_REDRAW_PREFIX = "\uD83C\uDE38 ";

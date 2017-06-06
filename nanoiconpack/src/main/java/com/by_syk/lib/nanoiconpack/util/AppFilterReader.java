@@ -27,7 +27,9 @@ import com.by_syk.lib.nanoiconpack.R;
 import org.xmlpull.v1.XmlPullParser;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -103,6 +105,30 @@ public class AppFilterReader {
     @NonNull
     public List<Bean> getDataList() {
         return dataList;
+    }
+
+    @NonNull
+    public Set<String> getPkgSet() {
+        Set<String> pkgSet = new HashSet<>(dataList.size());
+        for (Bean bean : dataList) {
+            if (bean.pkg == null || bean.launcher == null) { // invalid
+                continue;
+            }
+            pkgSet.add(bean.pkg);
+        }
+        return pkgSet;
+    }
+
+    @NonNull
+    public Set<String> getPkgLauncherSet() {
+        Set<String> pkgLauncherSet = new HashSet<>(dataList.size());
+        for (Bean bean : dataList) {
+            if (bean.pkg == null || bean.launcher == null) { // invalid
+                continue;
+            }
+            pkgLauncherSet.add(bean.pkg + "/" + bean.launcher);
+        }
+        return pkgLauncherSet;
     }
 
     public List<Bean> findByDrawable(String drawable) {

@@ -16,6 +16,7 @@
 
 package com.by_syk.lib.nanoiconpack.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.PreferenceCategory;
@@ -23,6 +24,7 @@ import android.support.v7.preference.PreferenceFragmentCompat;
 import android.text.TextUtils;
 
 import com.by_syk.lib.nanoiconpack.R;
+import com.by_syk.lib.nanoiconpack.ReqStatsActivity;
 import com.by_syk.lib.nanoiconpack.dialog.QrcodeDialog;
 import com.by_syk.lib.nanoiconpack.util.PkgUtil;
 import com.by_syk.lib.text.AboutMsgRender;
@@ -46,6 +48,8 @@ public class AboutFragment extends PreferenceFragmentCompat implements Preferenc
     private static final String PREFERENCE_APP_APP = "appApp";
     private static final String PREFERENCE_APP_TODO_1 = "appTodo1";
     private static final String PREFERENCE_APP_DASHBOARD = "appDashboard";
+    private static final String PREFERENCE_DEV_STATS = "devStats";
+    private static final String PREFERENCE_DEV_QUERY = "devQuery";
 
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
@@ -66,6 +70,8 @@ public class AboutFragment extends PreferenceFragmentCompat implements Preferenc
         Preference prefAppApp = findPreference(PREFERENCE_APP_APP);
         Preference prefAppTodo1 = findPreference(PREFERENCE_APP_TODO_1);
         Preference prefAppDashboard = findPreference(PREFERENCE_APP_DASHBOARD);
+        Preference prefDevStats = findPreference(PREFERENCE_DEV_STATS);
+        Preference prefDevQuery = findPreference(PREFERENCE_DEV_QUERY);
 
 //        prefIconsNote.setOnPreferenceClickListener(this);
         prefIconsAuthor.setOnPreferenceClickListener(this);
@@ -76,9 +82,13 @@ public class AboutFragment extends PreferenceFragmentCompat implements Preferenc
         prefAppApp.setOnPreferenceClickListener(this);
         prefAppTodo1.setOnPreferenceClickListener(this);
         prefAppDashboard.setOnPreferenceClickListener(this);
+        prefDevStats.setOnPreferenceClickListener(this);
+        prefDevQuery.setOnPreferenceClickListener(this);
 
         prefCatIcons.setTitle(getString(R.string.preference_category_icons,
                 getResources().getStringArray(R.array.icons).length));
+        prefAppDashboard.setTitle(getString(R.string.preference_app_title_dashboard,
+                getString(R.string.lib_ver)));
 
         String summary = AboutMsgRender.parseCode(getString(R.string.preference_icons_summary_author));
         if (!TextUtils.isEmpty(summary)) {
@@ -111,6 +121,10 @@ public class AboutFragment extends PreferenceFragmentCompat implements Preferenc
         summary = AboutMsgRender.parseCode(getString(R.string.preference_app_summary_dashboard));
         if (!TextUtils.isEmpty(summary)) {
             prefAppDashboard.setSummary(summary);
+        }
+        summary = AboutMsgRender.parseCode(getString(R.string.preference_dev_summary_query));
+        if (!TextUtils.isEmpty(summary)) {
+            prefDevQuery.setSummary(summary);
         }
 
         if (prefIconsNote.getSummary() == null || prefIconsNote.getSummary().length() == 0) {
@@ -178,8 +192,19 @@ public class AboutFragment extends PreferenceFragmentCompat implements Preferenc
                 executeCode(preference.getTitle().toString(),
                         getString(R.string.preference_app_summary_dashboard));
                 break;
+            case PREFERENCE_DEV_STATS:
+                enterStats();
+                break;
+            case PREFERENCE_DEV_QUERY:
+                executeCode(preference.getTitle().toString(),
+                        getString(R.string.preference_dev_summary_query));
+                break;
         }
         return true;
+    }
+
+    private void enterStats() {
+        startActivity(new Intent(getContext(), ReqStatsActivity.class));
     }
 
     private void executeCode(String title, String summary) {

@@ -77,14 +77,22 @@ public class ReqMenuDialog extends BottomSheetDialogFragment implements View.OnC
         } else {
             contentView.findViewById(R.id.view_menu_mark).setOnClickListener(this);
             contentView.findViewById(R.id.view_menu_undo_mark).setVisibility(View.GONE);
+            contentView.findViewById(R.id.view_hint_mark)
+                    .setVisibility(bean.isHintMark() ? View.VISIBLE : View.GONE);
         }
+        contentView.findViewById(R.id.view_hint_lost)
+                .setVisibility(bean.isHintLost() ? View.VISIBLE : View.GONE);
         contentView.findViewById(R.id.view_menu_goto_market).setOnClickListener(this);
         contentView.findViewById(R.id.view_menu_copy_code).setOnClickListener(this);
 
         BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior
                 .from((View) contentView.getParent());
-        bottomSheetBehavior.setPeekHeight(getResources()
-                .getDimensionPixelSize(R.dimen.req_bottom_menu_height));
+        if (bean.isHintLost()) {
+            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+        } else {
+            bottomSheetBehavior.setPeekHeight(getResources()
+                    .getDimensionPixelSize(R.dimen.req_bottom_menu_height));
+        }
     }
 
     @Override
@@ -122,7 +130,7 @@ public class ReqMenuDialog extends BottomSheetDialogFragment implements View.OnC
         NanoServerService nanoServerService = RetrofitHelper.getInstance()
                 .getService(NanoServerService.class);
         Call<ResResBean> call = nanoServerService.filterPkg(getContext().getPackageName(),
-                user, bean.getPkgName());
+                user, bean.getPkgName(), bean.getLauncher());
         call.enqueue(new Callback<ResResBean>() {
             @Override
             public void onResponse(Call<ResResBean> call, Response<ResResBean> response) {
@@ -157,7 +165,7 @@ public class ReqMenuDialog extends BottomSheetDialogFragment implements View.OnC
         NanoServerService nanoServerService = RetrofitHelper.getInstance()
                 .getService(NanoServerService.class);
         Call<ResResBean> call = nanoServerService.undoFilterPkg(getContext().getPackageName(),
-                user, bean.getPkgName());
+                user, bean.getPkgName(), bean.getLauncher());
         call.enqueue(new Callback<ResResBean>() {
             @Override
             public void onResponse(Call<ResResBean> call, Response<ResResBean> response) {
@@ -189,7 +197,7 @@ public class ReqMenuDialog extends BottomSheetDialogFragment implements View.OnC
 
         NanoServerService nanoServerService = RetrofitHelper.getInstance()
                 .getService(NanoServerService.class);
-        Call<ResResBean<List<CodeBean>>> call = nanoServerService.getCode(bean.getPkgName());
+        Call<ResResBean<List<CodeBean>>> call = nanoServerService.getCode(bean.getPkgName(), bean.getLauncher());
         call.enqueue(new Callback<ResResBean<List<CodeBean>>>() {
             @Override
             public void onResponse(Call<ResResBean<List<CodeBean>>> call, Response<ResResBean<List<CodeBean>>> response) {

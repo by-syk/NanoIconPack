@@ -21,13 +21,13 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -41,7 +41,7 @@ import com.by_syk.lib.nanoiconpack.bean.CoolApkApkDetailBean;
 import com.by_syk.lib.nanoiconpack.bean.ReqTopBean;
 import com.by_syk.lib.nanoiconpack.bean.ResResBean;
 import com.by_syk.lib.nanoiconpack.dialog.ReqMenuDialog;
-import com.by_syk.lib.nanoiconpack.util.C;
+import com.by_syk.lib.nanoiconpack.util.AppFilterReader;
 import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
 import com.by_syk.lib.nanoiconpack.util.PkgUtil;
 import com.by_syk.lib.nanoiconpack.util.RetrofitHelper;
@@ -58,6 +58,7 @@ import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import retrofit2.Call;
@@ -293,8 +294,6 @@ public class ReqStatsFragment extends Fragment {
             try {
                 NanoServerService nanoServerService = RetrofitHelper.getInstance()
                         .getService(NanoServerService.class);
-//                Call<ResResBean<JsonArray>> call = nanoServerService.getReqTop(getContext().getPackageName(),
-//                        user, LIMIT_NUM_ARR[limitLevel], toFilter);
                 Call<ResResBean<List<ReqTopBean>>> call;
                 if (filterType == 1) {
                     call = nanoServerService.getReqTopFiltered(getContext().getPackageName(), user);
@@ -312,10 +311,13 @@ public class ReqStatsFragment extends Fragment {
                     AppBean bean = new AppBean();
                     bean.setLabel(reqTopBean.getAppLabel());
                     bean.setPkgName(reqTopBean.getPkg());
+                    bean.setLauncher(reqTopBean.getLauncher());
                     bean.setReqTimes(reqTopBean.getReqTimes());
                     bean.setMark(reqTopBean.isMarked());
                     dataList.add(bean);
                 }
+
+                checkMatched(dataList);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -347,6 +349,26 @@ public class ReqStatsFragment extends Fragment {
                                 layoutManager.findLastVisibleItemPosition());
                     }
                 }, 400);
+            }
+        }
+
+        private void checkMatched(@NonNull List<AppBean> appList) {
+            if (appList.isEmpty()) {
+                return;
+            }
+
+            AppFilterReader reader = AppFilterReader.getInstance();
+            reader.init(getResources());
+            Set<String> pkgSet = reader.getPkgSet();
+            Set<String> pkgLauncherSet = reader.getPkgLauncherSet();
+            for (AppBean appBean : appList) {
+                if (pkgSet.contains(appBean.getPkgName())) {
+                    if (!pkgLauncherSet.contains(appBean.getPkgName() + "/" + appBean.getLauncher())) {
+                        appBean.setHintLost(true);
+                    } else if (!appBean.isMark()) {
+                        appBean.setHintMark(true);
+                    }
+                }
             }
         }
     }

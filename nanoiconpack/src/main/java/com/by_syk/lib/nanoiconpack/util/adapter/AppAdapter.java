@@ -33,6 +33,7 @@ import android.widget.TextView;
 import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.bean.AppBean;
 import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
+import com.by_syk.lib.nanoiconpack.util.PkgUtil;
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 
 import java.util.ArrayList;
@@ -71,15 +72,6 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.IconViewHolder>
     @Override
     public void onBindViewHolder(final IconViewHolder holder, int position) {
         AppBean bean = dataList.get(position);
-        String component = bean.getPkgName();
-        String launcher = bean.getLauncher();
-        if (!TextUtils.isEmpty(launcher)) {
-            if (launcher.startsWith(bean.getPkgName())) {
-                component += "/" + launcher.substring(bean.getPkgName().length());
-            } else {
-                component += "/" + launcher;
-            }
-        }
 
         holder.viewTag.setBackgroundResource(bean.isMark() ? R.drawable.tag_req : 0);
         holder.ivIcon.setImageDrawable(bean.getIcon());
@@ -89,7 +81,7 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.IconViewHolder>
 //            holder.ivIcon.setImageResource(android.R.drawable.sym_def_app_icon);
 //        }
         holder.tvApp.setText(bean.getLabel());
-        holder.tvComponent.setText(component);
+        holder.tvComponent.setText(PkgUtil.concatComponent(bean.getPkgName(), bean.getLauncher()));
         if (bean.getReqTimes() >= 0) {
             holder.tvReqTimes.setText(ExtraUtil.renderReqTimes(bean.getReqTimes()));
         } else {

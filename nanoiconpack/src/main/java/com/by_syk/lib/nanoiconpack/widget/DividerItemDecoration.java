@@ -126,7 +126,10 @@ public class DividerItemDecoration extends RecyclerView.ItemDecoration {
         }
 
         final int childCount = parent.getChildCount();
-        for (int i = 0; i < childCount; i++) {
+//        for (int i = 0; i < childCount; i++) {
+        // Remove the last divider
+        // @By_syk
+        for (int i = 0; i < childCount - 1; i++) {
             final View child = parent.getChildAt(i);
             parent.getDecoratedBoundsWithMargins(child, mBounds);
             final int bottom = mBounds.bottom + Math.round(ViewCompat.getTranslationY(child));
