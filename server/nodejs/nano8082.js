@@ -54,9 +54,11 @@ CREATE TABLE req_filter(
   user VARCHAR(64),
   -- 包名
   pkg VARCHAR(128),
+  -- 启动项
+  launcher VARCHAR(192),
   -- 申请时间
   time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY(icon_pack, user, pkg)
+  PRIMARY KEY(icon_pack, user, pkg, launcher)
 );
 -- APP系列表
 CREATE TABLE series(
@@ -113,20 +115,22 @@ logger.setLevel('INFO'); // TRACE, DEBUG, INFO, WARN, ERROR, FATAL
 
 // 用到的SQL命令
 var sqlCmds = {
-  queryByIcon: 'SELECT series, label, label_en, pkg, launcher FROM code WHERE icon = ? LIMIT 128',
-  queryBySeries: 'SELECT icon, label, label_en, pkg, launcher FROM code WHERE series = ?',
-  queryByPkg: 'SELECT series, label, label_en, launcher, icon FROM code WHERE pkg = ? LIMIT 128',
-  queryByLabel: 'SELECT label, label_en, pkg, launcher, icon FROM code WHERE label LIKE ? OR label_en LIKE ? LIMIT 128',
   req: 'INSERT IGNORE INTO req(icon, label, label_en, pkg, launcher, sys_app, icon_pack, device_id, device_brand, device_model, device_sdk) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
   sumByIpP: 'SELECT COUNT(*) AS num FROM req WHERE icon_pack = ? AND pkg = ?',
   sumByIpPDi: 'SELECT device_id, COUNT(*) AS num FROM req WHERE icon_pack = ? AND pkg = ? GROUP BY device_id = ?',
   reqTopFilterMarked: 'SELECT label, pkg, COUNT(*) AS sum, 0 AS filter FROM req AS r WHERE icon_pack = ? AND pkg NOT IN (SELECT pkg FROM req_filter AS rf WHERE rf.icon_pack = r.icon_pack AND user = ?) GROUP BY pkg ORDER BY sum DESC, pkg ASC LIMIT ?',
+  // reqTopFilterMarked2: 'SELECT label, pkg, launcher, COUNT(*) AS sum, 0 AS filter FROM req AS r WHERE icon_pack = ? AND CONCAT(pkg, \'/\', launcher) NOT IN (SELECT CONCAT(pkg, \'/\', launcher) FROM req_filter AS rf WHERE rf.icon_pack = r.icon_pack AND user = ?) GROUP BY pkg, launcher ORDER BY sum DESC, pkg ASC LIMIT ?',
+  reqTopFilterMarked2: 'SELECT r.label, r.pkg, r.launcher, r.sum, r.filter FROM (SELECT label, pkg, launcher, COUNT(*) AS sum, 0 AS filter FROM req WHERE icon_pack = ? GROUP BY pkg, launcher) AS r LEFT JOIN (SELECT pkg, launcher FROM req_filter WHERE icon_pack = ? AND user = ? AND launcher <> \'\') AS rf ON r.pkg = rf.pkg AND r.launcher = rf.launcher WHERE rf.pkg IS NULL ORDER BY r.sum DESC, r.pkg ASC LIMIT ?',
   reqTopOnlyMarked: 'SELECT label, pkg, COUNT(*) AS sum, 1 AS filter FROM req AS r WHERE icon_pack = ? AND pkg IN (SELECT pkg FROM req_filter AS rf WHERE rf.icon_pack = r.icon_pack AND user = ?) GROUP BY pkg ORDER BY sum DESC, pkg ASC',
+  // reqTopOnlyMarked2: 'SELECT label, pkg, launcher, COUNT(*) AS sum, 1 AS filter FROM req AS r WHERE icon_pack = ? AND CONCAT(pkg, \'/\', launcher) IN (SELECT CONCAT(pkg, \'/\', launcher) FROM req_filter AS rf WHERE rf.icon_pack = r.icon_pack AND user = ?) GROUP BY pkg, launcher ORDER BY sum DESC, pkg ASC',
+  reqTopOnlyMarked2: 'SELECT r.label, r.pkg, r.launcher, COUNT(*) AS sum, 1 AS filter FROM req AS r INNER JOIN req_filter AS rf ON r.icon_pack = rf.icon_pack AND r.pkg = rf.pkg AND r.launcher = rf.launcher WHERE r.icon_pack = ? AND rf.user = ? GROUP BY r.pkg, r.launcher ORDER BY sum DESC, r.pkg ASC',
   reqTop: 'SELECT label, pkg, COUNT(*) AS sum, 1 AS filter FROM req WHERE icon_pack = ? GROUP BY pkg ORDER BY sum DESC, pkg ASC LIMIT ?',
-  reqFilter: 'INSERT IGNORE INTO req_filter(icon_pack, user, pkg) VALUES(?, ?, ?)',
-  reqUndoFilter: 'DELETE FROM req_filter WHERE icon_pack = ? AND user = ? AND pkg = ?',
-  queryByPkg2: 'SELECT label, label_en AS labelEn, pkg, launcher, icon, COUNT(*) AS sum FROM req WHERE pkg = ? GROUP BY label, label_en, launcher',
-  queryByLabel2: 'SELECT label, label_en AS labelEn, pkg, launcher, icon, COUNT(*) AS sum FROM req WHERE label LIKE ? OR label_en LIKE ? GROUP BY label, label_en, launcher LIMIT 128',
+  reqTop2: 'SELECT label, pkg, launcher, COUNT(*) AS sum, 1 AS filter FROM req WHERE icon_pack = ? GROUP BY pkg, launcher ORDER BY sum DESC, pkg ASC LIMIT ?',
+  reqFilter: 'INSERT IGNORE INTO req_filter(icon_pack, user, pkg, launcher) VALUES(?, ?, ?, ?)',
+  reqUndoFilter: 'DELETE FROM req_filter WHERE icon_pack = ? AND user = ? AND pkg = ? AND launcher = ?',
+  queryByPkg: 'SELECT label, label_en AS labelEn, pkg, launcher, icon, COUNT(*) AS sum FROM req WHERE pkg = ? GROUP BY label, label_en, launcher',
+  queryByLabel: 'SELECT label, label_en AS labelEn, pkg, launcher, icon, COUNT(*) AS sum FROM req WHERE label LIKE ? OR label_en LIKE ? GROUP BY label, label_en, launcher LIMIT 128',
+  queryByPkgLauncher: 'SELECT label, label_en AS labelEn, pkg, launcher, icon FROM req WHERE pkg = ? AND launcher = ? GROUP BY label, label_en',
   sumReqTimes: 'SELECT COUNT(*) AS sum FROM req',
   sumApps: 'SELECT COUNT(*) AS sum FROM (SELECT pkg FROM req GROUP BY pkg, launcher) AS pkgs',
   sumIconPacks: 'SELECT COUNT(*) AS sum FROM (SELECT icon_pack FROM req GROUP BY icon_pack HAVING COUNT(icon_pack) > 32) AS iconPacks',
@@ -238,6 +242,7 @@ app.get('/nanoiconpack/reqnum/:iconpack([A-Za-z\\d\._]+)/:pkg([A-Za-z\\d\._]+)',
   });
 });
 
+// TODO DEPRECATED
 // 接口：查询请求数TOP的APP
 app.get('/nanoiconpack/reqtop/:iconpack([A-Za-z\\d\._]+)/:user', function(req, res) {
   var iconPack = req.params.iconpack;
@@ -289,6 +294,59 @@ app.get('/nanoiconpack/reqtop/:iconpack([A-Za-z\\d\._]+)/:user', function(req, r
   });
 });
 
+// 接口：查询请求数TOP的APP
+app.get('/nanoiconpack/reqtop2/:iconpack([A-Za-z\\d\._]+)/:user', function(req, res) {
+  var iconPack = req.params.iconpack;
+  var user = req.params.user;
+  var limitNum = parseInt(req.query.limit);
+  if (!limitNum) {
+    limitNum = 32;
+  } else if (limitNum < 0) {
+    limitNum = 0;
+  } else if (limitNum > 128) {
+    limitNum = 128;
+  }
+  var filterMarked = req.query.filter; // 过滤掉已标记的APP（默认false）
+  if (filterMarked == 1 || filterMarked == 'true') {
+    filterMarked = 1;
+  } else {
+    filterMarked = 0;
+  }
+  logger.info('GET /nanoiconpack/reqtop2/' + iconPack + '/' + user + '?limit=' + limitNum + '&filter=' + filterMarked);
+  // var sqlOptions = [iconPack, user, limitNum];
+  var sqlOptions = [iconPack, iconPack, user, limitNum];
+  query(sqlCmds.reqTopFilterMarked2, sqlOptions, function(err, rows) {
+    if (err) {
+      logger.warn(err);
+      res.jsonp(utils.getResRes(3));
+      return;
+    }
+    if (filterMarked == 1) {
+      res.jsonp(utils.getResRes(0, undefined, rows));
+      return;
+    }
+    var sqlOptions1 = [iconPack, limitNum];
+    query(sqlCmds.reqTop2, sqlOptions1, function(err1, rows1) {
+      if (err1) {
+        logger.warn(err1);
+        res.jsonp(utils.getResRes(3));
+        return;
+      }
+      var j = 0;
+      for (var i in rows) {
+        for (; j < rows1.length; ++j) {
+          if (rows[i].pkg == rows1[j].pkg && rows[i].launcher == rows1[j].launcher) {
+            rows1[j].filter = 0;
+            break;
+          }
+        }
+      }
+      res.jsonp(utils.getResRes(0, undefined, rows1));
+    });
+  });
+});
+
+// TODO DEPRECATED
 // 接口：在已过滤的APP中查询请求数TOP的APP
 app.get('/nanoiconpack/reqtopfiltered/:iconpack([A-Za-z\\d\._]+)/:user', function(req, res) {
   var iconPack = req.params.iconpack;
@@ -296,6 +354,22 @@ app.get('/nanoiconpack/reqtopfiltered/:iconpack([A-Za-z\\d\._]+)/:user', functio
   logger.info('GET /nanoiconpack/reqtopfiltered/' + iconPack + '/' + user);
   var sqlOptions = [iconPack, user];
   query(sqlCmds.reqTopOnlyMarked, sqlOptions, function(err, rows) {
+    if (err) {
+      logger.warn(err);
+      res.jsonp(utils.getResRes(3));
+      return;
+    }
+    res.jsonp(utils.getResRes(0, undefined, rows));
+  });
+});
+
+// 接口：在已过滤的APP中查询请求数TOP的APP
+app.get('/nanoiconpack/reqtopfiltered2/:iconpack([A-Za-z\\d\._]+)/:user', function(req, res) {
+  var iconPack = req.params.iconpack;
+  var user = req.params.user;
+  logger.info('GET /nanoiconpack/reqtopfiltered2/' + iconPack + '/' + user);
+  var sqlOptions = [iconPack, user];
+  query(sqlCmds.reqTopOnlyMarked2, sqlOptions, function(err, rows) {
     if (err) {
       logger.warn(err);
       res.jsonp(utils.getResRes(3));
@@ -316,7 +390,8 @@ app.post('/nanoiconpack/reqfilter/:iconpack([A-Za-z\\d\._]+)/:user', function(re
     res.jsonp(utils.getResRes(2));
     return;
   }
-  var sqlOptions = [iconPack, user, pkg];
+  var launcher = req.body.launcher;
+  var sqlOptions = [iconPack, user, pkg, launcher];
   query(sqlCmds.reqFilter, sqlOptions, function(err, rows) {
     if (err) {
       logger.warn(err);
@@ -338,11 +413,12 @@ app.delete('/nanoiconpack/reqfilter/:iconpack([A-Za-z\\d\._]+)/:user', function(
   logger.info('DELEET /nanoiconpack/reqfilter/' + iconPack + '/' + user);
   var pkg = req.query.pkg;
   if (!pkg) {
-    logger.warn('REJECT: No req.body.pkg');
+    logger.warn('REJECT: No req.query.pkg');
     res.jsonp(utils.getResRes(2));
     return;
   }
-  var sqlOptions = [iconPack, user, pkg];
+  var launcher = req.query.launcher;
+  var sqlOptions = [iconPack, user, pkg, launcher];
   query(sqlCmds.reqUndoFilter, sqlOptions, function(err, rows) {
     if (err) {
       logger.warn(err);
@@ -368,13 +444,29 @@ app.get('/nanoiconpack/code/:keyword', function(req, res) {
   var sql;
   var sqlOptions;
   if ((new RegExp('^[a-zA-Z\\d_]+\\.[a-zA-Z\\d_\\.]+$')).test(keyword)) {
-    sql = sqlCmds.queryByPkg2;
+    sql = sqlCmds.queryByPkg;
     sqlOptions = [keyword];
   } else {
-    sql = sqlCmds.queryByLabel2;
+    sql = sqlCmds.queryByLabel;
     sqlOptions = ['%' + keyword + '%', '%' + keyword + '%'];
   }
   query(sql, sqlOptions, function(err, rows) {
+    if (err) {
+      logger.warn(err);
+      res.jsonp(utils.getResRes(3));
+      return;
+    }
+    res.jsonp(utils.getResRes(0, undefined, rows));
+  });
+});
+
+// 接口：根据包名+启动项查询APP代码
+app.get('/nanoiconpack/code/:pkg/:launcher', function(req, res) {
+  var pkg = req.params.pkg;
+  var launcher = req.params.launcher;
+  logger.info('GET /nanoiconpack/code/' + pkg + '/' + launcher);
+  var sqlOptions = [pkg, launcher];
+  query(sqlCmds.queryByPkgLauncher, sqlOptions, function(err, rows) {
     if (err) {
       logger.warn(err);
       res.jsonp(utils.getResRes(3));
