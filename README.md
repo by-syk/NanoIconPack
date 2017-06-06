@@ -19,11 +19,11 @@ NanoIconPack 是一个简单轻量的图标包APP模板，支持主流启动器�
 + [辅助功能](#辅助功能)
 + [服务器支持](#服务器支持)
 + [二次开发](#二次开发)
-+ [基于 NanoIconPack 的 APP](#基于-NanoIconPack-的-APP)
++ [基于 NanoIconPack 的 APP](#基于-nanoiconpack-的-app)
 + [致谢](#致谢)
 + [更好的图标包模板推荐](#更好的图标包模板推荐)
 + [联系开发者](#联系开发者)
-+ [License](#License)
++ [License](#license)
 
 
 ### 支持启动器
