@@ -8,7 +8,7 @@ android {
         minSdkVersion Integer.parseInt(project.MIN_SDK_VERSION)
         targetSdkVersion Integer.parseInt(project.TARGET_SDK_VERSION)
         versionCode 17060600
-        versionName "3.0.0"
+        versionName "3.0.0.nightly"
     }
 
     buildTypes {
@@ -43,4 +43,6 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.2.0'
 
     compile 'com.github.bumptech.glide:glide:3.7.0'
+
+//    compile 'uk.co.samuelwall:material-tap-target-prompt:1.10.0'
 }

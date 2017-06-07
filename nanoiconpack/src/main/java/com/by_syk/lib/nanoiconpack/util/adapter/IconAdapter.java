@@ -177,7 +177,7 @@ public class IconAdapter extends RecyclerView.Adapter
         return true;
     }
 
-    public void setMode(int mode) {
+    public void setMode(@Mode int mode) {
         this.mode = mode;
     }
 
