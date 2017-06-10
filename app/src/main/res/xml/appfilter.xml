@@ -163,6 +163,9 @@
     <item
         component="ComponentInfo{com.zui.calendar/com.zui.calendar.MainActivity}"
         drawable="calendar" />
+    <item
+        component="ComponentInfo{com.blackberry.calendar/com.blackberry.calendar.AllInOneActivity}"
+        drawable="calendar" />
 
     <item
         component="ComponentInfo{com.by_syk.nanoiconpack.sample/com.by_syk.lib.nanoiconpack.MainActivity}"
