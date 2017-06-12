@@ -25,9 +25,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 
 import com.by_syk.lib.nanoiconpack.dialog.ApplyDialog;
 import com.by_syk.lib.nanoiconpack.fragment.AppsFragment;
@@ -38,6 +40,8 @@ import com.by_syk.lib.nanoiconpack.util.MatchedIconsGetter;
 import com.by_syk.lib.nanoiconpack.util.PkgUtil;
 import com.by_syk.lib.nanoiconpack.util.SimplePageTransformer;
 import com.by_syk.lib.storage.SP;
+
+import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
 
 /**
  * Created by By_syk on 2016-07-16.
@@ -116,6 +120,38 @@ public class MainActivity extends AppCompatActivity
         // Set the default page to show.
         // 0: Lost, 1: Matched 2. All
         viewPager.setCurrentItem(1);
+
+        bottomNavigationView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                showReqPrompt();
+            }
+        }, 2000);
+    }
+
+    public void showReqPrompt() {
+        if (sp.getBoolean("hintReq")) {
+            return;
+        }
+
+        (new MaterialTapTargetPrompt.Builder(this))
+                .setTarget(bottomNavigationView.findViewById(R.id.nav_lost))
+                .setPrimaryText(getString(R.string.prompt_req))
+                .setSecondaryText(getString(R.string.prompt_req_desc))
+                .setBackgroundColourFromRes(R.color.color_primary)
+                .setAutoDismiss(false)
+                .setCaptureTouchEventOutsidePrompt(true)
+                .setAnimationInterpolator(new FastOutSlowInInterpolator())
+                .setOnHidePromptListener(new MaterialTapTargetPrompt.OnHidePromptListener() {
+                    @Override
+                    public void onHidePrompt(MotionEvent event, boolean tappedTarget) {}
+
+                    @Override
+                    public void onHidePromptComplete() {
+                        sp.save("hintReq", true);
+                    }
+                })
+                .show();
     }
 
     private void enterConsole() {

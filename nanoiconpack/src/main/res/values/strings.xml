@@ -101,5 +101,7 @@
     <!--<string name="icon_tap_desc">TAP icon to view its detail, and LONG PRESS to save to gallery.</string>-->
     <string name="more_launchers_desc">Besides the listed, more launchers are supported, please try applying from launcher.</string>
     <string name="key_desc">Please enter a key for the system to recognize users.</string>
+    <string name="prompt_req">Icon Request</string>
+    <string name="prompt_req_desc">You could request icons in this page and the author will get it.</string>
 
 </resources>

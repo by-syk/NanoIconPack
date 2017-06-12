@@ -119,15 +119,16 @@ var sqlCmds = {
   sumByIpP: 'SELECT COUNT(*) AS num FROM req WHERE icon_pack = ? AND pkg = ?',
   sumByIpPDi: 'SELECT device_id, COUNT(*) AS num FROM req WHERE icon_pack = ? AND pkg = ? GROUP BY device_id = ?',
   reqTopFilterMarked: 'SELECT label, pkg, COUNT(*) AS sum, 0 AS filter FROM req AS r WHERE icon_pack = ? AND pkg NOT IN (SELECT pkg FROM req_filter AS rf WHERE rf.icon_pack = r.icon_pack AND user = ?) GROUP BY pkg ORDER BY sum DESC, pkg ASC LIMIT ?',
-  // reqTopFilterMarked2: 'SELECT label, pkg, launcher, COUNT(*) AS sum, 0 AS filter FROM req AS r WHERE icon_pack = ? AND CONCAT(pkg, \'/\', launcher) NOT IN (SELECT CONCAT(pkg, \'/\', launcher) FROM req_filter AS rf WHERE rf.icon_pack = r.icon_pack AND user = ?) GROUP BY pkg, launcher ORDER BY sum DESC, pkg ASC LIMIT ?',
+  //reqTopFilterMarked2: 'SELECT label, pkg, launcher, COUNT(*) AS sum, 0 AS filter FROM req AS r WHERE icon_pack = ? AND CONCAT(pkg, \'/\', launcher) NOT IN (SELECT CONCAT(pkg, \'/\', launcher) FROM req_filter AS rf WHERE rf.icon_pack = r.icon_pack AND user = ?) GROUP BY pkg, launcher ORDER BY sum DESC, pkg ASC LIMIT ?',
   reqTopFilterMarked2: 'SELECT r.label, r.pkg, r.launcher, r.sum, r.filter FROM (SELECT label, pkg, launcher, COUNT(*) AS sum, 0 AS filter FROM req WHERE icon_pack = ? GROUP BY pkg, launcher) AS r LEFT JOIN (SELECT pkg, launcher FROM req_filter WHERE icon_pack = ? AND user = ? AND launcher <> \'\') AS rf ON r.pkg = rf.pkg AND r.launcher = rf.launcher WHERE rf.pkg IS NULL ORDER BY r.sum DESC, r.pkg ASC LIMIT ?',
   reqTopOnlyMarked: 'SELECT label, pkg, COUNT(*) AS sum, 1 AS filter FROM req AS r WHERE icon_pack = ? AND pkg IN (SELECT pkg FROM req_filter AS rf WHERE rf.icon_pack = r.icon_pack AND user = ?) GROUP BY pkg ORDER BY sum DESC, pkg ASC',
-  // reqTopOnlyMarked2: 'SELECT label, pkg, launcher, COUNT(*) AS sum, 1 AS filter FROM req AS r WHERE icon_pack = ? AND CONCAT(pkg, \'/\', launcher) IN (SELECT CONCAT(pkg, \'/\', launcher) FROM req_filter AS rf WHERE rf.icon_pack = r.icon_pack AND user = ?) GROUP BY pkg, launcher ORDER BY sum DESC, pkg ASC',
+  //reqTopOnlyMarked2: 'SELECT label, pkg, launcher, COUNT(*) AS sum, 1 AS filter FROM req AS r WHERE icon_pack = ? AND CONCAT(pkg, \'/\', launcher) IN (SELECT CONCAT(pkg, \'/\', launcher) FROM req_filter AS rf WHERE rf.icon_pack = r.icon_pack AND user = ?) GROUP BY pkg, launcher ORDER BY sum DESC, pkg ASC',
   reqTopOnlyMarked2: 'SELECT r.label, r.pkg, r.launcher, COUNT(*) AS sum, 1 AS filter FROM req AS r INNER JOIN req_filter AS rf ON r.icon_pack = rf.icon_pack AND r.pkg = rf.pkg AND r.launcher = rf.launcher WHERE r.icon_pack = ? AND rf.user = ? GROUP BY r.pkg, r.launcher ORDER BY sum DESC, r.pkg ASC',
   reqTop: 'SELECT label, pkg, COUNT(*) AS sum, 1 AS filter FROM req WHERE icon_pack = ? GROUP BY pkg ORDER BY sum DESC, pkg ASC LIMIT ?',
   reqTop2: 'SELECT label, pkg, launcher, COUNT(*) AS sum, 1 AS filter FROM req WHERE icon_pack = ? GROUP BY pkg, launcher ORDER BY sum DESC, pkg ASC LIMIT ?',
   reqFilter: 'INSERT IGNORE INTO req_filter(icon_pack, user, pkg, launcher) VALUES(?, ?, ?, ?)',
-  reqUndoFilter: 'DELETE FROM req_filter WHERE icon_pack = ? AND user = ? AND pkg = ? AND launcher = ?',
+  reqUndoFilter: 'DELETE FROM req_filter WHERE icon_pack = ? AND user = ? AND pkg = ?',
+  reqUndoFilter2: 'DELETE FROM req_filter WHERE icon_pack = ? AND user = ? AND pkg = ? AND launcher = ?',
   queryByPkg: 'SELECT label, label_en AS labelEn, pkg, launcher, icon, COUNT(*) AS sum FROM req WHERE pkg = ? GROUP BY label, label_en, launcher',
   queryByLabel: 'SELECT label, label_en AS labelEn, pkg, launcher, icon, COUNT(*) AS sum FROM req WHERE label LIKE ? OR label_en LIKE ? GROUP BY label, label_en, launcher LIMIT 128',
   queryByPkgLauncher: 'SELECT label, label_en AS labelEn, pkg, launcher, icon FROM req WHERE pkg = ? AND launcher = ? GROUP BY label, label_en',
@@ -418,8 +419,14 @@ app.delete('/nanoiconpack/reqfilter/:iconpack([A-Za-z\\d\._]+)/:user', function(
     return;
   }
   var launcher = req.query.launcher;
-  var sqlOptions = [iconPack, user, pkg, launcher];
-  query(sqlCmds.reqUndoFilter, sqlOptions, function(err, rows) {
+  if (!launcher) { // 兼容旧版本
+    sqlCmd = sqlCmds.reqUndoFilter;
+    sqlOptions = [iconPack, user, pkg];
+  } else {
+    sqlCmd = sqlCmds.reqUndoFilter2;
+    sqlOptions = [iconPack, user, pkg, launcher];
+  }
+  query(sqlCmd, sqlOptions, function(err, rows) {
     if (err) {
       logger.warn(err);
       res.jsonp(utils.getResRes(3));
@@ -575,7 +582,7 @@ app.get('/nanoiconpack/base', function(req, res) {
 // 接口：看门狗
 app.get('/nanoiconpack/watchdog', function(req, res) {
   logger.info('GET /nanoiconpack/watchdog');
-  
+
   res.jsonp(utils.getResRes(0, undefined, {
     port: serverPort,
     time: Date.now()
@@ -621,7 +628,7 @@ var server = app.listen(serverPort, function() {
   if (host == '::') {
     host = 'localhost';
   }
-  
+
   logger.info('http://%s:%s/nanoiconpack/', host, port);
 });
 
