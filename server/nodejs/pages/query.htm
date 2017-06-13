@@ -40,7 +40,7 @@ body {
 </style>
 
 <script type="text/javascript">
-var lastQueryTime = 0;
+var lastQueryTime = 0; // 上次检索时间
 $(document).ready(function() {
   $("#btQuery").click(function() {
     if (Date.now() - lastQueryTime < 2000) { // 避免频繁点击
@@ -66,9 +66,9 @@ $(document).ready(function() {
         $("#btQuery").click();
     }
   });
-  $('#codeDlg').on('shown.bs.modal', function () {
+  /*$('#codeDlg').on('shown.bs.modal', function () {
     $('#taCode').focus();
-  });
+  });*/
   /*$("#taCode").blur(function() {
     $("#codeDlg").modal("hide");
   });*/
@@ -115,6 +115,8 @@ function fill(data) {
       item.labelEn = "&nbsp;";
     }
     var code = "<tr>";
+    // <span class=\"glyphicon glyphicon-copy\" aria-hidden=\"true\">
+    code += "<td><button type=\"button\" class=\"btn btn-link btn-xs\">复制</button></td>";
     code += "<td>" + item.label + "</td>";
     code += "<td>" + item.labelEn + "</td>";
     //code += "<td><a href=\"http://www.coolapk.com/apk/" + item.pkg + "\" target=\"_blank\">" + item.pkg + "</a></td>";
@@ -122,7 +124,6 @@ function fill(data) {
     code += "<td><a href=\"javascript:void(0);\" data-url=\"http://sj.qq.com/myapp/detail.htm?apkName=" + item.pkg + "\">" + item.pkg + "</a></td>";
     code += "<td>" + item.launcher + "</td>";
     code += "<td><span class=\"badge\">" + item.sum + "</span></td>";
-    code += "<td><button type=\"button\" class=\"btn btn-link btn-xs\">代码</button></td>";
     code += "</tr>";
     $("#codeTbody").append(code);
   }
@@ -132,7 +133,8 @@ function fill(data) {
   });
   $("#codeTbody tr td button").click(function() {
     var tds = $(this).parent().parent().children();
-    showCode(tds);
+    //showCode(tds);
+    copy2ClipboardT(generateCode(tds));
     return false; // 阻止继续向下分发点击事件
   });
   $("#codeTbody tr").click(function() {
@@ -140,18 +142,40 @@ function fill(data) {
     showCode(tds);
   });
 }
-function showCode(tds) {
-  var code = "<!-- " + tds.eq(0).text() + " / ";
-  if (tds.eq(1).text().trim().length == 0) {
-    code += tds.eq(0).text() + " -->";
-  } else {
+// 从目标列表行组件拼装APP代码
+function generateCode(tds) {
+  var code = "<!-- " + tds.eq(1).text() + " / ";
+  if (tds.eq(2).text().trim().length == 0) {
     code += tds.eq(1).text() + " -->";
+  } else {
+    code += tds.eq(2).text() + " -->";
   }
-  code += "\n<item component=\"ComponentInfo{" + tds.eq(2).text() + "/" + tds.eq(3).text()
+  code += "\n<item component=\"ComponentInfo{" + tds.eq(3).text() + "/" + tds.eq(4).text()
     + "}\" drawable=\"\" />";
+  return code;
+}
+// 在代码对话框的编辑框中显示代码
+function showCode(tds) {
+  var code = generateCode(tds);
   //$("#taCode").text(code);
   $("#taCode").val(code);
   $("#codeDlg").modal("show");
+}
+// 复制文本内容到剪切板
+function copy2ClipboardT(text) {
+  var $temp = $("<input>");
+  $("body").append($temp);
+  $temp.val(text).select();
+  document.execCommand("copy");
+  $temp.remove();
+}
+// 从目标组件读取文本内容并复制到剪切板
+function copy2ClipboardE(element) {
+  var text = $(element).text();
+  if (!text) { // <textarea />
+    text = $(element).val();
+  }
+  copy2ClipboardT(text);
 }
 </script>
 </head>
@@ -189,12 +213,12 @@ function showCode(tds) {
   <div class="table-responsive">
   <table class="table table-striped table-hover">
   <thead><tr>
+  <th>&nbsp;</th>
   <th>APP名</th>
   <th>APP英文名</th>
   <th>包名</th>
   <th>启动项</th>
-  <th>申请次数</th>
-  <th>&nbsp;</th>
+  <th>申请次</th>
   </tr></thead>
   <tbody id="codeTbody">
   <tr><td colspan="6">...</td></tr>
@@ -218,7 +242,8 @@ function showCode(tds) {
     <textarea id="taCode" class="form-control" rows="8" style="resize: none"></textarea>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-primary" data-dismiss="modal">关闭</button>
+    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+    <button type="button" class="btn btn-primary" onclick="copy2ClipboardE('#taCode')" data-dismiss="modal">复制</button>
   </div>
 </div>
 </div>
