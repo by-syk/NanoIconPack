@@ -18,7 +18,7 @@
 <resources>
 
     <!-- App name -->
-    <string name="app_name">NanoIconPack Sample</string>
+    <string name="app_name">NanoIconPack <small>Sample</small></string>
 
     <!-- For Apex Launcher, means icon pack author -->
     <string name="developer_name">By_syk</string>

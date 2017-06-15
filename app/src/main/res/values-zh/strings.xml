@@ -18,7 +18,7 @@
 <resources>
 
     <!-- App name -->
-    <string name="app_name">NanoIconPack Sample</string>
+    <string name="app_name">NanoIconPack <small>Sample</small></string>
 
     <!-- About information -->
     <!-- Keep its summary EMPTY (NOT DELETE IT) if you don't want to show certain line. -->
