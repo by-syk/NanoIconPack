@@ -1,6 +1,5 @@
 /.gradle/*
 /.idea/*
-/gradle/*
 /projectFilesBackup/*
 /build/*
 gradlew
@@ -23,3 +22,4 @@ local.properties
 /lycsky
 /pitaya
 /square
+/coffee
