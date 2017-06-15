@@ -1,9 +1,5 @@
 apply plugin: 'com.android.library'
 
-// For publishing to jitpack.io
-apply plugin: 'com.github.dcendents.android-maven'
-group = 'com.github.by-syk'
-
 android {
     compileSdkVersion Integer.parseInt(project.COMPILE_SDK_VERSION)
     buildToolsVersion project.BUILD_TOOLS_VERSION
@@ -11,7 +7,7 @@ android {
     defaultConfig {
         minSdkVersion Integer.parseInt(project.MIN_SDK_VERSION)
         targetSdkVersion Integer.parseInt(project.TARGET_SDK_VERSION)
-        versionCode 17061200
+        versionCode 17061500
         versionName "3.0.0.nightly"
     }
 
