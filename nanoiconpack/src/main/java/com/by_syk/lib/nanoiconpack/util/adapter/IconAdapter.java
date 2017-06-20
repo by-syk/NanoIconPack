@@ -29,6 +29,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.bean.IconBean;
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
@@ -45,7 +47,7 @@ public class IconAdapter extends RecyclerView.Adapter
         View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
     private LayoutInflater layoutInflater;
 
-//    private RequestManager requestManager;
+    private RequestManager glideReqManager;
 
     private List<IconBean> dataList = new ArrayList<>();
 
@@ -69,7 +71,7 @@ public class IconAdapter extends RecyclerView.Adapter
     public IconAdapter(Context context) {
         layoutInflater = LayoutInflater.from(context);
 
-//        requestManager = Glide.with(context);
+        glideReqManager = Glide.with(context);
     }
 
     public IconAdapter(Context context, int gridSize) {
@@ -103,12 +105,17 @@ public class IconAdapter extends RecyclerView.Adapter
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof IconLabelViewHolder) {
             IconLabelViewHolder viewHolder = (IconLabelViewHolder) holder;
-            viewHolder.ivIcon.setImageResource(dataList.get(position).getId());
+//            viewHolder.ivIcon.setImageResource(dataList.get(position).getId());
+            glideReqManager.load(dataList.get(position).getId())
+                    .fitCenter()
+                    .into(viewHolder.ivIcon);
             viewHolder.tvLabel.setText(dataList.get(position).getLabel());
         } else {
             IconViewHolder viewHolder = (IconViewHolder) holder;
-            viewHolder.ivIcon.setImageResource(dataList.get(position).getId());
-//            requestManager.load(dataList.get(position).getId()).into(viewHolder.ivIcon);
+//            viewHolder.ivIcon.setImageResource(dataList.get(position).getId());
+            glideReqManager.load(dataList.get(position).getId())
+                    .fitCenter()
+                    .into(viewHolder.ivIcon);
         }
 
         if (onItemClickListener != null) {

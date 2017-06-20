@@ -272,6 +272,9 @@ public class AppsFragment extends Fragment {
             }
 
             List<AppBean> dataList = new ArrayList<>();
+            if (getContext() == null) {
+                return dataList;
+            }
             try {
                 PackageManager packageManager = getContext().getPackageManager();
                 Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
