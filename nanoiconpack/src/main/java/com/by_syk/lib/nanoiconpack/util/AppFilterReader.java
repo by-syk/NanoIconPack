@@ -45,9 +45,11 @@ public class AppFilterReader {
 
     private boolean isReadDone = false;
 
-    private AppFilterReader() {}
+    private AppFilterReader(Resources resources) {
+        init(resources);
+    }
 
-    public synchronized boolean init(Resources resources) {
+    private boolean init(Resources resources) {
         if (isReadDone()) {
             return true;
         }
@@ -151,9 +153,13 @@ public class AppFilterReader {
         return list;
     }
 
-    public static AppFilterReader getInstance() {
+    public static AppFilterReader getInstance(Resources resources) {
         if (reader == null) {
-            reader = new AppFilterReader();
+            synchronized (AppFilterReader.class) {
+                if (reader == null) {
+                    reader = new AppFilterReader(resources);
+                }
+            }
         }
 
         return reader;

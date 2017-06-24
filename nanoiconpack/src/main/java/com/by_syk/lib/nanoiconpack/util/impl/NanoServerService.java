@@ -65,7 +65,7 @@ public interface NanoServerService {
     Call<ResResBean<List<ReqTopBean>>> getReqTop(@Path("iconpack") String iconPack,
                                                  @Path("user") String user,
                                                  @Query("limit") int limitNum,
-                                                 @Query("filter") boolean filter);
+                                                 @Query("filter") boolean filterMarked);
 
     /**
      * { "status": 0, "msg": "success", "result": [
@@ -74,7 +74,7 @@ public interface NanoServerService {
      * ]}
      */
     @GET("reqtopfiltered2/{iconpack}/{user}")
-    Call<ResResBean<List<ReqTopBean>>> getReqTopFiltered(@Path("iconpack") String iconPack,
+    Call<ResResBean<List<ReqTopBean>>> getReqTopMarked(@Path("iconpack") String iconPack,
                                                           @Path("user") String user);
 
     /**

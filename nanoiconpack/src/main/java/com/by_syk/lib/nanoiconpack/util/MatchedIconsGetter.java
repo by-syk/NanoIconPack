@@ -43,8 +43,7 @@ public class MatchedIconsGetter extends IconsGetter implements Serializable {
 //            List<String> installedPkgList = PkgUtil.getInstalledPkgsWithLauncherActivity(getContext());
         List<String> installedPkgActivityList = PkgUtil.getInstalledPkgActivities(context);
 
-        AppFilterReader reader = AppFilterReader.getInstance();
-        reader.init(context.getResources());
+        AppFilterReader reader = AppFilterReader.getInstance(context.getResources());
         for (AppFilterReader.Bean bean : reader.getDataList()) {
             if (bean.pkg == null || bean.launcher == null) { // invalid
                 continue;

@@ -296,7 +296,7 @@ public class ReqStatsFragment extends Fragment {
                         .getService(NanoServerService.class);
                 Call<ResResBean<List<ReqTopBean>>> call;
                 if (filterType == 1) {
-                    call = nanoServerService.getReqTopFiltered(getContext().getPackageName(), user);
+                    call = nanoServerService.getReqTopMarked(getContext().getPackageName(), user);
                 } else /*if (filterType == 0)*/ {
                     call = nanoServerService.getReqTop(getContext().getPackageName(),
                             user, LIMIT_NUM_ARR[limitLevel], true);
@@ -357,16 +357,22 @@ public class ReqStatsFragment extends Fragment {
                 return;
             }
 
-            AppFilterReader reader = AppFilterReader.getInstance();
-            reader.init(getResources());
+            AppFilterReader reader = AppFilterReader.getInstance(getResources());
             Set<String> pkgSet = reader.getPkgSet();
             Set<String> pkgLauncherSet = reader.getPkgLauncherSet();
             for (AppBean appBean : appList) {
-                if (pkgSet.contains(appBean.getPkgName())) {
-                    if (!pkgLauncherSet.contains(appBean.getPkgName() + "/" + appBean.getLauncher())) {
-                        appBean.setHintLost(true);
-                    } else if (!appBean.isMark()) {
-                        appBean.setHintMark(true);
+                String component = appBean.getPkgName() + "/" + appBean.getLauncher();
+                if (appBean.isMark()) {
+                    if (!pkgLauncherSet.contains(component)) {
+                        appBean.setHintUndoMark(true);
+                    }
+                } else {
+                    if (pkgSet.contains(appBean.getPkgName())) {
+                        if (pkgLauncherSet.contains(component)) {
+                            appBean.setHintMark(true);
+                        } else {
+                            appBean.setHintLost(true);
+                        }
                     }
                 }
             }

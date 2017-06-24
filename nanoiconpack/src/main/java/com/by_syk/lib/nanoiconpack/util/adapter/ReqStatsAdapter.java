@@ -88,10 +88,15 @@ public class ReqStatsAdapter extends RecyclerView.Adapter<ReqStatsAdapter.IconVi
         } else {
             holder.tvReqTimes.setText("");
         }
-        if (bean.isHintMark() || bean.isHintLost()) {
+        if (bean.isHintMark()) {
             holder.viewHint.setVisibility(View.VISIBLE);
-            holder.viewHint.setBackground(context.getDrawable(bean.isHintMark() ?
-                    R.drawable.red_dot_mark : R.drawable.red_dot_lost));
+            holder.viewHint.setBackground(context.getDrawable(R.drawable.dot_green));
+        } else if (bean.isHintUndoMark()) {
+            holder.viewHint.setVisibility(View.VISIBLE);
+            holder.viewHint.setBackground(context.getDrawable(R.drawable.dot_red));
+        } else if (bean.isHintLost()) {
+            holder.viewHint.setVisibility(View.VISIBLE);
+            holder.viewHint.setBackground(context.getDrawable(R.drawable.dot_red));
         } else {
             holder.viewHint.setVisibility(View.GONE);
         }

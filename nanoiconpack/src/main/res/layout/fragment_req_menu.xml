@@ -61,7 +61,7 @@
 
             <View
                 android:id="@+id/view_hint_mark"
-                android:background="@drawable/red_dot_mark"
+                android:background="@drawable/dot_green"
                 android:visibility="gone"
                 android:layout_marginEnd="@dimen/unit_padding"
                 android:layout_width="@dimen/unit_padding"
@@ -105,24 +105,41 @@
             android:layout_marginStart="16dp"
             tools:ignore="ContentDescription" />
 
-        <TextView
-            android:text="@string/menu_undo_mark"
-            android:textSize="18sp"
-            android:textColor="?android:attr/textColorPrimary"
-            android:singleLine="true"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
             android:layout_weight="1.0"
             android:layout_marginEnd="16dp"
-            android:layout_marginStart="32dp" />
+            android:layout_marginStart="32dp">
 
-        <ProgressBar
-            style="?android:attr/progressBarStyleSmall"
-            android:id="@+id/pb_undo_marking"
-            android:visibility="gone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp" />
+            <View
+                android:id="@+id/view_hint_undo_mark"
+                android:background="@drawable/dot_red"
+                android:visibility="gone"
+                android:layout_marginEnd="@dimen/unit_padding"
+                android:layout_width="@dimen/unit_padding"
+                android:layout_height="@dimen/unit_padding" />
+
+            <TextView
+                android:text="@string/menu_undo_mark"
+                android:textSize="18sp"
+                android:textColor="?android:attr/textColorPrimary"
+                android:singleLine="true"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0" />
+
+            <ProgressBar
+                style="?android:attr/progressBarStyleSmall"
+                android:id="@+id/pb_undo_marking"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/unit_padding" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -182,7 +199,7 @@
 
             <View
                 android:id="@+id/view_hint_lost"
-                android:background="@drawable/red_dot_lost"
+                android:background="@drawable/dot_red"
                 android:visibility="gone"
                 android:layout_marginEnd="@dimen/unit_padding"
                 android:layout_width="@dimen/unit_padding"

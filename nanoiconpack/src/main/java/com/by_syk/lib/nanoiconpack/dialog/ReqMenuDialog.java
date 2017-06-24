@@ -74,9 +74,11 @@ public class ReqMenuDialog extends BottomSheetDialogFragment implements View.OnC
         if (bean.isMark()) {
             contentView.findViewById(R.id.view_menu_mark).setVisibility(View.GONE);
             contentView.findViewById(R.id.view_menu_undo_mark).setOnClickListener(this);
+            contentView.findViewById(R.id.view_hint_undo_mark)
+                    .setVisibility(bean.isHintUndoMark() ? View.VISIBLE : View.GONE);
         } else {
-            contentView.findViewById(R.id.view_menu_mark).setOnClickListener(this);
             contentView.findViewById(R.id.view_menu_undo_mark).setVisibility(View.GONE);
+            contentView.findViewById(R.id.view_menu_mark).setOnClickListener(this);
             contentView.findViewById(R.id.view_hint_mark)
                     .setVisibility(bean.isHintMark() ? View.VISIBLE : View.GONE);
         }

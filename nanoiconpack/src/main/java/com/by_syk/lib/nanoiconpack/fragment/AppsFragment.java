@@ -348,8 +348,7 @@ public class AppsFragment extends Fragment {
                 return;
             }
 
-            AppFilterReader reader = AppFilterReader.getInstance();
-            reader.init(getResources());
+            AppFilterReader reader = AppFilterReader.getInstance(getResources());
             for (AppFilterReader.Bean bean : reader.getDataList()) {
                 if (bean.pkg == null || bean.launcher == null) { // invalid
                     continue;

@@ -49,8 +49,11 @@ public class AppBean implements Serializable {
 
     private boolean mark = false;
 
-    // If true, it shows the app(pkg + launcher) is recorded in appfilter.xml but not marked
+    // If true, it shows an app(pkg + launcher) is recorded in appfilter.xml but NOT marked
     private boolean hintMark = false;
+
+    // If true, it shows an app(pkg + launcher) is marked but NOT recorded in appfilter.xml
+    private boolean hintUndoMark = false;
 
     // If true, it shows the app's pkg is recorded in appfilter.xml but its launcher not
     private boolean hintLost = false;
@@ -109,6 +112,10 @@ public class AppBean implements Serializable {
         this.hintMark = hintMark;
     }
 
+    public void setHintUndoMark(boolean hintUndoMark) {
+        this.hintUndoMark = hintUndoMark;
+    }
+
     public void setHintLost(boolean hintLost) {
         this.hintLost = hintLost;
     }
@@ -152,6 +159,10 @@ public class AppBean implements Serializable {
 
     public boolean isHintMark() {
         return hintMark;
+    }
+
+    public boolean isHintUndoMark() {
+        return hintUndoMark;
     }
 
     public boolean isHintLost() {
