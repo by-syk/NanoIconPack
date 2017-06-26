@@ -8,7 +8,7 @@
 ![NanoIconPack](art/ic_launcher_nanoiconpack.png)
 
 
-NanoIconPack 是一个简单轻量的图标包APP模板，支持主流启动器，并提供一些辅助功能。
+NanoIconPack 是一个简单轻量的图标包APP模板，支持主流启动器，**支持图标申请及统计**，并提供一些辅助功能。
 
 您可以基于此进行二次开发，只需要装配图标、修改少量文件（不涉及Java代码）即可打包出自己的图标包。
 
@@ -110,7 +110,7 @@ NanoIconPack 拥有一个轻量的服务器，提供图标申请和申请统计�
 
 ### 二次开发
 
-去 [:book: Wiki](https://github.com/by-syk/NanoIconPack/wiki/%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91%E6%AD%A5%E9%AA%A4) 页面查看二次开发步骤。
+去 [:book: Wiki](https://github.com/by-syk/NanoIconPack/wiki/%E4%BA%8C%E6%AC%A1%E5%BC%80%E5%8F%91%E6%AD%A5%E9%AA%A4) 页面查看二次开发步骤和相关开发帮助。
 
 
 ### 基于 NanoIconPack 的 APP
