@@ -93,14 +93,14 @@ $(document).ready(function() {
   }
 });
 function loadData(iconPack, key, cate) {
-  showStatus("Loading&#8230;");
-  if (cate == 'marked') {
+  updateStatus("Loading&#8230;");
+  if (cate == "marked") {
     $.get("/reqtopfiltered2/" + iconPack + "/" + key, function(data) {
       if (data && data.status == 0) {
-        fill(data);
+        fill(data, cate);
       }
     });
-  } else if (cate == 'all') {
+  } else if (cate == "all") {
     $.get("/reqtop2/" + iconPack + "/" + key, {
       limit: 128,
       filter: false
@@ -109,7 +109,7 @@ function loadData(iconPack, key, cate) {
         fill(data);
       }
     });
-  } else/* if (cate == 'unmarked')*/ {
+  } else/* if (cate == "unmarked")*/ {
     $.get("/reqtop2/" + iconPack + "/" + key, {
       limit: 128,
       filter: true
@@ -120,13 +120,14 @@ function loadData(iconPack, key, cate) {
     });
   }
 }
-function mark(opIconObj, iconPack, key, pkg, launcher) {
+function mark(trObj, iconPack, key, pkg, launcher) {
   $.post("/reqfilter/" + iconPack + "/" + key, {
     pkg: pkg,
     launcher: launcher
   }, function(data) {
     if (data && data.status == 0) {
-      opIconObj.removeClass("glyphicon-ok").addClass("glyphicon-remove");
+      trObj.find("span.glyphicon").removeClass("glyphicon-ok").addClass("glyphicon-remove");
+      trObj.addClass("success");
       $.toaster({
         title: "提示",
         message: "已标记为已适配",
@@ -141,13 +142,14 @@ function mark(opIconObj, iconPack, key, pkg, launcher) {
     }
   });
 }
-function undoMark(opIconObj, iconPack, key, pkg, launcher) {
+function undoMark(trObj, iconPack, key, pkg, launcher) {
   $.ajax({
     url: "/reqfilter/" + iconPack + "/" + key + "?pkg=" + pkg + "&launcher=" + launcher,
     type: "DELETE",
     success: function(data) {
       if (data && data.status == 0) {
-        opIconObj.removeClass("glyphicon-remove").addClass("glyphicon-ok");
+        trObj.find("span.glyphicon").removeClass("glyphicon-remove").addClass("glyphicon-ok");
+        trObj.addClass("success");
         $.toaster({
           title: "提示",
           message: "已取消已适配标记",
@@ -173,39 +175,43 @@ function undoMark(opIconObj, iconPack, key, pkg, launcher) {
 function clear(str) {
   $("#codeTbody").empty();
 }
-function showStatus(str) {
+function generateStatusCode(str) {
+  var rows = $("#codeTheadTr").children().length;
+  return "<tr><td>&nbsp;</td><td colspan=\"" + (rows - 1) + "\">" + str + "</td></tr>";
+}
+function updateStatus(str) {
   clear();
-  $("#codeTbody").append("<tr><td>&nbsp;</td><td colspan=\"5\">" + str + "</td></tr>");
+  $("#codeTbody").append(generateStatusCode(str));
 }
 function switchCate(cate) {
   if (!cate || cate == "unmarked") {
-    $("#btShowUnmarked").removeClass("btn-default").addClass("btn-success");
+    $("#btShowUnmarked").removeClass("btn-default").addClass("btn-primary");
   } else {
-    $("#btShowUnmarked").removeClass("btn-success").addClass("btn-default");
+    $("#btShowUnmarked").removeClass("btn-primary").addClass("btn-default");
   }
   if (cate == "marked") {
-    $("#btShowMarked").removeClass("btn-default").addClass("btn-success");
+    $("#btShowMarked").removeClass("btn-default").addClass("btn-primary");
   } else {
-    $("#btShowMarked").removeClass("btn-success").addClass("btn-default");
+    $("#btShowMarked").removeClass("btn-primary").addClass("btn-default");
   }
   if (cate == "all") {
-    $("#btShowAll").removeClass("btn-default").addClass("btn-success");
+    $("#btShowAll").removeClass("btn-default").addClass("btn-primary");
   } else {
-    $("#btShowAll").removeClass("btn-success").addClass("btn-default");
+    $("#btShowAll").removeClass("btn-primary").addClass("btn-default");
   }
 }
-function fill(data) {
+function fill(data, cate) {
   if (!data) {
-    showStatus("error");
+    updateStatus("error");
     return;
   }
   if (data.status != 0) {
-    showStatus(data.msg);
+    updateStatus(data.msg);
     return;
   }
   var dataArr = data.result;
   if (dataArr.length == 0) {
-    showStatus("empty");
+    updateStatus("empty");
     return;
   }
   clear();
@@ -229,6 +235,15 @@ function fill(data) {
     code += "</tr>";
     $("#codeTbody").append(code);
   }
+  if (dataArr.length > 0) {
+    if (cate == "marked") {
+      $("#codeTbody").append(generateStatusCode("以上为全部数据"));
+    } else if (cate == "all") {
+      $("#codeTbody").append(generateStatusCode("以上为 TOP128 数据"));
+    } else/* if (cate == "marked")*/ {
+      $("#codeTbody").append(generateStatusCode("以上为 TOP128 的数据"));
+    }
+  }
   $("#codeTbody tr td a").click(function() {
     window.open($(this).attr("data-url"));
     return false; // 阻止继续向下分发点击事件
@@ -239,11 +254,10 @@ function fill(data) {
   $("#codeTbody tr").click(function() {
     var index = parseInt($(this).children().eq(0).text()) - 1;
     var item = dataArr[index];
-    var opIconObj = $(this).find("span.glyphicon");
-    if (opIconObj.hasClass("glyphicon-ok")) {
-      mark(opIconObj, $.cookie("markIp"), $.cookie("markKey"), item.pkg, item.launcher);
+    if ($(this).find("span.glyphicon").hasClass("glyphicon-ok")) {
+      mark($(this), $.cookie("markIp"), $.cookie("markKey"), item.pkg, item.launcher);
     } else {
-      undoMark(opIconObj, $.cookie("markIp"), $.cookie("markKey"), item.pkg, item.launcher);
+      undoMark($(this), $.cookie("markIp"), $.cookie("markKey"), item.pkg, item.launcher);
     }
   });
 }
@@ -323,14 +337,14 @@ function showDonate() {
   </div>
 
   <div class="text-center"><div id="btGroupShow" class="btn-group" role="group">
-    <button id="btShowUnmarked" type="button" class="btn btn-success" data-id="unmarked">未标记</button>
+    <button id="btShowUnmarked" type="button" class="btn btn-default" data-id="unmarked">未标记</button>
     <button id="btShowMarked" type="button" class="btn btn-default" data-id="marked">已标记</button>
     <button id="btShowAll" type="button" class="btn btn-default" data-id="all">全部</button>
   </div></div>
   <br />
 
-  <div class="table-responsive"><table class="table table-striped table-hover">
-    <thead><tr>
+  <div class="table-responsive"><table class="table table-hover">
+    <thead><tr id="codeTheadTr">
       <th>#</th>
       <th>申请次</th>
       <th>标记</th>
@@ -352,7 +366,7 @@ function showDonate() {
     <h4 class="modal-title">捐赠支持</h4>
   </div>
   <div class="modal-body">
-    <p>目前 NanoIconPack 服务器由我个人维护并持续为接入的用户提供服务，尚无任何盈利。如果你有所受益，不妨与我分担服务器费用。谢谢！</p>
+    <p>目前 NanoIconPack 服务器由我个人维护并持续为接入的用户提供服务，尚无任何盈利。如果您有所受益，不妨与我分担服务器费用。谢谢！</p>
     <hr />
     <div class="row">
       <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"><div class="text-center">

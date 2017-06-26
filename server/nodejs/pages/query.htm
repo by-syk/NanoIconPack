@@ -53,7 +53,7 @@ $(document).ready(function() {
       $("#inputKeyword").focus();
       return true;
     }
-    showStatus("Loading&#8230;");
+    updateStatus("Loading&#8230;");
     $.get("/code/" + keyword, function(data) {
       fill(data);
     });
@@ -100,22 +100,23 @@ $(document).ready(function() {
 function clear(str) {
   $("#codeTbody").empty();
 }
-function showStatus(str) {
+function updateStatus(str) {
   clear();
-  $("#codeTbody").append("<tr><td colspan=\"6\">" + str + "</td></tr>");
+  var rows = $("#codeTheadTr").children().length;
+  $("#codeTbody").append("<tr><td>&nbsp;</td><td colspan=\"" + (rows - 1) + "\">" + str + "</td></tr>");
 }
 function fill(data) {
   if (!data) {
-    showStatus("error");
+    updateStatus("error");
     return;
   }
   if (data.status != 0) {
-    showStatus(data.msg);
+    updateStatus(data.msg);
     return;
   }
   var dataArr = data.result;
   if (dataArr.length == 0) {
-    showStatus("empty");
+    updateStatus("empty");
     return;
   }
   clear();
@@ -239,7 +240,7 @@ function showDonate() {
   </div>
   <br />
   <div class="table-responsive"><table class="table table-striped table-hover">
-    <thead><tr>
+    <thead><tr id="codeTheadTr">
     <th>&nbsp;</th>
     <th>APP名</th>
     <th>APP英文名</th>
@@ -283,7 +284,7 @@ function showDonate() {
     <h4 class="modal-title">捐赠支持</h4>
   </div>
   <div class="modal-body">
-    <p>目前 NanoIconPack 服务器由我个人维护并持续为接入的用户提供服务，尚无任何盈利。如果你有所受益，不妨与我分担服务器费用。谢谢！</p>
+    <p>目前 NanoIconPack 服务器由我个人维护并持续为接入的用户提供服务，尚无任何盈利。如果您有所受益，不妨与我分担服务器费用。谢谢！</p>
     <hr />
     <div class="row">
       <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"><div class="text-center">
