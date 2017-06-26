@@ -95,11 +95,11 @@ NanoIconPack 同时还支持许多未列出的启动器，比如
 
 NanoIconPack 拥有一个轻量的服务器，提供图标申请和申请统计两大服务。
 
-服务器由神奇的 **[Nodejs](https://nodejs.org/en/)** 驱动，够简单、够轻量。代码已经同项目一并开源（[去查看](https://github.com/by-syk/NanoIconPack/tree/master/server/nodejs)），如果您有兴趣，欢迎和我一起改进。
+服务器由神奇的 **[Node.js®](https://nodejs.org/en/)** 驱动，够简单、够轻量。代码已经同项目一并开源（[去查看](https://github.com/by-syk/NanoIconPack/tree/master/server/nodejs)），如果您有兴趣，欢迎和我一起改进。
 
 目前服务器由我维护，如果您正在基于 NanoIconPack 开发自己的图标包，可以免费接入它。或者，您也可以利用开源的代码自己搭建服务器。
 
-微控制台：[http://nano.by-syk.com](http://nano.by-syk.com)
+微控制台：http://nano.by-syk.com
 
 > 为什么需要服务器？
 >
