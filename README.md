@@ -1,6 +1,6 @@
 # NanoIconPack 图标包APP模板
 
-[![Developing](https://img.shields.io/badge/Developing-v3.0.0-green.svg)](art/CHANGELOG.txt)
+![Developing](https://img.shields.io/badge/Developing-v3.0.0-green.svg)
 [![Release](https://img.shields.io/badge/Release-v2.1.0-brightgreen.svg)](https://github.com/by-syk/NanoIconPack/releases/tag/2.1.0)
 [![Download](https://img.shields.io/badge/Download-Sample%20APP-brightgreen.svg)](https://github.com/by-syk/NanoIconPack/raw/master/out/com.by_syk.nanoiconpack.sample_v3.0.0.7.nightly(17060600).apk)
 [![License](https://img.shields.io/badge/License-Apache%202.0-yellowgreen.svg)](https://github.com/by-syk/NanoIconPack/blob/master/LICENSE)
@@ -19,11 +19,13 @@ NanoIconPack 是一个简单轻量的图标包APP模板，支持主流启动器�
 + [辅助功能](#辅助功能)
 + [服务器支持](#服务器支持)
 + [二次开发](#二次开发)
-+ [基于 NanoIconPack 的 APP](#基于-nanoiconpack-的-app)
-+ [致谢](#致谢)
-+ [更好的图标包模板推荐](#更好的图标包模板推荐)
-+ [联系开发者](#联系开发者)
-+ [License](#license)
++ [更新日志](#更新日志)
++ 以下东拉西扯
+  + [基于 NanoIconPack 的 APP](#基于-nanoiconpack-的-app)
+  + [致谢](#致谢)
+  + [更好的图标包模板推荐](#更好的图标包模板推荐)
+  + [联系开发者](#联系开发者)
+  + [License](#license)
 
 
 ### 支持启动器
@@ -101,7 +103,7 @@ NanoIconPack 拥有一个轻量的服务器，提供图标申请和申请统计�
 
 微控制台：http://nano.by-syk.com
 
-![NanoConsole](art/nano_console.png)
+[![NanoConsole](art/nano_console.png)](http://nano.by-syk.com)
 
 > 为什么需要服务器？
 >
@@ -113,6 +115,27 @@ NanoIconPack 拥有一个轻量的服务器，提供图标申请和申请统计�
 ### 二次开发
 
 去 [:book: Wiki](https://github.com/by-syk/NanoIconPack/wiki) 页面查看二次开发步骤和相关开发帮助。
+
+
+### 更新日志
+
+当前开发中的版本日志：
+
+```
+- 「申请统计」页面「显示未标记」时隐藏「TOP」菜单项
+- 增加一个主页切换效果供选择，但调整默认为无效果
+- 修复不识别大写字母支付宝转账链接的问题
+- 不再重复保存图标
+- 修复APP列表中非方形APP图标显示变形的问题（fitXY -> fitCenter）
+- 移除APP列表中最后一条多余的分割线
+- 「申请统计」从统计最小单元 pkg 变更到 pkg + launcher，更便于查漏补缺（服务端增加新接口来支持，同时原接口仍可正常使用；但标记数据不共通，也就是说更新到该版本后图标包作者需要重新标记）
+- 「申请统计」支持提醒标记（小绿点）、提醒补缺（小红点）
+- 在关于界面添加申请统计入口和APP代码速查入口
+- 申请图标操作提示
+- Glide 加载图标列表，缓解速滑卡顿
+```
+
+历史版本日志请[移步此处查看](out/changelog.txt)
 
 
 ### 基于 NanoIconPack 的 APP
