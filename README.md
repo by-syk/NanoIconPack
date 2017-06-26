@@ -134,7 +134,7 @@ NanoIconPack 拥有一个轻量的服务器，提供图标申请和申请统计�
 - 在关于界面添加申请统计入口和APP代码速查入口
 - 申请图标操作提示（使用了 MaterialTapTargetPrompt 库）
 - Glide 加载图标列表，缓解速滑卡顿
-- 持续完善 Nano 微控制台，提供服务：APP代码速查、常用APP代码、图标包统计、申请管理。http://nano.by-syk.com
+- 整合网页，推出微控制台，提供服务：APP代码速查、常用APP代码、图标包统计、申请管理等。http://nano.by-syk.com
 ```
 
 历史版本日志请[移步此处查看](out/changelog.txt)
