@@ -22,22 +22,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="keyword" content="NanoIconPack" />
+<meta name="description" content="NanoIconPack Console" />
 <title>NanoQuery</title>
 
 <!-- ICON -->
-<link href="/nanoiconpack/imgs/favicon.ico" rel="icon" type="image/x-icon" />
-<link href="/nanoiconpack/imgs/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+<!--<link rel="icon" href="../static/imgs/favicon.ico">
+<link rel="shortcut icon" href="../static/imgs/favicon.ico">-->
+<link rel="icon" type="image/png" href="../static/imgs/favicon-32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="../static/imgs/favicon-96.png" sizes="96x96">
 
 <link rel="stylesheet" href="http://oev9dotro.bkt.clouddn.com/css/bootstrap-3.3.5.min.css">
 <script src="http://oev9dotro.bkt.clouddn.com/js/jquery-3.0.0.min.js"></script>
 <script src="http://oev9dotro.bkt.clouddn.com/js/bootstrap-3.3.5.min.js"></script>
 
-<style type="text/css">
-body {
-  padding-top: 70px;
-  padding-bottom: 70px;
-}
-</style>
+<link rel="stylesheet" href="../static/css/header_footer.css">
+<script src="../static/js/utils.js?v=17061700"></script>
 
 <script type="text/javascript">
 var lastQueryTime = 0; // 上次检索时间
@@ -53,53 +53,69 @@ $(document).ready(function() {
       $("#inputKeyword").focus();
       return true;
     }
-    status("Loading...");
-    $.get("/nanoiconpack/code/" + keyword, function(data) {
+    showStatus("Loading&#8230;");
+    $.get("/code/" + keyword, function(data) {
       fill(data);
     });
   });
   $("#inputKeyword").focus(function() {
     $(this).select();
+    $("#clearInput").addClass("hidden");
+  });
+  $("#inputKeyword").blur(function() {
+    if ($("#inputKeyword").val().length > 0) {
+      $("#clearInput").removeClass("hidden");
+    }
   });
   $("#inputKeyword").bind("keypress", function(event) {
     if(event.keyCode == "13") {
-        $("#btQuery").click();
+      if (!$("#mobileFlag").is(":hidden")) { // 在移动设备上散去焦点使软键盘退下
+        $(this).blur();
+      }
+      $("#btQuery").click();
     }
   });
-  /*$('#codeDlg').on('shown.bs.modal', function () {
-    $('#taCode').focus();
-  });*/
+  $("#inputKeyword").focus();
+  $("#clearInput").click(function() {
+    $("#inputKeyword").val("");
+    $("#inputKeyword").focus();
+  });
+  $('#codeDlg').on('shown.bs.modal', function () {
+    // 不在移动设备主动聚焦而使软键盘弹出
+    if ($("#mobileFlag").is(":hidden")) {
+      $('#taCode').focus();
+    }
+  });
   /*$("#taCode").blur(function() {
     $("#codeDlg").modal("hide");
   });*/
-  $.get("/nanoiconpack/sum", function(data) {
+  $.get("/sum", function(data) {
     if (data && data.status == 0) {
       $("#iconPacks").text(data.result.iconPacks);
       $("#apps").text(data.result.apps);
       $("#reqTimes").text(data.result.reqTimes);
     }
   });
-  $("#inputKeyword").focus();
 });
 function clear(str) {
   $("#codeTbody").empty();
 }
-function status(str) {
+function showStatus(str) {
   clear();
   $("#codeTbody").append("<tr><td colspan=\"6\">" + str + "</td></tr>");
 }
 function fill(data) {
   if (!data) {
-    status("error");
+    showStatus("error");
     return;
   }
   if (data.status != 0) {
-    status(data.msg);
+    showStatus(data.msg);
     return;
   }
   var dataArr = data.result;
   if (dataArr.length == 0) {
-    status("empty");
+    showStatus("empty");
     return;
   }
   clear();
@@ -120,8 +136,8 @@ function fill(data) {
     code += "<td>" + item.label + "</td>";
     code += "<td>" + item.labelEn + "</td>";
     //code += "<td><a href=\"http://www.coolapk.com/apk/" + item.pkg + "\" target=\"_blank\">" + item.pkg + "</a></td>";
-    //code += "<td><a href=\"javascript:void(0);\" data-url=\"http://www.coolapk.com/apk/" + item.pkg + "\">" + item.pkg + "</a></td>";
-    code += "<td><a href=\"javascript:void(0);\" data-url=\"http://sj.qq.com/myapp/detail.htm?apkName=" + item.pkg + "\">" + item.pkg + "</a></td>";
+    code += "<td><a href=\"javascript:void(0);\" data-url=\"http://www.coolapk.com/apk/" + item.pkg + "\">" + item.pkg + "</a></td>";
+    //code += "<td><a href=\"javascript:void(0);\" data-url=\"http://sj.qq.com/myapp/detail.htm?apkName=" + item.pkg + "\">" + item.pkg + "</a></td>";
     code += "<td>" + item.launcher + "</td>";
     code += "<td><span class=\"badge\">" + item.sum + "</span></td>";
     code += "</tr>";
@@ -151,7 +167,12 @@ function generateCode(tds) {
     code += tds.eq(2).text() + " -->";
   }
   code += "\n<item component=\"ComponentInfo{" + tds.eq(3).text() + "/" + tds.eq(4).text()
-    + "}\" drawable=\"\" />";
+    + "}\" drawable=\"";
+  var iconName = codeAppName(tds.eq(2).text());
+  if (iconName.length == 0) {
+    iconName = codeAppName(tds.eq(1).text())
+  }
+  code += iconName + "\" />";
   return code;
 }
 // 在代码对话框的编辑框中显示代码
@@ -161,21 +182,9 @@ function showCode(tds) {
   $("#taCode").val(code);
   $("#codeDlg").modal("show");
 }
-// 复制文本内容到剪切板
-function copy2ClipboardT(text) {
-  var $temp = $("<input>");
-  $("body").append($temp);
-  $temp.val(text).select();
-  document.execCommand("copy");
-  $temp.remove();
-}
-// 从目标组件读取文本内容并复制到剪切板
-function copy2ClipboardE(element) {
-  var text = $(element).text();
-  if (!text) { // <textarea />
-    text = $(element).val();
-  }
-  copy2ClipboardT(text);
+// 显示捐赠二维码对话框
+function showDonate() {
+  $("#donateDlg").modal("show");
 }
 </script>
 </head>
@@ -183,50 +192,66 @@ function copy2ClipboardE(element) {
 <body>
 
 <nav class="navbar navbar-default navbar-fixed-top">
-<div class="container-fluid">
-<div class="navbar-header">
-<a class="navbar-brand" href="https://github.com/by-syk/NanoIconPack" target="_blank">NanoIconPack</a>
-<p class="navbar-text navbar-right">APP代码速查</p>
-</div>
+<div class="container">
+  <div class="navbar-header">
+    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navBarMenu">
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+      <span class="icon-bar"></span>
+    </button>
+    <a class="navbar-brand" href="/">NanoIconPack</a>
+    <!--<p class="navbar-text navbar-right">APP代码速查</p>-->
+  </div>
+  <div id="navBarMenu" class="collapse navbar-collapse">
+    <ul class="nav navbar-nav">
+      <li class="active"><a href="./query">APP代码速查</a></li>
+      <li><a href="./base">常用APP代码</a></li>
+      <li><a href="./stats">图标包统计</a></li>
+      <li><a href="./mark">申请管理</a></li>
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
+      <li><a href="https://github.com/by-syk/NanoIconPack" target="_blank">GitHub</a></li>
+      <li><a href="javascript:void(0);" onclick="showDonate()">捐赠支持</a></li>
+    </ul>
+  </div>
 </div>
 </nav>
 
-<div class="container-fluid">
-<div class="row">
-<div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 col-lg-offset-1 col-md-offset-1">
+<div class="container">
+  <!--<div class="row"><div class="col-lg-10 col-md-10 col-sm-12 col-xs-12 col-lg-offset-1 col-md-offset-1">-->
   <div class="alert alert-info" role="alert"><strong>数据量</strong><br />接入图标包：<span class="badge" id="iconPacks"></span>&nbsp;申请APP：<span class="badge" id="apps"></span>&nbsp;申请次：<span class="badge" id="reqTimes"></span></div>
-  <div class="alert alert-warning alert-dismissible" role="alert">
+  <!--<div class="alert alert-warning alert-dismissible" role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    <strong>TIPS</strong>&nbsp;快速获取常用APP代码请前往 <a class="alert-link" href="/nanoiconpack/page/base">NanoBase</a> 页面
+    <strong>TIPS</strong>&nbsp;快速获取常用APP代码请前往 <a class="alert-link" href="./base">NanoBase</a> 页面
   </div>
   <div class="alert alert-warning alert-dismissible" role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    <strong>TIPS</strong>&nbsp;了解或使用 NanoIconPack 请前往 <a class="alert-link" href="https://github.com/by-syk/NanoIconPack">GitHub</a> 项目页
-  </div>
+    <strong>TIPS</strong>&nbsp;了解或使用 NanoIconPack 请前往 <a class="alert-link" href="https://github.com/by-syk/NanoIconPack" target="_blank">GitHub</a> 项目页
+  </div>-->
+  <div class="form-group has-feedback">
   <div class="input-group">
-  <span class="input-group-btn">
-    <button type="button" id="btQuery" class="btn btn-default">&nbsp;<span class="glyphicon glyphicon-search" aria-hidden="true"></span>&nbsp;</button>
-  </span>
-  <input type="text" id="inputKeyword" class="form-control" placeholder="检索APP名或包名&#8230;">
+    <span class="input-group-btn">
+      <button type="button" id="btQuery" class="btn btn-default">&nbsp;<span class="glyphicon glyphicon-search" aria-hidden="true"></span>&nbsp;</button>
+    </span>
+    <input type="text" id="inputKeyword" class="form-control" placeholder="检索APP名或包名&#8230;">
+  </div>
+  <span id="clearInput" class="glyphicon glyphicon-remove-sign form-control-feedback hidden" aria-hidden="true" style="pointer-events: auto" onclick="clearInput()"></span>
   </div>
   <br />
-  <div class="table-responsive">
-  <table class="table table-striped table-hover">
-  <thead><tr>
-  <th>&nbsp;</th>
-  <th>APP名</th>
-  <th>APP英文名</th>
-  <th>包名</th>
-  <th>启动项</th>
-  <th>申请次</th>
-  </tr></thead>
-  <tbody id="codeTbody">
-  <tr><td colspan="6">...</td></tr>
-  </tbody>
-  </table>
-  </div>
-</div>
-</div>
+  <div class="table-responsive"><table class="table table-striped table-hover">
+    <thead><tr>
+    <th>&nbsp;</th>
+    <th>APP名</th>
+    <th>APP英文名</th>
+    <th>包名</th>
+    <th>启动项</th>
+    <th>申请次</th>
+    </tr></thead>
+    <tbody id="codeTbody">
+    <!--<tr><td colspan="6">...</td></tr>-->
+    </tbody>
+  </table></div>
+  <div id="mobileFlag" class="visible-xs-block"></div>
 </div>
 
 <div id="codeDlg" class="modal fade">
@@ -239,26 +264,61 @@ function copy2ClipboardE(element) {
     <h4 class="modal-title">代码</h4>
   </div>
   <div class="modal-body">
-    <textarea id="taCode" class="form-control" rows="8" style="resize: none"></textarea>
+    <textarea id="taCode" class="form-control" rows="6" style="resize: none"></textarea>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
     <button type="button" class="btn btn-primary" onclick="copy2ClipboardE('#taCode')" data-dismiss="modal">复制</button>
   </div>
 </div>
 </div>
 </div>
 
+<div id="donateDlg" class="modal fade">
+<div class="modal-dialog">
+<div class="modal-content">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">捐赠支持</h4>
+  </div>
+  <div class="modal-body">
+    <p>目前 NanoIconPack 服务器由我个人维护并持续为接入的用户提供服务，尚无任何盈利。如果你有所受益，不妨与我分担服务器费用。谢谢！</p>
+    <hr />
+    <div class="row">
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"><div class="text-center">
+        <img src="http://oev9dotro.bkt.clouddn.com/img/qrcode_donate_By_syk_alipay_2.png" class="img-responsive img-thumbnail" height="200" width="200" alt="支付宝扫码捐赠" title="支付宝扫码捐赠">
+      </div></div>
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 text-center"><div class="text-center">
+        <img src="http://oev9dotro.bkt.clouddn.com/img/qrcode_donate_By_syk_wechat_2.png" class="img-responsive img-thumbnail" height="200" width="200" alt="微信扫码捐赠" title="微信扫码捐赠">
+      </div></div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+  </div>
+</div>
+</div>
+</div>
+
 <nav class="navbar navbar-default navbar-fixed-bottom">
-<table border="0" align="center" height="50px">
-<tr height="50px">
-<td height="50px" valign="middle" align="center">
-<small>
-Copyright &copy; 2017 <a href="mailto:By_syk@163.com">By_syk</a>. All rights reserved.
-</small>
-</td>
-</tr>
-</table>
+  <table border="0" align="center" height="50px">
+  <tr height="50px"><td height="50px" valign="middle" align="center">
+  <div class="visible-xs-block copyright">
+    <small>
+      Copyright &copy; 2017 <a href="mailto:By_syk@163.com">By_syk</a>. All rights reserved.
+      <br />
+      <a href="http://www.miibeian.gov.cn">蜀ICP备16010934号</a>
+    </small>
+  </div>
+  <div class="hidden-xs copyright">
+    <small>
+      Copyright &copy; 2017 <a href="mailto:By_syk@163.com">By_syk</a>. All rights reserved.
+      | <a href="http://www.miibeian.gov.cn" target="_blank">蜀ICP备16010934号</a>
+    </small>
+  </div>
+  </td></tr>
+  </table>
 </nav>
 
 </body>

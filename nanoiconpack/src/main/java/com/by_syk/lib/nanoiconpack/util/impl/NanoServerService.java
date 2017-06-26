@@ -75,7 +75,7 @@ public interface NanoServerService {
      */
     @GET("reqtopfiltered2/{iconpack}/{user}")
     Call<ResResBean<List<ReqTopBean>>> getReqTopMarked(@Path("iconpack") String iconPack,
-                                                          @Path("user") String user);
+                                                       @Path("user") String user);
 
     /**
      * { "status": 0, "msg": "success" }

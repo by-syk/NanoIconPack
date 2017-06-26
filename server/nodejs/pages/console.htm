@@ -24,7 +24,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="keyword" content="NanoIconPack" />
 <meta name="description" content="NanoIconPack Console" />
-<title>NanoBase</title>
+<title>NanoConsole</title>
 
 <!-- ICON -->
 <!--<link rel="icon" href="../static/imgs/favicon.ico">
@@ -36,68 +36,9 @@
 <script src="http://oev9dotro.bkt.clouddn.com/js/jquery-3.0.0.min.js"></script>
 <script src="http://oev9dotro.bkt.clouddn.com/js/bootstrap-3.3.5.min.js"></script>
 
-<!--<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>-->
-<!-- <pre class="prettyprint lang-java"></pre> -->
-
 <link rel="stylesheet" href="../static/css/header_footer.css">
-<script src="../static/js/utils.js?v=17061700"></script>
 
 <script type="text/javascript">
-var lastQueryTime = 0;
-$(document).ready(function() {
-  $.get("/base", function(data) {
-    fill(data);
-  });
-  $("#btEdit").click(function() {
-    switchCodeShow(true);
-  });
-});
-function fill(data) {
-  if (!data) {
-    return;
-  }
-  if (data.status != 0) {
-    return;
-  }
-  var dataArr = data.result;
-  if (dataArr.length == 0) {
-    return;
-  }
-  for (var i in dataArr) {
-    var item = dataArr[i];
-    var code = "<button class=\"btn btn-link\" data-index=\"" + i + "\">" + item.label + " / " + item.labelEn + "</button>";
-    $("#series").append(code);
-  }
-  $("#series .btn").click(function() {
-    $("#targetApp").text($(this).text());
-    var code = generateCode(dataArr[$(this).attr("data-index")]);
-    $("#preCode").text(code);
-    $("#taCode").val(code);
-    switchCodeShow(false);
-  });
-  $("#series .btn").first().click();
-}
-function generateCode(jo) {
-  var code = "";
-  for (var i in jo.more) {
-    var itemMore = jo.more[i];
-    code += "<item component=\"ComponentInfo{" + itemMore.pkg + "/" + itemMore.launcher + "}\" drawable=\"" + jo.icon + "\" />\n";
-  }
-  return code;
-}
-function switchCodeShow(editable) {
-  if (editable) {
-    //$("#hardCodeDiv").addClass("hidden");
-    //$("#editCodeDiv").removeClass("hidden");
-    $("#hardCodeDiv").collapse("hide");
-    $("#editCodeDiv").collapse("show");
-  } else {
-    //$("#hardCodeDiv").removeClass("hidden");
-    //$("#editCodeDiv").addClass("hidden");
-    $("#hardCodeDiv").collapse("show");
-    $("#editCodeDiv").collapse("hide");
-  }
-}
 // 显示捐赠二维码对话框
 function showDonate() {
   $("#donateDlg").modal("show");
@@ -116,12 +57,11 @@ function showDonate() {
       <span class="icon-bar"></span>
     </button>
     <a class="navbar-brand" href="/">NanoIconPack</a>
-    <!--<p class="navbar-text navbar-right">常用APP代码</p>-->
   </div>
   <div id="navBarMenu" class="collapse navbar-collapse">
     <ul class="nav navbar-nav">
       <li><a href="./query">APP代码速查</a></li>
-      <li class="active"><a href="./base">常用APP代码</a></li>
+      <li><a href="./base">常用APP代码</a></li>
       <li><a href="./stats">图标包统计</a></li>
       <li><a href="./mark">申请管理</a></li>
     </ul>
@@ -134,42 +74,12 @@ function showDonate() {
 </nav>
 
 <div class="container">
-  <div class="alert alert-info" role="alert">这个页面提供了一些常用APP的代码，仅供参考。</div>
-  <!--<div class="alert alert-warning alert-dismissible" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    <strong>TIPS</strong> APP代码速查请前往 <a class="alert-link" href="./query">NanoQuery</a> 页面
-  </div>-->
-  <div class="panel panel-default">
-    <div class="panel-heading" role="tab">
-      <h3 class="panel-title">
-        <a href="#collapseSeries" data-toggle="collapse" role="button">APP</a>
-      </h3>
-    </div>
-    <div id="collapseSeries" class="panel-collapse collapse in" role="tabpanel">
-      <div id="series" class="panel-body"></div>
+  <div class="jumbotron">
+    <div class="container">
+      <h1>Welcome</h1>
+      <p>NanoIconPack 微控制台</p>
     </div>
   </div>
-  <h4><span id="targetApp"></span> <small>代码</small></h4>
-  <!-- 不可编辑代码展示 -->
-  <div id="hardCodeDiv" class="collapse in">
-    <pre id="preCode"></pre>
-    <div class="text-right">
-      <button id="btCopy" type="button" class="btn btn-link btn-sm" onclick="copy2ClipboardE('#preCode')">
-        <span class="glyphicon glyphicon-copy" aria-hidden="true"></span> 复制
-      </button>
-      <button id="btEdit" type="button" class="btn btn-default btn-sm">
-        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> 编辑
-      </button>
-    </div>
-  </div>
-  <!-- 可编辑代码展示 -->
-  <div id="editCodeDiv" class="collapse">
-    <textarea id="taCode" class="form-control" rows="16" style="resize: none"></textarea>
-  </div>
-  <br />
-  <p style="color:grey"><span class="glyphicon glyphicon-flag" aria-hidden="true">
-    如果您有所补充，欢迎<a href="https://github.com/by-syk/NanoIconPack/issues" target="_blank">在GitHub上提交issue</a>或<a href="mailto:By_syk@163.com">发送邮件告知我</a>，谢谢。
-  </p>
 </div>
 
 <div id="donateDlg" class="modal fade">

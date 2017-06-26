@@ -1,5 +1,6 @@
 /.gradle/*
 /.idea/*
+/gradle/*
 /projectFilesBackup/*
 /build/*
 gradlew
@@ -23,9 +24,3 @@ local.properties
 /pitaya
 /square
 /coffee
-
-/app
-/art
-/out
-/server
-/tools

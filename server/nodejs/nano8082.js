@@ -14,78 +14,6 @@
  * limitations under the License.
  */
 
-/*
--- 申请表
-CREATE TABLE req(
-  -- APP系列，如QQ与QQ轻聊版可归为同一APP系列
-  series VARCHAR(128),
-  -- 根据APP名自动生成图标名（可能没有）
-  icon VARCHAR(128),
-  -- 目标APP名
-  label VARCHAR(128),
-  -- 目标APP名英文（可能没有）
-  label_en VARCHAR(128),
-  -- 包名
-  pkg VARCHAR(128),
-  -- 启动项
-  launcher VARCHAR(192),
-  -- 是否为系统APP
-  sys_app TINYINT(1) DEFAULT 0,
-  -- 归属图标包包名
-  icon_pack VARCHAR(64),
-  -- 设备ID（取 ANDROID_ID + SERIAL）
-  device_id CHAR(32),
-  -- 设备品牌
-  device_brand VARCHAR(32),
-  -- 设备型号
-  device_model VARCHAR(32),
-  -- 设备系统版本
-  device_sdk TINYINT(1) DEFAULT 0,
-  -- 申请时间
-  time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY(pkg, launcher, icon_pack, device_id),
-  CONSTRAINT fk_series FOREIGN KEY(series) REFERENCES series(name) ON UPDATE CASCADE ON DELETE SET NULL
-) ENGINE = InnoDB;
--- 申请过滤表
-CREATE TABLE req_filter(
-  -- 归属图标包包名
-  icon_pack VARCHAR(64),
-  -- 用户
-  user VARCHAR(64),
-  -- 包名
-  pkg VARCHAR(128),
-  -- 启动项
-  launcher VARCHAR(192),
-  -- 申请时间
-  time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY(icon_pack, user, pkg, launcher)
-);
--- APP系列表
-CREATE TABLE series(
-  -- APP系列，如各系统的电话APP可归为同一系列
-  name VARCHAR(128) PRIMARY KEY,
-  -- 系列名
-  label VARCHAR(128),
-  -- 系列名英文
-  label_en VARCHAR(128),
-  -- 是否为系统APP系列
-  sys TINYINT(1) DEFAULT 0
-) ENGINE = InnoDB;
--- 图标包（TODO 建立图标包管理机制）
-CREATE TABLE icon_pack(
-  -- 包名
-  pkg VARCHAR(64) PRIMARY KEY,
-  -- APP名
-  label VARCHAR(128),
-  -- APP英文名
-  label_en VARCHAR(128),
-  -- 作者
-  author VARCHAR(32),
-  -- 黑名单
-  evil TINYINT(1) DEFAULT 0
-) ENGINE = InnoDB;
-*/
-
 var express = require('express'); // npm install express
 var bodyParser = require('body-parser'); // npm install body-parser
 var log4js = require('log4js'); // npm install log4js
@@ -113,39 +41,14 @@ log4js.addAppender(log4js.appenders.file('logs/nano' + serverPort + '.log'), 'na
 var logger = log4js.getLogger('nano' + serverPort);
 logger.setLevel('INFO'); // TRACE, DEBUG, INFO, WARN, ERROR, FATAL
 
-// 用到的SQL命令
-var sqlCmds = {
-  req: 'INSERT IGNORE INTO req(icon, label, label_en, pkg, launcher, sys_app, icon_pack, device_id, device_brand, device_model, device_sdk) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-  sumByIpP: 'SELECT COUNT(*) AS num FROM req WHERE icon_pack = ? AND pkg = ?',
-  sumByIpPDi: 'SELECT device_id, COUNT(*) AS num FROM req WHERE icon_pack = ? AND pkg = ? GROUP BY device_id = ?',
-  reqTopFilterMarked: 'SELECT label, pkg, COUNT(*) AS sum, 0 AS filter FROM req AS r WHERE icon_pack = ? AND pkg NOT IN (SELECT pkg FROM req_filter AS rf WHERE rf.icon_pack = r.icon_pack AND user = ?) GROUP BY pkg ORDER BY sum DESC, pkg ASC LIMIT ?',
-  //reqTopFilterMarked2: 'SELECT label, pkg, launcher, COUNT(*) AS sum, 0 AS filter FROM req AS r WHERE icon_pack = ? AND CONCAT(pkg, \'/\', launcher) NOT IN (SELECT CONCAT(pkg, \'/\', launcher) FROM req_filter AS rf WHERE rf.icon_pack = r.icon_pack AND user = ?) GROUP BY pkg, launcher ORDER BY sum DESC, pkg ASC LIMIT ?',
-  reqTopFilterMarked2: 'SELECT r.label, r.pkg, r.launcher, r.sum, r.filter FROM (SELECT label, pkg, launcher, COUNT(*) AS sum, 0 AS filter FROM req WHERE icon_pack = ? GROUP BY pkg, launcher) AS r LEFT JOIN (SELECT pkg, launcher FROM req_filter WHERE icon_pack = ? AND user = ? AND launcher <> \'\') AS rf ON r.pkg = rf.pkg AND r.launcher = rf.launcher WHERE rf.pkg IS NULL ORDER BY r.sum DESC, r.pkg ASC LIMIT ?',
-  reqTopOnlyMarked: 'SELECT label, pkg, COUNT(*) AS sum, 1 AS filter FROM req AS r WHERE icon_pack = ? AND pkg IN (SELECT pkg FROM req_filter AS rf WHERE rf.icon_pack = r.icon_pack AND user = ?) GROUP BY pkg ORDER BY sum DESC, pkg ASC',
-  //reqTopOnlyMarked2: 'SELECT label, pkg, launcher, COUNT(*) AS sum, 1 AS filter FROM req AS r WHERE icon_pack = ? AND CONCAT(pkg, \'/\', launcher) IN (SELECT CONCAT(pkg, \'/\', launcher) FROM req_filter AS rf WHERE rf.icon_pack = r.icon_pack AND user = ?) GROUP BY pkg, launcher ORDER BY sum DESC, pkg ASC',
-  reqTopOnlyMarked2: 'SELECT r.label, r.pkg, r.launcher, COUNT(*) AS sum, 1 AS filter FROM req AS r INNER JOIN req_filter AS rf ON r.icon_pack = rf.icon_pack AND r.pkg = rf.pkg AND r.launcher = rf.launcher WHERE r.icon_pack = ? AND rf.user = ? GROUP BY r.pkg, r.launcher ORDER BY sum DESC, r.pkg ASC',
-  reqTop: 'SELECT label, pkg, COUNT(*) AS sum, 1 AS filter FROM req WHERE icon_pack = ? GROUP BY pkg ORDER BY sum DESC, pkg ASC LIMIT ?',
-  reqTop2: 'SELECT label, pkg, launcher, COUNT(*) AS sum, 1 AS filter FROM req WHERE icon_pack = ? GROUP BY pkg, launcher ORDER BY sum DESC, pkg ASC LIMIT ?',
-  reqFilter: 'INSERT IGNORE INTO req_filter(icon_pack, user, pkg, launcher) VALUES(?, ?, ?, ?)',
-  reqUndoFilter: 'DELETE FROM req_filter WHERE icon_pack = ? AND user = ? AND pkg = ?',
-  reqUndoFilter2: 'DELETE FROM req_filter WHERE icon_pack = ? AND user = ? AND pkg = ? AND launcher = ?',
-  queryByPkg: 'SELECT label, label_en AS labelEn, pkg, launcher, icon, COUNT(*) AS sum FROM req WHERE pkg = ? GROUP BY label, label_en, launcher',
-  queryByLabel: 'SELECT label, label_en AS labelEn, pkg, launcher, icon, COUNT(*) AS sum FROM req WHERE label LIKE ? OR label_en LIKE ? GROUP BY label, label_en, launcher LIMIT 128',
-  queryByPkgLauncher: 'SELECT label, label_en AS labelEn, pkg, launcher, icon FROM req WHERE pkg = ? AND launcher = ? GROUP BY label, label_en',
-  sumReqTimes: 'SELECT COUNT(*) AS sum FROM req',
-  sumApps: 'SELECT COUNT(*) AS sum FROM (SELECT pkg FROM req GROUP BY pkg, launcher) AS pkgs',
-  sumIconPacks: 'SELECT COUNT(*) AS sum FROM (SELECT icon_pack FROM req GROUP BY icon_pack HAVING COUNT(icon_pack) > 32) AS iconPacks',
-  baseApps: 'SELECT s.label, s.label_en, s.name, r.pkg, r.launcher, r.device_brand FROM series AS s LEFT JOIN req AS r ON s.name = r.series WHERE s.sys = 1 GROUP BY s.name, r.pkg, r.launcher ORDER BY s.name, r.pkg, r.launcher'
-};
-
 
 // ====================================== API BLOCK START ======================================= //
 
 
 // 接口：申请适配图标
-app.post('/nanoiconpack/req/:iconpack([A-Za-z\\d\._]+)', function(req, res) {
+app.post('/req/:iconpack([A-Za-z\\d\._]+)', function(req, res) {
   var iconPack = req.params.iconpack;
-  logger.info('POST /nanoiconpack/req/' + iconPack);
+  logger.info('POST /req/' + iconPack);
   var icon = req.body.icon;
   if (!icon) {
     icon = null;
@@ -195,14 +98,14 @@ app.post('/nanoiconpack/req/:iconpack([A-Za-z\\d\._]+)', function(req, res) {
     deviceSdk = 0;
   }
   var sqlOptions = [icon, label, labelEn, pkg, launcher, sysApp, iconPack, deviceId, deviceBrand, deviceModel, deviceSdk];
-  query(sqlCmds.req, sqlOptions, function(err, rows) {
+  query(utils.sqlCmds.req, sqlOptions, function(err, rows) {
     if (err) {
       logger.warn(err);
       res.jsonp(utils.getResRes(3));
       return;
     }
     var sqlOptions1 = [iconPack, pkg];
-    query(sqlCmds.sumByIpP, sqlOptions1, function(err1, rows1) {
+    query(utils.sqlCmds.sumByIpP, sqlOptions1, function(err1, rows1) {
       if (err1) {
         logger.warn(err1);
         res.jsonp(utils.getResRes(3));
@@ -214,16 +117,16 @@ app.post('/nanoiconpack/req/:iconpack([A-Za-z\\d\._]+)', function(req, res) {
 });
 
 // 接口：查询对目标APP的请求适配次数
-app.get('/nanoiconpack/reqnum/:iconpack([A-Za-z\\d\._]+)/:pkg([A-Za-z\\d\._]+)', function(req, res) {
+app.get('/reqnum/:iconpack([A-Za-z\\d\._]+)/:pkg([A-Za-z\\d\._]+)', function(req, res) {
   var iconPack = req.params.iconpack;
   var pkg = req.params.pkg;
   var deviceId = req.query.deviceid;
   if (!deviceId) {
     deviceId = null;
   }
-  logger.info('GET /nanoiconpack/reqnum/' + iconPack + '/' + pkg + '?deviceid=' + deviceId);
+  logger.info('GET /reqnum/' + iconPack + '/' + pkg + '?deviceid=' + deviceId);
   var sqlOptions = [iconPack, pkg, deviceId];
-  query(sqlCmds.sumByIpPDi, sqlOptions, function(err, rows) {
+  query(utils.sqlCmds.sumByIpPDi, sqlOptions, function(err, rows) {
     if (err) {
       logger.warn(err);
       res.jsonp(utils.getResRes(3));
@@ -245,7 +148,7 @@ app.get('/nanoiconpack/reqnum/:iconpack([A-Za-z\\d\._]+)/:pkg([A-Za-z\\d\._]+)',
 
 // TODO DEPRECATED
 // 接口：查询请求数TOP的APP
-app.get('/nanoiconpack/reqtop/:iconpack([A-Za-z\\d\._]+)/:user', function(req, res) {
+app.get('/reqtop/:iconpack([A-Za-z\\d\._]+)/:user', function(req, res) {
   var iconPack = req.params.iconpack;
   var user = req.params.user;
   var limitNum = parseInt(req.query.limit);
@@ -262,9 +165,9 @@ app.get('/nanoiconpack/reqtop/:iconpack([A-Za-z\\d\._]+)/:user', function(req, r
   } else {
     filterMarked = 0;
   }
-  logger.info('GET /nanoiconpack/reqtop/' + iconPack + '/' + user + '?limit=' + limitNum + '&filter=' + filterMarked);
+  logger.info('GET /reqtop/' + iconPack + '/' + user + '?limit=' + limitNum + '&filter=' + filterMarked);
   var sqlOptions = [iconPack, user, limitNum];
-  query(sqlCmds.reqTopFilterMarked, sqlOptions, function(err, rows) {
+  query(utils.sqlCmds.reqTopFilterMarked, sqlOptions, function(err, rows) {
     if (err) {
       logger.warn(err);
       res.jsonp(utils.getResRes(3));
@@ -275,7 +178,7 @@ app.get('/nanoiconpack/reqtop/:iconpack([A-Za-z\\d\._]+)/:user', function(req, r
       return;
     }
     var sqlOptions1 = [iconPack, limitNum];
-    query(sqlCmds.reqTop, sqlOptions1, function(err1, rows1) {
+    query(utils.sqlCmds.reqTop, sqlOptions1, function(err1, rows1) {
       if (err1) {
         logger.warn(err1);
         res.jsonp(utils.getResRes(3));
@@ -296,7 +199,7 @@ app.get('/nanoiconpack/reqtop/:iconpack([A-Za-z\\d\._]+)/:user', function(req, r
 });
 
 // 接口：查询请求数TOP的APP
-app.get('/nanoiconpack/reqtop2/:iconpack([A-Za-z\\d\._]+)/:user', function(req, res) {
+app.get('/reqtop2/:iconpack([A-Za-z\\d\._]+)/:user', function(req, res) {
   var iconPack = req.params.iconpack;
   var user = req.params.user;
   var limitNum = parseInt(req.query.limit);
@@ -313,10 +216,10 @@ app.get('/nanoiconpack/reqtop2/:iconpack([A-Za-z\\d\._]+)/:user', function(req, 
   } else {
     filterMarked = 0;
   }
-  logger.info('GET /nanoiconpack/reqtop2/' + iconPack + '/' + user + '?limit=' + limitNum + '&filter=' + filterMarked);
+  logger.info('GET /reqtop2/' + iconPack + '/' + user + '?limit=' + limitNum + '&filter=' + filterMarked);
   // var sqlOptions = [iconPack, user, limitNum];
   var sqlOptions = [iconPack, iconPack, user, limitNum];
-  query(sqlCmds.reqTopFilterMarked2, sqlOptions, function(err, rows) {
+  query(utils.sqlCmds.reqTopFilterMarked2, sqlOptions, function(err, rows) {
     if (err) {
       logger.warn(err);
       res.jsonp(utils.getResRes(3));
@@ -327,7 +230,7 @@ app.get('/nanoiconpack/reqtop2/:iconpack([A-Za-z\\d\._]+)/:user', function(req, 
       return;
     }
     var sqlOptions1 = [iconPack, limitNum];
-    query(sqlCmds.reqTop2, sqlOptions1, function(err1, rows1) {
+    query(utils.sqlCmds.reqTop2, sqlOptions1, function(err1, rows1) {
       if (err1) {
         logger.warn(err1);
         res.jsonp(utils.getResRes(3));
@@ -348,13 +251,13 @@ app.get('/nanoiconpack/reqtop2/:iconpack([A-Za-z\\d\._]+)/:user', function(req, 
 });
 
 // TODO DEPRECATED
-// 接口：在已过滤的APP中查询请求数TOP的APP
-app.get('/nanoiconpack/reqtopfiltered/:iconpack([A-Za-z\\d\._]+)/:user', function(req, res) {
+// 接口：在已标记的APP中查询请求数TOP的APP
+app.get('/reqtopfiltered/:iconpack([A-Za-z\\d\._]+)/:user', function(req, res) {
   var iconPack = req.params.iconpack;
   var user = req.params.user;
-  logger.info('GET /nanoiconpack/reqtopfiltered/' + iconPack + '/' + user);
+  logger.info('GET /reqtopfiltered/' + iconPack + '/' + user);
   var sqlOptions = [iconPack, user];
-  query(sqlCmds.reqTopOnlyMarked, sqlOptions, function(err, rows) {
+  query(utils.sqlCmds.reqTopOnlyMarked, sqlOptions, function(err, rows) {
     if (err) {
       logger.warn(err);
       res.jsonp(utils.getResRes(3));
@@ -364,13 +267,13 @@ app.get('/nanoiconpack/reqtopfiltered/:iconpack([A-Za-z\\d\._]+)/:user', functio
   });
 });
 
-// 接口：在已过滤的APP中查询请求数TOP的APP
-app.get('/nanoiconpack/reqtopfiltered2/:iconpack([A-Za-z\\d\._]+)/:user', function(req, res) {
+// 接口：在已标记的APP中查询请求数TOP的APP
+app.get('/reqtopfiltered2/:iconpack([A-Za-z\\d\._]+)/:user', function(req, res) {
   var iconPack = req.params.iconpack;
   var user = req.params.user;
-  logger.info('GET /nanoiconpack/reqtopfiltered2/' + iconPack + '/' + user);
+  logger.info('GET /reqtopfiltered2/' + iconPack + '/' + user);
   var sqlOptions = [iconPack, user];
-  query(sqlCmds.reqTopOnlyMarked2, sqlOptions, function(err, rows) {
+  query(utils.sqlCmds.reqTopOnlyMarked2, sqlOptions, function(err, rows) {
     if (err) {
       logger.warn(err);
       res.jsonp(utils.getResRes(3));
@@ -381,10 +284,10 @@ app.get('/nanoiconpack/reqtopfiltered2/:iconpack([A-Za-z\\d\._]+)/:user', functi
 });
 
 // 接口：对申请适配的APP标记已处理
-app.post('/nanoiconpack/reqfilter/:iconpack([A-Za-z\\d\._]+)/:user', function(req, res) {
+app.post('/reqfilter/:iconpack([A-Za-z\\d\._]+)/:user', function(req, res) {
   var iconPack = req.params.iconpack;
   var user = req.params.user;
-  logger.info('POST /nanoiconpack/reqfilter/' + iconPack + '/' + user);
+  logger.info('POST /reqfilter/' + iconPack + '/' + user);
   var pkg = req.body.pkg;
   if (!pkg) {
     logger.warn('REJECT: No req.body.pkg');
@@ -393,7 +296,7 @@ app.post('/nanoiconpack/reqfilter/:iconpack([A-Za-z\\d\._]+)/:user', function(re
   }
   var launcher = req.body.launcher;
   var sqlOptions = [iconPack, user, pkg, launcher];
-  query(sqlCmds.reqFilter, sqlOptions, function(err, rows) {
+  query(utils.sqlCmds.reqFilter, sqlOptions, function(err, rows) {
     if (err) {
       logger.warn(err);
       res.jsonp(utils.getResRes(3));
@@ -408,10 +311,10 @@ app.post('/nanoiconpack/reqfilter/:iconpack([A-Za-z\\d\._]+)/:user', function(re
 });
 
 // 接口：对申请适配的APP标记未处理
-app.delete('/nanoiconpack/reqfilter/:iconpack([A-Za-z\\d\._]+)/:user', function(req, res) {
+app.delete('/reqfilter/:iconpack([A-Za-z\\d\._]+)/:user', function(req, res) {
   var iconPack = req.params.iconpack;
   var user = req.params.user;
-  logger.info('DELEET /nanoiconpack/reqfilter/' + iconPack + '/' + user);
+  logger.info('DELEET /reqfilter/' + iconPack + '/' + user);
   var pkg = req.query.pkg;
   if (!pkg) {
     logger.warn('REJECT: No req.query.pkg');
@@ -420,10 +323,10 @@ app.delete('/nanoiconpack/reqfilter/:iconpack([A-Za-z\\d\._]+)/:user', function(
   }
   var launcher = req.query.launcher;
   if (!launcher) { // 兼容旧版本
-    sqlCmd = sqlCmds.reqUndoFilter;
+    sqlCmd = utils.sqlCmds.reqUndoFilter;
     sqlOptions = [iconPack, user, pkg];
   } else {
-    sqlCmd = sqlCmds.reqUndoFilter2;
+    sqlCmd = utils.sqlCmds.reqUndoFilter2;
     sqlOptions = [iconPack, user, pkg, launcher];
   }
   query(sqlCmd, sqlOptions, function(err, rows) {
@@ -441,20 +344,20 @@ app.delete('/nanoiconpack/reqfilter/:iconpack([A-Za-z\\d\._]+)/:user', function(
 });
 
 // 接口：根据包名、APP中英文名查询APP代码
-app.get('/nanoiconpack/code/:keyword', function(req, res) {
+app.get('/code/:keyword', function(req, res) {
   var keyword = req.params.keyword;
   if (keyword.length == 1 && keyword.charCodeAt(0) < 128) {
     res.jsonp(utils.getResRes(2));
     return;
   }
-  logger.info('GET /nanoiconpack/code/' + keyword);
+  logger.info('GET /code/' + keyword);
   var sql;
   var sqlOptions;
   if ((new RegExp('^[a-zA-Z\\d_]+\\.[a-zA-Z\\d_\\.]+$')).test(keyword)) {
-    sql = sqlCmds.queryByPkg;
+    sql = utils.sqlCmds.queryByPkg;
     sqlOptions = [keyword];
   } else {
-    sql = sqlCmds.queryByLabel;
+    sql = utils.sqlCmds.queryByLabel;
     sqlOptions = ['%' + keyword + '%', '%' + keyword + '%'];
   }
   query(sql, sqlOptions, function(err, rows) {
@@ -468,12 +371,12 @@ app.get('/nanoiconpack/code/:keyword', function(req, res) {
 });
 
 // 接口：根据包名+启动项查询APP代码
-app.get('/nanoiconpack/code/:pkg/:launcher', function(req, res) {
+app.get('/code/:pkg/:launcher', function(req, res) {
   var pkg = req.params.pkg;
   var launcher = req.params.launcher;
-  logger.info('GET /nanoiconpack/code/' + pkg + '/' + launcher);
+  logger.info('GET /code/' + pkg + '/' + launcher);
   var sqlOptions = [pkg, launcher];
-  query(sqlCmds.queryByPkgLauncher, sqlOptions, function(err, rows) {
+  query(utils.sqlCmds.queryByPkgLauncher, sqlOptions, function(err, rows) {
     if (err) {
       logger.warn(err);
       res.jsonp(utils.getResRes(3));
@@ -483,16 +386,16 @@ app.get('/nanoiconpack/code/:pkg/:launcher', function(req, res) {
   });
 });
 
-// 接口：查询请求总数和APP总数
-app.get('/nanoiconpack/sum', function(req, res) {
-  logger.info('GET /nanoiconpack/sum');
-  query(sqlCmds.sumReqTimes, [], function(err, rows) {
+// 接口：查询请求总数、APP总数和图标包总数
+app.get('/sum', function(req, res) {
+  logger.info('GET /sum');
+  query(utils.sqlCmds.sumReqTimes, [], function(err, rows) {
     if (err) {
       logger.warn(err);
       res.jsonp(utils.getResRes(3));
       return;
     }
-    query(sqlCmds.sumApps, [], function(err1, rows1) {
+    query(utils.sqlCmds.sumApps, [], function(err1, rows1) {
       var result = {
         reqTimes: rows[0].sum,
         apps: -1,
@@ -504,7 +407,7 @@ app.get('/nanoiconpack/sum', function(req, res) {
         return;
       }
       result.apps = rows1[0].sum;
-      query(sqlCmds.sumIconPacks, [], function(err2, rows2) {
+      query(utils.sqlCmds.sumIconPacks, [], function(err2, rows2) {
         if (err2) {
           logger.warn(err2);
           res.jsonp(utils.getResRes(0, undefined, result));
@@ -517,10 +420,117 @@ app.get('/nanoiconpack/sum', function(req, res) {
   });
 });
 
+// 接口：统计各图标包最近一月申请用户数和申请次数
+app.get('/stats/month', function(req, res) {
+  logger.info('GET /stats/month');
+  query(utils.sqlCmds.statsReqTimesMonth, [], function(err, rows) {
+    if (err) {
+      logger.warn(err);
+      res.jsonp(utils.getResRes(3));
+      return;
+    }
+    query(utils.sqlCmds.statsUsersMonth, [], function(err1, rows1) {
+      if (err1) {
+        logger.warn(err1);
+        res.jsonp(utils.getResRes(0, undefined, rows));
+        return;
+      }
+      for (var i in rows) {
+        for (var j in rows1) {
+          if (rows1[j].pkg == rows[i].pkg) {
+            rows[i].users = rows1[j].users;
+            rows1.splice(j, 1);
+            break;
+          }
+        }
+      }
+      res.jsonp(utils.getResRes(0, undefined, rows));
+    });
+  });
+});
+
+// 接口：统计目标图标包周申请趋势
+app.get('/trend/week/:ip', function(req, res) {
+  var iconPack = req.params.ip;
+  logger.info('GET /trend/week/' + iconPack);
+  if (!iconPack) {
+    res.jsonp(utils.getResRes(2));
+    return;
+  }
+  var sqlCmd;
+  var sqlOptions;
+  if (/^[A-Za-z\d_]+\.[A-Za-z\d\._]+$/.test(iconPack)) {
+    sqlCmd = utils.sqlCmds.queryIpByIp;
+    sqlOptions = [iconPack];
+  } else {
+    sqlCmd = utils.sqlCmds.queryIpByLabel;
+    sqlOptions = ['%' + iconPack + '%', '%' + iconPack + '%']
+  }
+  query(sqlCmd, sqlOptions, function(err, rows) {
+    if (err) {
+      logger.warn(err);
+      res.jsonp(utils.getResRes(3));
+      return;
+    }
+    if (rows.length != 1) {
+      res.jsonp(utils.getResRes(2));
+      return;
+    }
+    var result = {
+      label: rows[0].label,
+      pkg: rows[0].pkg,
+      weeks: []
+    };
+    var sqlOptions1 = [rows[0].pkg];
+    query(utils.sqlCmds.trendReqTimesWeek, sqlOptions1, function(err1, rows1) {
+      if (err1) {
+        logger.warn(err1);
+        res.jsonp(utils.getResRes(3));
+        return;
+      }
+      for (var i in rows1) {
+        if (rows1[i].week != '00') { // week 有效值 01-53
+          result.weeks.push(rows1[i]);
+        }
+      }
+      query(utils.sqlCmds.trendUsersWeek, sqlOptions1, function(err2, rows2) {
+        if (err2) {
+          logger.warn(err2);
+          res.jsonp(utils.getResRes(0, undefined, result));
+          return;
+        }
+        for (var i in result.weeks) {
+          for (var j in rows2) {
+            if (result.weeks[i].year == rows2[j].year && result.weeks[i].week == rows2[j].week) {
+              result.weeks[i].users = rows2[j].users;
+              rows2.splice(j, 1);
+              break;
+            }
+          }
+        }
+        res.jsonp(utils.getResRes(0, undefined, result));
+      });
+    });
+  });
+});
+
+// 接口：获取所有图标包
+app.get('/iconpacks', function(req, res) {
+  logger.info('GET /iconpacks');
+  query(utils.sqlCmds.ip, [], function(err, rows) {
+    if (err) {
+      logger.warn(err);
+      res.jsonp(utils.getResRes(3));
+      return;
+    }
+    res.jsonp(utils.getResRes(0, undefined, rows));
+  });
+});
+
 // 接口：获取各系统常用APP代码（如电话、信息、相机等）
-app.get('/nanoiconpack/base', function(req, res) {
-  logger.info('GET /nanoiconpack/base');
-  query(sqlCmds.baseApps, [], function(err, rows) {
+app.get('/base', function(req, res) {
+  logger.info('GET /base');
+  query(utils.sqlCmds.baseApps, [], function(err, rows) {
     if (err) {
       logger.warn(err);
       res.jsonp(utils.getResRes(3));
@@ -532,10 +542,19 @@ app.get('/nanoiconpack/base', function(req, res) {
       var row = rows[i];
       if (row.name != lastRow.name) {
         lastRow = row;
-        result.push({icon: row.name, label: row.label, labelEn: row.label_en, more: []});
+        result.push({
+          icon: row.name,
+          label: row.label,
+          labelEn: row.label_en,
+          more: []
+        });
       }
       if (row.pkg && row.launcher) {
-        result[result.length - 1].more.push({pkg: row.pkg, launcher: row.launcher, brand: row.device_brand});
+        result[result.length - 1].more.push({
+          pkg: row.pkg,
+          launcher: row.launcher,
+          brand: row.device_brand
+        });
       }
     }
     res.jsonp(utils.getResRes(0, undefined, result));
@@ -543,9 +562,9 @@ app.get('/nanoiconpack/base', function(req, res) {
 });
 
 // 根据包名获取图标链接（来源为酷安）（TODO 移除）
-/*app.get('/nanoiconpack/iconurl/:pkg([A-Za-z\\d\._]+)', function(req, res) {
+/*app.get('/iconurl/:pkg([A-Za-z\\d\._]+)', function(req, res) {
   var pkg = req.params.pkg;
-  logger.info('GET /nanoiconpack/iconurl/' + pkg);
+  logger.info('GET /iconurl/' + pkg);
   var url = 'http://api.coolapk.com/market/v2/api.php'
     + '?apikey=5b90704e1db879af6f5ee08ec1e8f2a5&method=getApkMeta&qt=apkname&slm=1'
     + '&v=' + pkg;
@@ -580,8 +599,8 @@ app.get('/nanoiconpack/base', function(req, res) {
 });*/
 
 // 接口：看门狗
-app.get('/nanoiconpack/watchdog', function(req, res) {
-  logger.info('GET /nanoiconpack/watchdog');
+app.get('/watchdog', function(req, res) {
+  logger.info('GET /watchdog');
 
   res.jsonp(utils.getResRes(0, undefined, {
     port: serverPort,
@@ -601,20 +620,38 @@ app.get('/nanoiconpack/watchdog', function(req, res) {
 // ====================================== PAGE BLOCK START ====================================== //
 
 
-app.get('/nanoiconpack', function(req, res) {
-  res.redirect('/nanoiconpack/page/query');
+app.get('/', function(req, res) {
+  res.redirect('/page/console');
 });
 
-// 页面：检索
-app.get('/nanoiconpack/page/query', function(req, res) {
-  logger.info('GET /nanoiconpack/page/query');
+// 页面：控制台主页
+app.get('/page/console', function(req, res) {
+  logger.info('GET /page/console');
+  res.sendFile(__dirname + '/pages/console.htm');
+});
+
+// 页面：APP代码速查
+app.get('/page/query', function(req, res) {
+  logger.info('GET /page/query');
   res.sendFile(__dirname + '/pages/query.htm');
 });
 
-// 页面：常用APP一览
-app.get('/nanoiconpack/page/base', function(req, res) {
-  logger.info('GET /nanoiconpack/page/base');
+// 页面：常用APP代码
+app.get('/page/base', function(req, res) {
+  logger.info('GET /page/base');
   res.sendFile(__dirname + '/pages/base.htm');
+});
+
+// 页面：图标包统计
+app.get('/page/stats', function(req, res) {
+  logger.info('GET /page/stats');
+  res.sendFile(__dirname + '/pages/stats.htm');
+});
+
+// 页面：申请管理
+app.get('/page/mark', function(req, res) {
+  logger.info('GET /page/mark');
+  res.sendFile(__dirname + '/pages/mark.htm');
 });
 
 
@@ -629,7 +666,7 @@ var server = app.listen(serverPort, function() {
     host = 'localhost';
   }
 
-  logger.info('http://%s:%s/nanoiconpack/', host, port);
+  logger.info('http://%s:%s/', host, port);
 });
 
 logger.info('NanoIconPackServer is running...');
