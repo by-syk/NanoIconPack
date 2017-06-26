@@ -117,21 +117,23 @@ NanoIconPack 拥有一个轻量的服务器，提供图标申请和申请统计�
 
 | APP | ICON |
 | :---- | :----: |
-| [@atony / OriginalWish图标包 <sub>new version</sub>](http://www.coolapk.com/apk/com.atony.iconpack.originalwish) | ![OriginalWish](art/ic_launcher_original_wish.png) |
-| [@pandecheng / PDC图标包 <sub>new version</sub>](http://www.coolapk.com/apk/com.pandecheng.iconpack) | ![PDC](art/ic_launcher_pdc.png) |
-| [@大神sjk / Smalite图标包](http://www.coolapk.com/apk/com.sjk.smaliteiconpack) | ![Smalite](art/ic_launcher_smalite.png) |
-| [@可以and不行 / Pelmix图标包](http://www.coolapk.com/apk/com.edward.iconpack.pelmix) | ![Pelmix](art/ic_launcher_pelmix.png) |
-| [@派大鑫 / Party Star](http://www.coolapk.com/apk/com.paidax.iconpack.partystar) | ![Party Star](art/ic_launcher_party_star.png) |
-| [@CookDev / Cardicons Ⅱ 图标包 <sub>new version</sub>](http://www.coolapk.com/apk/cookdev.iconpack.ii) | ![Cardicons](art/ic_launcher_cardicons.png) |
-| [@Markuss / Aeroblast图标包](http://www.coolapk.com/apk/com.markusslugia.iconpack.aeroblast) | ![Aeroblast](art/ic_launcher_aeroblast.png) |
-| [@tsengyong / NoShadow图标包](http://www.coolapk.com/apk/com.tseng.iconpack.design) | ![NoShadow](art/ic_launcher_no_shadow.png) |
-| [@ClydeSHenry / Galet IconPack](http://www.coolapk.com/apk/com.clydeshenry.iconpack.galet) | ![Galet](art/ic_launcher_galet.png) |
-| [@sftmi / OMFG图标包](http://www.coolapk.com/apk/com.sftmi.iconpack.omfg) | ![OMFG](art/ic_launcher_omfg.png) |
-| [@梁月丶 / 祈愿图标包](http://www.coolapk.com/apk/com.liangyue.iconpack.hhope) | ![Hhope](art/ic_launcher_hhope.png) |
-| [@LYCSKY497 / LYCSKY图标包](http://www.coolapk.com/apk/com.lycsky.iconpack) | ![LYCSKY](art/ic_launcher_lycsky.png) |
-| [@Laihz / 迷之图标包](http://www.coolapk.com/apk/com.laihz.gradualiconpack.gamma) | ![Gamma](art/ic_launcher_gamma.png) |
-| [@sftmi / Square图标包](http://www.coolapk.com/apk/com.sftmi.iconpack.square) | ![Square](art/ic_launcher_square.png) |
-| [@gushixing / X-Flat图标包](http://www.coolapk.com/apk/com.wokee.xflat) | ![X-Flat](art/ic_launcher_xflat.png) |
+| [@atony](http://www.coolapk.com/u/474222) / [OriginalWish图标包 <sub>new version</sub>](http://www.coolapk.com/apk/com.atony.iconpack.originalwish) | ![OriginalWish](art/ic_launcher_original_wish.png) |
+| [@pandecheng](http://www.coolapk.com/u/531994) / [PDC图标包 <sub>new version</sub>](http://www.coolapk.com/apk/com.pandecheng.iconpack) | ![PDC](art/ic_launcher_pdc.png) |
+| [@大神sjk](http://www.coolapk.com/u/458995) / [Smalite图标包](http://www.coolapk.com/apk/com.sjk.smaliteiconpack) | ![Smalite](art/ic_launcher_smalite.png) |
+| [@可以and不行](http://www.coolapk.com/u/444646) / [Pelmix图标包](http://www.coolapk.com/apk/com.edward.iconpack.pelmix) | ![Pelmix](art/ic_launcher_pelmix.png) |
+| [@派大鑫](http://www.coolapk.com/u/511319) / [Party Star](http://www.coolapk.com/apk/com.paidax.iconpack.partystar) | ![Party Star](art/ic_launcher_party_star.png) |
+| [@CookDev](http://www.coolapk.com/u/315615) / [Cardicons Ⅱ 图标包 <sub>new version</sub>](http://www.coolapk.com/apk/cookdev.iconpack.ii) | ![Cardicons](art/ic_launcher_cardicons.png) |
+| [@Markuss](http://www.coolapk.com/u/529718) / [Aeroblast图标包](http://www.coolapk.com/apk/com.markusslugia.iconpack.aeroblast) | ![Aeroblast](art/ic_launcher_aeroblast.png) |
+| [@tsengyong](http://www.coolapk.com/u/931477) / [NoShadow图标包](http://www.coolapk.com/apk/com.tseng.iconpack.design) | ![NoShadow](art/ic_launcher_no_shadow.png) |
+| [@ClydeSHenry](http://www.coolapk.com/u/609006) / [Galet IconPack](http://www.coolapk.com/apk/com.clydeshenry.iconpack.galet) | ![Galet](art/ic_launcher_galet.png) |
+| [@sftmi](http://www.coolapk.com/u/491391) / [OMFG图标包](http://www.coolapk.com/apk/com.sftmi.iconpack.omfg) | ![OMFG](art/ic_launcher_omfg.png) |
+| [@梁月丶](http://www.coolapk.com/u/620760) / [祈愿图标包](http://www.coolapk.com/apk/com.liangyue.iconpack.hhope) | ![Hhope](art/ic_launcher_hhope.png) |
+| [@LYCSKY497](http://www.coolapk.com/u/477979) / [LYCSKY图标包](http://www.coolapk.com/apk/com.lycsky.iconpack) | ![LYCSKY](art/ic_launcher_lycsky.png) |
+| [@Laihz](http://www.coolapk.com/u/748141) / [迷之图标包](http://www.coolapk.com/apk/com.laihz.gradualiconpack.gamma) | ![Gamma](art/ic_launcher_gamma.png) |
+| [@sftmi](http://www.coolapk.com/u/491391) / [Square图标包](http://www.coolapk.com/apk/com.sftmi.iconpack.square) | ![Square](art/ic_launcher_square.png) |
+| [@gushixing](http://www.coolapk.com/u/991472) / [X-Flat图标包](http://www.coolapk.com/apk/com.wokee.xflat) | ![X-Flat](art/ic_launcher_xflat.png) |
+| [@crazypig321](http://www.coolapk.com/u/940496) / [lineicons](http://www.coolapk.com/apk/com.crazypig321.lineicons2) | ![line](art/ic_launcher_line.png) |
+| [@Trumeet](http://www.coolapk.com/u/543424) / [滑稽图标包 <sub>new version</sub>](http://www.coolapk.com/apk/kh.android.funnyiconpack) | ![Funny](art/ic_launcher_funny.png) |
 
 如果您基于 NanoIconPack 开发了自己的图标包作品并且愿意[告诉我](#联系开发者)，我将把它展示在这里。
 
