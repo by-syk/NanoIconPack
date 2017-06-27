@@ -32,20 +32,25 @@
 <link rel="icon" type="image/png" href="../static/imgs/favicon-32.png" sizes="32x32">
 <link rel="icon" type="image/png" href="../static/imgs/favicon-96.png" sizes="96x96">
 
-<link rel="stylesheet" href="http://oev9dotro.bkt.clouddn.com/css/bootstrap-3.3.5.min.css">
-<script src="http://oev9dotro.bkt.clouddn.com/js/jquery-3.0.0.min.js"></script>
-<script src="http://oev9dotro.bkt.clouddn.com/js/bootstrap-3.3.5.min.js"></script>
+<!-- Bootstrap -->
+<link rel="stylesheet" href="../static/css/bootstrap-3.3.7.min.css">
+<!-- Font Aswsome -->
+<link rel="stylesheet" href="../static/css/font-awesome-4.7.0.min.css">
+<link rel="stylesheet" href="../static/css/header-footer.css">
 
-<script src="http://oev9dotro.bkt.clouddn.com/js/jquery.cookie.js"></script>
-<script src="http://oev9dotro.bkt.clouddn.com/js/jquery.toaster.js"></script>
-
-<link rel="stylesheet" href="../static/css/header_footer.css">
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="../static/js/jquery-3.2.1.min.js"></script>
+<!-- Bootstrap -->
+<script src="../static/js/bootstrap-3.3.7.min.js"></script>
+<script src="../static/js/jquery.cookie.js"></script>
+<script src="../static/js/jquery.toaster.js"></script>
 <script src="../static/js/utils.js?v=17061700"></script>
 
 <script type="text/javascript">
 var configInited = false;
 $(document).ready(function() {
-  $("#collapseConfig").on("show.bs.collapse", function() {
+  $("#collapseConfig").on("shown.bs.collapse", function() {
+    $(".fa-cog").addClass("fa-spin");
     if (configInited) {
       return;
     }
@@ -56,6 +61,9 @@ $(document).ready(function() {
         fillIconPacks(data.result);
       }
     });
+  });
+  $("#collapseConfig").on("hidden.bs.collapse", function() {
+    $(".fa-cog").removeClass("fa-spin");
   });
   $("#inputKey").bind("keypress", function(event) {
     if(event.keyCode == "13") {
@@ -93,7 +101,7 @@ $(document).ready(function() {
   }
 });
 function loadData(iconPack, key, cate) {
-  updateStatus("Loading&#8230;");
+  updateStatus("<i class=\"fa fa-spinner fa-spin\"></i> 加载中&#8230;");
   if (cate == "marked") {
     $.get("/reqtopfiltered2/" + iconPack + "/" + key, function(data) {
       if (data && data.status == 0) {
@@ -126,7 +134,7 @@ function mark(trObj, iconPack, key, pkg, launcher) {
     launcher: launcher
   }, function(data) {
     if (data && data.status == 0) {
-      trObj.find("span.glyphicon").removeClass("glyphicon-ok").addClass("glyphicon-remove");
+      trObj.find("i.fa").removeClass("fa-check").addClass("fa-reply").attr("title", "取消已适配标记");
       trObj.addClass("success");
       $.toaster({
         title: "提示",
@@ -148,7 +156,7 @@ function undoMark(trObj, iconPack, key, pkg, launcher) {
     type: "DELETE",
     success: function(data) {
       if (data && data.status == 0) {
-        trObj.find("span.glyphicon").removeClass("glyphicon-remove").addClass("glyphicon-ok");
+        trObj.find("i.fa").removeClass("fa-reply").addClass("fa-check").attr("title", "标记为已适配");
         trObj.addClass("success");
         $.toaster({
           title: "提示",
@@ -202,7 +210,7 @@ function switchCate(cate) {
 }
 function fill(data, cate) {
   if (!data) {
-    updateStatus("error");
+    updateStatus("<i class=\"fa fa-bug\"></i> 出错");
     return;
   }
   if (data.status != 0) {
@@ -211,7 +219,7 @@ function fill(data, cate) {
   }
   var dataArr = data.result;
   if (dataArr.length == 0) {
-    updateStatus("empty");
+    updateStatus("<i class=\"fa fa-sticky-note-o\"></i> 无数据");
     return;
   }
   clear();
@@ -224,11 +232,13 @@ function fill(data, cate) {
     code += "<td style=\"color: darkgrey\">" + (i + 1) + "</td>";
     code += "<td><span class=\"badge\">" + item.sum + "</span></td>";
     if (item.filter == 1) {
-      code += "<td><button type=\"button\" class=\"btn btn-link btn-xs\" title=\"取消已适配标记\"><span class=\"glyphicon glyphicon-remove\" aria-hidden=\"true\"></button></td>";
+      //<span class=\"glyphicon glyphicon-remove\" aria-hidden=\"true\"></span>
+      code += "<td><button type=\"button\" class=\"btn btn-link btn-xs\" title=\"取消已适配标记\"><i class=\"fa fa-reply fa-lg\" aria-hidden=\"true\"></i></button></td>";
     } else {
-      code += "<td><button type=\"button\" class=\"btn btn-link btn-xs\" title=\"标记为已适配\"><span class=\"glyphicon glyphicon-ok\" aria-hidden=\"true\"></button></td>";
+      //<span class=\"glyphicon glyphicon-ok\" aria-hidden=\"true\"></span>
+      code += "<td><button type=\"button\" class=\"btn btn-link btn-xs\" title=\"标记为已适配\"><i class=\"fa fa-check fa-lg\" aria-hidden=\"true\"></i></button></td>";
     }
-    code += "<td><strong>" + item.label + "</strong></td>";
+    code += "<td>" + item.label + "</td>";
     code += "<td><code>" + item.pkg + "</code><br /><code>" + item.launcher + "</code></td>";
     code += "<td><a href=\"javascript:void(0);\" data-url=\"http://www.coolapk.com/apk/" + item.pkg + "\">图标</a></td>";
     //code += "<td><a href=\"javascript:void(0);\" data-url=\"http://sj.qq.com/myapp/detail.htm?apkName=" + item.pkg + "\">图标</a></td>";
@@ -237,11 +247,11 @@ function fill(data, cate) {
   }
   if (dataArr.length > 0) {
     if (cate == "marked") {
-      $("#codeTbody").append(generateStatusCode("以上为全部数据"));
+      $("#codeTbody").append(generateStatusCode("<i class=\"fa fa-file-text-o\" aria-hidden=\"true\"></i> 以上为全部数据"));
     } else if (cate == "all") {
-      $("#codeTbody").append(generateStatusCode("以上为 TOP128 数据"));
+      $("#codeTbody").append(generateStatusCode("<i class=\"fa fa-file-text-o\" aria-hidden=\"true\"></i> 以上为 TOP128 数据"));
     } else/* if (cate == "marked")*/ {
-      $("#codeTbody").append(generateStatusCode("以上为 TOP128 的数据"));
+      $("#codeTbody").append(generateStatusCode("<i class=\"fa fa-file-text-o\" aria-hidden=\"true\"></i> 以上为 TOP128 的数据"));
     }
   }
   $("#codeTbody tr td a").click(function() {
@@ -254,7 +264,7 @@ function fill(data, cate) {
   $("#codeTbody tr").click(function() {
     var index = parseInt($(this).children().eq(0).text()) - 1;
     var item = dataArr[index];
-    if ($(this).find("span.glyphicon").hasClass("glyphicon-ok")) {
+    if ($(this).find("i.fa").hasClass("fa-check")) {
       mark($(this), $.cookie("markIp"), $.cookie("markKey"), item.pkg, item.launcher);
     } else {
       undoMark($(this), $.cookie("markIp"), $.cookie("markKey"), item.pkg, item.launcher);
@@ -301,7 +311,7 @@ function showDonate() {
       <li><a href="./query">APP代码速查</a></li>
       <li><a href="./base">常用APP代码</a></li>
       <li><a href="./stats">图标包统计</a></li>
-      <li class="active"><a href="./mark">申请管理</a></li>
+      <li class="active"><a href="./mark"><i class="fa fa-check-square-o" aria-hidden="true"></i> 申请管理</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
       <li><a href="https://github.com/by-syk/NanoIconPack" target="_blank">GitHub</a></li>
@@ -312,25 +322,36 @@ function showDonate() {
 </nav>
 
 <div class="container">
-  <div class="alert alert-info" role="alert">更完整的申请管理功能请使用相应图标包APP内置的「申请统计」模块。</div>
+  <div class="alert alert-info alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
+    <i class="fa fa-info-circle"></i> 更完整的申请管理功能请使用相应图标包APP内置的「申请统计」模块。
+  </div>
 
   <div class="panel panel-primary">
     <div class="panel-heading" role="tab">
-      <h3 class="panel-title"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> <a href="#collapseConfig" data-toggle="collapse" role="button">设置</a></h3>
+      <!--<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>-->
+      <h3 class="panel-title"><i class="fa fa-cog" aria-hidden="true"></i> <a href="#collapseConfig" data-toggle="collapse" role="button">设置</a></h3>
     </div>
     <div id="collapseConfig" class="panel-collapse collapse" role="tabpanel">
       <div id="divConfig" class="panel-body">
         <div class="form-group">
           <label for="selectIp">图标包</label>
-          <select id="selectIp" class="form-control"></select>
+          <div class="input-group">
+            <div class="input-group-addon"><i class="fa fa-android fa-fw"></i></div>
+            <select id="selectIp" class="form-control"></select>
+          </div>
+          <p class="help-block">如果你是 NanoIconPack 系图标包作者，请选择您的图标包。</p>
         </div>
         <div id="divKey" class="form-group">
           <label for="inputKey">口令</label>
-          <input id="inputKey" type="text" class="form-control">
+          <div class="input-group">
+            <div class="input-group-addon"><i class="fa fa-user-circle fa-fw"></i></div>
+            <input id="inputKey" type="text" class="form-control">
+          </div>
           <p class="help-block">请设置一个口令，以便于系统区分不同用户并针对性保存数据。</p>
         </div>
         <div class="text-right">
-          <button id="btConfig" type="button" class="btn btn-primary">确定</button>
+          <button id="btConfig" type="button" class="btn btn-primary">&nbsp;确定&nbsp;</button>
         </div>
       </div>
     </div>
@@ -357,7 +378,7 @@ function showDonate() {
 </div>
 
 <div id="donateDlg" class="modal fade">
-<div class="modal-dialog">
+<div class="modal-dialog modal-sm">
 <div class="modal-content">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal">
@@ -367,15 +388,7 @@ function showDonate() {
   </div>
   <div class="modal-body">
     <p>目前 NanoIconPack 服务器由我个人维护并持续为接入的用户提供服务，尚无任何盈利。如果您有所受益，不妨与我分担服务器费用。谢谢！</p>
-    <hr />
-    <div class="row">
-      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"><div class="text-center">
-        <img src="http://oev9dotro.bkt.clouddn.com/img/qrcode_donate_By_syk_alipay_2.png" class="img-responsive img-thumbnail" height="200" width="200" alt="支付宝扫码捐赠" title="支付宝扫码捐赠">
-      </div></div>
-      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 text-center"><div class="text-center">
-        <img src="http://oev9dotro.bkt.clouddn.com/img/qrcode_donate_By_syk_wechat_2.png" class="img-responsive img-thumbnail" height="200" width="200" alt="微信扫码捐赠" title="微信扫码捐赠">
-      </div></div>
-    </div>
+    <p>我的支付宝：<a href="javascript:void(0);" onclick="copy2ClipboardT('By_syk@163.com')">By_syk@163.com <i class="fa fa-clone"></i></a></p>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>

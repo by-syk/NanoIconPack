@@ -17,8 +17,9 @@
 var express = require('express'); // npm install express
 var bodyParser = require('body-parser'); // npm install body-parser
 var log4js = require('log4js'); // npm install log4js
-var query = require('./mysql');
-var utils = require('./utils');
+var path = require('path');
+var query = require('./utils/mysql');
+var utils = require('./utils/utils');
 
 // 服务运行目标端口
 var serverPort = 8082;
@@ -31,13 +32,13 @@ app.use(bodyParser.urlencoded({ extended: false }));
 //app.use(bodyParser.json({ limit: '1mb' }));
 
 // 支持静态文件
-app.use(express.static('public'));
+app.use(express.static('../pages/public'));
 
 // console log is loaded by default, so you won't normally need to do this
 //log4js.loadAppender('console');
 log4js.loadAppender('file');
 //log4js.addAppender(log4js.appenders.console());
-log4js.addAppender(log4js.appenders.file('logs/nano' + serverPort + '.log'), 'nano' + serverPort);
+log4js.addAppender(log4js.appenders.file('../logs/nano' + serverPort + '.log'), 'nano' + serverPort);
 var logger = log4js.getLogger('nano' + serverPort);
 logger.setLevel('INFO'); // TRACE, DEBUG, INFO, WARN, ERROR, FATAL
 
@@ -627,31 +628,32 @@ app.get('/', function(req, res) {
 // 页面：控制台主页
 app.get('/page/console', function(req, res) {
   logger.info('GET /page/console');
-  res.sendFile(__dirname + '/pages/console.htm');
+  //res.sendFile(__dirname + '/pages/console.htm');
+  res.sendFile(path.resolve('../pages/console.htm'));
 });
 
 // 页面：APP代码速查
 app.get('/page/query', function(req, res) {
   logger.info('GET /page/query');
-  res.sendFile(__dirname + '/pages/query.htm');
+  res.sendFile(path.resolve('../pages/query.htm'));
 });
 
 // 页面：常用APP代码
 app.get('/page/base', function(req, res) {
   logger.info('GET /page/base');
-  res.sendFile(__dirname + '/pages/base.htm');
+  res.sendFile(path.resolve('../pages/base.htm'));
 });
 
 // 页面：图标包统计
 app.get('/page/stats', function(req, res) {
   logger.info('GET /page/stats');
-  res.sendFile(__dirname + '/pages/stats.htm');
+  res.sendFile(path.resolve('../pages/stats.htm'));
 });
 
 // 页面：申请管理
 app.get('/page/mark', function(req, res) {
   logger.info('GET /page/mark');
-  res.sendFile(__dirname + '/pages/mark.htm');
+  res.sendFile(path.resolve('../pages/mark.htm'));
 });
 
 

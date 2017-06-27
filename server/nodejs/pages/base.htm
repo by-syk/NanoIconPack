@@ -32,14 +32,19 @@
 <link rel="icon" type="image/png" href="../static/imgs/favicon-32.png" sizes="32x32">
 <link rel="icon" type="image/png" href="../static/imgs/favicon-96.png" sizes="96x96">
 
-<link rel="stylesheet" href="http://oev9dotro.bkt.clouddn.com/css/bootstrap-3.3.5.min.css">
-<script src="http://oev9dotro.bkt.clouddn.com/js/jquery-3.0.0.min.js"></script>
-<script src="http://oev9dotro.bkt.clouddn.com/js/bootstrap-3.3.5.min.js"></script>
+<!-- Bootstrap -->
+<link rel="stylesheet" href="../static/css/bootstrap-3.3.7.min.css">
+<!-- Font Aswsome -->
+<link rel="stylesheet" href="../static/css/font-awesome-4.7.0.min.css">
+<link rel="stylesheet" href="../static/css/header-footer.css">
 
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="../static/js/jquery-3.2.1.min.js"></script>
+<!-- Bootstrap -->
+<script src="../static/js/bootstrap-3.3.7.min.js"></script>
 <!--<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>-->
 <!-- <pre class="prettyprint lang-java"></pre> -->
-
-<link rel="stylesheet" href="../static/css/header_footer.css">
+<script src="../static/js/jquery.toaster.js"></script>
 <script src="../static/js/utils.js?v=17061700"></script>
 
 <script type="text/javascript">
@@ -47,6 +52,14 @@ var lastQueryTime = 0;
 $(document).ready(function() {
   $.get("/base", function(data) {
     fill(data);
+  });
+  $("#btCopy").click(function() {
+    copy2ClipboardE("#preCode");
+    $.toaster({
+      title: "提示",
+      message: "代码已复制到剪切板",
+      priority: 'success'
+    });
   });
   $("#btEdit").click(function() {
     switchCodeShow(true);
@@ -121,7 +134,7 @@ function showDonate() {
   <div id="navBarMenu" class="collapse navbar-collapse">
     <ul class="nav navbar-nav">
       <li><a href="./query">APP代码速查</a></li>
-      <li class="active"><a href="./base">常用APP代码</a></li>
+      <li class="active"><a href="./base"><i class="fa fa-book" aria-hidden="true"></i> 常用APP代码</a></li>
       <li><a href="./stats">图标包统计</a></li>
       <li><a href="./mark">申请管理</a></li>
     </ul>
@@ -134,7 +147,10 @@ function showDonate() {
 </nav>
 
 <div class="container">
-  <div class="alert alert-info" role="alert">这个页面提供了一些常用APP的代码，仅供参考。</div>
+  <div class="alert alert-info alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
+    <i class="fa fa-info-circle"></i> 这个页面提供了一些常用APP的代码，仅供参考。
+  </div>
   <!--<div class="alert alert-warning alert-dismissible" role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     <strong>TIPS</strong> APP代码速查请前往 <a class="alert-link" href="./query">NanoQuery</a> 页面
@@ -154,11 +170,13 @@ function showDonate() {
   <div id="hardCodeDiv" class="collapse in">
     <pre id="preCode"></pre>
     <div class="text-right">
-      <button id="btCopy" type="button" class="btn btn-link btn-sm" onclick="copy2ClipboardE('#preCode')">
-        <span class="glyphicon glyphicon-copy" aria-hidden="true"></span> 复制
+      <!--<span class="glyphicon glyphicon-copy" aria-hidden="true"></span>-->
+      <button id="btCopy" type="button" class="btn btn-link btn-sm">
+        <i class="fa fa-clone" aria-hidden="true"></i> 复制
       </button>
+      <!--<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>-->
       <button id="btEdit" type="button" class="btn btn-default btn-sm">
-        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span> 编辑
+        <i class="fa fa-pencil" aria-hidden="true"></i> 编辑
       </button>
     </div>
   </div>
@@ -167,13 +185,14 @@ function showDonate() {
     <textarea id="taCode" class="form-control" rows="16" style="resize: none"></textarea>
   </div>
   <br />
-  <p style="color:grey"><span class="glyphicon glyphicon-flag" aria-hidden="true">
+  <!--<span class="glyphicon glyphicon-flag" aria-hidden="true">-->
+  <p style="color:grey"><i class="fa fa-flag" aria-hidden="true"></i>
     如果您有所补充，欢迎<a href="https://github.com/by-syk/NanoIconPack/issues" target="_blank">在GitHub上提交issue</a>或<a href="mailto:By_syk@163.com">发送邮件告知我</a>，谢谢。
   </p>
 </div>
 
 <div id="donateDlg" class="modal fade">
-<div class="modal-dialog">
+<div class="modal-dialog modal-sm">
 <div class="modal-content">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal">
@@ -183,15 +202,7 @@ function showDonate() {
   </div>
   <div class="modal-body">
     <p>目前 NanoIconPack 服务器由我个人维护并持续为接入的用户提供服务，尚无任何盈利。如果您有所受益，不妨与我分担服务器费用。谢谢！</p>
-    <hr />
-    <div class="row">
-      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"><div class="text-center">
-        <img src="http://oev9dotro.bkt.clouddn.com/img/qrcode_donate_By_syk_alipay_2.png" class="img-responsive img-thumbnail" height="200" width="200" alt="支付宝扫码捐赠" title="支付宝扫码捐赠">
-      </div></div>
-      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 text-center"><div class="text-center">
-        <img src="http://oev9dotro.bkt.clouddn.com/img/qrcode_donate_By_syk_wechat_2.png" class="img-responsive img-thumbnail" height="200" width="200" alt="微信扫码捐赠" title="微信扫码捐赠">
-      </div></div>
-    </div>
+    <p>我的支付宝：<a href="javascript:void(0);" onclick="copy2ClipboardT('By_syk@163.com')">By_syk@163.com <i class="fa fa-clone"></i></a></p>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>

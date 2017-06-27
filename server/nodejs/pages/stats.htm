@@ -32,16 +32,19 @@
 <link rel="icon" type="image/png" href="../static/imgs/favicon-32.png" sizes="32x32">
 <link rel="icon" type="image/png" href="../static/imgs/favicon-96.png" sizes="96x96">
 
-<link rel="stylesheet" href="http://oev9dotro.bkt.clouddn.com/css/bootstrap-3.3.5.min.css">
-<script src="http://oev9dotro.bkt.clouddn.com/js/jquery-3.0.0.min.js"></script>
-<script src="http://oev9dotro.bkt.clouddn.com/js/bootstrap-3.3.5.min.js"></script>
+<!-- Bootstrap -->
+<link rel="stylesheet" href="../static/css/bootstrap-3.3.7.min.css">
+<!-- Font Aswsome -->
+<link rel="stylesheet" href="../static/css/font-awesome-4.7.0.min.css">
+<link rel="stylesheet" href="../static/css/header-footer.css">
 
-<script src="http://oev9dotro.bkt.clouddn.com/js/jquery.cookie.js"></script>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="../static/js/jquery-3.2.1.min.js"></script>
+<!-- Bootstrap -->
+<script src="../static/js/bootstrap-3.3.7.min.js"></script>
+<script src="../static/js/jquery.cookie.js"></script>
 <!-- Chart.js 基于 HTML5 的 JavaScript 图表库 -->
-<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>-->
-<script src="http://oev9dotro.bkt.clouddn.com/js/Chart-2.6.0.min.js"></script>
-
-<link rel="stylesheet" href="../static/css/header_footer.css">
+<script src="../static/js/Chart-2.6.0.min.js"></script>
 <script src="../static/js/utils.js?v=17061700"></script>
 
 <style type="text/css">
@@ -102,8 +105,8 @@ $(document).ready(function() {
 });
 function renderChart(data) {
   var ctx = $("#chart");
-  var height = data.length * ($("#mobileFlag").is(":hidden") ? 26 : 48);
-  if (height > 300) {
+  var height = data.length * ($("#mobileFlag").is(":hidden") ? 20 : 36);
+  if (height > 150) {
     ctx.attr("height", height);
   }
   var labels = [];
@@ -170,7 +173,7 @@ function renderChart(data) {
 }
 function renderChart4One(data, title) {
   var ctx = $("#chart");
-  ctx.attr("height", $("#mobileFlag").is(":hidden") ? 200 : 360);
+  ctx.attr("height", $("#mobileFlag").is(":hidden") ? 150 : 270);
   var labels = [];
   var reqValues = [];
   var userValues = [];
@@ -241,7 +244,7 @@ function showDonate() {
     <ul class="nav navbar-nav">
       <li><a href="./query">APP代码速查</a></li>
       <li><a href="./base">常用APP代码</a></li>
-      <li class="active"><a href="./stats">图标包统计</a></li>
+      <li class="active"><a href="./stats"><i class="fa fa-bar-chart" aria-hidden="true"></i> 图标包统计</a></li>
       <li><a href="./mark">申请管理</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
@@ -253,7 +256,10 @@ function showDonate() {
 </nav>
 
 <div class="container">
-  <div class="alert alert-info" role="alert">这个页面展示接入了 NanoIconPack 统计服务的图标包的图标申请统计情况。</div>
+  <div class="alert alert-info alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span></button>
+    <i class="fa fa-info-circle"></i> 这个页面展示接入了 NanoIconPack 统计服务的图标包的图标申请统计情况。
+  </div>
   <div id="divTrendQuery">
     <div class="input-group">
       <span class="input-group-btn">
@@ -263,12 +269,12 @@ function showDonate() {
     </div>
     <br />
   </div>
-  <canvas id="chart" width="400" height="200"></canvas>
+  <canvas id="chart" width="300" height="150"></canvas>
   <div id="mobileFlag" class="visible-xs-block"></div>
 </div>
 
 <div id="donateDlg" class="modal fade">
-<div class="modal-dialog">
+<div class="modal-dialog modal-sm">
 <div class="modal-content">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal">
@@ -278,15 +284,7 @@ function showDonate() {
   </div>
   <div class="modal-body">
     <p>目前 NanoIconPack 服务器由我个人维护并持续为接入的用户提供服务，尚无任何盈利。如果您有所受益，不妨与我分担服务器费用。谢谢！</p>
-    <hr />
-    <div class="row">
-      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"><div class="text-center">
-        <img src="http://oev9dotro.bkt.clouddn.com/img/qrcode_donate_By_syk_alipay_2.png" class="img-responsive img-thumbnail" height="200" width="200" alt="支付宝扫码捐赠" title="支付宝扫码捐赠">
-      </div></div>
-      <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 text-center"><div class="text-center">
-        <img src="http://oev9dotro.bkt.clouddn.com/img/qrcode_donate_By_syk_wechat_2.png" class="img-responsive img-thumbnail" height="200" width="200" alt="微信扫码捐赠" title="微信扫码捐赠">
-      </div></div>
-    </div>
+    <p>我的支付宝：<a href="javascript:void(0);" onclick="copy2ClipboardT('By_syk@163.com')">By_syk@163.com <i class="fa fa-clone"></i></a></p>
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>

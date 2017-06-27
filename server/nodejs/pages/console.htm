@@ -32,13 +32,28 @@
 <link rel="icon" type="image/png" href="../static/imgs/favicon-32.png" sizes="32x32">
 <link rel="icon" type="image/png" href="../static/imgs/favicon-96.png" sizes="96x96">
 
-<link rel="stylesheet" href="http://oev9dotro.bkt.clouddn.com/css/bootstrap-3.3.5.min.css">
-<script src="http://oev9dotro.bkt.clouddn.com/js/jquery-3.0.0.min.js"></script>
-<script src="http://oev9dotro.bkt.clouddn.com/js/bootstrap-3.3.5.min.js"></script>
+<!-- Bootstrap -->
+<link rel="stylesheet" href="../static/css/bootstrap-3.3.7.min.css">
+<!-- Font Aswsome -->
+<link rel="stylesheet" href="../static/css/font-awesome-4.7.0.min.css">
+<link rel="stylesheet" href="../static/css/header-footer.css">
 
-<link rel="stylesheet" href="../static/css/header_footer.css">
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="../static/js/jquery-3.2.1.min.js"></script>
+<!-- Bootstrap -->
+<script src="../static/js/bootstrap-3.3.7.min.js"></script>
+<script src="../static/js/utils.js?v=17061700"></script>
 
 <script type="text/javascript">
+$(document).ready(function() {
+  $.get("/sum", function(data) {
+    if (data && data.status == 0) {
+      $("#iIconPacks").replaceWith("<span class=\"badge\">" + data.result.iconPacks + "</span>");
+      $("#iApps").replaceWith("<span class=\"badge\">" + data.result.apps + "</span>");
+      $("#iReqTimes").replaceWith("<span class=\"badge\">" + data.result.reqTimes + "</span>");
+    }
+  });
+});
 // 显示捐赠二维码对话框
 function showDonate() {
   $("#donateDlg").modal("show");
@@ -80,10 +95,16 @@ function showDonate() {
       <p>NanoIconPack 微控制台</p>
     </div>
   </div>
+  <div class="alert alert-info" role="alert">
+    <i class="fa fa-database" aria-hidden="true"></i> <strong>数据量</strong>
+    <br />接入图标包：<i id="iIconPacks" class="fa fa-spinner fa-spin"></i>
+    |&nbsp;申请APP：<i id="iApps" class="fa fa-spinner fa-spin"></i>
+    |&nbsp;申请次：<i id="iReqTimes" class="fa fa-spinner fa-spin"></i>
+  </div>
 </div>
 
 <div id="donateDlg" class="modal fade">
-<div class="modal-dialog">
+<div class="modal-dialog modal-sm">
 <div class="modal-content">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal">
@@ -93,15 +114,16 @@ function showDonate() {
   </div>
   <div class="modal-body">
     <p>目前 NanoIconPack 服务器由我个人维护并持续为接入的用户提供服务，尚无任何盈利。如果您有所受益，不妨与我分担服务器费用。谢谢！</p>
-    <hr />
+    <p>我的支付宝：<a href="javascript:void(0);" onclick="copy2ClipboardT('By_syk@163.com')">By_syk@163.com <i class="fa fa-clone"></i></a></p>
+    <!--<hr />
     <div class="row">
       <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"><div class="text-center">
-        <img src="http://oev9dotro.bkt.clouddn.com/img/qrcode_donate_By_syk_alipay_2.png" class="img-responsive img-thumbnail" height="200" width="200" alt="支付宝扫码捐赠" title="支付宝扫码捐赠">
+        <img src="../static/imgs/qrcode_donate_By_syk_alipay_2.png" class="img-responsive img-thumbnail" height="200" width="200" alt="支付宝扫码捐赠" title="支付宝扫码捐赠">
       </div></div>
       <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 text-center"><div class="text-center">
-        <img src="http://oev9dotro.bkt.clouddn.com/img/qrcode_donate_By_syk_wechat_2.png" class="img-responsive img-thumbnail" height="200" width="200" alt="微信扫码捐赠" title="微信扫码捐赠">
+        <img src="../static/imgs/qrcode_donate_By_syk_wechat_2.png" class="img-responsive img-thumbnail" height="200" width="200" alt="微信扫码捐赠" title="微信扫码捐赠">
       </div></div>
-    </div>
+    </div>-->
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
