@@ -48,10 +48,14 @@
             android:name=".AboutActivity"
             android:label="@string/activity_about" />
 
+        <!-- android:documentLaunchMode="intoExisting" -->
+        <!-- Show another task in Recents screen -->
         <activity
             android:name=".ReqStatsActivity"
             android:label="@string/activity_req_stats"
-            android:theme="@style/AppThemeDarkConsole" />
+            android:theme="@style/AppThemeDarkConsole"
+            android:launchMode="singleInstance"
+            android:documentLaunchMode="intoExisting" />
 
     </application>
 

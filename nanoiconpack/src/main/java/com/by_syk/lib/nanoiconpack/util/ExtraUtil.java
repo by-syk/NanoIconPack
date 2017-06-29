@@ -32,6 +32,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -44,10 +45,14 @@ import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
 import net.sourceforge.pinyin4j.format.HanyuPinyinVCharType;
 import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -473,4 +478,23 @@ public class ExtraUtil {
 //        return (reqTimes > 1 ? C.REQ_REDRAW_SUFFIX_TWO : C.REQ_REDRAW_SUFFIX_ONE) + reqTimes;
         return C.REQ_REDRAW_PREFIX + reqTimes;
     }
+
+//    // TODO
+//    @Nullable
+//    public String getImgMD5(@Nullable Bitmap bitmap) {
+//        if (bitmap == null) {
+//            return null;
+//        }
+//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+//        byte[] bytes = baos.toByteArray();
+//        try {
+//            MessageDigest messageDigest = MessageDigest.getInstance("MD5");
+//            messageDigest.update(bytes);
+//            return (new BigInteger(1, messageDigest.digest())).toString(16);
+//        } catch (NoSuchAlgorithmException e) {
+//            e.printStackTrace();
+//        }
+//        return null;
+//    }
 }

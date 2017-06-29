@@ -50,6 +50,8 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.IconViewHolder>
 
     private List<AppBean> dataList = new ArrayList<>();
 
+    private boolean enableStatsModule = true;
+
     private int contextMenuActiveItemPos = -1;
 
     private OnItemClickListener onItemClickListener;
@@ -61,6 +63,8 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.IconViewHolder>
 
     public AppAdapter(Context context) {
         layoutInflater = LayoutInflater.from(context);
+
+        enableStatsModule = context.getResources().getBoolean(R.bool.enable_req_stats_module);
     }
 
     @Override
@@ -93,7 +97,11 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.IconViewHolder>
                 @Override
                 public void onClick(View view) {
                     int pos = holder.getAdapterPosition();
-                    onItemClickListener.onClick(pos, dataList.get(pos));
+                    if (enableStatsModule) {
+                        onItemClickListener.onClick(pos, dataList.get(pos));
+                    } else {
+                        onItemClickListener.onLongClick(pos, dataList.get(pos));
+                    }
                 }
             });
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
@@ -129,6 +137,8 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.IconViewHolder>
         contextMenu.add(Menu.NONE, 1, Menu.NONE, R.string.menu_copy_code);
         contextMenu.getItem(0).setOnMenuItemClickListener(this);
         contextMenu.getItem(1).setOnMenuItemClickListener(this);
+
+        contextMenu.getItem(0).setVisible(enableStatsModule);
     }
 
     @Override

@@ -19,6 +19,10 @@
 
     <string name="lib_ver" translatable="false">3.0.0</string>
 
+    <!-- To use the request statistics module -->
+    <!-- If not, users could not request icons in app. -->
+    <bool name="enable_req_stats_module">true</bool>
+
     <!-- 1: ANIM_DEFAULT -->
     <!-- 2: ANIM_ZOOM_OUT -->
     <!-- 3: ANIM_DEPTH -->

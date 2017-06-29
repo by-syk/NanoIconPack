@@ -77,6 +77,8 @@ public class AppsFragment extends Fragment {
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
+    private boolean enableStatsModule = true;
+
     private LazyLoadTask lazyLoadTask;
 
     private RetainedFragment retainedFragment;
@@ -132,6 +134,8 @@ public class AppsFragment extends Fragment {
 
     private void init() {
         pageId = getArguments().getInt("pageId");
+
+        enableStatsModule = getResources().getBoolean(R.bool.enable_req_stats_module);
 
         initAdapter();
         initRecycler();
@@ -391,6 +395,9 @@ public class AppsFragment extends Fragment {
                 }
             }
 
+            if (!enableStatsModule) {
+                return false;
+            }
             if (!ExtraUtil.isNetworkConnected(getContext())) {
                 return false;
             }

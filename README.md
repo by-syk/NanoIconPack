@@ -98,7 +98,7 @@ NanoIconPack 同时还支持许多未列出的启动器，比如
 
 NanoIconPack 拥有一个轻量的服务器，提供图标申请和申请统计两大服务。
 
-详情请移步 [NanoIconPack 服务端项目](https://github.com/by-syk/NanoIconPackServer) 了解。
+详情请移步 [NanoIconPack 服务端项目](https://github.com/by-syk/NanoIconPackServer)了解。
 
 
 ### 二次开发

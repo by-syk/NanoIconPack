@@ -55,6 +55,8 @@ public class MainActivity extends AppCompatActivity
 
     private BottomNavigationView bottomNavigationView;
 
+    private boolean enableStatsModule = true;
+
     private int prevPagePos = 0;
 
     @Override
@@ -67,6 +69,8 @@ public class MainActivity extends AppCompatActivity
 
     private void init() {
         sp = new SP(this, false);
+
+        enableStatsModule = getResources().getBoolean(R.bool.enable_req_stats_module);
 
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.navigation_view);
@@ -102,6 +106,9 @@ public class MainActivity extends AppCompatActivity
                     viewPager.setCurrentItem(1);
                 } else if (id == R.id.nav_all) {
                     viewPager.setCurrentItem(2);
+                }
+                if (!enableStatsModule) {
+                    return true;
                 }
                 if (id == R.id.nav_lost) {
                     if (System.currentTimeMillis() - lastTapTime < 400) {

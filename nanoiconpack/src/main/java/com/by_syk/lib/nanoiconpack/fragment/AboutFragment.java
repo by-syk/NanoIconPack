@@ -48,6 +48,7 @@ public class AboutFragment extends PreferenceFragmentCompat implements Preferenc
     private static final String PREFERENCE_APP_APP = "appApp";
     private static final String PREFERENCE_APP_TODO_1 = "appTodo1";
     private static final String PREFERENCE_APP_DASHBOARD = "appDashboard";
+    private static final String PREFERENCE_DEV = "dev";
     private static final String PREFERENCE_DEV_STATS = "devStats";
     private static final String PREFERENCE_DEV_QUERY = "devQuery";
 
@@ -70,6 +71,7 @@ public class AboutFragment extends PreferenceFragmentCompat implements Preferenc
         Preference prefAppApp = findPreference(PREFERENCE_APP_APP);
         Preference prefAppTodo1 = findPreference(PREFERENCE_APP_TODO_1);
         Preference prefAppDashboard = findPreference(PREFERENCE_APP_DASHBOARD);
+        PreferenceCategory prefCatDev = (PreferenceCategory) findPreference(PREFERENCE_DEV);
         Preference prefDevStats = findPreference(PREFERENCE_DEV_STATS);
         Preference prefDevQuery = findPreference(PREFERENCE_DEV_QUERY);
 
@@ -153,6 +155,9 @@ public class AboutFragment extends PreferenceFragmentCompat implements Preferenc
         }
         if (prefAppDashboard.getSummary() == null || prefAppDashboard.getSummary().length() == 0) {
             prefCatApp.removePreference(prefAppDashboard);
+        }
+        if (!getResources().getBoolean(R.bool.enable_req_stats_module)) {
+            prefCatDev.removePreference(prefDevStats);
         }
     }
 
