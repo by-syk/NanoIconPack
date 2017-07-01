@@ -90,7 +90,7 @@
     <string name="preference_app_summary_dashboard" translatable="false">[https://github.com/by-syk/NanoIconPack](https://github.com/by-syk/NanoIconPack)</string>
     <string name="preference_category_dev">Development</string>
     <string name="preference_dev_title_stats">Request stats</string>
-    <string name="preference_dev_title_query">Query app code</string>
+    <string name="preference_dev_title_query">Console</string>
     <string name="preference_dev_summary_query" translatable="false">[http://nano.by-syk.com](http://nano.by-syk.com/page/query)</string>
 
     <string name="send_code">Share app code&#8230;</string>

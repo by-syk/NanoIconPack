@@ -17,10 +17,7 @@
 
 <resources>
 
-    <style name="AppThemeLightWithDark" parent="Theme.AppCompat.Light.DarkActionBar">
-        <item name="colorPrimary">@color/color_primary</item>
-        <item name="colorPrimaryDark">@color/color_primary_dark</item>
-        <item name="colorAccent">@color/color_accent</item>
+    <style name="AppThemeLightWithDarkDef" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="ic_action_fill">@drawable/ic_action_fill_dark</item>
         <item name="ic_action_apply">@drawable/ic_action_apply_dark</item>
@@ -28,10 +25,12 @@
         <item name="icon_grid_color">@color/icon_grid_light</item>
         <item name="bottom_bar_color">@color/bottom_bar_color_light</item>
     </style>
-    <style name="AppThemeLight" parent="Theme.AppCompat.Light">
+    <style name="AppThemeLightWithDark" parent="AppThemeLightWithDarkDef">
         <item name="colorPrimary">@color/color_primary</item>
         <item name="colorPrimaryDark">@color/color_primary_dark</item>
         <item name="colorAccent">@color/color_accent</item>
+    </style>
+    <style name="AppThemeLightDef" parent="Theme.AppCompat.Light">
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="ic_action_fill">@drawable/ic_action_fill_light</item>
         <item name="ic_action_apply">@drawable/ic_action_apply_light</item>
@@ -39,16 +38,23 @@
         <item name="icon_grid_color">@color/icon_grid_light</item>
         <item name="bottom_bar_color">@color/bottom_bar_color_light</item>
     </style>
-    <style name="AppThemeDark" parent="Theme.AppCompat">
-        <item name="colorPrimaryDark">@color/color_primary_dark</item>
+    <style name="AppThemeLight" parent="AppThemeLightDef">
         <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryDark">@color/color_primary_dark</item>
         <item name="colorAccent">@color/color_accent</item>
+    </style>
+    <style name="AppThemeDarkDef" parent="Theme.AppCompat">
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="ic_action_fill">@drawable/ic_action_fill_dark</item>
         <item name="ic_action_apply">@drawable/ic_action_apply_dark</item>
         <item name="ic_action_copyright">@drawable/ic_action_copyright_dark</item>
         <item name="icon_grid_color">@color/icon_grid_dark</item>
         <item name="bottom_bar_color">@color/bottom_bar_color_dark</item>
+    </style>
+    <style name="AppThemeDark" parent="AppThemeDarkDef">
+        <item name="colorPrimaryDark">@color/color_primary_dark</item>
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorAccent">@color/color_accent</item>
     </style>
 
     <style name="AppThemeDarkConsole" parent="Theme.AppCompat">
@@ -75,9 +81,10 @@
     </style>
 
     <style name="FastScroller">
-        <item name="fastScrollPopupBgColor">@color/color_accent</item>
+        <item name="fastScrollPopupBgColor">?android:attr/colorAccent</item>
+        <!-- Or @android:color/primary_text_light -->
         <item name="fastScrollPopupTextColor">@android:color/primary_text_dark</item>
-        <item name="fastScrollThumbColor">@color/color_accent</item>
+        <item name="fastScrollThumbColor">?android:attr/colorAccent</item>
         <!-- PopupBackgroundSize and PopupTextSize values are referred to Nova Launcher -->
         <item name="fastScrollPopupBackgroundSize">72dp</item>
         <item name="fastScrollPopupTextSize">44sp</item>

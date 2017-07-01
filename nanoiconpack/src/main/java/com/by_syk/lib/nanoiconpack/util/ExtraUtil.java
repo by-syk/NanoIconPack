@@ -22,6 +22,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaScannerConnection;
@@ -35,7 +36,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.TypedValue;
 
+import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.bean.IconBean;
 
 import net.sourceforge.pinyin4j.PinyinHelper;
@@ -497,4 +500,13 @@ public class ExtraUtil {
 //        }
 //        return null;
 //    }
+
+    public static int fetchColor(@NonNull Context context, int attrId) {
+        TypedValue typedValue = new TypedValue();
+        TypedArray a = context.obtainStyledAttributes(typedValue.data,
+                new int[] { attrId });
+        int color = a.getColor(0, 0);
+        a.recycle();
+        return color;
+    }
 }

@@ -186,7 +186,7 @@ public class ReqStatsFragment extends Fragment {
 
     private void initSwipeRefresh() {
         swipeRefreshLayout = (SwipeRefreshLayout) contentView.findViewById(R.id.swipe_refresh_layout);
-        swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.color_accent));
+        swipeRefreshLayout.setColorSchemeColors(ExtraUtil.fetchColor(getContext(), R.attr.colorAccent));
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

@@ -87,7 +87,7 @@
     <string name="preference_app_title_dashboard">基于 NanoIconPack v%s</string>
     <string name="preference_category_dev">开发选项</string>
     <string name="preference_dev_title_stats">申请统计</string>
-    <string name="preference_dev_title_query">APP代码速查</string>
+    <string name="preference_dev_title_query">微控制台</string>
 
     <string name="send_code">分享APP代码&#8230;</string>
     <string name="cur_launcher">%s (当前)</string>
