@@ -54,6 +54,7 @@ import com.by_syk.lib.storage.SP;
 import com.coolapk.market.util.AuthUtils;
 import com.simplecityapps.recyclerview_fastscroll.interfaces.OnFastScrollStateChangeListener;
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -331,7 +332,8 @@ public class ReqStatsFragment extends Fragment {
 
             retainedFragment.setReqTopList(list);
 
-            contentView.findViewById(R.id.view_loading).setVisibility(View.GONE);
+//            contentView.findViewById(R.id.view_loading).setVisibility(View.GONE);
+            ((AVLoadingIndicatorView) contentView.findViewById(R.id.view_loading)).hide();
 
             reqStatsAdapter.refresh(list);
 

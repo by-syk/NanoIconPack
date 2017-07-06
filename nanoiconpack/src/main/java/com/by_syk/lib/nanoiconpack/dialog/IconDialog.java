@@ -100,18 +100,6 @@ public class IconDialog extends DialogFragment {
         return builder.create();
     }
 
-    private SpannableString getTitle(@NonNull IconBean bean) {
-        TextTag.Builder builder = new TextTag.Builder()
-                .text(iconBean.getLabel() != null ? iconBean.getLabel() : iconBean.getName())
-                .bgColor(Color.GRAY);
-        if (!bean.isRecorded()) {
-            builder.tag(" UND ");
-        } else if (!bean.isDef()) {
-            builder.tag(" ALT ");
-        }
-        return builder.build().render();
-    }
-
     @Override
     public void onStart() {
         super.onStart();
@@ -199,6 +187,18 @@ public class IconDialog extends DialogFragment {
                 returnPickIcon();
             }
         });
+    }
+
+    private SpannableString getTitle(@NonNull IconBean bean) {
+        TextTag.Builder builder = new TextTag.Builder()
+                .text(iconBean.getLabel() != null ? iconBean.getLabel() : iconBean.getName())
+                .bgColor(Color.GRAY);
+        if (!bean.isRecorded()) {
+            builder.tag(" UND ");
+        } else if (!bean.isDef()) {
+            builder.tag(" ALT ");
+        }
+        return builder.build().render();
     }
 
     @TargetApi(23)

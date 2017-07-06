@@ -19,6 +19,7 @@ package com.by_syk.lib.nanoiconpack.fragment;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -34,6 +35,7 @@ import com.by_syk.lib.nanoiconpack.dialog.IconDialog;
 import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
 import com.by_syk.lib.nanoiconpack.util.adapter.IconAdapter;
 import com.by_syk.lib.nanoiconpack.util.IconsGetter;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -160,7 +162,8 @@ public class IconsFragment extends Fragment {
 
             retainedFragment.setIconList(pageId, list);
 
-            contentView.findViewById(R.id.view_loading).setVisibility(View.GONE);
+//            contentView.findViewById(R.id.view_loading).setVisibility(View.GONE);
+            ((AVLoadingIndicatorView) contentView.findViewById(R.id.view_loading)).hide();
 
             iconAdapter.refresh(list);
 

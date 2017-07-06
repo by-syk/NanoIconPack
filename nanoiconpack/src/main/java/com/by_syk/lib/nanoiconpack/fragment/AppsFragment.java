@@ -49,6 +49,7 @@ import com.by_syk.lib.nanoiconpack.util.impl.NanoServerService;
 import com.by_syk.lib.nanoiconpack.widget.DividerItemDecoration;
 import com.simplecityapps.recyclerview_fastscroll.interfaces.OnFastScrollStateChangeListener;
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -305,7 +306,8 @@ public class AppsFragment extends Fragment {
 
             retainedFragment.setAppList(list);
 
-            contentView.findViewById(R.id.view_loading).setVisibility(View.GONE);
+//            contentView.findViewById(R.id.view_loading).setVisibility(View.GONE);
+            ((AVLoadingIndicatorView) contentView.findViewById(R.id.view_loading)).hide();
 
             appAdapter.refresh(list);
 
