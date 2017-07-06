@@ -18,7 +18,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.by_syk.nanoiconpack.sample">
 
-    <!-- Available themes: AppThemeDark, AppThemeLight, AppThemeLightWithDark -->
+    <!--
+    for android:theme=""
+    available themes:
+        AppThemeDark, AppThemeDarkDef,
+        AppThemeLight, AppThemeLightDef,
+        AppThemeLightWithDark, AppThemeLightWithDarkDef,
+    -->
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
