@@ -19,7 +19,7 @@
 
     <style name="AppThemeLightWithDarkDef" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
-        <item name="ic_action_fill">@drawable/ic_action_fill_dark</item>
+        <item name="ic_action_new">@drawable/ic_action_new_dark</item>
         <item name="ic_action_apply">@drawable/ic_action_apply_dark</item>
         <item name="ic_action_copyright">@drawable/ic_action_copyright_dark</item>
         <item name="ic_save">@drawable/ic_save_light</item>
@@ -35,7 +35,7 @@
     </style>
     <style name="AppThemeLightDef" parent="Theme.AppCompat.Light">
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
-        <item name="ic_action_fill">@drawable/ic_action_fill_light</item>
+        <item name="ic_action_new">@drawable/ic_action_new_light</item>
         <item name="ic_action_apply">@drawable/ic_action_apply_light</item>
         <item name="ic_action_copyright">@drawable/ic_action_copyright_light</item>
         <item name="ic_save">@drawable/ic_save_light</item>
@@ -51,7 +51,7 @@
     </style>
     <style name="AppThemeDarkDef" parent="Theme.AppCompat">
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
-        <item name="ic_action_fill">@drawable/ic_action_fill_dark</item>
+        <item name="ic_action_new">@drawable/ic_action_new_dark</item>
         <item name="ic_action_apply">@drawable/ic_action_apply_dark</item>
         <item name="ic_action_copyright">@drawable/ic_action_copyright_dark</item>
         <item name="ic_save">@drawable/ic_save_dark</item>
