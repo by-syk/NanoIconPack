@@ -16,10 +16,7 @@
 
 package com.by_syk.lib.nanoiconpack.fragment;
 
-import android.Manifest;
-import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -34,11 +31,9 @@ import android.view.ViewGroup;
 import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.bean.IconBean;
 import com.by_syk.lib.nanoiconpack.dialog.IconDialog;
-import com.by_syk.lib.nanoiconpack.util.C;
 import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
 import com.by_syk.lib.nanoiconpack.util.adapter.IconAdapter;
 import com.by_syk.lib.nanoiconpack.util.IconsGetter;
-import com.by_syk.lib.toast.GlobalToast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -107,11 +102,6 @@ public class IconsFragment extends Fragment {
                 IconDialog.newInstance(bean, ExtraUtil.isFromLauncherPick(getActivity().getIntent()))
                         .show(getFragmentManager(), "iconDialog");
             }
-
-            @Override
-            public void onLongClick(int pos, IconBean bean) {
-                saveIcon(bean);
-            }
         });
         recyclerView.setAdapter(iconAdapter);
     }
@@ -126,20 +116,7 @@ public class IconsFragment extends Fragment {
         return new int[]{num, totalWidth / num};
     }
 
-    @TargetApi(23)
-    private void saveIcon(IconBean bean) {
-        if (C.SDK >= 23 && getContext().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
-            return;
-        }
-
-        boolean ok = ExtraUtil.saveIcon(getContext(), bean);
-        GlobalToast.showToast(getContext(), ok ? R.string.toast_icon_saved
-                : R.string.toast_icon_save_failed);
-    }
-
-    public static IconsFragment newInstance(int id, IconsGetter iconsGetter, @IconAdapter.Mode int mode) {
+    public static IconsFragment newInstance(int id, IconsGetter iconsGetter, int mode) {
         IconsFragment fragment = new IconsFragment();
 
         Bundle bundle = new Bundle();

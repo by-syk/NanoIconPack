@@ -22,6 +22,9 @@
         <item name="ic_action_fill">@drawable/ic_action_fill_dark</item>
         <item name="ic_action_apply">@drawable/ic_action_apply_dark</item>
         <item name="ic_action_copyright">@drawable/ic_action_copyright_dark</item>
+        <item name="ic_save">@drawable/ic_save_light</item>
+        <item name="ic_shortcut">@drawable/ic_shortcut_light</item>
+        <item name="ic_choose">@drawable/ic_choose_light</item>
         <item name="icon_grid_color">@color/icon_grid_light</item>
         <item name="bottom_bar_color">@color/bottom_bar_color_light</item>
     </style>
@@ -35,6 +38,9 @@
         <item name="ic_action_fill">@drawable/ic_action_fill_light</item>
         <item name="ic_action_apply">@drawable/ic_action_apply_light</item>
         <item name="ic_action_copyright">@drawable/ic_action_copyright_light</item>
+        <item name="ic_save">@drawable/ic_save_light</item>
+        <item name="ic_shortcut">@drawable/ic_shortcut_light</item>
+        <item name="ic_choose">@drawable/ic_choose_light</item>
         <item name="icon_grid_color">@color/icon_grid_light</item>
         <item name="bottom_bar_color">@color/bottom_bar_color_light</item>
     </style>
@@ -48,6 +54,9 @@
         <item name="ic_action_fill">@drawable/ic_action_fill_dark</item>
         <item name="ic_action_apply">@drawable/ic_action_apply_dark</item>
         <item name="ic_action_copyright">@drawable/ic_action_copyright_dark</item>
+        <item name="ic_save">@drawable/ic_save_dark</item>
+        <item name="ic_shortcut">@drawable/ic_shortcut_dark</item>
+        <item name="ic_choose">@drawable/ic_choose_dark</item>
         <item name="icon_grid_color">@color/icon_grid_dark</item>
         <item name="bottom_bar_color">@color/bottom_bar_color_dark</item>
     </style>

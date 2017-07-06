@@ -22,7 +22,7 @@ import android.support.annotation.NonNull;
 import com.by_syk.lib.nanoiconpack.bean.IconBean;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -33,41 +33,17 @@ public class MatchedIconsGetter extends IconsGetter implements Serializable {
     @Override
     public List<IconBean> getIcons(@NonNull Context context) throws Exception {
         List<IconBean> dataList = getAllIcons(context);
-        dataList = filterUnmatched(context, dataList);
+        filterUnmatched(dataList);
         return dataList;
     }
 
-    private List<IconBean> filterUnmatched(@NonNull Context context, @NonNull List<IconBean> iconList) {
-        List<String> installedIconList = new ArrayList<>();
-//            List<String> installedPkgList = PkgUtil.getInstalledPkgs(getContext());
-//            List<String> installedPkgList = PkgUtil.getInstalledPkgsWithLauncherActivity(getContext());
-        List<String> installedPkgActivityList = PkgUtil.getInstalledPkgActivities(context);
-
-        AppFilterReader reader = AppFilterReader.getInstance(context.getResources());
-        for (AppFilterReader.Bean bean : reader.getDataList()) {
-            if (bean.pkg == null || bean.launcher == null) { // invalid
-                continue;
-            }
-            for (String pkgActivity : installedPkgActivityList) {
-                String[] arr = pkgActivity.split("/");
-                // Check package name and launcher activity at the same time
-                if (arr[0].equals(bean.pkg) && arr[1].equals(bean.launcher)) {
-                    installedIconList.add(bean.drawable);
-                    break;
-                }
+    private void filterUnmatched(@NonNull List<IconBean> iconList) {
+        Iterator<IconBean> iterator = iconList.iterator();
+        while (iterator.hasNext()) {
+            IconBean bean = iterator.next();
+            if (!bean.isDef() || !bean.containsInstalledComponent()) {
+                iterator.remove();
             }
         }
-
-        List<IconBean> installedIconBeanList = new ArrayList<>();
-        for (IconBean bean : iconList) {
-            for (String icon : installedIconList) {
-                if (icon.equals(bean.getName())) {
-                    installedIconBeanList.add(bean);
-                    break;
-                }
-            }
-        }
-
-        return installedIconBeanList;
     }
 }

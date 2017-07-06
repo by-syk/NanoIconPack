@@ -27,97 +27,101 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by By_syk on 2017-02-15.
  */
 
 public class PkgUtil {
-    public static boolean isPkgInstalled(Context context, String pkgName) {
-        if (context == null || pkgName == null) {
-            return false;
-        }
-
-        try {
-            context.getPackageManager().getPackageInfo(pkgName, 0);
-            return true;
-        } catch (Exception e) {
-            //e.printStackTrace();
-        }
-
-        return false;
-    }
+//    public static boolean isPkgInstalled(Context context, String pkgName) {
+//        if (context == null || pkgName == null) {
+//            return false;
+//        }
+//
+//        try {
+//            context.getPackageManager().getPackageInfo(pkgName, 0);
+//            return true;
+//        } catch (Exception e) {
+//            //e.printStackTrace();
+//        }
+//
+//        return false;
+//    }
 
     public static boolean isPkgInstalledAndEnabled(Context context, String pkgName) {
         return getLauncherActivity(context, pkgName) != null;
     }
 
-    public static List<String> getInstalledPkgs(Context context) {
-        List<String> pkgNameList = new ArrayList<>();
-        if (context == null) {
-            return pkgNameList;
-        }
+//    public static List<String> getInstalledPkgs(Context context) {
+//        List<String> pkgNameList = new ArrayList<>();
+//        if (context == null) {
+//            return pkgNameList;
+//        }
+//
+//        try {
+//            List<PackageInfo> pkgList = context.getPackageManager().getInstalledPackages(0);
+//            if (pkgList != null) {
+//                for (PackageInfo packageInfo : pkgList) {
+//                    pkgNameList.add(packageInfo.packageName);
+//                }
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        return pkgNameList;
+//    }
 
-        try {
-            List<PackageInfo> pkgList = context.getPackageManager().getInstalledPackages(0);
-            if (pkgList != null) {
-                for (PackageInfo packageInfo : pkgList) {
-                    pkgNameList.add(packageInfo.packageName);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//    public static List<String> getInstalledPkgsWithLauncherActivity(Context context) {
+//        List<String> pkgNameList = new ArrayList<>();
+//        if (context == null) {
+//            return pkgNameList;
+//        }
+//
+//        try {
+//            Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
+//            mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+//            List<ResolveInfo> list = context.getPackageManager().queryIntentActivities(mainIntent, 0);
+//            for (ResolveInfo resolveInfo : list) {
+//                pkgNameList.add(resolveInfo.activityInfo.packageName);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        return pkgNameList;
+//    }
 
-        return pkgNameList;
-    }
-
-    public static List<String> getInstalledPkgsWithLauncherActivity(Context context) {
-        List<String> pkgNameList = new ArrayList<>();
-        if (context == null) {
-            return pkgNameList;
-        }
-
-        try {
-            Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
-            mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-            List<ResolveInfo> list = context.getPackageManager().queryIntentActivities(mainIntent, 0);
-            for (ResolveInfo resolveInfo : list) {
-                pkgNameList.add(resolveInfo.activityInfo.packageName);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return pkgNameList;
-    }
-
-    public static List<String> getInstalledPkgActivities(Context context) {
-        List<String> pkgLauncherList = new ArrayList<>();
-        if (context == null) {
-            return pkgLauncherList;
-        }
-
-        try {
-            Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
-            mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-            List<ResolveInfo> list = context.getPackageManager().queryIntentActivities(mainIntent, 0);
-            for (ResolveInfo resolveInfo : list) {
-                pkgLauncherList.add(resolveInfo.activityInfo.packageName
-                        + "/" + resolveInfo.activityInfo.name);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return pkgLauncherList;
-    }
+//    public static Set<String> getInstalledComponents(@Nullable Context context) {
+//        Set<String> set = new HashSet<>();
+//        if (context == null) {
+//            return set;
+//        }
+//
+//        try {
+//            Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
+//            mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+//            List<ResolveInfo> list = context.getPackageManager().queryIntentActivities(mainIntent, 0);
+//            for (ResolveInfo resolveInfo : list) {
+//                set.add(resolveInfo.activityInfo.packageName + "/" + resolveInfo.activityInfo.name);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        return set;
+//    }
 
     public static String getLauncherActivity(Context context, String pkgName) {
         if (context == null || pkgName == null) {

@@ -38,7 +38,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
 
-import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.bean.IconBean;
 
 import net.sourceforge.pinyin4j.PinyinHelper;
@@ -48,14 +47,10 @@ import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
 import net.sourceforge.pinyin4j.format.HanyuPinyinVCharType;
 import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -151,7 +146,7 @@ public class ExtraUtil {
      * @return
      */
     @NonNull
-    public static String[] getPinyinForSorting(String text) {
+    public static String[] getPinyinForSorting(@Nullable String text) {
         if (TextUtils.isEmpty(text)) {
             return new String[]{""};
         }
@@ -508,5 +503,40 @@ public class ExtraUtil {
         int color = a.getColor(0, 0);
         a.recycle();
         return color;
+    }
+
+    public static boolean sendIcon2HomeScreen(Context context, int iconId, String appName,
+                                              String pkgName, String launcherName) {
+        if (context == null || iconId == 0 || TextUtils.isEmpty(appName)
+                || TextUtils.isEmpty(pkgName) || TextUtils.isEmpty(launcherName)) {
+            return false;
+        }
+
+        Intent shortcutIntent = new Intent(Intent.ACTION_VIEW);
+        shortcutIntent.setClassName(pkgName, launcherName);
+        shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
+        Intent addIntent = new Intent();
+        addIntent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
+        addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
+        addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, appName);
+        addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
+                Intent.ShortcutIconResource.fromContext(context, iconId));
+        addIntent.putExtra("duplicate", false);
+        context.sendBroadcast(addIntent);
+
+        return true;
+    }
+
+    @NonNull
+    public static String purifyIconName(String iconName) {
+        if (TextUtils.isEmpty(iconName)) {
+            return "";
+        }
+        if (iconName.matches(".+?_\\d+")) {
+            return iconName.substring(0, iconName.lastIndexOf('_'));
+        }
+        return iconName;
     }
 }

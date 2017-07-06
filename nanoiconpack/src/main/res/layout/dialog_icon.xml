@@ -19,53 +19,100 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingStart="@dimen/dlg_horz_padding"
-    android:paddingEnd="@dimen/dlg_horz_padding"
-    android:paddingTop="@dimen/dlg_vertical_padding"
-    android:paddingBottom="@dimen/dlg_vertical_padding"
-    android:gravity="center"
-    android:orientation="horizontal"
-    android:animateLayoutChanges="true">
+    android:orientation="vertical">
 
-    <FrameLayout
-        android:layout_width="@dimen/dlg_icon_size"
-        android:layout_height="@dimen/dlg_icon_size">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:animateLayoutChanges="true"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_marginBottom="@dimen/dlg_vertical_padding"
+        android:layout_marginEnd="@dimen/dlg_horz_padding"
+        android:layout_marginStart="@dimen/dlg_horz_padding"
+        android:layout_marginTop="@dimen/dlg_vertical_padding">
 
-        <com.by_syk.lib.view.IconGridView
-            style="@style/IconGrid"
-            android:id="@+id/icon_grid"
-            android:visibility="invisible"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+        <FrameLayout
+            android:layout_width="@dimen/dlg_icon_size"
+            android:layout_height="@dimen/dlg_icon_size">
+
+            <com.by_syk.lib.view.IconGridView
+                android:id="@+id/icon_grid"
+                style="@style/IconGrid"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="invisible" />
+
+            <ImageView
+                android:id="@+id/iv_icon"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitCenter"
+                tools:ignore="ContentDescription" />
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/small_icon_view"
+            android:layout_width="@dimen/dlg_small_icon_size"
+            android:layout_height="@dimen/dlg_small_icon_size"
+            android:visibility="gone">
+
+            <com.by_syk.lib.view.IconGridView
+                android:id="@+id/icon_grid_small"
+                style="@style/IconGridSmall"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <ImageView
+                android:id="@+id/iv_icon_small"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitCenter"
+                tools:ignore="ContentDescription" />
+
+        </FrameLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="end"
+        android:layout_marginStart="@dimen/dlg_horz_padding"
+        android:layout_marginEnd="@dimen/unit_padding"
+        android:layout_marginBottom="@dimen/unit_padding">
 
         <ImageView
-            android:id="@+id/iv_icon"
-            android:scaleType="fitCenter"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:ignore="ContentDescription" />
-
-    </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/small_icon_view"
-        android:layout_width="@dimen/dlg_small_icon_size"
-        android:layout_height="@dimen/dlg_small_icon_size"
-        android:visibility="gone">
-
-        <com.by_syk.lib.view.IconGridView
-            style="@style/IconGridSmall"
-            android:id="@+id/icon_grid_small"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:id="@+id/iv_save"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:src="?attr/ic_save"
+            android:scaleType="center"
+            android:layout_width="36dp"
+            android:layout_height="36dp" />
 
         <ImageView
-            android:id="@+id/iv_icon_small"
-            android:scaleType="fitCenter"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:ignore="ContentDescription" />
+            android:id="@+id/iv_send_to_home"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:src="?attr/ic_shortcut"
+            android:scaleType="center"
+            android:visibility="gone"
+            android:layout_marginStart="@dimen/unit_padding"
+            android:layout_width="36dp"
+            android:layout_height="36dp" />
 
-    </FrameLayout>
+        <ImageView
+            android:id="@+id/iv_choose"
+            android:background="?android:attr/selectableItemBackgroundBorderless"
+            android:src="?attr/ic_choose"
+            android:tint="@color/positive"
+            android:visibility="gone"
+            android:scaleType="center"
+            android:layout_marginStart="@dimen/unit_padding"
+            android:layout_width="36dp"
+            android:layout_height="36dp" />
+
+    </LinearLayout>
 
 </LinearLayout>

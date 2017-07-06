@@ -4,6 +4,8 @@ import android.support.annotation.IntDef;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.Random;
 
 /**
@@ -13,17 +15,19 @@ import java.util.Random;
 public class SimplePageTransformer implements ViewPager.PageTransformer {
     private int animType = ANIM_ZOOM_OUT;
 
-    @IntDef({ANIM_RANDOM, ANIM_DEFAULT, ANIM_ZOOM_OUT, ANIM_DEPTH, ANIM_FLIP})
-    public @interface AnimType {}
     public static final int ANIM_RANDOM = 0;
     public static final int ANIM_DEFAULT = 1;
     public static final int ANIM_ZOOM_OUT = 2;
     public static final int ANIM_DEPTH = 3;
     public static final int ANIM_FLIP = 4;
 
+    @IntDef({ANIM_RANDOM, ANIM_DEFAULT, ANIM_ZOOM_OUT, ANIM_DEPTH, ANIM_FLIP})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface AnimType {}
+
     public SimplePageTransformer() {}
 
-    public SimplePageTransformer(@AnimType int animType) {
+    public SimplePageTransformer(int animType) {
         if (animType == ANIM_RANDOM) {
             int[] animTypes = {ANIM_DEFAULT, ANIM_ZOOM_OUT, ANIM_DEPTH};
             this.animType = animTypes[(new Random()).nextInt(animTypes.length)];

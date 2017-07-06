@@ -7,7 +7,7 @@ android {
     defaultConfig {
         minSdkVersion Integer.parseInt(project.MIN_SDK_VERSION)
         targetSdkVersion Integer.parseInt(project.TARGET_SDK_VERSION)
-        versionCode 17062400
+        versionCode 17070600
         versionName "3.0.0.nightly"
     }
 
@@ -24,7 +24,6 @@ dependencies {
 //    compile files('libs/pinyin4j-recompiled-2.5.0.2.jar')
 
     compile(name: 'aboutmsgrender-1.0.5', ext: 'aar')
-    compile(name: 'globaltoast-1.1.2', ext: 'aar')
     compile(name: 'icongridview-1.0.6', ext: 'aar')
     compile(name: 'sp-1.0.2', ext: 'aar')
 
@@ -32,6 +31,9 @@ dependencies {
 //    compile 'com.android.support:recyclerview-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'
     compile 'com.android.support:preference-v14:25.3.1'
+
+    compile 'com.github.by-syk:TextTag:1.0.9'
+    compile 'com.github.by-syk:GlobalToast:1.2.2'
 
     compile 'com.simplecityapps:recyclerview-fastscroll:1.0.11'
 

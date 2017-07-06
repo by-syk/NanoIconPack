@@ -25,6 +25,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
+import com.by_syk.lib.globaltoast.GlobalToast;
 import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.bean.AppBean;
 import com.by_syk.lib.nanoiconpack.bean.CodeBean;
@@ -34,7 +35,6 @@ import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
 import com.by_syk.lib.nanoiconpack.util.RetrofitHelper;
 import com.by_syk.lib.nanoiconpack.util.impl.NanoServerService;
 import com.by_syk.lib.storage.SP;
-import com.by_syk.lib.toast.GlobalToast;
 
 import java.util.List;
 import java.util.Locale;
@@ -117,7 +117,7 @@ public class ReqMenuDialog extends BottomSheetDialogFragment implements View.OnC
                 undoMark();
             }
         } else if (id == R.id.view_menu_goto_market) {
-            ExtraUtil.gotoMarket(getContext(), bean.getPkgName(), false);
+            ExtraUtil.gotoMarket(getContext(), bean.getPkg(), false);
             dismiss();
         } else if (id == R.id.view_menu_copy_code) {
             copyCode();
@@ -132,7 +132,7 @@ public class ReqMenuDialog extends BottomSheetDialogFragment implements View.OnC
         NanoServerService nanoServerService = RetrofitHelper.getInstance()
                 .getService(NanoServerService.class);
         Call<ResResBean> call = nanoServerService.filterPkg(getContext().getPackageName(),
-                user, bean.getPkgName(), bean.getLauncher());
+                user, bean.getPkg(), bean.getLauncher());
         call.enqueue(new Callback<ResResBean>() {
             @Override
             public void onResponse(Call<ResResBean> call, Response<ResResBean> response) {
@@ -167,7 +167,7 @@ public class ReqMenuDialog extends BottomSheetDialogFragment implements View.OnC
         NanoServerService nanoServerService = RetrofitHelper.getInstance()
                 .getService(NanoServerService.class);
         Call<ResResBean> call = nanoServerService.undoFilterPkg(getContext().getPackageName(),
-                user, bean.getPkgName(), bean.getLauncher());
+                user, bean.getPkg(), bean.getLauncher());
         call.enqueue(new Callback<ResResBean>() {
             @Override
             public void onResponse(Call<ResResBean> call, Response<ResResBean> response) {
@@ -199,7 +199,7 @@ public class ReqMenuDialog extends BottomSheetDialogFragment implements View.OnC
 
         NanoServerService nanoServerService = RetrofitHelper.getInstance()
                 .getService(NanoServerService.class);
-        Call<ResResBean<List<CodeBean>>> call = nanoServerService.getCode(bean.getPkgName(), bean.getLauncher());
+        Call<ResResBean<List<CodeBean>>> call = nanoServerService.getCode(bean.getPkg(), bean.getLauncher());
         call.enqueue(new Callback<ResResBean<List<CodeBean>>>() {
             @Override
             public void onResponse(Call<ResResBean<List<CodeBean>>> call, Response<ResResBean<List<CodeBean>>> response) {
@@ -208,18 +208,18 @@ public class ReqMenuDialog extends BottomSheetDialogFragment implements View.OnC
                     String codes = packageCodes(resResBean.getResult());
                     if (!TextUtils.isEmpty(codes)) {
                         ExtraUtil.copy2Clipboard(getContext(), codes);
-                        GlobalToast.showToast(getContext(), R.string.toast_code_copied);
+                        GlobalToast.show(getContext(), R.string.toast_code_copied);
                         dismiss();
                         return;
                     }
                 }
-                GlobalToast.showToast(getContext(), R.string.toast_code_copy_failed);
+                GlobalToast.show(getContext(), R.string.toast_code_copy_failed);
                 dismiss();
             }
 
             @Override
             public void onFailure(Call<ResResBean<List<CodeBean>>> call, Throwable t) {
-                GlobalToast.showToast(getContext(), R.string.toast_code_copy_failed);
+                GlobalToast.show(getContext(), R.string.toast_code_copy_failed);
                 dismiss();
             }
         });

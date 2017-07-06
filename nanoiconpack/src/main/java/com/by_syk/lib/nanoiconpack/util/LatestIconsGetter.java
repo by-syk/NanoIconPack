@@ -23,8 +23,11 @@ import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.bean.IconBean;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by By_syk on 2017-03-26.
@@ -34,23 +37,19 @@ public class LatestIconsGetter extends IconsGetter implements Serializable {
     @Override
     public List<IconBean> getIcons(@NonNull Context context) throws Exception {
         List<IconBean> dataList = getAllIcons(context);
-        dataList = filterNotNew(context, dataList);
+        filterNotNew(context, dataList);
         return dataList;
     }
 
-    private List<IconBean> filterNotNew(@NonNull Context context, @NonNull List<IconBean> iconList) {
-        List<IconBean> dataList = new ArrayList<>();
-
+    private void filterNotNew(@NonNull Context context, @NonNull List<IconBean> iconList) {
         String[] names = context.getResources().getStringArray(R.array.latest_icons);
-        for (IconBean bean : iconList) {
-            for (String name : names) {
-                if (name.equals(bean.getName())) {
-                    dataList.add(bean);
-                    break;
-                }
+        Set<String> nameSet = new HashSet<>();
+        nameSet.addAll(Arrays.asList(names));
+        Iterator<IconBean> iterator = iconList.iterator();
+        while (iterator.hasNext()) {
+            if (!nameSet.contains(iterator.next().getName())) {
+                iterator.remove();
             }
         }
-
-        return dataList;
     }
 }

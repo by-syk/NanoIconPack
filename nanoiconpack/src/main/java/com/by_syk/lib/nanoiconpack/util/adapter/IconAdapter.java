@@ -20,10 +20,7 @@ import android.content.Context;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -35,6 +32,8 @@ import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.bean.IconBean;
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,8 +42,7 @@ import java.util.List;
  */
 
 public class IconAdapter extends RecyclerView.Adapter
-        implements FastScrollRecyclerView.SectionedAdapter,
-        View.OnCreateContextMenuListener, MenuItem.OnMenuItemClickListener {
+        implements FastScrollRecyclerView.SectionedAdapter {
     private LayoutInflater layoutInflater;
 
     private RequestManager glideReqManager;
@@ -53,19 +51,18 @@ public class IconAdapter extends RecyclerView.Adapter
 
     private int gridSize = -1;
 
-    private int contextMenuActiveItemPos = -1;
-
-    @IntDef({MODE_ICON, MODE_ICON_LABEL})
-    public  @interface Mode {}
     private int mode = MODE_ICON;
     public static final int MODE_ICON = 0;
     public static final int MODE_ICON_LABEL = 1;
+
+    @IntDef({MODE_ICON, MODE_ICON_LABEL})
+    @Retention(RetentionPolicy.SOURCE)
+    public  @interface Mode {}
 
     private OnItemClickListener onItemClickListener;
 
     public interface OnItemClickListener {
         void onClick(int pos, IconBean bean);
-        void onLongClick(int pos, IconBean bean);
     }
 
     public IconAdapter(Context context) {
@@ -126,18 +123,6 @@ public class IconAdapter extends RecyclerView.Adapter
                     onItemClickListener.onClick(pos, dataList.get(pos));
                 }
             });
-            holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-//                    int pos = holder.getAdapterPosition();
-//                    onItemClickListener.onLongClick(pos, dataList.get(pos));
-//                    return true;
-                    contextMenuActiveItemPos = holder.getAdapterPosition();
-                    return false;
-                }
-            });
-            // OnLongClickListener -> onCreateContextMenu -> onMenuItemClick
-            holder.itemView.setOnCreateContextMenuListener(this);
         }
     }
 
@@ -157,46 +142,19 @@ public class IconAdapter extends RecyclerView.Adapter
         return dataList.get(position).getLabelPinyin().substring(0, 1).toUpperCase();
     }
 
-    @Override
-    public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
-        contextMenu.setHeaderTitle(dataList.get(contextMenuActiveItemPos).getLabel());
-        contextMenu.add(Menu.NONE, 0, Menu.NONE, R.string.menu_view_icon);
-        contextMenu.add(Menu.NONE, 1, Menu.NONE, R.string.menu_save_icon);
-        contextMenu.getItem(0).setOnMenuItemClickListener(this);
-        contextMenu.getItem(1).setOnMenuItemClickListener(this);
-    }
-
-    @Override
-    public boolean onMenuItemClick(MenuItem menuItem) {
-        if (onItemClickListener == null) {
-            return true;
-        }
-        switch (menuItem.getItemId()) {
-            case 0:
-                onItemClickListener.onClick(contextMenuActiveItemPos,
-                        dataList.get(contextMenuActiveItemPos));
-                break;
-            case 1:
-                onItemClickListener.onLongClick(contextMenuActiveItemPos,
-                        dataList.get(contextMenuActiveItemPos));
-                break;
-        }
-        return true;
-    }
-
-    public void setMode(@Mode int mode) {
+    public void setMode(int mode) {
         this.mode = mode;
     }
 
-    public void switchMode() {
-        if (mode == MODE_ICON) {
-            mode = MODE_ICON_LABEL;
-        } else {
-            mode = MODE_ICON;
-        }
-
-        notifyDataSetChanged();
-    }
+//    public void switchMode() {
+//        if (mode == MODE_ICON) {
+//            mode = MODE_ICON_LABEL;
+//        } else {
+//            mode = MODE_ICON;
+//        }
+//
+//        notifyDataSetChanged();
+//    }
 
     public void refresh(List<IconBean> dataList) {
         if (dataList != null) {

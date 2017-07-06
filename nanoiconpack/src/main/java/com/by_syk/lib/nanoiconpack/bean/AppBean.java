@@ -26,7 +26,7 @@ import java.io.Serializable;
  * Created by By_syk on 2017-01-27.
  */
 
-public class AppBean implements Serializable {
+public class AppBean implements Serializable, Comparable<AppBean> {
     @Nullable
     private Drawable icon;
 
@@ -36,35 +36,41 @@ public class AppBean implements Serializable {
     @NonNull
     private String label = "";
 
+    // extra
     @NonNull
     private String labelPinyin = "";
 
     @NonNull
-    private String pkgName = "";
+    private String pkg = "";
 
     @NonNull
     private String launcher = "";
 
+    // extra
     private int reqTimes = -1;
 
+    // extra
     private boolean mark = false;
 
+    // extra
     // If true, it shows an app(pkg + launcher) is recorded in appfilter.xml but NOT marked
     private boolean hintMark = false;
 
+    // extra
     // If true, it shows an app(pkg + launcher) is marked but NOT recorded in appfilter.xml
     private boolean hintUndoMark = false;
 
+    // extra
     // If true, it shows the app's pkg is recorded in appfilter.xml but its launcher not
     private boolean hintLost = false;
 
     public AppBean() {}
 
-    public AppBean(Drawable icon, String label, String labelPinyin, String pkgName, String launcher) {
+    public AppBean(Drawable icon, String label, String labelPinyin, String pkg, String launcher) {
         setIcon(icon);
         setLabel(label);
         setLabelPinyin(labelPinyin);
-        setPkgName(pkgName);
+        setPkg(pkg);
         setLauncher(launcher);
     }
 
@@ -82,19 +88,19 @@ public class AppBean implements Serializable {
         }
     }
 
-    public void setLabelPinyin(String labelPinyin) {
+    public void setLabelPinyin(@Nullable String labelPinyin) {
         if (labelPinyin != null) {
             this.labelPinyin = labelPinyin;
         }
     }
 
-    public void setPkgName(String pkgName) {
-        if (pkgName != null) {
-            this.pkgName = pkgName;
+    public void setPkg(@Nullable String pkg) {
+        if (pkg != null) {
+            this.pkg = pkg;
         }
     }
 
-    public void setLauncher(String launcher) {
+    public void setLauncher(@Nullable String launcher) {
         if (launcher != null) {
             this.launcher = launcher;
         }
@@ -135,13 +141,14 @@ public class AppBean implements Serializable {
         return label;
     }
 
+    @NonNull
     public String getLabelPinyin() {
         return labelPinyin;
     }
 
     @NonNull
-    public String getPkgName() {
-        return pkgName;
+    public String getPkg() {
+        return pkg;
     }
 
     @NonNull
@@ -167,5 +174,10 @@ public class AppBean implements Serializable {
 
     public boolean isHintLost() {
         return hintLost;
+    }
+
+    @Override
+    public int compareTo(@NonNull AppBean bean) {
+        return this.getLabelPinyin().compareTo(bean.getLabelPinyin());
     }
 }

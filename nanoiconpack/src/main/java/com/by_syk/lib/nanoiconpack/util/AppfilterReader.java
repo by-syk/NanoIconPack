@@ -19,7 +19,6 @@ package com.by_syk.lib.nanoiconpack.util;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.by_syk.lib.nanoiconpack.R;
@@ -37,28 +36,21 @@ import java.util.regex.Pattern;
  * Created by By_syk on 2017-03-04.
  */
 
-public class AppFilterReader {
-    private static AppFilterReader reader;
+public class AppfilterReader {
+    private static AppfilterReader instance;
 
     @NonNull
     private List<Bean> dataList = new ArrayList<>();
 
-    private boolean isReadDone = false;
+    private static Pattern componentPattern = Pattern.compile("ComponentInfo\\{([^/]+?)/(.+?)\\}");
 
-    private AppFilterReader(Resources resources) {
+    private AppfilterReader(@NonNull Resources resources) {
         init(resources);
     }
 
-    private boolean init(Resources resources) {
-        if (isReadDone()) {
-            return true;
-        }
-        if (resources == null) {
-            return false;
-        }
-
-        XmlResourceParser parser = resources.getXml(R.xml.appfilter);
+    private boolean init(@NonNull Resources resources) {
         try {
+            XmlResourceParser parser = resources.getXml(R.xml.appfilter);
             int event = parser.getEventType();
             while (event != XmlPullParser.END_DOCUMENT) {
                 if (event == XmlPullParser.START_TAG) {
@@ -66,42 +58,30 @@ public class AppFilterReader {
                         event = parser.next();
                         continue;
                     }
-                    Bean bean = new Bean();
-                    bean.drawable = parser.getAttributeValue(null, "drawable");
-                    if (TextUtils.isEmpty(bean.drawable)) {
+                    String drawable = parser.getAttributeValue(null, "drawable");
+                    if (TextUtils.isEmpty(drawable)) {
                         event = parser.next();
                         continue;
-                    }
-                    if (bean.drawable.matches(".+?_\\d+")) {
-                        bean.drawableNoSeq = bean.drawable.substring(0, bean.drawable.lastIndexOf('_'));
-                    } else {
-                        bean.drawableNoSeq = bean.drawable;
                     }
                     String component = parser.getAttributeValue(null, "component");
-                    if (component == null) {
+                    if (TextUtils.isEmpty(component)) {
                         event = parser.next();
                         continue;
                     }
-                    Matcher matcher = Pattern.compile("ComponentInfo\\{([^/]+?)/(.+?)\\}").matcher(component);
-                    if (matcher.matches()) {
-                        bean.pkg = matcher.group(1);
-                        bean.launcher = matcher.group(2);
+                    Matcher matcher = componentPattern.matcher(component);
+                    if (!matcher.matches()) {
+                        event = parser.next();
+                        continue;
                     }
-                    dataList.add(bean);
+                    dataList.add(new Bean(matcher.group(1), matcher.group(2), drawable));
                 }
                 event = parser.next();
             }
-            isReadDone = true;
             return true;
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return false;
-    }
-
-    public boolean isReadDone() {
-        return isReadDone;
     }
 
     @NonNull
@@ -113,69 +93,87 @@ public class AppFilterReader {
     public Set<String> getPkgSet() {
         Set<String> pkgSet = new HashSet<>(dataList.size());
         for (Bean bean : dataList) {
-            if (bean.pkg == null || bean.launcher == null) { // invalid
-                continue;
-            }
             pkgSet.add(bean.pkg);
         }
         return pkgSet;
     }
 
     @NonNull
-    public Set<String> getPkgLauncherSet() {
+    public Set<String> getComponentSet() {
         Set<String> pkgLauncherSet = new HashSet<>(dataList.size());
         for (Bean bean : dataList) {
-            if (bean.pkg == null || bean.launcher == null) { // invalid
-                continue;
-            }
             pkgLauncherSet.add(bean.pkg + "/" + bean.launcher);
         }
         return pkgLauncherSet;
     }
 
-    public List<Bean> findByDrawable(String drawable) {
-        List<Bean> list = new ArrayList<>();
-        if (!isReadDone() || TextUtils.isEmpty(drawable)) {
-            return list;
-        }
+//    @NonNull
+//    public List<Bean> findByDrawable(@Nullable String drawable) {
+//        if (TextUtils.isEmpty(drawable)) {
+//            return new ArrayList<>();
+//        }
+//
+//        List<Bean> list = new ArrayList<>();
+//        String drawableNoSeq = ExtraUtil.purifyIconName(drawable);
+//        for (Bean bean : dataList) {
+//            if (bean.drawableNoSeq.equals(drawableNoSeq)) {
+//                list.add(bean);
+//            }
+//        }
+//        return list;
+//    }
 
-        String drawableNoSeq = drawable;
-        if (drawable.matches(".+?_\\d+")) {
-            drawableNoSeq = drawable.substring(0, drawable.lastIndexOf('_'));
-        }
-
-        for (Bean bean : dataList) {
-            if (bean.drawableNoSeq.equals(drawableNoSeq)) {
-                list.add(bean);
-            }
-        }
-
-        return list;
-    }
-
-    public static AppFilterReader getInstance(Resources resources) {
-        if (reader == null) {
-            synchronized (AppFilterReader.class) {
-                if (reader == null) {
-                    reader = new AppFilterReader(resources);
+    public static AppfilterReader getInstance(@NonNull Resources resources) {
+        if (instance == null) {
+            synchronized (AppfilterReader.class) {
+                if (instance == null) {
+                    instance = new AppfilterReader(resources);
                 }
             }
         }
 
-        return reader;
+        return instance;
     }
 
     public class Bean {
-        @Nullable
-        public String pkg;
-
-        @Nullable
-        public String launcher;
+        @NonNull
+        private String pkg;
 
         @NonNull
-        public String drawable;
+        private String launcher;
 
         @NonNull
-        public String drawableNoSeq;
+        private String drawable;
+
+        // extra
+        @NonNull
+        private String drawableNoSeq;
+
+        Bean(@NonNull String pkg, @NonNull String launcher, @NonNull String drawable) {
+            this.pkg = pkg;
+            this.launcher = launcher;
+            this.drawable = drawable;
+            this.drawableNoSeq = ExtraUtil.purifyIconName(drawable);
+        }
+
+        @NonNull
+        public String getPkg() {
+            return pkg;
+        }
+
+        @NonNull
+        public String getLauncher() {
+            return launcher;
+        }
+
+        @NonNull
+        public String getDrawable() {
+            return drawable;
+        }
+
+        @NonNull
+        public String getDrawableNoSeq() {
+            return drawableNoSeq;
+        }
     }
 }

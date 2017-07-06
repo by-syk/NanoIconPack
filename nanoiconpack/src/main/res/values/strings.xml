@@ -25,7 +25,6 @@
 
     <string name="dlg_title_apply">Apply to launcher</string>
     <string name="dlg_title_set_key">Set your key</string>
-    <string name="dlg_bt_pick">Pick</string>
     <string name="dlg_bt_got_it">Got it</string>
     <string name="dlg_bt_upload">Upload</string>
     <string name="dlg_bt_cancel">Cancel</string>
@@ -47,8 +46,6 @@
     <string name="menu_goto_market">View in market</string>
     <string name="menu_copy_code">Copy app code</string>
     <string name="menu_request_icon">Request icon</string>
-    <string name="menu_view_icon">View detail</string>
-    <string name="menu_save_icon">Save to gallery</string>
 
     <string name="nav_lost">Lost</string>
     <string name="nav_matched">Matched</string>
@@ -68,6 +65,10 @@
     <string name="toast_mark_undo">Cancelled mark</string>
     <string name="toast_mark_undo_failed">:( Failed to cancel mark</string>
     <string name="toast_whats_new">These icons are redrew, adjusted, or added into v%1$s.</string>
+    <string name="toast_tap_save_icon">Tap again to save it to gallery.</string>
+    <string name="toast_tap_send_to_home">Tap again to send it to home screen.</string>
+    <string name="toast_failed_send_to_home">Sorry, could not add it to home screen.</string>
+    <string name="toast_sent_to_home">Added to home screen</string>
 
     <string name="preference_category_icons">Icons (%d)</string>
     <string name="preference_icons_summary_note"></string>
@@ -103,5 +104,7 @@
     <string name="key_desc">Please enter a key for the system to recognize users.</string>
     <string name="prompt_req">Icon Request</string>
     <string name="prompt_req_desc">You could request icons in this page and the author will get it.</string>
+    <string name="prompt_req_mark">To mark</string>
+    <string name="prompt_req_add">To add</string>
 
 </resources>

@@ -26,9 +26,9 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 
+import com.by_syk.lib.globaltoast.GlobalToast;
 import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.util.PkgUtil;
-import com.by_syk.lib.toast.GlobalToast;
 
 /**
  * Created by By_syk on 2017-01-27.
@@ -72,7 +72,7 @@ public class ApplyDialog extends DialogFragment {
             return;
         }
         if (!PkgUtil.isPkgInstalledAndEnabled(getContext(), launcherPkgs[pos])) {
-            GlobalToast.showToast(getContext(), getString(R.string.toast_not_installed,
+            GlobalToast.show(getContext(), getString(R.string.toast_not_installed,
                     launcherNames[pos]));
             return;
         }

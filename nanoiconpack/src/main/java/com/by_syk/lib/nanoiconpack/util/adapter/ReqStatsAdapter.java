@@ -82,7 +82,7 @@ public class ReqStatsAdapter extends RecyclerView.Adapter<ReqStatsAdapter.IconVi
             }
         }
         holder.tvApp.setText(bean.getLabel());
-        holder.tvComponent.setText(PkgUtil.concatComponent(bean.getPkgName(), bean.getLauncher()));
+        holder.tvComponent.setText(PkgUtil.concatComponent(bean.getPkg(), bean.getLauncher()));
         if (bean.getReqTimes() >= 0) {
             holder.tvReqTimes.setText(ExtraUtil.renderReqTimes(bean.getReqTimes()));
         } else {
@@ -133,7 +133,7 @@ public class ReqStatsAdapter extends RecyclerView.Adapter<ReqStatsAdapter.IconVi
         for (int i = 0, len = dataList.size(); i < len; ++i) {
             AppBean newBean = dataList.get(i);
             for (AppBean oldBean : this.dataList) {
-                if (newBean.getPkgName().equals(oldBean.getPkgName())) {
+                if (newBean.getPkg().equals(oldBean.getPkg())) {
                     newBean.setIcon(oldBean.getIcon());
                     newBean.setIconUrl(oldBean.getIconUrl());
                     break;

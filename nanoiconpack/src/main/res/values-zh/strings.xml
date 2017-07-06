@@ -23,7 +23,6 @@
 
     <string name="dlg_title_apply">应用到启动器</string>
     <string name="dlg_title_set_key">设置口令</string>
-    <string name="dlg_bt_pick">选择</string>
     <string name="dlg_bt_got_it">我知道了</string>
     <string name="dlg_bt_upload">上传</string>
     <string name="dlg_bt_cancel">取消</string>
@@ -45,8 +44,6 @@
     <string name="menu_goto_market">去应用商店查看</string>
     <string name="menu_copy_code">复制APP代码</string>
     <string name="menu_request_icon">申请适配</string>
-    <string name="menu_view_icon">查看详情</string>
-    <string name="menu_save_icon">保存到图库</string>
 
     <string name="nav_lost">未适配</string>
     <string name="nav_matched">已适配</string>
@@ -66,6 +63,10 @@
     <string name="toast_mark_undo">已取消标记</string>
     <string name="toast_mark_undo_failed">取消标记失败 :(</string>
     <string name="toast_whats_new">该版本（v%1$s）添加、重绘或调整了这些图标</string>
+    <string name="toast_tap_save_icon">再点一次保存图标到图库</string>
+    <string name="toast_tap_send_to_home">再点一次发送图标到主屏幕</string>
+    <string name="toast_sent_to_home">已添加到主屏幕</string>
+    <string name="toast_failed_send_to_home">无法添加到主屏幕</string>
 
     <string name="preference_category_icons">图标 (%d枚)</string>
     <string name="preference_icons_summary_note"></string>
@@ -99,5 +100,7 @@
     <string name="key_desc">请设置一个口令，以便于系统区分不同用户并针对性保存数据。</string>
     <string name="prompt_req">申请图标</string>
     <string name="prompt_req_desc">在这个页面可以向作者申请适配图标。</string>
+    <string name="prompt_req_mark">提醒标记</string>
+    <string name="prompt_req_add">提醒补充适配</string>
 
 </resources>

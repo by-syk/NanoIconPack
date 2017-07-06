@@ -20,7 +20,6 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -85,7 +84,7 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.IconViewHolder>
 //            holder.ivIcon.setImageResource(android.R.drawable.sym_def_app_icon);
 //        }
         holder.tvApp.setText(bean.getLabel());
-        holder.tvComponent.setText(PkgUtil.concatComponent(bean.getPkgName(), bean.getLauncher()));
+        holder.tvComponent.setText(PkgUtil.concatComponent(bean.getPkg(), bean.getLauncher()));
         if (bean.getReqTimes() >= 0) {
             holder.tvReqTimes.setText(ExtraUtil.renderReqTimes(bean.getReqTimes()));
         } else {

@@ -19,22 +19,39 @@ package com.by_syk.lib.nanoiconpack.bean;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
+
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by By_syk on 2017-01-27.
  */
 
-public class IconBean implements Serializable {
+public class IconBean implements Serializable, Comparable<IconBean> {
     private int id = 0;
 
     @NonNull
     private String name = "";
 
+    // extra
+    @NonNull
+    private String nameNoSeq = "";
+
     @Nullable
     private String label;
 
+    // extra
     private String labelPinyin;
+
+    @NonNull
+    private List<Component> components = new ArrayList<>();
+
+    // extra
+    // Mark that the icon is the default one recorded in appfilter.xml.
+    // If true, the var "recorded" must be true.
+    private boolean def = false;
 
     public IconBean(int id, String name) {
         setId(id);
@@ -51,18 +68,31 @@ public class IconBean implements Serializable {
         this.id = id;
     }
 
-    public void setName(String name) {
+    public void setName(@Nullable String name) {
         if (name != null) {
             this.name = name;
+            this.nameNoSeq = ExtraUtil.purifyIconName(name);
         }
     }
 
-    public void setLabel(String label) {
+    public void setLabel(@Nullable String label) {
         this.label = label;
     }
 
     public void setLabelPinyin(String labelPinyin) {
         this.labelPinyin = labelPinyin;
+    }
+
+    public boolean addComponent(@Nullable String pkg, @Nullable String launcher) {
+        if (pkg == null || launcher == null) {
+            return false;
+        }
+        components.add(new Component(pkg, launcher));
+        return true;
+    }
+
+    public void setDef(boolean def) {
+        this.def = def;
     }
 
     public int getId() {
@@ -74,6 +104,11 @@ public class IconBean implements Serializable {
         return name;
     }
 
+    @NonNull
+    public String getNameNoSeq() {
+        return nameNoSeq;
+    }
+
     @Nullable
     public String getLabel() {
         return label;
@@ -81,5 +116,80 @@ public class IconBean implements Serializable {
 
     public String getLabelPinyin() {
         return labelPinyin;
+    }
+
+    @NonNull
+    public List<Component> getComponents() {
+        return components;
+    }
+
+    public boolean containsInstalledComponent() {
+        for (IconBean.Component component : components) {
+            if (component.isInstalled()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isRecorded() {
+        return components.size() > 0;
+    }
+
+    public boolean isDef() {
+        return def;
+    }
+
+    @Override
+    public int compareTo(@NonNull IconBean bean) {
+        return this.getLabelPinyin().compareTo(bean.getLabelPinyin());
+    }
+
+    public class Component implements Serializable {
+        @NonNull
+        private String pkg;
+
+        @NonNull
+        private String launcher;
+
+        // extra
+        @Nullable
+        private String label;
+
+        // extra
+        // Mark that app of the icon is installed.
+        private boolean installed = false;
+
+        Component(@NonNull String pkg, @NonNull String launcher) {
+            this.pkg = pkg;
+            this.launcher = launcher;
+        }
+
+        public void setLabel(@Nullable String label) {
+            this.label = label;
+        }
+
+        public void setInstalled(boolean installed) {
+            this.installed = installed;
+        }
+
+        @NonNull
+        public String getPkg() {
+            return pkg;
+        }
+
+        @NonNull
+        public String getLauncher() {
+            return launcher;
+        }
+
+        @Nullable
+        public String getLabel() {
+            return label;
+        }
+
+        public boolean isInstalled() {
+            return installed;
+        }
     }
 }

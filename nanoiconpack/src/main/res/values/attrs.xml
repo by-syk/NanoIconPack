@@ -26,6 +26,9 @@
     <attr name="ic_action_code" format="reference" />
     <attr name="ic_action_filter" format="reference" />
     <attr name="ic_action_compare" format="reference" />
+    <attr name="ic_save" format="reference" />
+    <attr name="ic_choose" format="reference" />
+    <attr name="ic_shortcut" format="reference" />
     <attr name="icon_grid_color" format="color" />
     <attr name="bottom_bar_color" format="color" />
 

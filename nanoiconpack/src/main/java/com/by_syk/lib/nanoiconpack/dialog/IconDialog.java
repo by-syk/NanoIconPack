@@ -20,39 +20,44 @@ import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.text.SpannableString;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
 
 import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.bean.IconBean;
-import com.by_syk.lib.nanoiconpack.util.AppFilterReader;
 import com.by_syk.lib.nanoiconpack.util.C;
 import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
+import com.by_syk.lib.nanoiconpack.util.InstalledAppReader;
 import com.by_syk.lib.nanoiconpack.util.PkgUtil;
-import com.by_syk.lib.toast.GlobalToast;
-
-import java.util.List;
+import com.by_syk.lib.globaltoast.GlobalToast;
+import com.by_syk.lib.texttag.TextTag;
 
 /**
  * Created by By_syk on 2017-01-27.
  */
 
 public class IconDialog extends DialogFragment {
+    private ImageView ivIcon;
     private View iconGridView;
     private View iconViewSmall;
+    private View viewActionSave;
+    private View viewActionSend2Home;
+    private View viewActionChoose;
 
     private IconBean iconBean;
 
@@ -60,11 +65,72 @@ public class IconDialog extends DialogFragment {
 
     private boolean isExecuted = false;
 
+    private static boolean promptActionSave = true;
+    private static boolean promptActionSend2Home = true;
+
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         View viewContent = getActivity().getLayoutInflater().inflate(R.layout.dialog_icon, null);
 
+        initView(viewContent);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext())
+                .setView(viewContent);
+
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            iconBean = (IconBean) bundle.getSerializable("bean");
+            if (iconBean != null) {
+                builder.setTitle(getTitle(iconBean));
+//                ivIcon.setImageResource(iconBean.getId());
+                int hdIconId = getResources().getIdentifier(iconBean.getName(), "mipmap",
+                        getContext().getPackageName());
+                ivIcon.setImageResource(hdIconId != 0 ? hdIconId : iconBean.getId());
+                viewActionSend2Home.setVisibility(iconBean.containsInstalledComponent()
+                        ? View.VISIBLE : View.GONE);
+            }
+            if (bundle.getBoolean("pick")) {
+                viewActionSave.setVisibility(View.GONE);
+                viewActionSend2Home.setVisibility(View.GONE);
+                viewActionChoose.setVisibility(View.VISIBLE);
+            }
+        }
+
+        return builder.create();
+    }
+
+    private SpannableString getTitle(@NonNull IconBean bean) {
+        TextTag.Builder builder = new TextTag.Builder()
+                .text(iconBean.getLabel() != null ? iconBean.getLabel() : iconBean.getName())
+                .bgColor(Color.GRAY);
+        if (!bean.isRecorded()) {
+            builder.tag(" UND ");
+        } else if (!bean.isDef()) {
+            builder.tag(" ALT ");
+        }
+        return builder.build().render();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        if (!isExecuted) {
+            isExecuted = true;
+
+            (new ExtractRawIconTask()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,
+                    "extractRawIconTask");
+
+            // 浮入浮出动画
+            Window window = getDialog().getWindow();
+            if (window != null) {
+                window.setWindowAnimations(android.R.style.Animation_InputMethod);
+            }
+        }
+    }
+
+    private void initView(View viewContent) {
         iconViewSmall = viewContent.findViewById(R.id.small_icon_view);
         iconViewSmall.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,7 +142,7 @@ public class IconDialog extends DialogFragment {
 
         iconGridView = viewContent.findViewById(R.id.icon_grid);
 
-        ImageView ivIcon = (ImageView) viewContent.findViewById(R.id.iv_icon);
+        ivIcon = (ImageView) viewContent.findViewById(R.id.iv_icon);
         ivIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -99,60 +165,40 @@ public class IconDialog extends DialogFragment {
                 }
             }
         });
-        ivIcon.setOnLongClickListener(new View.OnLongClickListener() {
+
+        viewActionSave = viewContent.findViewById(R.id.iv_save);
+        viewActionSave.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onLongClick(View view) {
-                saveIcon();
-                return true;
+            public void onClick(View v) {
+                if (promptActionSave) {
+                    promptActionSave = false;
+                    GlobalToast.showLong(getContext(), R.string.toast_tap_save_icon);
+                } else {
+                    saveIcon();
+                }
             }
         });
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext())
-                .setView(viewContent);
-
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            iconBean = (IconBean) bundle.getSerializable("bean");
-            if (iconBean != null) {
-                builder.setTitle(iconBean.getLabel() != null ? iconBean.getLabel() : iconBean.getName());
-//                ivIcon.setImageResource(iconBean.getId());
-                int hdIconId = getResources().getIdentifier(iconBean.getName(), "mipmap",
-                        getContext().getPackageName());
-                if (hdIconId != 0) {
-                    ivIcon.setImageResource(hdIconId);
+        viewActionSend2Home = viewContent.findViewById(R.id.iv_send_to_home);
+        viewActionSend2Home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (promptActionSend2Home) {
+                    promptActionSend2Home = false;
+                    GlobalToast.showLong(getContext(), R.string.toast_tap_send_to_home);
                 } else {
-                    ivIcon.setImageResource(iconBean.getId());
+                    sendIcon();
                 }
             }
-            if (bundle.getBoolean("pick")) {
-                builder.setPositiveButton(R.string.dlg_bt_pick, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        returnPickIcon();
-                    }
-                });
+        });
+
+        viewActionChoose = viewContent.findViewById(R.id.iv_choose);
+        viewActionChoose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                returnPickIcon();
             }
-        }
-
-        return builder.create();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        if (!isExecuted) {
-            isExecuted = true;
-
-            (new ExtractRawIconTask()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,
-                    "extractRawIconTask");
-
-            // 浮入浮出动画
-            Window window = getDialog().getWindow();
-            if (window != null) {
-                window.setWindowAnimations(android.R.style.Animation_InputMethod);
-            }
-        }
+        });
     }
 
     @TargetApi(23)
@@ -164,8 +210,39 @@ public class IconDialog extends DialogFragment {
         }
 
         boolean ok = ExtraUtil.saveIcon(getContext(), iconBean);
-        GlobalToast.showToast(getContext(), ok ? R.string.toast_icon_saved
+        if (ok) {
+            ((ImageView) viewActionSave).getDrawable().mutate()
+                    .setTint(ContextCompat.getColor(getContext(), R.color.positive));
+        }
+        GlobalToast.show(getContext(), ok ? R.string.toast_icon_saved
                 : R.string.toast_icon_save_failed);
+    }
+
+    private void sendIcon() {
+        IconBean.Component targetComponent = null;
+        for (IconBean.Component component : iconBean.getComponents()) { // TODO
+            if (component.isInstalled()) {
+                targetComponent = component;
+                break;
+            }
+        }
+        boolean ok = false;
+        if (targetComponent != null) {
+            String label = targetComponent.getLabel();
+            if (label == null) {
+                label = iconBean.getLabel();
+            }
+            if (label == null) {
+                label = iconBean.getName();
+            }
+            ok = ExtraUtil.sendIcon2HomeScreen(getContext(), iconBean.getId(), label,
+                    targetComponent.getPkg(), targetComponent.getLauncher());
+        }
+        // Not .getDrawable().setTint()
+        ((ImageView) viewActionSend2Home).getDrawable().mutate().setTint(ContextCompat
+                .getColor(getContext(), ok ? R.color.positive : R.color.negative));
+        GlobalToast.showLong(getContext(),
+                ok ? R.string.toast_sent_to_home : R.string.toast_failed_send_to_home);
     }
 
     private void returnPickIcon() {
@@ -189,62 +266,24 @@ public class IconDialog extends DialogFragment {
         getActivity().finish();
     }
 
-    class ExtractRawIconTask extends AsyncTask<String, Boolean, Drawable> {
+    class ExtractRawIconTask extends AsyncTask<String, String, Drawable> {
         @Override
         protected Drawable doInBackground(String... strings) {
             if (!isAdded()) {
                 return null;
             }
-
-//            List<String> matchedPkgList = ExtraUtil.getAppFilterPkg(getResources(), iconBean.getName());
-//            for (String pkgName : matchedPkgList) {
-//                if (PkgUtil.isPkgInstalled(getContext(), pkgName)) {
-//                    PackageManager packageManager = getContext().getPackageManager();
-//                    try {
-//                        PackageInfo packageInfo = packageManager.getPackageInfo(pkgName, 0);
-//                        return packageInfo.applicationInfo.loadIcon(packageManager);
-//                    } catch (PackageManager.NameNotFoundException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }
-            AppFilterReader reader = AppFilterReader.getInstance(getResources());
-            List<AppFilterReader.Bean> matchedList = reader.findByDrawable(iconBean.getName());
-
-            if (!isAdded()) {
-                return null;
-            }
-
-            boolean use = false;
-            for (AppFilterReader.Bean bean : matchedList) {
-                if (iconBean.getName().equals(bean.drawable)) {
-                    use = true;
-                    break;
-                }
-            }
-            publishProgress(use);
-
             PackageManager packageManager = getContext().getPackageManager();
-            for (AppFilterReader.Bean bean : matchedList) {
-                if (bean.pkg == null || bean.launcher == null) { // invalid
+            for (IconBean.Component component : iconBean.getComponents()) {
+                if (!component.isInstalled()) {
                     continue;
                 }
-//                Drawable icon = PkgUtil.getIcon(packageManager, bean.pkg);
-                Drawable icon = PkgUtil.getIcon(packageManager, bean.pkg, bean.launcher);
+                Drawable icon = PkgUtil.getIcon(packageManager,
+                        component.getPkg(), component.getLauncher());
                 if (icon != null) {
                     return icon;
                 }
             }
             return null;
-        }
-
-        @Override
-        protected void onProgressUpdate(Boolean... values) {
-            super.onProgressUpdate(values);
-
-            if (isAdded() && values[0]) {
-                getDialog().setTitle(iconBean.getLabel() + C.ICON_ONE_SUFFIX);
-            }
         }
 
         @Override

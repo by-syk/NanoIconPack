@@ -35,13 +35,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.by_syk.lib.globaltoast.GlobalToast;
 import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.bean.AppBean;
 import com.by_syk.lib.nanoiconpack.bean.CoolApkApkDetailBean;
 import com.by_syk.lib.nanoiconpack.bean.ReqTopBean;
 import com.by_syk.lib.nanoiconpack.bean.ResResBean;
 import com.by_syk.lib.nanoiconpack.dialog.ReqMenuDialog;
-import com.by_syk.lib.nanoiconpack.util.AppFilterReader;
+import com.by_syk.lib.nanoiconpack.util.AppfilterReader;
 import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
 import com.by_syk.lib.nanoiconpack.util.PkgUtil;
 import com.by_syk.lib.nanoiconpack.util.RetrofitHelper;
@@ -50,7 +51,6 @@ import com.by_syk.lib.nanoiconpack.util.impl.NanoServerService;
 import com.by_syk.lib.nanoiconpack.util.adapter.ReqStatsAdapter;
 import com.by_syk.lib.nanoiconpack.widget.DividerItemDecoration;
 import com.by_syk.lib.storage.SP;
-import com.by_syk.lib.toast.GlobalToast;
 import com.coolapk.market.util.AuthUtils;
 import com.simplecityapps.recyclerview_fastscroll.interfaces.OnFastScrollStateChangeListener;
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
@@ -201,7 +201,7 @@ public class ReqStatsFragment extends Fragment {
             @Override
             public void onMarkDone(int pos, AppBean bean1, boolean ok) {
                 if (!ok) {
-                    GlobalToast.showToast(getContext(), bean1.isMark() ? R.string.toast_mark_undo_failed
+                    GlobalToast.show(getContext(), bean1.isMark() ? R.string.toast_mark_undo_failed
                             : R.string.toast_mark_failed);
                     return;
                 }
@@ -211,7 +211,7 @@ public class ReqStatsFragment extends Fragment {
                     lazyLoadTask.execute(layoutManager.findFirstVisibleItemPosition(),
                             layoutManager.findLastVisibleItemPosition());
                 }
-                GlobalToast.showToast(getContext(),
+                GlobalToast.show(getContext(),
                         bean1.isMark() ? R.string.toast_marked : R.string.toast_mark_undo);
             }
         });
@@ -310,7 +310,7 @@ public class ReqStatsFragment extends Fragment {
                 for (ReqTopBean reqTopBean : reqTopBeanList) {
                     AppBean bean = new AppBean();
                     bean.setLabel(reqTopBean.getAppLabel());
-                    bean.setPkgName(reqTopBean.getPkg());
+                    bean.setPkg(reqTopBean.getPkg());
                     bean.setLauncher(reqTopBean.getLauncher());
                     bean.setReqTimes(reqTopBean.getReqTimes());
                     bean.setMark(reqTopBean.isMarked());
@@ -357,17 +357,17 @@ public class ReqStatsFragment extends Fragment {
                 return;
             }
 
-            AppFilterReader reader = AppFilterReader.getInstance(getResources());
+            AppfilterReader reader = AppfilterReader.getInstance(getResources());
             Set<String> pkgSet = reader.getPkgSet();
-            Set<String> pkgLauncherSet = reader.getPkgLauncherSet();
+            Set<String> pkgLauncherSet = reader.getComponentSet();
             for (AppBean appBean : appList) {
-                String component = appBean.getPkgName() + "/" + appBean.getLauncher();
+                String component = appBean.getPkg() + "/" + appBean.getLauncher();
                 if (appBean.isMark()) {
                     if (!pkgLauncherSet.contains(component)) {
                         appBean.setHintUndoMark(true);
                     }
                 } else {
-                    if (pkgSet.contains(appBean.getPkgName())) {
+                    if (pkgSet.contains(appBean.getPkg())) {
                         if (pkgLauncherSet.contains(component)) {
                             appBean.setHintMark(true);
                         } else {
@@ -395,7 +395,7 @@ public class ReqStatsFragment extends Fragment {
                 if (bean == null || bean.getIcon() != null || bean.getIconUrl() != null) {
                     continue;
                 }
-                Drawable icon = PkgUtil.getIcon(packageManager, bean.getPkgName());
+                Drawable icon = PkgUtil.getIcon(packageManager, bean.getPkg());
                 if (icon != null) {
                     bean.setIcon(icon);
                     publishProgress(i);
@@ -418,7 +418,7 @@ public class ReqStatsFragment extends Fragment {
 //                    nanoServerService = RetrofitHelper.getInstance().getRetrofit()
 //                            .create(NanoServerService.class);
 //                }
-//                Call<ResResBean<String>> call = nanoServerService.getIconUrl(bean.getPkgName());
+//                Call<ResResBean<String>> call = nanoServerService.getIconUrl(bean.getPkg());
 //                try {
 //                    ResResBean<String> resResBean = call.execute().body();
 //                    if (resResBean != null && resResBean.isStatusSuccess()) {
@@ -445,7 +445,7 @@ public class ReqStatsFragment extends Fragment {
                             .getService4Coolapk(CoolApkServerService.class);
                 }
                 Call<CoolApkApkDetailBean> call = serverService.getCoolApkApkDetail(AuthUtils
-                        .getAS(UUID.randomUUID().toString()), bean.getPkgName());
+                        .getAS(UUID.randomUUID().toString()), bean.getPkg());
                 try {
                     CoolApkApkDetailBean apkDetailBean = call.execute().body();
                     if (apkDetailBean != null && apkDetailBean.getData() != null) {

@@ -27,8 +27,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -37,9 +37,19 @@ import java.util.regex.Pattern;
  */
 
 public abstract class IconsGetter implements Serializable {
+    private static List<IconBean> allIconList;
+
+    private static Pattern namePattern = Pattern.compile("(?<=\\D|^)\\d(?=\\D|$)");
+
     public abstract List<IconBean> getIcons(@NonNull Context context) throws Exception;
 
-    protected List<IconBean> getAllIcons(@NonNull Context context) throws Exception {
+    protected synchronized List<IconBean> getAllIcons(@NonNull Context context) throws Exception {
+        if (allIconList != null) {
+            List<IconBean> iconList = new ArrayList<>(allIconList.size());
+            iconList.addAll(allIconList);
+            return iconList;
+        }
+
         Resources resources = context.getResources();
         String[] names = resources.getStringArray(R.array.icons);
         String[] labels = resources.getStringArray(R.array.icon_labels);
@@ -53,29 +63,50 @@ public abstract class IconsGetter implements Serializable {
             }
             labelPinyins = Arrays.copyOf(labels, labels.length);
         }
-
-        Pattern pattern = Pattern.compile("(?<=\\D|^)\\d(?=\\D|$)");
         for (int i = 0, len = labelPinyins.length; i < len; ++i) { // 优化100以内数值逻辑排序
-            Matcher matcher = pattern.matcher(labelPinyins[i]);
+            Matcher matcher = namePattern.matcher(labelPinyins[i]);
             if (matcher.find()) {
                 labelPinyins[i] = matcher.replaceAll("0" + matcher.group(0));
             }
         }
-
         List<IconBean> dataList = new ArrayList<>();
         for (int i = 0, len = names.length; i < len; ++i) {
             int id = resources.getIdentifier(names[i], "drawable",
                     context.getPackageName());
             dataList.add(new IconBean(id, names[i], labels[i], labelPinyins[i]));
         }
-        Collections.sort(dataList, new Comparator<IconBean>() {
-            @Override
-            public int compare(IconBean bean1, IconBean bean2) {
-//                return bean1.getName().compareTo(bean2.getName());
-//                return bean1.getAppLabel().compareTo(bean2.getAppLabel());
-                return bean1.getLabelPinyin().compareTo(bean2.getLabelPinyin());
+
+        // With components
+        List<AppfilterReader.Bean> appfilterBeanList = AppfilterReader
+                .getInstance(context.getResources()).getDataList();
+        for (IconBean iconBean : dataList) {
+            for (AppfilterReader.Bean filterBean : appfilterBeanList) {
+                if (iconBean.getNameNoSeq().equals(filterBean.getDrawableNoSeq())) {
+                    iconBean.addComponent(filterBean.getPkg(), filterBean.getLauncher());
+                    if (iconBean.getName().equals(filterBean.getDrawable())) {
+                        iconBean.setDef(true);
+                    }
+                }
             }
-        });
+        }
+
+        // Check installed
+        Map<String, String> installedComponentLabelMap = InstalledAppReader
+                .getInstance(context.getPackageManager()).getComponentLabelMap();
+        for (IconBean bean : dataList) {
+            for (IconBean.Component component : bean.getComponents()) {
+                String componentStr = component.getPkg() + "/" + component.getLauncher();
+                if (installedComponentLabelMap.containsKey(componentStr)) {
+                    component.setInstalled(true);
+                    component.setLabel(installedComponentLabelMap.get(componentStr));
+                }
+            }
+        }
+
+        Collections.sort(dataList);
+
+        allIconList = new ArrayList<>(dataList.size());
+        allIconList.addAll(dataList);
 
         return dataList;
     }
