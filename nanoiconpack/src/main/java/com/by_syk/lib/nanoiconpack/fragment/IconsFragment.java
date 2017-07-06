@@ -162,7 +162,6 @@ public class IconsFragment extends Fragment {
 
             retainedFragment.setIconList(pageId, list);
 
-//            contentView.findViewById(R.id.view_loading).setVisibility(View.GONE);
             ((AVLoadingIndicatorView) contentView.findViewById(R.id.view_loading)).hide();
 
             iconAdapter.refresh(list);

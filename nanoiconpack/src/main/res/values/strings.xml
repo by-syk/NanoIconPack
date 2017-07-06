@@ -96,7 +96,6 @@
 
     <string name="send_code">Share app code&#8230;</string>
     <string name="cur_launcher">%s (Current)</string>
-    <string name="loading">Loading&#8230;</string>
     <!--<string name="tips">Tips</string>-->
     <!--<string name="app_tap_desc">TAP one to request icon, and LONG PRESS to copy its code for development use.</string>-->
     <!--<string name="icon_tap_desc">TAP icon to view its detail, and LONG PRESS to save to gallery.</string>-->

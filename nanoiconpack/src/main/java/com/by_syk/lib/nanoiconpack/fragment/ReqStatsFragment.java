@@ -332,7 +332,6 @@ public class ReqStatsFragment extends Fragment {
 
             retainedFragment.setReqTopList(list);
 
-//            contentView.findViewById(R.id.view_loading).setVisibility(View.GONE);
             ((AVLoadingIndicatorView) contentView.findViewById(R.id.view_loading)).hide();
 
             reqStatsAdapter.refresh(list);

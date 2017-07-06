@@ -306,7 +306,6 @@ public class AppsFragment extends Fragment {
 
             retainedFragment.setAppList(list);
 
-//            contentView.findViewById(R.id.view_loading).setVisibility(View.GONE);
             ((AVLoadingIndicatorView) contentView.findViewById(R.id.view_loading)).hide();
 
             appAdapter.refresh(list);
