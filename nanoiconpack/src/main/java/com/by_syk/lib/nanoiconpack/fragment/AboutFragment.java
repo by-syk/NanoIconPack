@@ -27,7 +27,7 @@ import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.ReqStatsActivity;
 import com.by_syk.lib.nanoiconpack.dialog.QrcodeDialog;
 import com.by_syk.lib.nanoiconpack.util.PkgUtil;
-import com.by_syk.lib.text.AboutMsgRender;
+import com.by_syk.lib.aboutmsgrender.AboutMsgRender;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

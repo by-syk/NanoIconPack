@@ -23,7 +23,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 //    compile files('libs/pinyin4j-recompiled-2.5.0.2.jar')
 
-    compile(name: 'aboutmsgrender-1.0.5', ext: 'aar')
+    compile(name: 'aboutmsgrender-1.0.6', ext: 'aar')
     compile(name: 'icongridview-1.0.6', ext: 'aar')
     compile(name: 'sp-1.0.2', ext: 'aar')
 
