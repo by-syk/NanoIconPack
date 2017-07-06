@@ -35,4 +35,7 @@
     <integer name="whats_new_grid_item_mode">1</integer>
     <integer name="picker_grid_item_mode">1</integer>
 
+    <!-- More styles please visit https://github.com/81813780/AVLoadingIndicatorView -->
+    <string name="loading_style" translatable="false">BallPulseIndicator</string>
+
 </resources>

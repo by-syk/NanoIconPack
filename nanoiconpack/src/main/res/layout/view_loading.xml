@@ -23,7 +23,7 @@
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:indicatorName="BallPulseIndicator"
+        app:indicatorName="@string/loading_style"
         app:indicatorColor="?android:attr/colorPrimary" />
 
 </merge>
