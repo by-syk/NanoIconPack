@@ -517,8 +517,10 @@ public class ExtraUtil {
         shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         shortcutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
+        final String ACTION_ADD_SHORTCUT = "com.android.launcher.action.INSTALL_SHORTCUT";
+
         Intent addIntent = new Intent();
-        addIntent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
+        addIntent.setAction(ACTION_ADD_SHORTCUT);
         addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
         addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, appName);
         addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE,

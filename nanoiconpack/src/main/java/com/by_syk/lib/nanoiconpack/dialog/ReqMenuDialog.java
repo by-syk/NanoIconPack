@@ -17,6 +17,7 @@
 package com.by_syk.lib.nanoiconpack.dialog;
 
 import android.app.Dialog;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
@@ -90,6 +91,12 @@ public class ReqMenuDialog extends BottomSheetDialogFragment implements View.OnC
         BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior
                 .from((View) contentView.getParent());
         if (bean.isHintLost()) {
+            // In landscape, STATE_EXPANDED doesn't make sheet expanded.
+            // Maybe it's a bug. So do this to fix it.
+            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                contentView.measure(0, 0);
+                bottomSheetBehavior.setPeekHeight(contentView.getMeasuredHeight());
+            }
             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
         } else {
             bottomSheetBehavior.setPeekHeight(getResources()

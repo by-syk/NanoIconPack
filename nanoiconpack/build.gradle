@@ -32,7 +32,7 @@ dependencies {
     compile 'com.android.support:design:25.3.1'
     compile 'com.android.support:preference-v14:25.3.1'
 
-    compile 'com.github.by-syk:TextTag:1.0.9'
+    compile 'com.github.by-syk:TextTag:1.1.0'
     compile 'com.github.by-syk:GlobalToast:1.2.2'
 
     compile 'com.simplecityapps:recyclerview-fastscroll:1.0.11'
