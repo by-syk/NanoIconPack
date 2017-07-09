@@ -39,7 +39,7 @@ import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
 import com.by_syk.lib.nanoiconpack.util.MatchedIconsGetter;
 import com.by_syk.lib.nanoiconpack.util.PkgUtil;
 import com.by_syk.lib.nanoiconpack.util.SimplePageTransformer;
-import com.by_syk.lib.storage.SP;
+import com.by_syk.lib.sp.SP;
 
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
 
@@ -68,7 +68,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void init() {
-        sp = new SP(this, false);
+        sp = new SP(this);
 
         enableStatsModule = getResources().getBoolean(R.bool.enable_req_stats_module);
 

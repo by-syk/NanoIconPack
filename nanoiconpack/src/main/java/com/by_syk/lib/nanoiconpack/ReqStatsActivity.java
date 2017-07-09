@@ -24,7 +24,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.by_syk.lib.nanoiconpack.dialog.UserDialog;
 import com.by_syk.lib.nanoiconpack.fragment.ReqStatsFragment;
-import com.by_syk.lib.storage.SP;
+import com.by_syk.lib.sp.SP;
 
 /**
  * Created by By_syk on 2017-02-24.
@@ -40,7 +40,7 @@ public class ReqStatsActivity extends AppCompatActivity {
     }
 
     private void init() {
-        if ((new SP(this, false)).contains("user")) {
+        if ((new SP(this)).contains("user")) {
             showFragment();
         } else {
             signIn();
@@ -56,7 +56,7 @@ public class ReqStatsActivity extends AppCompatActivity {
                     signIn();
                     return;
                 }
-                (new SP(ReqStatsActivity.this, false)).save("user", user);
+                (new SP(ReqStatsActivity.this)).save("user", user);
                 showFragment();
             }
         });

@@ -50,7 +50,7 @@ import com.by_syk.lib.nanoiconpack.util.impl.CoolApkServerService;
 import com.by_syk.lib.nanoiconpack.util.impl.NanoServerService;
 import com.by_syk.lib.nanoiconpack.util.adapter.ReqStatsAdapter;
 import com.by_syk.lib.nanoiconpack.widget.DividerItemDecoration;
-import com.by_syk.lib.storage.SP;
+import com.by_syk.lib.sp.SP;
 import com.coolapk.market.util.AuthUtils;
 import com.simplecityapps.recyclerview_fastscroll.interfaces.OnFastScrollStateChangeListener;
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
@@ -122,7 +122,7 @@ public class ReqStatsFragment extends Fragment {
     }
 
     private void init() {
-        user = (new SP(getContext(), false)).getString("user", null);
+        user = (new SP(getContext())).getString("user", null);
 
         initAdapter();
         initRecycler();

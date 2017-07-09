@@ -35,6 +35,34 @@
     <integer name="whats_new_grid_item_mode">1</integer>
     <integer name="picker_grid_item_mode">1</integer>
 
+    <!-- BallPulseIndicator -->
+    <!-- BallGridPulseIndicator -->
+    <!-- BallClipRotateIndicator -->
+    <!-- BallClipRotatePulseIndicator -->
+    <!-- SquareSpinIndicator -->
+    <!-- BallClipRotateMultipleIndicator -->
+    <!-- BallPulseRiseIndicator -->
+    <!-- BallRotateIndicator -->
+    <!-- CubeTransitionIndicator -->
+    <!-- BallZigZagIndicator -->
+    <!-- BallZigZagDeflectIndicator -->
+    <!-- BallTrianglePathIndicator -->
+    <!-- BallScaleIndicator -->
+    <!-- LineScaleIndicator -->
+    <!-- LineScalePartyIndicator -->
+    <!-- BallScaleMultipleIndicator -->
+    <!-- BallPulseSyncIndicator -->
+    <!-- BallBeatIndicator -->
+    <!-- LineScalePulseOutIndicator -->
+    <!-- LineScalePulseOutRapidIndicator -->
+    <!-- BallScaleRippleIndicator -->
+    <!-- BallScaleRippleMultipleIndicator -->
+    <!-- BallSpinFadeLoaderIndicator -->
+    <!-- LineSpinFadeLoaderIndicator -->
+    <!-- TriangleSkewSpinIndicator -->
+    <!-- PacmanIndicator -->
+    <!-- BallGridBeatIndicator -->
+    <!-- SemiCircleSpinIndicator -->
     <!-- More styles please visit https://github.com/81813780/AVLoadingIndicatorView -->
     <string name="loading_style" translatable="false">BallPulseIndicator</string>
 

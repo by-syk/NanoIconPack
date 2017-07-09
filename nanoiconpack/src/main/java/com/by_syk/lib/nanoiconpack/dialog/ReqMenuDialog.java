@@ -35,7 +35,7 @@ import com.by_syk.lib.nanoiconpack.util.C;
 import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
 import com.by_syk.lib.nanoiconpack.util.RetrofitHelper;
 import com.by_syk.lib.nanoiconpack.util.impl.NanoServerService;
-import com.by_syk.lib.storage.SP;
+import com.by_syk.lib.sp.SP;
 
 import java.util.List;
 import java.util.Locale;
@@ -134,7 +134,7 @@ public class ReqMenuDialog extends BottomSheetDialogFragment implements View.OnC
     private void mark() {
         contentView.findViewById(R.id.pb_marking).setVisibility(View.VISIBLE);
 
-        String user = (new SP(getContext(), false)).getString("user");
+        String user = (new SP(getContext())).getString("user");
 
         NanoServerService nanoServerService = RetrofitHelper.getInstance()
                 .getService(NanoServerService.class);
@@ -169,7 +169,7 @@ public class ReqMenuDialog extends BottomSheetDialogFragment implements View.OnC
     private void undoMark() {
         contentView.findViewById(R.id.pb_undo_marking).setVisibility(View.VISIBLE);
 
-        String user = (new SP(getContext(), false)).getString("user");
+        String user = (new SP(getContext())).getString("user");
 
         NanoServerService nanoServerService = RetrofitHelper.getInstance()
                 .getService(NanoServerService.class);
