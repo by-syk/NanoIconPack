@@ -64,6 +64,13 @@ public class UserDialog extends DialogFragment {
         return alertDialog;
     }
 
+    @Override
+    public void onCancel(DialogInterface dialog) {
+        super.onCancel(dialog);
+
+        getActivity().finish();
+    }
+
     public void setOnContinueListener(OnContinueListener onContinueListener) {
         this.onContinueListener = onContinueListener;
     }

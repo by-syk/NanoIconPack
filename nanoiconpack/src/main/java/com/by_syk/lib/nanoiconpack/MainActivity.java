@@ -134,6 +134,7 @@ public class MainActivity extends AppCompatActivity
         if (sp.getBoolean("hintReq")) {
             return;
         }
+        sp.save("hintReq", true);
 
         bottomNavigationView.postDelayed(new Runnable() {
             @Override
@@ -154,15 +155,6 @@ public class MainActivity extends AppCompatActivity
                 .setAutoDismiss(false)
                 .setCaptureTouchEventOutsidePrompt(true)
                 .setAnimationInterpolator(new FastOutSlowInInterpolator())
-                .setOnHidePromptListener(new MaterialTapTargetPrompt.OnHidePromptListener() {
-                    @Override
-                    public void onHidePrompt(MotionEvent event, boolean tappedTarget) {}
-
-                    @Override
-                    public void onHidePromptComplete() {
-                        sp.save("hintReq", true);
-                    }
-                })
                 .show();
     }
 
