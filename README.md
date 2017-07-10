@@ -157,7 +157,7 @@ NanoIconPack 拥有一个轻量的服务器，提供图标申请和申请统计�
 | [@gushixing](http://www.coolapk.com/u/991472) / [X-Flat图标包](http://www.coolapk.com/apk/com.wokee.xflat) | ![X-Flat](art/ic_launcher_xflat.png) |
 | [@crazypig321](http://www.coolapk.com/u/940496) / [lineicons](http://www.coolapk.com/apk/com.crazypig321.lineicons2) | ![line](art/ic_launcher_line.png) |
 | [@Trumeet](http://www.coolapk.com/u/543424) / [滑稽图标包 <sub>new version</sub>](http://www.coolapk.com/apk/kh.android.funnyiconpack) | ![Funny](art/ic_launcher_funny.png) |
-| [@lmn011223](http://www.coolapk.com/u/515642) / [滑稽图标包 <sub>new version</sub>](http://www.coolapk.com/apk/com.lnm011223.iconpack.fireflies) | ![Fireflies](art/ic_launcher_fireflies.png) |
+| [@lmn011223](http://www.coolapk.com/u/515642) / [萤火虫图标包](http://www.coolapk.com/apk/com.lnm011223.iconpack.fireflies) | ![Fireflies](art/ic_launcher_fireflies.png) |
 
 如果您基于 NanoIconPack 开发了自己的图标包作品并且愿意[告诉我](#联系开发者)，我将把它展示在这里。
 
