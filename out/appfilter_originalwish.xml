@@ -18,6 +18,15 @@
 <!-- For Nova, Apex, ADW, Smart, Action 3 -->
 <resources>
 
+    <!--<iconback
+        img1="iconback" />
+    <iconmask
+        img1="iconmask" />
+    <iconupon
+        img1="iconupon" />
+    <scale
+        factor="0.6" />-->
+
     <!-- Just for Nova -->
     <item
         component=":LAUNCHER_ACTION_APP_DRAWER"
@@ -669,20 +678,20 @@
 
     <item
         component="ComponentInfo{vStudio.Android.Camera360/vStudio.Android.Camera360.GPhotoMain}"
-        drawable="camera_360" />
+        drawable="camera360" />
     <item
         component="ComponentInfo{vStudio.Android.Camera360Memento/vStudio.Android.Camera360Memento.GPhotoMain}"
-        drawable="camera_360" />
+        drawable="camera360" />
     <item
         component="ComponentInfo{vStudio.Android.Camera360/vStudio.Android.Camera360.activity.FirstInitActivity}"
-        drawable="camera_360" />
+        drawable="camera360" />
     <item
         component="ComponentInfo{vStudio.Android.Camera360/vStudio.Android.Camera360.activity.CameraActivity}"
-        drawable="camera_360" />
+        drawable="camera360" />
 
     <item
         component="ComponentInfo{camera360.lite.beauty.selfie.camera/us.pinguo.icecream.camera.CameraActivity}"
-        drawable="camera_360_lite" />
+        drawable="camera360_lite" />
 
     <item
         component="ComponentInfo{com.xio.cardnews/com.xio.cardnews.activity.MainActivity}"
@@ -980,9 +989,6 @@
         drawable="feedback" />
     <item
         component="ComponentInfo{com.qiku.logsystem/com.qiku.logsystem.userreport.activity.BugreportFeedbackInstruct}"
-        drawable="feedback" />
-    <item
-        component="ComponentInfo{com.oneplus.opbugreport/com.oneplus.opbugreport.OPUploadReport}"
         drawable="feedback" />
     <item
         component="ComponentInfo{com.oneplus.opbugreport/com.oneplus.opbugreport.OPUploadReport}"
@@ -2697,6 +2703,9 @@
         component="ComponentInfo{com.android.contacts/com.oneplus.contacts.activities.OPDialtactsActivity}"
         drawable="phone" />
     <item
+        component="ComponentInfo{com.android.dialer/com.oneplus.contacts.activities.OPDialtactsActivity}"
+        drawable="phone" />
+    <item
         component="ComponentInfo{com.android.contacts/com.android.contacts.DialtactsCallLogActivity}"
         drawable="phone" />
     <item
@@ -2761,9 +2770,6 @@
         drawable="phone" />
     <item
         component="ComponentInfo{com.htc.contacts/com.htc.contacts.DialerTabActivity}"
-        drawable="phone" />
-    <item
-        component="ComponentInfo{com.android.dialer/com.oneplus.contacts.activities.OPDialtactsActivity}"
         drawable="phone" />
     <item
         component="ComponentInfo{com.sonymobile.android.dialer/com.android.dialer.DialtactsActivity}"
@@ -3199,9 +3205,6 @@
         drawable="security" />
     <item
         component="ComponentInfo{com.huawei.systemmanager/com.huawei.systemmanager.mainscreen.MainScreenActivity}"
-        drawable="security" />
-    <item
-        component="ComponentInfo{cn.nubia.security2/cn.nubia.security.NubiaSecurity}"
         drawable="security" />
 
     <item
@@ -3721,6 +3724,9 @@
     <item
         component="ComponentInfo{com.taobao.idlefish/com.taobao.fleamarket.home.activity.InitActivity.Round}"
         drawable="taobao_flea" />
+    <item
+        component="ComponentInfo{com.taobao.idlefish/com.taobao.fleamarket.home.activity.InitActivity.Rect}"
+        drawable="taobao_flea" />
 
     <item
         component="ComponentInfo{net.dinglisch.android.taskerm/net.dinglisch.android.taskerm.Tasker}"
@@ -3778,9 +3784,6 @@
         component="ComponentInfo{com.huawei.android.thememanager/com.huawei.android.thememanager.HwThemeManagerActivity}"
         drawable="themes" />
     <item
-        component="ComponentInfo{com.samsung.android.themestore/com.samsung.android.themestore.activity.Launcher}"
-        drawable="themes" />
-    <item
         component="ComponentInfo{com.samsung.android.themestore/com.samsung.android.themestore.activity.WTLauncher}"
         drawable="themes" />
 
@@ -3814,28 +3817,25 @@
         drawable="tmgp_sgame" />
 
     <item
+        component="ComponentInfo{cn.nubia.v5light.preset/cn.nubia.v5light.MainActivity}"
+        drawable="torch" />
+    <item
+        component="ComponentInfo{com.android.systemui/com.android.systemui.flashlight.FlashlightActivity}"
+        drawable="torch" />
+    <item
+        component="ComponentInfo{com.hq.flashlight/com.hq.flashlight.FlashLightActivity}"
+        drawable="torch" />
+    <item
         component="ComponentInfo{com.htc.flashlight/com.htc.flashlight.FlashlightActivity}"
         drawable="torch" />
     <item
-        component="ComponentInfo{com.android.flashLight/com.android.flashLight.FlashLightActivity}"
+        component="ComponentInfo{com.hymost.flashlight/com.hymost.flashlight.FlashLight}"
         drawable="torch" />
     <item
         component="ComponentInfo{com.sonyericsson.androidapp.torchapp/com.sonyericsson.androidapp.torchapp.ui.MainActivity}"
         drawable="torch" />
     <item
-        component="ComponentInfo{com.android.flashlight/com.android.flashlight.FlashLight}"
-        drawable="torch" />
-    <item
-        component="ComponentInfo{cn.nubia.v5light.preset/cn.nubia.v5light.MainActivity}"
-        drawable="torch" />
-    <item
-        component="ComponentInfo{com.lenovo.lenovohdllight/com.lenovo.lenovohdllight.LenovoHdlLight}"
-        drawable="torch" />
-    <item
-        component="ComponentInfo{com.oppo.flashlight/com.oppo.flashlight.FlashLightActivity}"
-        drawable="torch" />
-    <item
-        component="ComponentInfo{com.android.systemui/com.android.systemui.flashlight.FlashlightActivity}"
+        component="ComponentInfo{zte.android.flashlight/zte.android.flashlight.ZTEFlashLight}"
         drawable="torch" />
 
     <item
@@ -4103,12 +4103,6 @@
         drawable="wifi_key" />
     <item
         component="ComponentInfo{com.halo.wifikey.wifilocating/com.lantern.launcher.ui.MainActivity}"
-        drawable="wifi_key" />
-    <item
-        component="ComponentInfo{com.snda.wifilocating/com.lantern.launcher.ui.MainActivity}"
-        drawable="wifi_key" />
-    <item
-        component="ComponentInfo{com.snda.wifilocating/com.snda.wifilocating.ui.activity.HomeActivity}"
         drawable="wifi_key" />
 
     <item
