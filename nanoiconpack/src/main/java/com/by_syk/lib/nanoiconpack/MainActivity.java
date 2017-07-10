@@ -102,6 +102,7 @@ public class MainActivity extends AppCompatActivity
                 int id = item.getItemId();
                 if (id == R.id.nav_lost) {
                     viewPager.setCurrentItem(0);
+                    prepareReqPrompt();
                 } else if (id == R.id.nav_matched) {
                     viewPager.setCurrentItem(1);
                 } else if (id == R.id.nav_all) {
@@ -127,20 +128,24 @@ public class MainActivity extends AppCompatActivity
         // Set the default page to show.
         // 0: Lost, 1: Matched 2. All
         viewPager.setCurrentItem(1);
-
-        bottomNavigationView.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                showReqPrompt();
-            }
-        }, 2000);
     }
 
-    public void showReqPrompt() {
+    public void prepareReqPrompt() {
         if (sp.getBoolean("hintReq")) {
             return;
         }
 
+        bottomNavigationView.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (!isDestroyed()) {
+                    showReqPrompt();
+                }
+            }
+        }, 800);
+    }
+
+    public void showReqPrompt() {
         (new MaterialTapTargetPrompt.Builder(this))
                 .setTarget(bottomNavigationView.findViewById(R.id.nav_lost))
                 .setPrimaryText(getString(R.string.prompt_req))
