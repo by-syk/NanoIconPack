@@ -175,6 +175,10 @@ public class IconsFragment extends Fragment {
             }
         }
 
+        /**
+         * We use Glide to load icons in page list and Glide will cache them in disk.
+         * When the icon pack app is updated (some icons may be redrawn), we'd better clear cache.
+         */
         private void clearIconsCache() {
             SP sp = new SP(getContext());
             String tag = "iconsCacheCleared-" + PkgUtil.getAppVer(getContext(), "%1$s(%2$s)");
