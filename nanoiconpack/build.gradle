@@ -7,7 +7,7 @@ android {
     defaultConfig {
         minSdkVersion Integer.parseInt(project.MIN_SDK_VERSION)
         targetSdkVersion Integer.parseInt(project.TARGET_SDK_VERSION)
-        versionCode 17070600
+        versionCode 17071300
         versionName "3.0.0"
     }
 

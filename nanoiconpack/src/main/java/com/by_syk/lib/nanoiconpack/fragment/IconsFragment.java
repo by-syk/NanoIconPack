@@ -19,7 +19,6 @@ package com.by_syk.lib.nanoiconpack.fragment;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -29,12 +28,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.bumptech.glide.Glide;
 import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.bean.IconBean;
 import com.by_syk.lib.nanoiconpack.dialog.IconDialog;
 import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
+import com.by_syk.lib.nanoiconpack.util.PkgUtil;
 import com.by_syk.lib.nanoiconpack.util.adapter.IconAdapter;
 import com.by_syk.lib.nanoiconpack.util.IconsGetter;
+import com.by_syk.lib.sp.SP;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import java.util.ArrayList;
@@ -148,6 +150,8 @@ public class IconsFragment extends Fragment {
                 return new ArrayList<>();
             }
 
+            clearIconsCache();
+
             try {
                 return iconsGetter.getIcons(getContext());
             } catch (Exception e) {
@@ -168,6 +172,15 @@ public class IconsFragment extends Fragment {
 
             if (onLoadDoneListener != null) {
                 onLoadDoneListener.onLoadDone(pageId, list.size());
+            }
+        }
+
+        private void clearIconsCache() {
+            SP sp = new SP(getContext());
+            String tag = "iconsCacheCleared-" + PkgUtil.getAppVer(getContext(), "%1$s(%2$s)");
+            if (!sp.getBoolean(tag)) {
+                sp.save(tag, true);
+                Glide.get(getContext()).clearDiskCache();
             }
         }
     }
