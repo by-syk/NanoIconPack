@@ -87,6 +87,8 @@ public class IconDialog extends DialogFragment {
                 int hdIconId = getResources().getIdentifier(iconBean.getName(), "mipmap",
                         getContext().getPackageName());
                 ivIcon.setImageResource(hdIconId != 0 ? hdIconId : iconBean.getId());
+                viewActionSave.setVisibility(iconBean.getId() != 0 || hdIconId != 0
+                        ? View.VISIBLE : View.GONE);
                 viewActionSend2Home.setVisibility(iconBean.containsInstalledComponent()
                         ? View.VISIBLE : View.GONE);
             }
