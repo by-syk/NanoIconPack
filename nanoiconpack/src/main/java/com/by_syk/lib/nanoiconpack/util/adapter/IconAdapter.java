@@ -146,15 +146,14 @@ public class IconAdapter extends RecyclerView.Adapter
         this.mode = mode;
     }
 
-//    public void switchMode() {
-//        if (mode == MODE_ICON) {
-//            mode = MODE_ICON_LABEL;
-//        } else {
-//            mode = MODE_ICON;
-//        }
-//
-//        notifyDataSetChanged();
-//    }
+    public void switchMode(int mode) {
+        if (mode == this.mode) {
+            return;
+        }
+
+        this.mode = mode;
+        notifyDataSetChanged();
+    }
 
     public void refresh(List<IconBean> dataList) {
         if (dataList != null) {
