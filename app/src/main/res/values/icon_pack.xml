@@ -41,6 +41,7 @@
         <item>nano_icon_pack_3</item>
         <item>nano_icon_pack_4</item>
         <item>nano_icon_pack_5</item>
+        <item>nano_icon_pack_6</item>
         <!-- O -->
         <!-- P -->
         <!-- Q -->
@@ -79,6 +80,7 @@
         <item>NanoIconPack (by @atony)</item>
         <item>NanoIconPack (by @可以and不行)</item>
         <item>NanoIconPack (by @ArchieLiu)</item>
+        <item>NanoIconPack (by @lnm011223)</item>
         <!-- O -->
         <!-- P -->
         <!-- Q -->
@@ -96,7 +98,12 @@
     <!-- Latest icons (Make sure it's from the "icons" array) -->
     <!-- Just KEEP IT EMPTY BUT DO NOT DELETE IT if you do not want to show additional icons of new version app. -->
     <string-array name="latest_icons" translatable="false">
+        <item>nano_icon_pack_1</item>
+        <item>nano_icon_pack_2</item>
+        <item>nano_icon_pack_3</item>
+        <item>nano_icon_pack_4</item>
         <item>nano_icon_pack_5</item>
+        <item>nano_icon_pack_6</item>
     </string-array>
 
 </resources>

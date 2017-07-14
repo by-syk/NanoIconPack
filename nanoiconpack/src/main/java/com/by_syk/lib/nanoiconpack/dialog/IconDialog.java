@@ -196,9 +196,9 @@ public class IconDialog extends DialogFragment {
                 .text(iconBean.getLabel() != null ? iconBean.getLabel() : iconBean.getName())
                 .bgColor(Color.GRAY);
         if (!bean.isRecorded()) {
-            builder.tag(" UND ");
+            builder.tag(getString(R.string.icon_tag_undefined));
         } else if (!bean.isDef()) {
-            builder.tag(" ALT ");
+            builder.tag(getString(R.string.icon_tag_alternative));
         }
         return builder.build().render();
     }
