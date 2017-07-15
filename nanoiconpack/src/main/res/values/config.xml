@@ -66,6 +66,7 @@
     <!-- More styles please visit https://github.com/81813780/AVLoadingIndicatorView -->
     <string name="loading_style" translatable="false">BallPulseIndicator</string>
 
+    <!-- The tag text for alternative and undefined icons (at dialog title) -->
     <string name="icon_tag_alternative" translatable="false">" ALT "</string>
     <string name="icon_tag_undefined" translatable="false">" UND "</string>
 
