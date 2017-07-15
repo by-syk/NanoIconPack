@@ -134,7 +134,6 @@ NanoIconPack 拥有一个轻量的服务器，提供图标申请和申请统计�
 | [@梁月丶](http://www.coolapk.com/u/620760) / [HHope](http://www.coolapk.com/apk/com.hhope.iconpack.ken) | ![HHope](art/ic_launcher_hhope.png) |
 | [@LYCSKY497](http://www.coolapk.com/u/477979) / [LYCSKY图标包](http://www.coolapk.com/apk/com.lycsky.iconpack) | ![LYCSKY](art/ic_launcher_lycsky.png) |
 | [@Laihz](http://www.coolapk.com/u/748141) / [迷之图标包](http://www.coolapk.com/apk/com.laihz.gradualiconpack.gamma) | ![Gamma](art/ic_launcher_gamma.png) |
-| [@sftmi](http://www.coolapk.com/u/491391) / [Square图标包](http://www.coolapk.com/apk/com.sftmi.iconpack.square) | ![Square](art/ic_launcher_square.png) |
 | [@gushixing](http://www.coolapk.com/u/991472) / [X-Flat图标包](http://www.coolapk.com/apk/com.wokee.xflat) | ![X-Flat](art/ic_launcher_xflat.png) |
 | [@crazypig321](http://www.coolapk.com/u/940496) / [lineicons](http://www.coolapk.com/apk/com.crazypig321.lineicons2) | ![line](art/ic_launcher_line.png) |
 | [@Trumeet](http://www.coolapk.com/u/543424) / [滑稽图标包 <sub>new version</sub>](http://www.coolapk.com/apk/kh.android.funnyiconpack) | ![Funny](art/ic_launcher_funny.png) |
