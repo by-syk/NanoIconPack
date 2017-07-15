@@ -16,6 +16,9 @@
 #   public *;
 #}
 
+# for official SearchView
+-keep class android.support.v7.widget.SearchView { *; }
+
 # for pinyin4j
 -keep class net.sourceforge.pinyin4j.** { *; }
 

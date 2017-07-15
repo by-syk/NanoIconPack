@@ -114,7 +114,7 @@ NanoIconPack 拥有一个轻量的服务器，提供图标申请和申请统计�
 - 图标搜索
 ```
 
-历史版本日志请移步[此处查看](out/changelog.txt)
+历史正式发布版本日志请移步[此处查看](out/changelog.txt)
 
 
 ### 基于 NanoIconPack 的 APP

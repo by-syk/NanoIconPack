@@ -51,7 +51,7 @@ public class SearchActivity extends AppCompatActivity {
 
     private IconAdapter adapter;
 
-    private List<IconBean> dataList;
+    private List<IconBean> dataList = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
