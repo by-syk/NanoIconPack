@@ -7,8 +7,8 @@ android {
     defaultConfig {
         minSdkVersion Integer.parseInt(project.MIN_SDK_VERSION)
         targetSdkVersion Integer.parseInt(project.TARGET_SDK_VERSION)
-        versionCode 17071400
-        versionName "3.0.0"
+        versionCode 17071500
+        versionName "3.1.0.nightly"
     }
 
     buildTypes {
