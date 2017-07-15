@@ -1,8 +1,8 @@
 # NanoIconPack 图标包APP模板
 
 ![Developing](https://img.shields.io/badge/Developing-v3.0.0-green.svg)
-[![Release](https://img.shields.io/badge/Release-v2.1.0-brightgreen.svg)](https://github.com/by-syk/NanoIconPack/releases/tag/2.1.0)
-[![Download](https://img.shields.io/badge/Download-Sample%20APP-brightgreen.svg)](https://github.com/by-syk/NanoIconPack/raw/master/out/com.by_syk.nanoiconpack.sample_v3.0.0.7.nightly(17060600).apk)
+[![Release](https://img.shields.io/badge/Release-v3.0.0-brightgreen.svg)](https://github.com/by-syk/NanoIconPack/releases/tag/3.0.0)
+[![Download](https://img.shields.io/badge/Download-Sample%20APP-brightgreen.svg)](https://github.com/by-syk/NanoIconPack/raw/master/out/com.by_syk.nanoiconpack.sample_v3.0.0.8(17071400).apk)
 [![License](https://img.shields.io/badge/License-Apache%202.0-yellowgreen.svg)](https://github.com/by-syk/NanoIconPack/blob/master/LICENSE)
 
 ![NanoIconPack](art/ic_launcher_nanoiconpack.png)
