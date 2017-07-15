@@ -29,16 +29,18 @@
         android:title="@string/menu_whats_new"
         android:icon="?attr/ic_action_new"
         android:visible="false"
-        app:showAsAction="never" />
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/menu_apply"
         android:title="@string/menu_apply"
-        app:showAsAction="never" />
+        android:icon="?attr/ic_action_apply"
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/menu_about"
         android:title="@string/menu_about"
-        app:showAsAction="never" />
+        android:icon="?attr/ic_action_copyright"
+        app:showAsAction="ifRoom" />
 
 </menu>

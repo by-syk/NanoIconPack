@@ -22,8 +22,8 @@ import android.support.annotation.Nullable;
 import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by By_syk on 2017-01-27.
@@ -46,7 +46,7 @@ public class IconBean implements Serializable, Comparable<IconBean> {
     private String labelPinyin;
 
     @NonNull
-    private List<Component> components = new ArrayList<>();
+    private Set<Component> components = new HashSet<>();
 
     // extra
     // Mark that the icon is the default one recorded in appfilter.xml.
@@ -119,7 +119,7 @@ public class IconBean implements Serializable, Comparable<IconBean> {
     }
 
     @NonNull
-    public List<Component> getComponents() {
+    public Set<Component> getComponents() {
         return components;
     }
 
@@ -190,6 +190,20 @@ public class IconBean implements Serializable, Comparable<IconBean> {
 
         public boolean isInstalled() {
             return installed;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (!(obj instanceof Component)) {
+                return false;
+            }
+            Component c2 = (Component) obj;
+            return pkg.equals(c2.getPkg()) && launcher.equals(c2.getLauncher());
+        }
+
+        @Override
+        public int hashCode() {
+            return (pkg + "/" + launcher).hashCode();
         }
     }
 }

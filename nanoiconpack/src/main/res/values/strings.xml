@@ -22,6 +22,7 @@
     <string name="activity_about">About</string>
     <string name="activity_req_stats">Request stats</string>
     <string name="activity_whats_new">What\'s new</string>
+    <string name="activity_search">Search</string>
 
     <string name="dlg_title_apply">Apply to launcher</string>
     <string name="dlg_title_set_key">Set your key</string>
@@ -46,6 +47,7 @@
     <string name="menu_goto_market">View in market</string>
     <string name="menu_copy_code">Copy app code</string>
     <string name="menu_request_icon">Request icon</string>
+    <string name="menu_search">Search</string>
 
     <string name="nav_lost">Lost</string>
     <string name="nav_matched">Matched</string>
@@ -105,5 +107,6 @@
     <string name="prompt_req_desc">You could request icons in this page and the author will get it.</string>
     <string name="prompt_req_mark">To mark</string>
     <string name="prompt_req_add">To add</string>
+    <string name="search_hint">Search icons&#8230;</string>
 
 </resources>

@@ -48,6 +48,10 @@
             android:label="@string/activity_whats_new" />
 
         <activity
+            android:name=".SearchActivity"
+            android:label="@string/activity_whats_new" />
+
+        <activity
             android:name=".AboutActivity"
             android:label="@string/activity_about" />
 

@@ -177,10 +177,11 @@ public class MainActivity extends AppCompatActivity
         // If latest icons is provided, show the entrance menu item.
         if (getResources().getStringArray(R.array.latest_icons).length > 0) {
             menu.findItem(R.id.menu_whats_new).setVisible(true);
-            menu.findItem(R.id.menu_about).setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
-            if (!sp.getBoolean("hideLatest" + PkgUtil.getAppVer(this, "%1$s"))) {
-                menu.findItem(R.id.menu_apply).setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
-                menu.findItem(R.id.menu_whats_new).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+            if (menu.findItem(R.id.menu_apply).getIcon() == null) {
+                if (!sp.getBoolean("hideLatest" + PkgUtil.getAppVer(this, "%1$s"))) {
+                    menu.findItem(R.id.menu_whats_new).setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+                    menu.findItem(R.id.menu_search).setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+                }
             }
         }
 
@@ -193,6 +194,9 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.menu_whats_new) {
             sp.save("hideLatest" + PkgUtil.getAppVer(this, "%1$s"), true);
             item.setIntent(new Intent(this, WhatsNewActivity.class));
+            return super.onOptionsItemSelected(item);
+        } else if (id == R.id.menu_search) {
+            item.setIntent(new Intent(this, SearchActivity.class));
             return super.onOptionsItemSelected(item);
         } else if (id == R.id.menu_apply) {
             (new ApplyDialog()).show(getSupportFragmentManager(), "applyDialog");

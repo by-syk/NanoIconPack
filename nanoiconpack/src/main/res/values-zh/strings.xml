@@ -20,6 +20,7 @@
     <string name="activity_about">关于</string>
     <string name="activity_req_stats">申请统计</string>
     <string name="activity_whats_new">更新了啥</string>
+    <string name="activity_search">搜索</string>
 
     <string name="dlg_title_apply">应用到启动器</string>
     <string name="dlg_title_set_key">设置口令</string>
@@ -44,6 +45,7 @@
     <string name="menu_goto_market">去应用商店查看</string>
     <string name="menu_copy_code">复制APP代码</string>
     <string name="menu_request_icon">申请适配</string>
+    <string name="menu_search">搜索</string>
 
     <string name="nav_lost">未适配</string>
     <string name="nav_matched">已适配</string>
@@ -101,5 +103,6 @@
     <string name="prompt_req_desc">在这个页面可以向作者申请适配图标。</string>
     <string name="prompt_req_mark">提醒标记</string>
     <string name="prompt_req_add">提醒补充适配</string>
+    <string name="search_hint">搜索图标&#8230;</string>
 
 </resources>
