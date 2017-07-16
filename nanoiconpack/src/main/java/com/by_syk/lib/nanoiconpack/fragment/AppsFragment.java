@@ -16,6 +16,8 @@
 
 package com.by_syk.lib.nanoiconpack.fragment;
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
@@ -146,11 +148,7 @@ public class AppsFragment extends Fragment {
         appAdapter = new AppAdapter(getContext());
         appAdapter.setOnItemClickListener(new AppAdapter.OnItemClickListener() {
             @Override
-            public void onClick(int pos, AppBean bean) {
-//                if (!sp.getBoolean("appTapHint1")) {
-//                    (new AppTapHintDialog()).show(getFragmentManager(), "appTapTintDialog");
-//                    return;
-//                }
+            public void onReqIcon(int pos, AppBean bean) {
                 if (ExtraUtil.isNetworkConnected(getContext())) {
                     (new SubmitReqTask(pos)).execute();
                 } else {
@@ -159,12 +157,13 @@ public class AppsFragment extends Fragment {
             }
 
             @Override
-            public void onLongClick(int pos, AppBean bean) {
-//                if (!sp.getBoolean("appTapHint1")) {
-//                    (new AppTapHintDialog()).show(getFragmentManager(), "hintDialog");
-//                    return;
-//                }
+            public void onCopyCode(int pos, AppBean bean) {
                 copyOrShareAppCode(bean, true);
+            }
+
+            @Override
+            public void onSaveIcon(int pos, AppBean bean) {
+                saveIcon(bean);
             }
         });
     }
@@ -248,6 +247,19 @@ public class AppsFragment extends Fragment {
         } else {
             ExtraUtil.shareText(getContext(), code, getString(R.string.send_code));
         }
+    }
+
+    @TargetApi(23)
+    private void saveIcon(AppBean bean) {
+        if (C.SDK >= 23 && getContext().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
+            return;
+        }
+
+        boolean ok = ExtraUtil.saveIcon(getContext(), bean.getIcon(), bean.getLabel());
+        GlobalToast.show(getContext(), ok ? R.string.toast_icon_saved
+                : R.string.toast_icon_save_failed);
     }
 
     public static AppsFragment newInstance(int id) {

@@ -106,11 +106,15 @@ public class IconDialog extends DialogFragment {
     public void onStart() {
         super.onStart();
 
+        if (iconBean == null) {
+            dismiss();
+            return;
+        }
+
         if (!isExecuted) {
             isExecuted = true;
 
-            (new ExtractRawIconTask()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,
-                    "extractRawIconTask");
+            (new ExtractRawIconTask()).execute();
 
             // 浮入浮出动画
             Window window = getDialog().getWindow();
@@ -211,7 +215,13 @@ public class IconDialog extends DialogFragment {
             return;
         }
 
-        boolean ok = ExtraUtil.saveIcon(getContext(), iconBean);
+        int iconId = getResources().getIdentifier(iconBean.getName(), "mipmap",
+                getContext().getPackageName());
+        if (iconId == 0) {
+            iconId = iconBean.getId();
+        }
+        boolean ok = ExtraUtil.saveIcon(getContext(), getResources().getDrawable(iconId),
+                iconBean.getName());
         if (ok) {
             ((ImageView) viewActionSave).getDrawable().mutate()
                     .setTint(ContextCompat.getColor(getContext(), R.color.positive));

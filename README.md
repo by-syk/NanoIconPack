@@ -1,6 +1,6 @@
 # NanoIconPack 图标包APP模板
 
-[![Developing](https://img.shields.io/badge/Developing-v3.1.0-green.svg)](#更新日志)
+[![Developing](https://img.shields.io/badge/Developing-v3.1.2-green.svg)](#更新日志)
 [![Release](https://img.shields.io/badge/Release-v3.0.0-brightgreen.svg)](https://github.com/by-syk/NanoIconPack/releases/tag/3.0.0)
 [![Download](https://img.shields.io/badge/Download-Sample%20APP-brightgreen.svg)](https://github.com/by-syk/NanoIconPack/raw/master/out/com.by_syk.nanoiconpack.sample_v3.0.0.8(17071400).apk)
 [![License](https://img.shields.io/badge/License-Apache%202.0-yellowgreen.svg)](https://github.com/by-syk/NanoIconPack/blob/master/LICENSE)
@@ -112,6 +112,7 @@ NanoIconPack 拥有一个轻量的服务器，提供图标申请和申请统计�
 
 ```
 - 图标搜索
+- 保存APP图标
 ```
 
 历史正式发布版本日志请移步[此处查看](out/changelog.txt)

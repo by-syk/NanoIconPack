@@ -56,8 +56,9 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.IconViewHolder>
     private OnItemClickListener onItemClickListener;
 
     public interface OnItemClickListener {
-        void onClick(int pos, AppBean bean);
-        void onLongClick(int pos, AppBean bean);
+        void onReqIcon(int pos, AppBean bean);
+        void onCopyCode(int pos, AppBean bean);
+        void onSaveIcon(int pos, AppBean bean);
     }
 
     public AppAdapter(Context context) {
@@ -97,9 +98,9 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.IconViewHolder>
                 public void onClick(View view) {
                     int pos = holder.getAdapterPosition();
                     if (enableStatsModule) {
-                        onItemClickListener.onClick(pos, dataList.get(pos));
+                        onItemClickListener.onReqIcon(pos, dataList.get(pos));
                     } else {
-                        onItemClickListener.onLongClick(pos, dataList.get(pos));
+                        onItemClickListener.onCopyCode(pos, dataList.get(pos));
                     }
                 }
             });
@@ -134,8 +135,10 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.IconViewHolder>
         contextMenu.setHeaderTitle(dataList.get(contextMenuActiveItemPos).getLabel());
         contextMenu.add(Menu.NONE, 0, Menu.NONE, R.string.menu_request_icon);
         contextMenu.add(Menu.NONE, 1, Menu.NONE, R.string.menu_copy_code);
+        contextMenu.add(Menu.NONE, 2, Menu.NONE, R.string.menu_save_icon);
         contextMenu.getItem(0).setOnMenuItemClickListener(this);
         contextMenu.getItem(1).setOnMenuItemClickListener(this);
+        contextMenu.getItem(2).setOnMenuItemClickListener(this);
 
         contextMenu.getItem(0).setVisible(enableStatsModule);
     }
@@ -147,11 +150,15 @@ public class AppAdapter extends RecyclerView.Adapter<AppAdapter.IconViewHolder>
         }
         switch (menuItem.getItemId()) {
             case 0:
-                onItemClickListener.onClick(contextMenuActiveItemPos,
+                onItemClickListener.onReqIcon(contextMenuActiveItemPos,
                         dataList.get(contextMenuActiveItemPos));
                 break;
             case 1:
-                onItemClickListener.onLongClick(contextMenuActiveItemPos,
+                onItemClickListener.onCopyCode(contextMenuActiveItemPos,
+                        dataList.get(contextMenuActiveItemPos));
+                break;
+            case 2:
+                onItemClickListener.onSaveIcon(contextMenuActiveItemPos,
                         dataList.get(contextMenuActiveItemPos));
                 break;
         }

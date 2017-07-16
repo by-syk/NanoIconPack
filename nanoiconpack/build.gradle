@@ -8,7 +8,7 @@ android {
         minSdkVersion Integer.parseInt(project.MIN_SDK_VERSION)
         targetSdkVersion Integer.parseInt(project.TARGET_SDK_VERSION)
         versionCode 17071500
-        versionName "3.1.0.nightly"
+        versionName "3.1.2.nightly"
     }
 
     buildTypes {

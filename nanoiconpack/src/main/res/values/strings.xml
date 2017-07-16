@@ -47,6 +47,7 @@
     <string name="menu_goto_market">View in market</string>
     <string name="menu_copy_code">Copy app code</string>
     <string name="menu_request_icon">Request icon</string>
+    <string name="menu_save_icon">Save icon</string>
     <string name="menu_search">Search</string>
 
     <string name="nav_lost">Lost</string>

@@ -25,6 +25,7 @@ import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.MediaScannerConnection;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -290,17 +291,12 @@ public class ExtraUtil {
         return "";
     }
 
-    public static boolean saveIcon(Context context, IconBean iconBean) {
-        if (context == null || iconBean == null || iconBean.getId() == 0) {
+    public static boolean saveIcon(Context context, Drawable drawable, String name) {
+        if (context == null || drawable == null || TextUtils.isEmpty(name)) {
             return false;
         }
 
-        int iconId = context.getResources().getIdentifier(iconBean.getName(), "mipmap",
-                context.getPackageName());
-        if (iconId == 0) {
-            iconId = iconBean.getId();
-        }
-        Bitmap bitmap = ((BitmapDrawable) context.getResources().getDrawable(iconId)).getBitmap();
+        Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
         if (bitmap == null) {
             return false;
         }
@@ -311,8 +307,8 @@ public class ExtraUtil {
                 .DIRECTORY_PICTURES), "Icons");
         // Make sure the Pictures directory exists.
         picDir.mkdirs();
-        File targetFile = new File(picDir, "ic_" + iconBean.getName()
-                + "_" + bitmap.getByteCount() + ".png");
+        File targetFile = new File(picDir, "ic_" + name + "_"
+                + bitmap.getByteCount() + ".png");
 
         boolean result = false;
         OutputStream outputStream = null;
