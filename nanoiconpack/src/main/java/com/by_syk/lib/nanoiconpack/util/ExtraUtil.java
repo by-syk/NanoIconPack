@@ -39,8 +39,6 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
 
-import com.by_syk.lib.nanoiconpack.bean.IconBean;
-
 import net.sourceforge.pinyin4j.PinyinHelper;
 import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
 import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
@@ -65,6 +63,8 @@ import java.util.regex.Pattern;
  */
 
 public class ExtraUtil {
+    private static Pattern codePattern = Pattern.compile("([a-z][A-Z])|([A-Za-z]\\d)|(\\d[A-Za-z])");
+
 //    private static String readFile(InputStream inputStream, boolean keepNewLine) {
 //        BufferedReader bufferedReader = null;
 //        try {
@@ -273,22 +273,47 @@ public class ExtraUtil {
         }
     }
 
+//    @NonNull
+//    public static String appName2drawableName(String label, String labelEn) {
+//        if (labelEn != null && labelEn.matches("[A-Za-z\\d ]+")) {
+//            Matcher matcher = Pattern.compile("([a-z])([A-Z])").matcher(labelEn);
+//            while (matcher.find()) {
+//                labelEn = labelEn.replaceFirst(matcher.group(0), matcher.group(1) + " " + matcher.group(2));
+//            }
+//            return labelEn.replaceAll(" ", "_").toLowerCase();
+//        } else if (label != null && label.matches("[A-Za-z\\d ]+")) {
+//            Matcher matcher = Pattern.compile("([a-z])([A-Z])").matcher(label);
+//            while (matcher.find()) {
+//                label = label.replaceFirst(matcher.group(0), matcher.group(1) + " " + matcher.group(2));
+//            }
+//            return label.replaceAll(" ", "_").toLowerCase();
+//        }
+//        return "";
+//    }
+
     @NonNull
-    public static String appName2drawableName(String label, String labelEn) {
-        if (labelEn != null && labelEn.matches("[A-Za-z\\d ]+")) {
-            Matcher matcher = Pattern.compile("([a-z])([A-Z])").matcher(labelEn);
-            while (matcher.find()) {
-                labelEn = labelEn.replaceFirst(matcher.group(0), matcher.group(1) + " " + matcher.group(2));
-            }
-            return labelEn.replaceAll(" ", "_").toLowerCase();
-        } else if (label != null && label.matches("[A-Za-z\\d ]+")) {
-            Matcher matcher = Pattern.compile("([a-z])([A-Z])").matcher(label);
-            while (matcher.find()) {
-                label = label.replaceFirst(matcher.group(0), matcher.group(1) + " " + matcher.group(2));
-            }
-            return label.replaceAll(" ", "_").toLowerCase();
+    public static String codeAppName(String name) {
+        if (name == null) {
+            return "";
         }
-        return "";
+        name = name.trim();
+        if (name.length() == 0) {
+            return "";
+        }
+        // Not "[A-Za-z][A-Za-z\\d'\\+-\\. _]*"
+        if (!name.matches("[A-Za-z][A-Za-z\\d'\\+\\-\\. _]*")) {
+            return "";
+        }
+        Matcher matcher = codePattern.matcher(name);
+        while (matcher.find()) {
+            name = name.replace(matcher.group(0), matcher.group(0).substring(0, 1) + '_'
+                    + matcher.group(0).substring(1, 2));
+        }
+        return name.toLowerCase()
+                .replaceAll("'", "")
+                .replaceAll("\\+", "_plus")
+                .replaceAll("-|\\.| ", "_")
+                .replaceAll("_{2,}", "_");
     }
 
     public static boolean saveIcon(Context context, Drawable drawable, String name) {

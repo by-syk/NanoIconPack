@@ -45,6 +45,7 @@
     <string name="menu_goto_market">去应用商店查看</string>
     <string name="menu_copy_code">复制APP代码</string>
     <string name="menu_request_icon">申请适配</string>
+    <string name="menu_save_icon">保存图标</string>
     <string name="menu_search">搜索</string>
 
     <string name="nav_lost">未适配</string>

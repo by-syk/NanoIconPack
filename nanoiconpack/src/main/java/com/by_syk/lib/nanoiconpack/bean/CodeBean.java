@@ -35,9 +35,6 @@ public class CodeBean {
     @SerializedName("launcher")
     private String launcherActivity;
 
-    @SerializedName("icon")
-    private String iconName;
-
     public String getAppLabel() {
         return appLabel;
     }
@@ -52,9 +49,5 @@ public class CodeBean {
 
     public String getLauncherActivity() {
         return launcherActivity;
-    }
-
-    public String getIconName() {
-        return iconName;
     }
 }

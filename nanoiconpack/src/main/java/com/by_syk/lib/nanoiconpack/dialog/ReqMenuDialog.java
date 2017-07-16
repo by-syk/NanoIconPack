@@ -235,11 +235,13 @@ public class ReqMenuDialog extends BottomSheetDialogFragment implements View.OnC
     private String packageCodes(@NonNull List<CodeBean> codeBeanList) {
         String codes = "";
         for (CodeBean codeBean : codeBeanList) {
-            String labelEn = codeBean.getAppLabelEn();
             String code1 = String.format(Locale.US, C.APP_CODE_LABEL,
                     codeBean.getAppLabel(),
-                    labelEn);
-            String icon = codeBean.getIconName();
+                    codeBean.getAppLabelEn());
+            String icon = ExtraUtil.codeAppName(codeBean.getAppLabelEn());
+            if (icon.isEmpty()) {
+                icon = ExtraUtil.codeAppName(codeBean.getAppLabel());
+            }
             String code2 = String.format(Locale.US, C.APP_CODE_COMPONENT,
                     codeBean.getPkg(),
                     codeBean.getLauncherActivity(),

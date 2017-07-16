@@ -1,6 +1,6 @@
 # NanoIconPack 图标包APP模板
 
-[![Developing](https://img.shields.io/badge/Developing-v3.1.2-green.svg)](#更新日志)
+[![Developing](https://img.shields.io/badge/Developing-v3.1.3-green.svg)](#更新日志)
 [![Release](https://img.shields.io/badge/Release-v3.0.0-brightgreen.svg)](https://github.com/by-syk/NanoIconPack/releases/tag/3.0.0)
 [![Download](https://img.shields.io/badge/Download-Sample%20APP-brightgreen.svg)](https://github.com/by-syk/NanoIconPack/raw/master/out/com.by_syk.nanoiconpack.sample_v3.0.0.8(17071400).apk)
 [![License](https://img.shields.io/badge/License-Apache%202.0-yellowgreen.svg)](https://github.com/by-syk/NanoIconPack/blob/master/LICENSE)
@@ -8,7 +8,7 @@
 ![NanoIconPack](art/ic_launcher_nanoiconpack.png)
 
 
-NanoIconPack 是一个简单轻量的图标包APP模板，支持主流启动器，**支持图标申请及统计**，并提供一些辅助功能。
+NanoIconPack 是一个简单轻量的图标包APP模板，支持主流启动器，**支持图标申请及统计**，并提供一些实用功能。
 
 您可以基于此进行二次开发，只需要装配图标、修改少量文件（不涉及Java代码）即可打包出自己的图标包。
 
@@ -16,7 +16,7 @@ NanoIconPack 是一个简单轻量的图标包APP模板，支持主流启动器�
 ### 下文目录
 
 + [支持启动器](#支持启动器)
-+ [辅助功能](#辅助功能)
++ [实用功能](#实用功能)
 + [服务器支持](#服务器支持)
 + [二次开发](#二次开发)
 + [更新日志](#更新日志)
@@ -63,35 +63,60 @@ NanoIconPack 同时还支持许多未列出的启动器，比如
 > + ~~Atom桌面~~
 
 
-### 辅助功能
+### 实用功能
 
 除了图标包最基本的功能外，我们还为 NanoIconPack 开发了一些有用的辅助功能。以下列举一二，更多请下载 Sample APP 体验。
 
 + 主界面三大页
+  + 「已适配」：从全部图标中筛选出其对应APP已安装的部分列出
+  + 「全部」：展示图标包内全部的图标
+  + 「未适配」：从已安装的APP中筛选出无图标适配的部分列出
+    + 支持一键提交适配申请
+    + 支持复制APP代码（长按菜单中）
+    + 支持保存APP图标（长按菜单中）
   
   ![NanoIconPack](art/show1.png)
 
 + 图标查看
+  + 栅格线叠加以了解边距等信息
+  + 同时展示已安装APP的图标进行对比
+  + 可替换的图标（为同一APP准备了多个图标，非默认的图标）进行**` ALT `**标记
+  + 保存图标
+  + 已适配的图标可一键发送到桌面（快捷方式形式）
   
   ![NanoIconPack](art/show2.png)
   
-+ 「更新了啥」页面展示新图标
-
-  ![NanoIconPack](art/show6.png)
++ 图标搜索
   
-+ 图标申请适配统计
+  支持按图标名、APP名或包名进行模糊搜索
+
+  ![NanoIconPack](art/show3.png)
+
++ 「更新了啥」页面展示每一版更新的图标
 
   ![NanoIconPack](art/show4.png)
   
-  > 该界面默认不可见，进入方法：双击主界面底栏的 **未适配** 图标
-
-+ 版权描述
++ 图标申请适配统计
+  + 可进行已适配/未适配标记
+  + 可跳转应用商店查看
+  + 可复制APP代码
 
   ![NanoIconPack](art/show5.png)
-    
+  
+  > 该界面默认不可见，进入方法：「关于」界面进入或双击主界面底栏的 **未适配** 图标
+
++ 版权描述
+  + 作者
+  + 联系方式
+  + 捐赠渠道（支付宝直跳、微信二维码或其他）
+  + 「申请统计」入口
+  + 网页工具入口
+
+  ![NanoIconPack](art/show6.png)
+  
 + 支持启动器的手动替换图标
 
-  ![NanoIconPack](art/show3.png)
+  ![NanoIconPack](art/show7.png)
 
 
 ### 服务器支持
@@ -113,6 +138,7 @@ NanoIconPack 拥有一个轻量的服务器，提供图标申请和申请统计�
 ```
 - 图标搜索
 - 保存APP图标
+- 增强图标名的生成
 ```
 
 历史正式发布版本日志请移步[此处查看](out/changelog.txt)
