@@ -39,21 +39,23 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
 
-import net.sourceforge.pinyin4j.PinyinHelper;
-import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
-import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
-import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
-import net.sourceforge.pinyin4j.format.HanyuPinyinVCharType;
-import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
+import com.github.promeg.pinyinhelper.Pinyin;
 
+//import net.sourceforge.pinyin4j.PinyinHelper;
+//import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
+//import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
+//import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
+//import net.sourceforge.pinyin4j.format.HanyuPinyinVCharType;
+//import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
+
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -134,6 +136,77 @@ public class ExtraUtil {
                 || Intent.ACTION_GET_CONTENT.equals(action)*/;
     }
 
+//    /**
+//     * 汉字串转拼音
+//     * 保留非汉字；打头的第一个汉字若是多音字则按取拼音首字母不同的几个，其他只取一个音
+//     *
+//     * 设置 -> [shezhi]
+//     * Google设置 -> [googleshezhi]
+//     * 调色板 -> [diaoseban, tiaoseban]
+//     * 相机 -> [xiangji]
+//     *
+//     * @param text
+//     * @return
+//     */
+//    @NonNull
+//    public static String[] getPinyinForSorting(@Nullable String text) {
+//        if (TextUtils.isEmpty(text)) {
+//            return new String[]{""};
+//        }
+//        text = text.toLowerCase();
+//
+//        HanyuPinyinOutputFormat format = new HanyuPinyinOutputFormat();
+//        format.setCaseType(HanyuPinyinCaseType.LOWERCASE);
+//        /*
+//         * WITHOUT_TONE：无音标 （zhong）
+//         * WITH_TONE_NUMBER：1-4数字表示英标 （zhong4）
+//         * WITH_TONE_MARK：直接用音标符（必须WITH_U_UNICODE否则异常） （zhòng）
+//         */
+//        format.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
+//        /*
+//         * WITH_V：用v表示ü （nv）
+//         * WITH_U_AND_COLON：用"u:"表示ü （nu:）
+//         * WITH_U_UNICODE：直接用ü （nü）
+//         */
+//        format.setVCharType(HanyuPinyinVCharType.WITH_V);
+//
+//        List<String> resultList = new ArrayList<>();
+//        try {
+//            char[] chArr = text.toCharArray();
+//            String[] pyArr = PinyinHelper.toHanyuPinyinStringArray(chArr[0], format);
+//            if (pyArr != null) {
+//                resultList.addAll(Arrays.asList(pyArr));
+//                Collections.sort(resultList);
+//                for (int i = 1; i < resultList.size(); ++i) {
+//                    if (resultList.get(i).charAt(0) == resultList.get(i - 1).charAt(0)) {
+//                        resultList.remove(i);
+//                        --i;
+//                    }
+//                }
+//            } else {
+//                resultList.add(String.valueOf(chArr[0]));
+//            }
+//            for (int i = 1, len = chArr.length; i < len; ++i) {
+//                pyArr = PinyinHelper.toHanyuPinyinStringArray(chArr[i], format);
+//                String append;
+//                if (pyArr != null) {
+//                    // 仅选取多音字的第一个音
+//                    append = pyArr[0];
+//                } else {
+//                    append = String.valueOf(chArr[i]);
+//                }
+//                for (int j = 0, len1 = resultList.size(); j < len1; ++j) {
+//                    resultList.set(j, resultList.get(j) + append);
+//                }
+//            }
+//            return resultList.toArray(new String[resultList.size()]);
+//        } catch (BadHanyuPinyinOutputFormatCombination e) {
+//            e.printStackTrace();
+//        }
+//
+//        return new String[]{text};
+//    }
+
     /**
      * 汉字串转拼音
      * 保留非汉字；打头的第一个汉字若是多音字则按取拼音首字母不同的几个，其他只取一个音
@@ -151,59 +224,53 @@ public class ExtraUtil {
         if (TextUtils.isEmpty(text)) {
             return new String[]{""};
         }
-        text = text.toLowerCase();
-
-        HanyuPinyinOutputFormat format = new HanyuPinyinOutputFormat();
-        format.setCaseType(HanyuPinyinCaseType.LOWERCASE);
-        /*
-         * WITHOUT_TONE：无音标 （zhong）
-         * WITH_TONE_NUMBER：1-4数字表示英标 （zhong4）
-         * WITH_TONE_MARK：直接用音标符（必须WITH_U_UNICODE否则异常） （zhòng）
-         */
-        format.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
-        /*
-         * WITH_V：用v表示ü （nv）
-         * WITH_U_AND_COLON：用"u:"表示ü （nu:）
-         * WITH_U_UNICODE：直接用ü （nü）
-         */
-        format.setVCharType(HanyuPinyinVCharType.WITH_V);
-
-        List<String> resultList = new ArrayList<>();
-        try {
-            char[] chArr = text.toCharArray();
-            String[] pyArr = PinyinHelper.toHanyuPinyinStringArray(chArr[0], format);
-            if (pyArr != null) {
-                resultList.addAll(Arrays.asList(pyArr));
-                Collections.sort(resultList);
-                for (int i = 1; i < resultList.size(); ++i) {
-                    if (resultList.get(i).charAt(0) == resultList.get(i - 1).charAt(0)) {
-                        resultList.remove(i);
-                        --i;
-                    }
-                }
-            } else {
-                resultList.add(String.valueOf(chArr[0]));
-            }
-            for (int i = 1, len = chArr.length; i < len; ++i) {
-                pyArr = PinyinHelper.toHanyuPinyinStringArray(chArr[i], format);
-                String append;
-                if (pyArr != null) {
-                    // 仅选取多音字的第一个音
-                    append = pyArr[0];
-                } else {
-                    append = String.valueOf(chArr[i]);
-                }
-                for (int j = 0, len1 = resultList.size(); j < len1; ++j) {
-                    resultList.set(j, resultList.get(j) + append);
-                }
-            }
-            return resultList.toArray(new String[resultList.size()]);
-        } catch (BadHanyuPinyinOutputFormatCombination e) {
-            e.printStackTrace();
-        }
-
-        return new String[]{text};
+        String pinyin = Pinyin.toPinyin(text, "").toLowerCase();
+        return new String[]{pinyin};
     }
+
+//    @NonNull
+//    public static String[] getPinyinForSorting(String[] textArr) {
+//        if (textArr == null) {
+//            return new String[0];
+//        }
+//
+//        HanyuPinyinOutputFormat format = new HanyuPinyinOutputFormat();
+//        format.setCaseType(HanyuPinyinCaseType.LOWERCASE);
+//        /*
+//         * WITHOUT_TONE：无音标 （zhong）
+//         * WITH_TONE_NUMBER：1-4数字表示英标 （zhong4）
+//         * WITH_TONE_MARK：直接用音标符（必须WITH_U_UNICODE否则异常） （zhòng）
+//         */
+//        format.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
+//        /*
+//         * WITH_V：用v表示ü （nv）
+//         * WITH_U_AND_COLON：用"u:"表示ü （nu:）
+//         * WITH_U_UNICODE：直接用ü （nü）
+//         */
+//        format.setVCharType(HanyuPinyinVCharType.WITH_V);
+//
+//        try {
+//            String[] resultArr = new String[textArr.length];
+//            for (int i = 0, len = textArr.length; i < len; ++i) {
+//                String result = "";
+//                for (char ch : textArr[i].toLowerCase().toCharArray()) {
+//                    String[] pyArr = PinyinHelper.toHanyuPinyinStringArray(ch, format);
+//                    if (pyArr != null) {
+//                        // 仅选取多音字的第一个音
+//                        result += pyArr[0];
+//                    } else {
+//                        result += ch;
+//                    }
+//                }
+//                resultArr[i] = result;
+//            }
+//            return resultArr;
+//        } catch (BadHanyuPinyinOutputFormatCombination e) {
+//            e.printStackTrace();
+//        }
+//
+//        return textArr;
+//    }
 
     @NonNull
     public static String[] getPinyinForSorting(String[] textArr) {
@@ -211,42 +278,12 @@ public class ExtraUtil {
             return new String[0];
         }
 
-        HanyuPinyinOutputFormat format = new HanyuPinyinOutputFormat();
-        format.setCaseType(HanyuPinyinCaseType.LOWERCASE);
-        /*
-         * WITHOUT_TONE：无音标 （zhong）
-         * WITH_TONE_NUMBER：1-4数字表示英标 （zhong4）
-         * WITH_TONE_MARK：直接用音标符（必须WITH_U_UNICODE否则异常） （zhòng）
-         */
-        format.setToneType(HanyuPinyinToneType.WITHOUT_TONE);
-        /*
-         * WITH_V：用v表示ü （nv）
-         * WITH_U_AND_COLON：用"u:"表示ü （nu:）
-         * WITH_U_UNICODE：直接用ü （nü）
-         */
-        format.setVCharType(HanyuPinyinVCharType.WITH_V);
-
-        try {
-            String[] resultArr = new String[textArr.length];
-            for (int i = 0, len = textArr.length; i < len; ++i) {
-                String result = "";
-                for (char ch : textArr[i].toLowerCase().toCharArray()) {
-                    String[] pyArr = PinyinHelper.toHanyuPinyinStringArray(ch, format);
-                    if (pyArr != null) {
-                        // 仅选取多音字的第一个音
-                        result += pyArr[0];
-                    } else {
-                        result += ch;
-                    }
-                }
-                resultArr[i] = result;
-            }
-            return resultArr;
-        } catch (BadHanyuPinyinOutputFormatCombination e) {
-            e.printStackTrace();
+        String[] resultArr = new String[textArr.length];
+        for (int i = 0, len = textArr.length; i < len; ++i) {
+            resultArr[i] = Pinyin.toPinyin(textArr[i], "").toLowerCase();
         }
 
-        return textArr;
+        return resultArr;
     }
 
     /**
@@ -498,24 +535,24 @@ public class ExtraUtil {
         return C.REQ_REDRAW_PREFIX + reqTimes;
     }
 
-//    // TODO
-//    @Nullable
-//    public String getImgMD5(@Nullable Bitmap bitmap) {
-//        if (bitmap == null) {
-//            return null;
-//        }
-//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-//        byte[] bytes = baos.toByteArray();
-//        try {
-//            MessageDigest messageDigest = MessageDigest.getInstance("MD5");
-//            messageDigest.update(bytes);
-//            return (new BigInteger(1, messageDigest.digest())).toString(16);
-//        } catch (NoSuchAlgorithmException e) {
-//            e.printStackTrace();
-//        }
-//        return null;
-//    }
+    // TODO
+    @Nullable
+    public static String getImgMD5(@Nullable Bitmap bitmap) {
+        if (bitmap == null) {
+            return null;
+        }
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] bytes = baos.toByteArray();
+        try {
+            MessageDigest messageDigest = MessageDigest.getInstance("MD5");
+            messageDigest.update(bytes);
+            return (new BigInteger(1, messageDigest.digest())).toString(16);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     public static int fetchColor(@NonNull Context context, int attrId) {
         TypedValue typedValue = new TypedValue();
