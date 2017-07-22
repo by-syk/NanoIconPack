@@ -79,6 +79,7 @@ public class SearchActivity extends AppCompatActivity {
         adapter.setOnItemClickListener(new IconAdapter.OnItemClickListener() {
             @Override
             public void onClick(int pos, IconBean bean) {
+                searchView.clearFocus();
                 IconDialog.newInstance(bean, false).show(getSupportFragmentManager(), "iconDialog");
             }
         });
