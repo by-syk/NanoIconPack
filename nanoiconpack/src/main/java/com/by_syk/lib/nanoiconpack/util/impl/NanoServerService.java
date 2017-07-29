@@ -17,6 +17,7 @@
 package com.by_syk.lib.nanoiconpack.util.impl;
 
 import com.by_syk.lib.nanoiconpack.bean.CodeBean;
+import com.by_syk.lib.nanoiconpack.bean.DonateBean;
 import com.by_syk.lib.nanoiconpack.bean.ReqNumBean;
 import com.by_syk.lib.nanoiconpack.bean.ReqTopBean;
 import com.by_syk.lib.nanoiconpack.bean.ResResBean;
@@ -105,4 +106,14 @@ public interface NanoServerService {
     @GET("code/{pkg}/{launcher}")
     Call<ResResBean<List<CodeBean>>> getCode(@Path("pkg") String pkgName,
                                              @Path("launcher") String launcherActivity);
+
+    /**
+     * { "status": 0, "msg": "success", "result": [
+     *   { "id": "c641ac12-f18b-47ca-ba57-472ec264",
+     *     "money": 1, "donator": "atony", "date": "20170729" }
+     * ]}
+     */
+    @GET("donate/{iconpack}/{user}")
+    Call<ResResBean<List<DonateBean>>> getDonates(@Path("iconpack") String iconPack,
+                                                  @Path("user") String user);
 }

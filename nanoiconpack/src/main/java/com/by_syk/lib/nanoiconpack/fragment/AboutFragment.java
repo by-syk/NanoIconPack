@@ -25,25 +25,47 @@ import android.text.TextUtils;
 
 import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.ReqStatsActivity;
+import com.by_syk.lib.nanoiconpack.bean.DonateBean;
+import com.by_syk.lib.nanoiconpack.bean.ResResBean;
 import com.by_syk.lib.nanoiconpack.dialog.QrcodeDialog;
+import com.by_syk.lib.nanoiconpack.dialog.SponsorsDialog;
+import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
 import com.by_syk.lib.nanoiconpack.util.PkgUtil;
 import com.by_syk.lib.aboutmsgrender.AboutMsgRender;
+import com.by_syk.lib.nanoiconpack.util.RetrofitHelper;
+import com.by_syk.lib.nanoiconpack.util.impl.NanoServerService;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by By_syk on 2017-02-17.
  */
 
 public class AboutFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceClickListener {
+    private Preference prefSupportDonate;
+    private Preference prefSupportSponsors;
+
+    private ArrayList<DonateBean> sponsorList = new ArrayList<>();
+
+    private static Pattern sponsorPattern = Pattern.compile("\\[.*?\\]\\(usr:(.*?)\\)");
+
     private static final String PREFERENCE_ICONS = "icons";
     private static final String PREFERENCE_ICONS_NOTE = "iconsNote";
     private static final String PREFERENCE_ICONS_AUTHOR = "iconsAuthor";
     private static final String PREFERENCE_ICONS_CONTACT = "iconsContact";
-    private static final String PREFERENCE_ICONS_DONATE = "iconsDonate";
     private static final String PREFERENCE_ICONS_TODO_1 = "iconsTodo1";
     private static final String PREFERENCE_ICONS_COPYRIGHT = "iconsCopyright";
+    private static final String PREFERENCE_SUPPORT = "support";
+    private static final String PREFERENCE_SUPPORT_DONATE = "supportDonate";
+    private static final String PREFERENCE_SUPPORT_TODO_1 = "supportTodo1";
+    private static final String PREFERENCE_SUPPORT_SPONSORS = "supportSponsors";
     private static final String PREFERENCE_APP = "app";
     private static final String PREFERENCE_APP_APP = "appApp";
     private static final String PREFERENCE_APP_TODO_1 = "appTodo1";
@@ -57,6 +79,8 @@ public class AboutFragment extends PreferenceFragmentCompat implements Preferenc
         addPreferencesFromResource(R.xml.preferences_about);
 
         init();
+
+        loadSponsors();
     }
 
     private void init() {
@@ -64,9 +88,12 @@ public class AboutFragment extends PreferenceFragmentCompat implements Preferenc
         Preference prefIconsNote = findPreference(PREFERENCE_ICONS_NOTE);
         Preference prefIconsAuthor = findPreference(PREFERENCE_ICONS_AUTHOR);
         Preference prefIconsContact = findPreference(PREFERENCE_ICONS_CONTACT);
-        Preference prefIconsDonate = findPreference(PREFERENCE_ICONS_DONATE);
         Preference prefIconsTodo1 = findPreference(PREFERENCE_ICONS_TODO_1);
         Preference prefIconsCopyright = findPreference(PREFERENCE_ICONS_COPYRIGHT);
+        PreferenceCategory prefCatSupport = (PreferenceCategory) findPreference(PREFERENCE_SUPPORT);
+        prefSupportDonate = findPreference(PREFERENCE_SUPPORT_DONATE);
+        Preference prefSupportTodo1 = findPreference(PREFERENCE_SUPPORT_TODO_1);
+        prefSupportSponsors = findPreference(PREFERENCE_SUPPORT_SPONSORS);
         PreferenceCategory prefCatApp = (PreferenceCategory) findPreference(PREFERENCE_APP);
         Preference prefAppApp = findPreference(PREFERENCE_APP_APP);
         Preference prefAppTodo1 = findPreference(PREFERENCE_APP_TODO_1);
@@ -78,9 +105,11 @@ public class AboutFragment extends PreferenceFragmentCompat implements Preferenc
 //        prefIconsNote.setOnPreferenceClickListener(this);
         prefIconsAuthor.setOnPreferenceClickListener(this);
         prefIconsContact.setOnPreferenceClickListener(this);
-        prefIconsDonate.setOnPreferenceClickListener(this);
         prefIconsTodo1.setOnPreferenceClickListener(this);
         prefIconsCopyright.setOnPreferenceClickListener(this);
+        prefSupportDonate.setOnPreferenceClickListener(this);
+        prefSupportTodo1.setOnPreferenceClickListener(this);
+        prefSupportSponsors.setOnPreferenceClickListener(this);
         prefAppApp.setOnPreferenceClickListener(this);
         prefAppTodo1.setOnPreferenceClickListener(this);
         prefAppDashboard.setOnPreferenceClickListener(this);
@@ -100,10 +129,6 @@ public class AboutFragment extends PreferenceFragmentCompat implements Preferenc
         if (!TextUtils.isEmpty(summary)) {
             prefIconsContact.setSummary(summary);
         }
-        summary = AboutMsgRender.parseCode(getString(R.string.preference_icons_summary_donate));
-        if (!TextUtils.isEmpty(summary)) {
-            prefIconsDonate.setSummary(summary);
-        }
         summary = AboutMsgRender.parseCode(getString(R.string.preference_icons_summary_todo_1));
         if (!TextUtils.isEmpty(summary)) {
             prefIconsTodo1.setSummary(summary);
@@ -111,6 +136,18 @@ public class AboutFragment extends PreferenceFragmentCompat implements Preferenc
         summary = AboutMsgRender.parseCode(getString(R.string.preference_icons_summary_copyright));
         if (!TextUtils.isEmpty(summary)) {
             prefIconsCopyright.setSummary(summary);
+        }
+        summary = AboutMsgRender.parseCode(getString(R.string.preference_support_summary_donate));
+        if (!TextUtils.isEmpty(summary)) {
+            prefSupportDonate.setSummary(summary);
+        }
+        summary = AboutMsgRender.parseCode(getString(R.string.preference_support_summary_todo_1));
+        if (!TextUtils.isEmpty(summary)) {
+            prefSupportTodo1.setSummary(summary);
+        }
+        summary = AboutMsgRender.parseCode(getString(R.string.preference_support_summary_sponsors));
+        if (!TextUtils.isEmpty(summary)) {
+            prefSupportSponsors.setSummary(summary);
         }
         summary = PkgUtil.getAppVer(getContext(), getString(R.string.preference_app_summary_app));
         if (!TextUtils.isEmpty(summary)) {
@@ -129,6 +166,8 @@ public class AboutFragment extends PreferenceFragmentCompat implements Preferenc
             prefDevQuery.setSummary(summary);
         }
 
+        prefSupportSponsors.setVisible(false);
+
         if (prefIconsNote.getSummary() == null || prefIconsNote.getSummary().length() == 0) {
             prefCatIcons.removePreference(prefIconsNote);
         }
@@ -138,14 +177,17 @@ public class AboutFragment extends PreferenceFragmentCompat implements Preferenc
         if (prefIconsContact.getSummary() == null || prefIconsContact.getSummary().length() == 0) {
             prefCatIcons.removePreference(prefIconsContact);
         }
-        if (prefIconsDonate.getSummary() == null || prefIconsDonate.getSummary().length() == 0) {
-            prefCatIcons.removePreference(prefIconsDonate);
-        }
         if (prefIconsTodo1.getSummary() == null || prefIconsTodo1.getSummary().length() == 0) {
             prefCatIcons.removePreference(prefIconsTodo1);
         }
         if (prefIconsCopyright.getSummary() == null || prefIconsCopyright.getSummary().length() == 0) {
             prefCatIcons.removePreference(prefIconsCopyright);
+        }
+        if (prefSupportDonate.getSummary() == null || prefSupportDonate.getSummary().length() == 0) {
+            prefCatSupport.removePreference(prefSupportDonate);
+        }
+        if (prefSupportTodo1.getSummary() == null || prefSupportTodo1.getSummary().length() == 0) {
+            prefCatSupport.removePreference(prefSupportTodo1);
         }
         if (prefAppApp.getSummary() == null || prefAppApp.getSummary().length() == 0) {
             prefCatApp.removePreference(prefAppApp);
@@ -161,6 +203,45 @@ public class AboutFragment extends PreferenceFragmentCompat implements Preferenc
         }
     }
 
+    private void loadSponsors() {
+        if (!ExtraUtil.isNetworkConnected(getContext())) {
+            return;
+        }
+
+        String summarySponsors = getString(R.string.preference_support_summary_sponsors);
+        if (TextUtils.isEmpty(summarySponsors)) {
+            return;
+        }
+        Matcher matcher = sponsorPattern.matcher(summarySponsors);
+        if (!matcher.find()) {
+            return;
+        }
+        String key = matcher.group(1);
+
+        NanoServerService service = RetrofitHelper.getInstance().getService(NanoServerService.class);
+        Call<ResResBean<List<DonateBean>>> call = service.getDonates(getContext().getPackageName(), key);
+        call.enqueue(new Callback<ResResBean<List<DonateBean>>>() {
+            @Override
+            public void onResponse(Call<ResResBean<List<DonateBean>>> call, Response<ResResBean<List<DonateBean>>> response) {
+                ResResBean<List<DonateBean>> resResBean = response.body();
+                if (resResBean == null || !resResBean.isStatusSuccess()) {
+                    return;
+                }
+                if (!isAdded()) {
+                    return;
+                }
+                List<DonateBean> sponsorList = resResBean.getResult();
+                if (sponsorList != null && !sponsorList.isEmpty()) {
+                    AboutFragment.this.sponsorList.addAll(sponsorList);
+                    prefSupportSponsors.setVisible(true);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResResBean<List<DonateBean>>> call, Throwable t) {}
+        });
+    }
+
     @Override
     public boolean onPreferenceClick(Preference preference) {
         switch (preference.getKey()) {
@@ -174,10 +255,6 @@ public class AboutFragment extends PreferenceFragmentCompat implements Preferenc
                 executeCode(preference.getTitle().toString(),
                         getString(R.string.preference_icons_summary_contact));
                 break;
-            case PREFERENCE_ICONS_DONATE:
-                executeCode(preference.getTitle().toString(),
-                        getString(R.string.preference_icons_summary_donate));
-                break;
             case PREFERENCE_ICONS_TODO_1:
                 executeCode(preference.getTitle().toString(),
                         getString(R.string.preference_icons_summary_todo_1));
@@ -185,6 +262,17 @@ public class AboutFragment extends PreferenceFragmentCompat implements Preferenc
             case PREFERENCE_ICONS_COPYRIGHT:
                 executeCode(preference.getTitle().toString(),
                         getString(R.string.preference_icons_summary_copyright));
+                break;
+            case PREFERENCE_SUPPORT_DONATE:
+                executeCode(preference.getTitle().toString(),
+                        getString(R.string.preference_support_summary_donate));
+                break;
+            case PREFERENCE_SUPPORT_TODO_1:
+                executeCode(preference.getTitle().toString(),
+                        getString(R.string.preference_support_summary_todo_1));
+                break;
+            case PREFERENCE_SUPPORT_SPONSORS:
+                showDonate();
                 break;
 //            case PREFERENCE_APP_APP:
 //                executeCode(preference.getTitle().toString(), preference.getSummary().toString());
@@ -206,6 +294,19 @@ public class AboutFragment extends PreferenceFragmentCompat implements Preferenc
                 break;
         }
         return true;
+    }
+
+    private void showDonate() {
+        SponsorsDialog dialog = SponsorsDialog.newInstance(sponsorList);
+        dialog.setOnDonateListener(new SponsorsDialog.OnDonateListener() {
+            @Override
+            public void onDonate() {
+                if (!prefSupportDonate.wasDetached()) {
+                    prefSupportDonate.performClick();
+                }
+            }
+        });
+        dialog.show(getFragmentManager(), "sponsorsDialog");
     }
 
     private void enterStats() {

@@ -31,6 +31,7 @@
     <string name="dlg_bt_cancel">Cancel</string>
     <string name="dlg_bt_close">Close</string>
     <string name="dlg_bt_ok">OK</string>
+    <string name="dlg_bt_donate_too">Donate, too</string>
 
     <string name="menu_whats_new">What\'s new</string>
     <string name="menu_apply">Apply</string>
@@ -79,12 +80,18 @@
     <string name="preference_icons_summary_author">[@By_syk](copy:@By_syk)</string>
     <string name="preference_icons_title_contact">Contact author</string>
     <string name="preference_icons_summary_contact">[By_syk@163.com](email:By_syk@163.com)</string>
-    <string name="preference_icons_title_donate">Donate via Alipay</string>
-    <string name="preference_icons_summary_donate">[By_syk@163.com](alipay:https://qr.alipay.com/aex05154fiiurupx5ai0dd1|By_syk@163.com)</string>
     <string name="preference_icons_title_todo_1"></string>
     <string name="preference_icons_summary_todo_1"></string>
     <string name="preference_icons_title_copyright">Copyright</string>
     <string name="preference_icons_summary_copyright">Copyright &#169; 2017 By_syk. All rights reserved.</string>
+    <string name="preference_category_support">Donate &amp; support</string>
+    <string name="preference_support_title_donate">Donate via Alipay</string>
+    <string name="preference_support_summary_donate">[By_syk@163.com](alipay:https://qr.alipay.com/aex05154fiiurupx5ai0dd1|By_syk@163.com)</string>
+    <string name="preference_support_title_todo_1"></string>
+    <string name="preference_support_summary_todo_1"></string>
+    <string name="preference_support_title_sponsors">Sponsors</string>
+    <!-- What's "usr"? Visit http://nano.by-syk.com/page/donate to set it, and take care of it. -->
+    <string name="preference_support_summary_sponsors">[Thank for donating.](usr:bysyk)</string>
     <string name="preference_category_app">APP</string>
     <string name="preference_app_title_app">@string/app_name</string>
     <string name="preference_app_summary_app">v%1$s (%2$d)</string>

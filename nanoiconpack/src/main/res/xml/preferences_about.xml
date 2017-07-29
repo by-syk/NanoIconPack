@@ -34,16 +34,30 @@
             android:title="@string/preference_icons_title_contact" />
 
         <Preference
-            android:key="iconsDonate"
-            android:title="@string/preference_icons_title_donate" />
-
-        <Preference
             android:key="iconsTodo1"
             android:title="@string/preference_icons_title_todo_1" />
 
         <Preference
             android:key="iconsCopyright"
             android:title="@string/preference_icons_title_copyright" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="support"
+        android:title="@string/preference_category_support">
+
+        <Preference
+            android:key="supportDonate"
+            android:title="@string/preference_support_title_donate" />
+
+        <Preference
+            android:key="supportTodo1"
+            android:title="@string/preference_support_title_todo_1" />
+
+        <Preference
+            android:key="supportSponsors"
+            android:title="@string/preference_support_title_sponsors" />
 
     </PreferenceCategory>
 
