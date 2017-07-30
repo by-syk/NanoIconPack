@@ -176,13 +176,14 @@ NanoIconPack 拥有一个轻量的服务器，提供图标申请和申请统计�
 ### 致谢
 
 致敬开源！NanoIconPack 使用了如下开源项目：
-+ [Li Min / pinyin4j](https://sourceforge.net/projects/pinyin4j/) licensed under [GPLv2](https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
++ [promeG / TinyPinyin](https://github.com/promeG/TinyPinyin) licensed under [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0)
 + [fython / AlipayZeroSdk](https://github.com/fython/AlipayZeroSdk) licensed under [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0)
 + [kenglxn / QRGen](https://github.com/kenglxn/QRGen) licensed under [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0)
 + [square / retrofit](https://github.com/square/retrofit) licensed under [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0)
 + [bumptech / glide](https://github.com/bumptech/glide) licensed under [BSD, part MIT and Apache-2.0](https://github.com/bumptech/glide/blob/master/LICENSE)
 + [timusus / RecyclerView-FastScroll](https://github.com/timusus/RecyclerView-FastScroll) licensed under [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0)
 + [sjwall / MaterialTapTargetPrompt](https://github.com/sjwall/MaterialTapTargetPrompt) licensed under [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0)
++ [81813780 / AVLoadingIndicatorView](https://github.com/81813780/AVLoadingIndicatorView) licensed under [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0)
 
 NanoIconPack 参考了如下资料：
 + [teslacoil / Example_NovaTheme](https://github.com/teslacoil/Example_NovaTheme)

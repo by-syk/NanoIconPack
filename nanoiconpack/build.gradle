@@ -41,7 +41,7 @@ dependencies {
 //    compile 'moe.feng:AlipayZeroSdk:1.1'
 
     // QRGen: https://github.com/kenglxn/QRGen
-    compile 'com.github.kenglxn.QRGen:android:2.2.0'
+    compile 'com.github.kenglxn.QRGen:android:2.3.0'
 
     // Retrofit: https://github.com/square/retrofit
     compile 'com.squareup.retrofit2:retrofit:2.2.0'
