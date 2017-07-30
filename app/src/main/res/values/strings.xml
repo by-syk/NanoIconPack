@@ -47,7 +47,7 @@
     <string name="preference_support_title_todo_1">Donate via WeChat</string>
     <string name="preference_support_summary_todo_1">[By_syk](qrcode:wxp://f2f02wzHCnXrB9ZoMtTkBdQXJ8w3RgM5gu3P)</string>
     <string name="preference_support_title_sponsors">Sponsors</string>
-    <!-- What's "usr"? Visit http://nano.by-syk.com/page/donate to set it, and take care of it. -->
+    <!-- What's "[xxx](usr:xxx)"? Visit http://nano.by-syk.com/page/donate to set it, and take care of it. -->
     <string name="preference_support_summary_sponsors">[Thank for donating.](usr:bysyk)</string>
     <string name="preference_app_title_app">@string/app_name</string>
     <string name="preference_app_summary_app">v%1$s (%2$d)</string>
