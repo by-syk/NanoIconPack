@@ -55,6 +55,7 @@ public class AboutFragment extends PreferenceFragmentCompat implements Preferenc
     private ArrayList<DonateBean> sponsorList = new ArrayList<>();
 
     private static Pattern sponsorPattern = Pattern.compile("\\[.*?\\]\\(usr:(.*?)\\)");
+    private static Pattern codePattern = Pattern.compile("\\[.*?\\]\\((.+?):(.*?)\\)");
 
     private static final String PREFERENCE_ICONS = "icons";
     private static final String PREFERENCE_ICONS_NOTE = "iconsNote";
@@ -318,10 +319,17 @@ public class AboutFragment extends PreferenceFragmentCompat implements Preferenc
             return;
         }
 
-        Matcher matcher = Pattern.compile("\\[.*?\\]\\(qrcode:(.*?)\\)").matcher(summary);
+        Matcher matcher = codePattern.matcher(summary);
         if (matcher.find()) {
-            QrcodeDialog.newInstance(title, matcher.group(1))
-                    .show(getFragmentManager(), "qrcodeDialog");
+            switch (matcher.group(1)) {
+                case "qrcode":
+                case "wechat":
+                    QrcodeDialog.newInstance(title, matcher.group(1))
+                            .show(getFragmentManager(), "qrcodeDialog");
+                    break;
+                default:
+                    AboutMsgRender.executeCode(getActivity(), summary);
+            }
         } else {
             AboutMsgRender.executeCode(getActivity(), summary);
         }

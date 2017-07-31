@@ -27,6 +27,7 @@
          [xxx](copy:xxx)
          [xxx](email:xxx)
          [xxx](alipay:xxx|xxx)
+         [xxx](wechat:xxx)
          [xxx](qrcode:xxx)
          [xxx](xxx)
          -->
@@ -42,7 +43,7 @@
     <string name="preference_support_title_donate">通过支付宝捐赠</string>
     <string name="preference_support_summary_donate">[By_syk@163.com](alipay:https://qr.alipay.com/aex05154fiiurupx5ai0dd1|By_syk@163.com)</string>
     <string name="preference_support_title_todo_1">通过微信捐赠</string>
-    <string name="preference_support_summary_todo_1">[By_syk](qrcode:wxp://f2f02wzHCnXrB9ZoMtTkBdQXJ8w3RgM5gu3P)</string>
+    <string name="preference_support_summary_todo_1">[By_syk](wechat:wxp://f2f02wzHCnXrB9ZoMtTkBdQXJ8w3RgM5gu3P)</string>
     <string name="preference_support_title_sponsors">赞助者们</string>
     <string name="preference_support_summary_sponsors">[感谢捐赠支持的用户们。](usr:bysyk)</string>
     <string name="preference_app_title_app">@string/app_name</string>
