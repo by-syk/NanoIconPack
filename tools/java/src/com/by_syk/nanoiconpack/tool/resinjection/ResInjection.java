@@ -40,6 +40,9 @@ class ResInjection {
 
     public static void main(String[] args) {
         System.out.println("=== ResInjection(v1.2.0) for NanoIconPack(v3.0.0) ===");
+        System.out.println();
+        System.out.println("      Copyright (c) 2017 By_syk. All rights reserved.");
+        System.out.println();
         String projectDir = ResInjection.getProjectDir(args);
         File resDir = ResInjection.getResPath(projectDir);
         while (true) {
