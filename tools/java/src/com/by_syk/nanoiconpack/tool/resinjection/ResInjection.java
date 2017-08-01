@@ -14,17 +14,24 @@
  * limitations under the License.
  */
 
-package com.by_syk.nanoiconpack.tool;
+package com.by_syk.nanoiconpack.tool.resinjection;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.by_syk.nanoiconpack.tool.util.FileUtil;
+import com.by_syk.nanoiconpack.tool.util.Utils;
+
 /**
+ * TODO 对APP名含特殊符号的处理
+ * TODO 追书神器 英语？
+ * 
  * Created by By_syk on 2017-02-11.
  */
 
@@ -32,33 +39,21 @@ class ResInjection {
     private static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-        System.out.println("=== ResInjection(v1.1.0) for NanoIconPack(v2.0.0) ===");
+        System.out.println("=== ResInjection(v1.2.0) for NanoIconPack(v3.0.0) ===");
         String projectDir = ResInjection.getProjectDir(args);
-        String resPath = ResInjection.getResPath(projectDir);
+        File resDir = ResInjection.getResPath(projectDir);
         while (true) {
             System.out.println();
-            ResInjection.appendIcon(resPath);
+            appendIcon(resDir);
         }
     }
     
     public static String getProjectDir(String[] args) {
-//        String projectDir = "E:/Android/CoreProjects/NanoIconPack/";
-//        File configFile = new File((new File(System.getProperty("java.class.path"))).getParentFile(),
-//                "nanoiconpacktool.properties");
-//        if (configFile.exists()) {
-//            String configText = FileUtil.readFile(configFile);
-//            Matcher matcher = Pattern.compile("^projectDir\\s*=\\s*(.+)").matcher(configText);
-//            if (matcher.find()) {
-//                projectDir = matcher.group(1);
-//            }
-//        }
-//        return projectDir;
-        
         if (args != null && args.length > 0) {
             return args[0];
         }
         
-        System.out.println("ProjectDir:");
+        System.out.println("> ProjectDir:");
         String projectDir;
         if ((projectDir = scanner.nextLine()).isEmpty()) {
             return scanner.nextLine();
@@ -66,72 +61,79 @@ class ResInjection {
         return projectDir;
     }
 
-    public static String getResPath(String projectDir) {
-        List<String> projectPathList = new ArrayList<>();
+    public static File getResPath(String projectDir) {
+        List<File> projectDirList = new ArrayList<>();
         for (File dir : (new File(projectDir)).listFiles()) {
             if ((new File(dir, "build.gradle")).exists()) {
-                projectPathList.add(dir.getPath());
+                projectDirList.add(dir);
             }
         }
 
         String hint = "";
-        Collections.sort(projectPathList);
-        for (int i = 0, len = projectPathList.size(); i < len; ++i) {
-            hint += i + ". " + (new File(projectPathList.get(i))).getName() + "  ";
+        Collections.sort(projectDirList);
+        for (int i = 0, len = projectDirList.size(); i < len; ++i) {
+            hint += i + ". " + projectDirList.get(i).getName() + "  ";
         }
-        System.out.println("Choose module:");
+        System.out.println("> Choose module:");
         System.out.println(hint);
 
-        return (new File(new File(projectPathList.get(scanner.nextInt())),
-                "src/main/res")).getPath();
+        return new File(projectDirList.get(scanner.nextInt()), "src/main/res");
     }
 
-    public static void appendIcon(String resPath) {
-        String iconPath = "";
-        String iconName = "";
-        String appName = "";
-        String appNameEn = "";
-        List<String> componentInfoList = new ArrayList<>();
-
-        System.out.println("IconPath(\".\" to skip):");
-        iconPath = scanner.nextLine();
-        if (iconPath.isEmpty()) {
-            iconPath = scanner.nextLine();
+    public static void appendIcon(File resDir) {
+        Icon icon = new Icon();
+        
+        System.out.println("> IconPath(\".\" to skip):");
+        String tmp = scanner.nextLine();
+        if (tmp.isEmpty()) {
+            tmp = scanner.nextLine();
         }
-        if (iconPath.equals(".")) {
-            iconPath = "";
+        if (isInputEnd(tmp)) {
+            tmp = "";
         }
-        iconPath = iconPath.replaceAll("\"", "");
-
-        System.out.println("Manually or automatically?\n0. Manually  1. Automatically");
-        int which = scanner.nextInt();
-        if (which == 0) {
-            System.out.println("IconName(\"\\D[\\da-z_]*\"):");
-            iconName = scanner.next("\\D[\\da-z_]*");
-            System.out.println("AppName:");
-            appName = scanner.nextLine();
-            if (appName.isEmpty()) {
-                appName = scanner.nextLine();
+        icon.setFiles(tmp);
+        tmp = icon.getIconFileName();
+        if (tmp != null) { // 复制文件名到剪切板，便于接下来快速查询
+            Utils.copy2Clipboard(tmp);
+        }
+        if (icon.foundAltIconFiles()) {
+            System.out.println("> Include alt?\n0. No  1. Yes");
+            int which = scanner.nextInt();
+            if (which != 1) {
+                icon.removeAltIconFiles();
             }
+        }
+        
+        System.out.println("> Manually or automatically?\n0. Manually  1. Automatically");
+        int which = scanner.nextInt();
+        if (which == 0) { // 手动录入
+            System.out.println("IconName(\"\\D[\\da-z_]*\"):");
+            icon.setName(scanner.next("\\D[\\da-z_]*"));
+            System.out.println("AppName:");
+            tmp = scanner.nextLine();
+            if (tmp.isEmpty()) {
+                tmp = scanner.nextLine();
+            }
+            icon.setAppName(tmp);
             System.out.println("AppNameEn(\".\" to use AppName):");
-            appNameEn = scanner.nextLine();
-            if (appNameEn.equals(".")) {
-                appNameEn = appName;
+            tmp = scanner.nextLine();
+            if (!isInputEnd(tmp)) {
+                icon.setAppNameEn(tmp);
             }
             System.out.println("ComponentInfo([pkgName]/[launcherActivity], \".\" to finish):");
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
-                if (line.equals(".") || line.equals("。")) {
+                if (isInputEnd(line)) {
                     break;
                 }
-                componentInfoList.add(line);
+                icon.addComponent(line);
             }
-        } else if (which == 1) {
-            System.out.println("Codes(\".\" to finish):");
+        } else if (which == 1) { // 快速录入
+            System.out.println("> Codes(\".\" to finish):");
             String input = ""; // No '\n'
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
-                if (line.equals(".") || line.equals("。")) {
+                if (isInputEnd(line)) {
                     break;
                 }
                 if (line.endsWith(".")) {
@@ -144,90 +146,78 @@ class ResInjection {
                     + "<item component=\"ComponentInfo\\{(.+?)\\}\""
                     + " drawable=\"(.+?)\" />").matcher(input);
             if (matcher.find()) {
-                iconName = matcher.group(4);
-                appName = matcher.group(1);
-                appNameEn = matcher.group(2);
-                if (appNameEn.isEmpty() || appNameEn.equals("null")) {
-                    appNameEn = appName;
+                icon.setName(matcher.group(4));
+                icon.setAppName(matcher.group(1));
+                tmp = matcher.group(2);
+                if (!tmp.isEmpty() && !tmp.equals("null")) {
+                    icon.setAppNameEn(tmp);
                 }
-                componentInfoList.add(matcher.group(3));
+                icon.addComponent(matcher.group(3));
                 // 连续添加
                 matcher = Pattern.compile("ComponentInfo\\{(.+?)\\}").matcher(input);
                 while (matcher.find()) {
-                    if (!componentInfoList.contains(matcher.group(1))) {
-                        componentInfoList.add(matcher.group(1));
-                    }
+                    icon.addComponent(matcher.group(1));
                 }
             }
         }
-        if (iconName.isEmpty() || appName.isEmpty() || appNameEn.isEmpty()) {
+        if (!icon.isMetaValid()) {
             System.out.println("error");
             return;
         }
 
-        boolean ok = true;
-        if (!iconPath.isEmpty()) {
-            ok = copyIconFile(resPath, iconPath, iconName);
-            System.out.println("drawable-nodpi/" + iconName + ".png: " + ok);
-        }
+        boolean ok = copyIconFile(resDir, icon);
+        String outText = "drawable-nodpi/" + icon.getName() + ".png";
+        System.out.printf("%s: %s\n", outText, (ok ? (icon.getFiles().size() > 1
+                ? "TRUE(" + icon.getFiles().size() + ")" : "TRUE") : "FALSE"));
         if (!ok) {
             return;
         }
-        ok = appendIcon2IconPackXmlFile(resPath, iconName, appName, appNameEn);
-        System.out.println("values/icon_pack.xml: " + ok);
+        ok = appendIcon2IconPackXmlFile(resDir, icon);
+        System.out.printf("%-" + outText.length() + "s: %s\n", "values/icon_pack.xml",
+                ok ? (icon.getFiles().size() > 1 ? "TRUE(" + icon.getFiles().size() + ")" : "TRUE") : "FALSE");
         if (!ok) {
             return;
         }
-        ok = appendIcon2DrawableXmlFile(resPath, iconName);
-        System.out.println("xml/drawable.xml: " + ok);
+        ok = appendIcon2DrawableXmlFile(resDir, icon);
+        System.out.printf("%-" + outText.length() + "s: %s\n", "xml/drawable.xml",
+                ok ? (icon.getFiles().size() > 1 ? "TRUE(" + icon.getFiles().size() + ")" : "TRUE") : "FALSE");
         if (!ok) {
             return;
         }
-        if (!componentInfoList.isEmpty()) {
-            ok = appendIcon2AppFilterXmlFile(resPath, componentInfoList
-                    .toArray(new String[componentInfoList.size()]), iconName);
-            System.out.println("xml/appfilter.xml: " + ok);
+        if (!icon.getComponents().isEmpty()) {
+            ok = appendIcon2AppFilterXmlFile(resDir, icon);
+            System.out.printf("%-" + outText.length() + "s: %s\n",
+                    "xml/appfilter.xml", ok ? "TRUE" : "FALSE");
         }
     }
 
-    public static boolean copyIconFile(String resPath, String iconPath, String iconName) {
-        File iconFile = new File(new File(resPath), "drawable-nodpi/" + iconName + ".png");
-        if (iconFile.exists()) {
+    public static boolean copyIconFile(File resDir, Icon icon) {
+        if (icon == null || icon.getFiles().isEmpty()) {
             return false;
         }
-        File hdIconFile = new File(new File(resPath), "mipmap-nodpi/" + iconName + ".png");        
-        if (hdIconFile.exists()) {
+        for (int i = 0, len = icon.getFiles().size(); i < len; ++i) {
+            File iconFile = icon.getFiles().get(i);
+            File tarIconFile = icon.getTargetCopyFile(resDir, i, false);
+            boolean ok = FileUtil.copyFile(iconFile, tarIconFile);
+            if (ok) {
+                iconFile.delete();
+            } else {
+                tarIconFile.delete();
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static boolean appendIcon2IconPackXmlFile(File resDir, Icon icon) {
+        if (resDir == null || !resDir.isDirectory()) {
+            return false;
+        }
+        if (icon == null || !icon.isMetaValid()) {
             return false;
         }
         
-        File srcIconFile = new File(iconPath);
-        if (!srcIconFile.exists()) {
-            return false;
-        }
-        boolean ok = FileUtil.copyFile(srcIconFile, iconFile);
-        if (ok && srcIconFile.getParentFile().getName().equals("192")) {
-            File srcHdIconFile = new File(srcIconFile.getParentFile().getParentFile(),
-                    "384/" + srcIconFile.getName());
-            if (srcHdIconFile.exists()) {
-                ok = FileUtil.copyFile(srcHdIconFile, hdIconFile);
-                if (ok) {
-                    srcHdIconFile.delete();
-                } else {
-                    hdIconFile.delete();
-                }
-            }
-        }
-
-        if (ok) {
-            srcIconFile.delete();
-        } else {
-            iconFile.delete();
-        }
-        return ok;
-    }
-
-    public static boolean appendIcon2IconPackXmlFile(String resPath, String iconName, String appName, String appNameEn) {
-        File xmlFile = new File(new File(resPath), "values/icon_pack.xml");
+        File xmlFile = new File(resDir, "values/icon_pack.xml");
 
         String text1 = FileUtil.readFile(xmlFile);
         int index = text1.indexOf("<string-array name=\"icons\"");
@@ -242,16 +232,16 @@ class ResInjection {
         Matcher matcher = Pattern.compile("(?:<\\!--)?<item>(.+?)</item>(-->)?(?:<\\!-- ok -->)?").matcher(text2);
         while (matcher.find()) {
             boolean isLineCommented = matcher.group(2) != null;
-            index = iconName.compareTo(matcher.group(1));
+            index = icon.getName().compareTo(matcher.group(1));
             if (index < 0) {
                 index = text2.indexOf(matcher.group(0));
                 int letterIndex = text2.indexOf("<!-- " + matcher.group(1).substring(0, 1).toUpperCase() + " -->");
-                if (letterIndex == index - 19 && iconName.charAt(0) != matcher.group(1).charAt(0)) {
-                    index = text2.indexOf("<!-- " + Character.toUpperCase((char) (iconName.charAt(0) + 1)) + " -->");
+                if (letterIndex == index - 19 && icon.getName().charAt(0) != matcher.group(1).charAt(0)) {
+                    index = text2.indexOf("<!-- " + Character.toUpperCase((char) (icon.getName().charAt(0) + 1)) + " -->");
                 }
                 String tmp = text2.substring(index);
                 text2 = text2.substring(0, index);
-                text2 += "<item>" + iconName + "</item>\n        ";
+                text2 += icon.generateIconCode(true);
                 text2 += tmp;
                 ok = true;
                 break;
@@ -265,21 +255,22 @@ class ResInjection {
             return false;
         }
         if (!ok) {
-            index = text2.indexOf("<!-- " + Character.toUpperCase((char) (iconName.charAt(0) + 1))
+            index = text2.indexOf("<!-- " + Character.toUpperCase((char) (icon.getName().charAt(0) + 1))
                     + " -->") - 8;
             if (index < 0) {
                 index = text2.indexOf("    </string-array>");
             }
             String tmp = text2.substring(index);
             text2 = text2.substring(0, index);
-            text2 += "        <item>" + iconName + "</item>\n";
+            text2 += "        " + icon.generateIconCode(false) + "\n";
             text2 += tmp;
         }
 
         int insertLineIndex = -1;
+        String insertCode = icon.generateIconCode(false).split("\n")[0];
         for (String line : text2.split("\n")) {
             ++insertLineIndex;
-            if (line.contains("<item>" + iconName + "</item>")) {
+            if (line.contains(insertCode)) {
                 break;
             }
         }
@@ -287,7 +278,7 @@ class ResInjection {
         text3 = "";
         for (int i = 0, len = text3Arr.length; i < len; ++i) {
             if (i == insertLineIndex) {
-                text3 += "        <item>" + appNameEn.replaceAll("'", "\\\\'") + "</item>\n";
+                text3 += "        " + icon.generateIconLabelCode(false) + "\n";
             }
             text3 += text3Arr[i] + "\n";
         }
@@ -295,13 +286,20 @@ class ResInjection {
 
         ok = FileUtil.saveFile(text1 + text2 + text3, xmlFile);
         if (ok) {
-            return appendIcon2IconPackXmlFileZh(resPath, appName, insertLineIndex);
+            return appendIcon2IconPackXmlFileZh(resDir, icon, insertLineIndex);
         }
         return false;
     }
 
-    private static boolean appendIcon2IconPackXmlFileZh(String resPath, String appName, int insertLineIndex) {
-        File xmlFile = new File(new File(resPath), "values-zh/icon_pack.xml");
+    private static boolean appendIcon2IconPackXmlFileZh(File resDir, Icon icon, int insertLineIndex) {
+        if (resDir == null || !resDir.isDirectory()) {
+            return false;
+        }
+        if (icon == null || !icon.isMetaValid()) {
+            return false;
+        }
+        
+        File xmlFile = new File(resDir, "values-zh/icon_pack.xml");
         if (!xmlFile.exists()) {
             return true;
         }
@@ -314,7 +312,7 @@ class ResInjection {
         text2 = "";
         for (int i = 0, len = text2Arr.length; i < len; ++i) {
             if (i == insertLineIndex) {
-                text2 += "        <item>" + appName + "</item>\n";
+                text2 += "        " + icon.generateIconLabelZhCode(false) + "\n";
             }
             text2 += text2Arr[i] + "\n";
         }
@@ -323,8 +321,15 @@ class ResInjection {
         return FileUtil.saveFile(text1 + text2, xmlFile);
     }
 
-    public static boolean appendIcon2DrawableXmlFile(String resPath, String iconName) {
-        File xmlFile = new File(new File(resPath), "xml/drawable.xml");
+    public static boolean appendIcon2DrawableXmlFile(File resDir, Icon icon) {
+        if (resDir == null || !resDir.isDirectory()) {
+            return false;
+        }
+        if (icon == null || icon.getName() == null) {
+            return false;
+        }
+        
+        File xmlFile = new File(resDir, "xml/drawable.xml");
 
         String text1 = FileUtil.readFile(xmlFile);
         int index = text1.indexOf("<category title=\"All");
@@ -347,14 +352,14 @@ class ResInjection {
                 ++itemNum;
             }
             if (!ok) {
-                index = iconName.compareTo(matcher.group(1));
+                index = icon.getName().compareTo(matcher.group(1));
                 if (index < 0) {
                     index = text2.indexOf(matcher.group(0));
                     String tmp = text2.substring(index);
                     text2 = text2.substring(0, index);
-                    text2 += "<item drawable=\"" + iconName + "\" />\n    ";
+                    text2 += icon.generateDrawableCode(true);
                     text2 += tmp;
-                    ++itemNum;
+                    itemNum += icon.getFiles().size();
                     ok = true;
                 } else if (index == 0 && !isLineCommented) {
                     ok = true;
@@ -374,9 +379,9 @@ class ResInjection {
             }
             String tmp = text2.substring(index);
             text2 = text2.substring(0, index);
-            text2 += "\n    <item drawable=\"" + iconName + "\" />";
+            text2 += "\n    " + icon.generateDrawableCode(false);
             text2 += tmp;
-            ++itemNum;
+            itemNum += icon.getFiles().size();
         }
 
         matcher = Pattern.compile("\"All\\((\\d+)\\)\"").matcher(text2);
@@ -386,13 +391,20 @@ class ResInjection {
         return FileUtil.saveFile(text1 + text2 + text3, xmlFile);
     }
 
-    public static boolean appendIcon2AppFilterXmlFile(String resPath, String[] componentInfoArr, String iconName) {
-        File xmlFile = new File(new File(resPath), "xml/appfilter.xml");
+    public static boolean appendIcon2AppFilterXmlFile(File resDir, Icon icon) {
+        if (resDir == null || !resDir.isDirectory()) {
+            return false;
+        }
+        if (icon == null || !icon.isMetaValid()) {
+            return false;
+        }
+        
+        File xmlFile = new File(resDir, "xml/appfilter.xml");
 
         String text = FileUtil.readFile(xmlFile);
 
-        for (String componentInfo : componentInfoArr) {
-            if (Pattern.compile("(?!<\\!--)<item\n?\\s+component=\"ComponentInfo\\{" + componentInfo + "\\}").matcher(text).find()) {
+        for (String component : icon.getComponents()) {
+            if (Pattern.compile("(?!<\\!--)<item\n?\\s+component=\"ComponentInfo\\{" + component + "\\}").matcher(text).find()) {
                 return false;
             }
         }
@@ -401,32 +413,26 @@ class ResInjection {
         Matcher matcher = Pattern.compile("(?:<\\!--)?<item\n?\\s+component=\"ComponentInfo\\{.+?\\}\"" +
                 "\n?\\s+drawable=\"(.+?)\"\\s*/>(?:-->)?").matcher(text);
         while (matcher.find()) {
-            int compValue = iconName.compareTo(matcher.group(1));
+            int compValue = icon.getName().compareTo(matcher.group(1));
             if (compValue <= 0) {
                 int index = text.indexOf(matcher.group(0));
                 String tmp = text.substring(index);
                 text = text.substring(0, index);
-                for (String componentInfo : componentInfoArr) {
-                    text += "<item\n        component=\"ComponentInfo{" + componentInfo + "}\""
-                            + "\n        drawable=\"" + iconName + "\" />\n    ";
-                }
-                if (compValue < 0) {
-                    text += "\n    ";
-                }
+                text += icon.generateAppfilterCode(true);
                 text += tmp;
                 ok = true;
                 break;
             }
         }
         if (!ok) {
-            String tmp = "";
-            for (String componentInfo : componentInfoArr) {
-                tmp += "    <item\n        component=\"ComponentInfo{" + componentInfo + "}\""
-                        + "\n        drawable=\"" + iconName + "\" />\n";
-            }
+            String tmp = "    " + icon.generateAppfilterCode(false) + "\n";
             text = text.replace("</resources>", tmp + "\n</resources>");
         }
 
         return FileUtil.saveFile(text, xmlFile);
+    }
+    
+    private static boolean isInputEnd(String line) {
+        return Objects.equals(line, ".") || Objects.equals(line, "。");
     }
 }

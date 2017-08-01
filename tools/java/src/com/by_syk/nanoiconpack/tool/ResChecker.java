@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.by_syk.nanoiconpack.tool.util.FileUtil;
+
 public class ResChecker {
     public static void main(String[] args) {
 //        checkAppFilter("E:/Android/CoreProjects/OwIconPack/app/src/main/res/xml");

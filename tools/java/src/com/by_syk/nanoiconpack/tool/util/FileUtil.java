@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.by_syk.nanoiconpack.tool;
+package com.by_syk.nanoiconpack.tool.util;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -29,7 +29,7 @@ import java.io.OutputStream;
  * Created by By_syk on 2017-02-12.
  */
 
-class FileUtil {
+public class FileUtil {
     public static String readFile(File file) {
         if (file == null) {
             return null;
