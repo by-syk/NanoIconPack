@@ -41,13 +41,6 @@ import android.util.TypedValue;
 
 import com.github.promeg.pinyinhelper.Pinyin;
 
-//import net.sourceforge.pinyin4j.PinyinHelper;
-//import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
-//import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;
-//import net.sourceforge.pinyin4j.format.HanyuPinyinToneType;
-//import net.sourceforge.pinyin4j.format.HanyuPinyinVCharType;
-//import net.sourceforge.pinyin4j.format.exception.BadHanyuPinyinOutputFormatCombination;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -535,24 +528,24 @@ public class ExtraUtil {
         return C.REQ_REDRAW_PREFIX + reqTimes;
     }
 
-    // TODO
-    @Nullable
-    public static String getImgMD5(@Nullable Bitmap bitmap) {
-        if (bitmap == null) {
-            return null;
-        }
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        byte[] bytes = baos.toByteArray();
-        try {
-            MessageDigest messageDigest = MessageDigest.getInstance("MD5");
-            messageDigest.update(bytes);
-            return (new BigInteger(1, messageDigest.digest())).toString(16);
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+//    // TODO
+//    @Nullable
+//    public static String getImgMD5(@Nullable Bitmap bitmap) {
+//        if (bitmap == null) {
+//            return null;
+//        }
+//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+//        byte[] bytes = baos.toByteArray();
+//        try {
+//            MessageDigest messageDigest = MessageDigest.getInstance("MD5");
+//            messageDigest.update(bytes);
+//            return (new BigInteger(1, messageDigest.digest())).toString(16);
+//        } catch (NoSuchAlgorithmException e) {
+//            e.printStackTrace();
+//        }
+//        return null;
+//    }
 
     public static int fetchColor(@NonNull Context context, int attrId) {
         TypedValue typedValue = new TypedValue();

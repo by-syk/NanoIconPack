@@ -324,7 +324,7 @@ public class AboutFragment extends PreferenceFragmentCompat implements Preferenc
             switch (matcher.group(1)) {
                 case "qrcode":
                 case "wechat":
-                    QrcodeDialog.newInstance(title, matcher.group(1))
+                    QrcodeDialog.newInstance(title, matcher.group(2))
                             .show(getFragmentManager(), "qrcodeDialog");
                     break;
                 default:

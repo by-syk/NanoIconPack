@@ -21,8 +21,8 @@
     android:layout_height="wrap_content"
     android:paddingStart="@dimen/dlg_horz_padding"
     android:paddingEnd="@dimen/dlg_horz_padding"
-    android:paddingTop="@dimen/dlg_vertical_padding"
-    android:paddingBottom="@dimen/dlg_vertical_padding">
+    android:paddingTop="@dimen/unit_padding"
+    android:paddingBottom="@dimen/unit_padding">
 
     <ImageView
         android:id="@+id/iv_qrcode"
