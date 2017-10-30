@@ -27,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.bean.AppBean;
 import com.by_syk.lib.nanoiconpack.util.ExtraUtil;
@@ -77,7 +78,7 @@ public class ReqStatsAdapter extends RecyclerView.Adapter<ReqStatsAdapter.IconVi
             if (!TextUtils.isEmpty(bean.getIconUrl())) {
                 Glide.with(context)
                         .load(bean.getIconUrl())
-                        .crossFade()
+                        .transition(DrawableTransitionOptions.withCrossFade())
                         .into(holder.ivIcon);
             }
         }
