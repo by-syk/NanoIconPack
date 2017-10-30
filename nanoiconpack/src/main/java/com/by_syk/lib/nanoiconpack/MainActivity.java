@@ -150,7 +150,7 @@ public class MainActivity extends AppCompatActivity
                 .setTarget(bottomNavigationView.findViewById(R.id.nav_lost))
                 .setPrimaryText(getString(R.string.prompt_req))
                 .setSecondaryText(getString(R.string.prompt_req_desc))
-                .setBackgroundColourFromRes(R.color.color_primary)
+                .setBackgroundColour(getResources().getColor(R.color.color_primary))
                 .setAutoDismiss(false)
                 .setCaptureTouchEventOutsidePrompt(true)
                 .setAnimationInterpolator(new FastOutSlowInInterpolator())

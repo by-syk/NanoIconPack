@@ -28,6 +28,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
+import com.bumptech.glide.request.RequestOptions;
 import com.by_syk.lib.nanoiconpack.R;
 import com.by_syk.lib.nanoiconpack.bean.IconBean;
 import com.simplecityapps.recyclerview_fastscroll.views.FastScrollRecyclerView;
@@ -104,14 +105,14 @@ public class IconAdapter extends RecyclerView.Adapter
             IconLabelViewHolder viewHolder = (IconLabelViewHolder) holder;
 //            viewHolder.ivIcon.setImageResource(dataList.get(position).getId());
             glideReqManager.load(dataList.get(position).getId())
-                    .fitCenter()
+                    .apply(new RequestOptions().fitCenter())
                     .into(viewHolder.ivIcon);
             viewHolder.tvLabel.setText(dataList.get(position).getLabel());
         } else {
             IconViewHolder viewHolder = (IconViewHolder) holder;
 //            viewHolder.ivIcon.setImageResource(dataList.get(position).getId());
             glideReqManager.load(dataList.get(position).getId())
-                    .fitCenter()
+                    .apply(new RequestOptions().fitCenter())
                     .into(viewHolder.ivIcon);
         }
 
