@@ -227,7 +227,7 @@ NanoIconPack 追求简单轻量，只支持图标，如果您有更多需求，�
 
 ### License
 
-    Copyright 2017 By_syk
+    Copyright 2017-2018 By_syk
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
@@ -242,4 +242,4 @@ NanoIconPack 追求简单轻量，只支持图标，如果您有更多需求，�
     limitations under the License.
 
 
-*Copyright &#169; 2017 By_syk. All rights reserved.*
+*Copyright &#169; 2017-2018 By_syk. All rights reserved.*
